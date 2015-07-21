@@ -1,0 +1,226 @@
+{
+    "defaultActionName": "index",
+    "layout": {
+        "default-layout": "[none]"
+    },
+
+    "renderOptions": {
+        "login": {
+            "data": [{
+                "one": "one1",
+                "two": "two",
+                "three": "three"
+            }, {
+                "one": "one2",
+                "two": "two",
+                "three": "three"
+            }]
+        }
+    },
+    "ajax": {
+        "default/default/getnewest": "",
+        "todolist/getlist": ["这是我的list", "这是我的list", "这是我的list", "这是我的list", "这是我的list", "这是我的list", "这是我的list", "这是我的list"],
+        "todolist/getlist2": {
+            "ajaxRepeat": 3,
+            "ajaxData": {
+                "one": "one",
+                "two": "two",
+                "three": "three"
+            }
+        },
+        "getMenu": {
+            "status": true,
+            "code": 200,
+            "data": {
+                "fashion": [{
+                    "title": "测试添加热播资讯",
+                    "subtitle": "热播资讯添加",
+                    "cover": "http://img01.yohoboys.com/contentimg/2015/02/26/17/0128539fea8836d625986d3a75f5b7bb6e.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1295-0-0.html"
+                }, {
+                    "title": "再次发布一条新资讯",
+                    "subtitle": "测试发布资讯",
+                    "cover": "http://img01.yohoboys.com/contentimg/2015/02/26/17/01ae44f5d73cbc9038aed9c3aa0484608b.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1296-0-0.html"
+                }, {
+                    "title": "测试封面图片添加测试封面图片添加",
+                    "subtitle": "测试封面测试封面测试封面测试封面测试封面测试封面测试封面测试封面测试封面测试封面测试封面测试封面",
+                    "cover": "http://img01.yohoboys.com/contentimg/2015/02/11/16/01bc844da0e5c12e77cfe17e82e4d35435.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1291-0-0.html"
+                }],
+                "sports": [{
+                    "title": "The City Is My Gym",
+                    "subtitle": "哪里都是运动场",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/03/04/19/02be6f848df69f86f7826b0b39bf3a5ca8.gif",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1300-0-0.html"
+                }, {
+                    "title": "The City Is My Gym",
+                    "subtitle": "哪里都是运动场",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/03/04/19/02be6f848df69f86f7826b0b39bf3a5ca8.gif",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1299-0-0.html"
+                }, {
+                    "title": "The City Is My Gym",
+                    "subtitle": "哪里都是运动场",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/03/04/19/02be6f848df69f86f7826b0b39bf3a5ca8.gif",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1298-0-0.html"
+                }],
+                "lifestyle": [{
+                    "title": "大发现！这些健身说法竟是错误的！",
+                    "subtitle": "",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/01/20/19/02d4bc9eb51f283c241a4ed2c8b9c87830.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1276-0-0.html"
+                }, {
+                    "title": "以羊毛素材作基调",
+                    "subtitle": "mita sneakers x Reebok Pump Fury OG",
+                    "cover": "http://img01.yohoboys.com/contentimg/2015/02/06/15/0152cac7e3e902bd054f7faa23e9ab6d9e.jpg",
+                    "isVideo": false,
+                    "link": "http://newboys.test.yoho.cn/news/index-1283-0-0.html"
+                }, {
+                    "title": "What is Magic?",
+                    "subtitle": "大魔术师之全方位小魔术教室",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/01/15/16/0257ce083d90947f2437b2661deb9361d7.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1274-0-0.html"
+                }],
+                "video": [{
+                    "title": "今天内购阿",
+                    "subtitle": "好便宜阿",
+                    "cover": "http://img01.yohoboys.com/contentimg/2015/02/11/11/0123d60298c6cbd2acccaf5b6642dfdbbd.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1287-0-0.html"
+                }, {
+                    "title": "What is Magic?",
+                    "subtitle": "大魔术师之全方位小魔术教室",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/01/15/16/0257ce083d90947f2437b2661deb9361d7.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1274-0-0.html"
+                }, {
+                    "title": "WWM With William Chan",
+                    "subtitle": "",
+                    "cover": "http://img02.yohoboys.com/contentimg/2015/01/12/14/0265c2709b7293f006fbc5e62f6d4cbf05.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1271-0-0.html"
+                }],
+                "video-viral": [{
+                    "title": "如何轻松恢复弯曲的iPhone 6",
+                    "subtitle": "",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/11/02/15/01671057000a2470181b959df4231fc294.png?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1190-0-0.html"
+                }, {
+                    "title": "1000帧冲浪短片诞生",
+                    "subtitle": "",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/11/02/15/01e556b0b653ba673383be321644d30709.png?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1189-0-0.html"
+                }, {
+                    "title": "一颗篮球穿越24部电影",
+                    "subtitle": "超人蝙蝠侠周星驰变配角",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/10/16/10/01073ae4c845987ccaf2c1e962934077b1.png?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1160-0-0.html"
+                }],
+                "video-people": [{
+                    "title": "Meet...Nasir Mazhar",
+                    "subtitle": "",
+                    "cover": "http://img02.yohoboys.com/contentimg/2014/12/30/13/02109a025efaf3d5f12e7c890508391bdb.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1261-0-0.html"
+                }, {
+                    "title": "Meet...Shawn Yue",
+                    "subtitle": "",
+                    "cover": "http://img02.yohoboys.com/contentimg/2014/12/12/09/0230069fae4beb407791c3b20d2c30a6aa.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1241-0-0.html"
+                }, {
+                    "title": "Meet…上官喆",
+                    "subtitle": "",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/11/28/09/01d4476bc49f85b0122ae11ed4b2f99167.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1220-0-0.html"
+                }],
+                "video-ahum": [{
+                    "title": "Ah’um",
+                    "subtitle": "Hermes",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/08/06/16/018c507b7ec9c7eb5ba1296b24f929b646.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-734-0-0.html"
+                }, {
+                    "title": "Ah’um",
+                    "subtitle": "Givenchy",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/08/02/08/0155f57900099b901500cf9b9cdbb0a6c8.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-684-0-0.html"
+                }, {
+                    "title": "Ah’um",
+                    "subtitle": "Carven",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/07/29/07/017e765c9cb425cf44292f860c323518f8.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-634-0-0.html"
+                }],
+                "video-playboy": [{
+                    "title": "Playboy",
+                    "subtitle": "Jasmine ",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/08/31/11/01fcb2785f7bbdb3c3cca432b4f78302d2.png?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1070-0-0.html"
+                }, {
+                    "title": "Playboy ",
+                    "subtitle": "Wing Yu ",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/08/16/15/01b039d388470c686f52291a1f552f9472.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-845-0-0.html"
+                }, {
+                    "title": "Playboy",
+                    "subtitle": "王幼宣",
+                    "cover": "http://img02.yohoboys.com/contentimg/2014/08/01/14/0287cbeed8c4095053138f51de68527da2.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-676-0-0.html"
+                }],
+                "video-sneakerfile": [{
+                    "title": "Sneaker file 90",
+                    "subtitle": "邵帅",
+                    "cover": "http://img02.yohoboys.com/contentimg/2014/11/27/15/0227d2fba364b42246fd4aaafaa9ec45ff.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1219-0-0.html"
+                }, {
+                    "title": "Sneaker File 60",
+                    "subtitle": "Han",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/10/30/16/01cf68a3e04a8802c1b3ddaeca9e5e4f35.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1185-0-0.html"
+                }, {
+                    "title": "Sneaker File 45",
+                    "subtitle": "山田一德",
+                    "cover": "http://img01.yohoboys.com/contentimg/2014/09/01/21/01b9e9c997b175c0b7a71e2531e84128e9.jpg?imageMogr2/thumbnail/!0342x0218r/crop/0342x0218",
+                    "isVideo": true,
+                    "link": "http://newboys.test.yoho.cn/news/index-1098-0-0.html"
+                }]
+            },
+            "message": ""
+        },
+        "channel/detail/setattitude": {
+            "status": true,
+            "code": 200,
+            "data": {
+                "userWow": 0,
+                "userZzz": 0,
+                "userWtf": 1,
+                "wowCount": 0,
+                "zzzCount": 2,
+                "wtfCount": 1
+            },
+            "message": ""
+        }
+
+
+
+    }
+}
