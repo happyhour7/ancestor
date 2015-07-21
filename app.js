@@ -7,6 +7,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var init=require('developerjs');
 
+var task=require("./bin/task/router-admin");
+
+
 var pjax = require('express-pjax');
 //var partial=require('express-partials');
 var app = express();
@@ -40,9 +43,14 @@ app.use(express.static(path.join(__dirname, 'admin')));
 
 app.use(init.ReadConFigFile());
 
+app.use('/',task);
+
+
+
 init.init(app);
+//task();
 
-
+//注册ancestor路由
 
 
 app.listen(3000);
