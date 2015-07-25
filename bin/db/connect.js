@@ -23,10 +23,10 @@ module.exports.query=function(sql,fn,logic){
           throw err;  
         }  
           
-          if(results)
-          {
-           fn.apply(results,[fields,logic]);
-          }    
+      if(results)
+      {
+       fn.apply(results,[fields,logic]);
+      }    
       }  
     );
 };

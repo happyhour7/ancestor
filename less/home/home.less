@@ -1,16 +1,17 @@
 @import "../public.less";
 
   .secret-area{
+      overflow:hidden;
     .secret-header{
         width:100%;
-        .lineheight(30px);
+        .lineheight(25px);
         font-size:24px;
         .black-icon{
-            .blockwh(10px,30px);
+            .blockwh(10px,25px);
             float:left;
             background:#000;
         }
-        .text{color:#000;}
+        .text{color:#000;font-size:14px; display:block;float: left;height:25px;line-height: 25px;padding-left:10px;}
     }
     .secret-body{
         width:99%;
@@ -20,51 +21,49 @@
         .round(7px);
 
         .secret-body-container{
-            margin:20px;
             overflow:hidden;
             .title-container{
                 float:left;
-                width:100%;
-                margin-bottom:20px;
+                width:727px;
+                margin: 20px 20px 30px;
                 .title{.blockwh(auto,30px);font-size:24px;float:left;}
                 .score{.blockwh(auto,30px);float:right;}
             }
-
-            .items{.blockwh(auto,30px);line-height:30px;float:left;margin:0 5px;}
-
-            .photo{
-                .round(30px);
-                overflow:hidden;
-                img{
-                    max-width:30px;
-                    width:100%;
-                    height:100%;
-                }
-
-            }
-            .name{font-size:18px;color:#000;}
-            .address{font-size:12px;color:#999;}
-            .sex{font-size:12px;color:#999;}
-            .money{font-size:12px;color:#f00;background-position:-400px -8px;width:20px;padding-left:40px;}
-            .age{font-size:12px;color:#999;}
-            .lable{
-                font-size:12px;
-                padding: 0 10px 0 20px;
-                color:#fff;
-                background-position:0 -59px;
-                .round(5px);
-            }
-
-            .text-container{
-                margin-top:20px;
+            .items-container{
+                margin:0 20px;
                 float:left;
-                display:block;
-                word-break:break-all ;
-                overflow:hidden;
-                width:100%;
-                font-size:16px;
-                color:#666;
+                .items{.blockwh(auto,30px);line-height:30px;float:left;margin:0 5px;}
+                .photo{
+                    .round(30px);
+                    overflow:hidden;
+                    img{
+                        max-width:30px;
+                        width:100%;
+                        height:100%; 
+                    }
+                }
+                .name{font-size:18px;color:#000;}
+                .address{font-size:12px;color:#999;}
+                .sex{font-size:12px;color:#999;}
+                .money{font-size:12px;color:#f00;background-position:-400px -8px;width:20px;padding-left:40px;}
+                .age{font-size:12px;color:#999;}
+                .lable{
+                    cursor:pointer;
+                    font-size:12px;
+                    padding: 0 10px 0 20px;
+                    color:#fff;
+                    background-position:0 -59px;
+                    .round(5px);
+                }
             }
-        }
+
+            
+            .text-container{ 
+                width:100%;
+                overflow:hidden;
+            }
     }
+    
+    }
+    
   }

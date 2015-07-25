@@ -1,110 +1,95 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title></title>
 		<!-- 新 Bootstrap 核心 CSS 文件 -->
 		<link rel="stylesheet" href="../../../css/bootstrap.min.css">
-		
+
 		<!-- 可选的Bootstrap主题文件（一般不用引入） -->
 		<link rel="stylesheet" href="../../../css/bootstrap-theme.min.css">
-
+		
 		<link href="../../../css/home/home.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="../../../css/jquery.mCustomScrollbar.min.css">
+		<link rel="stylesheet" href="../../../css/jquery.ui.css">
 	</head>
+
 	<body>
+		
+		<div id="dialog-form" title="Create new user" style="display:none;">
+		  <p class="validateTips">All form fields are required.</p>
+		  <form>
+		    <fieldset>
+		      <label for="name">Name</label>
+		      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
+		      <label for="email">Email</label>
+		      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
+		      <label for="password">Password</label>
+		      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
+		 
+		      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+		      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+		    </fieldset>
+		  </form>
+		</div>
+		
 		<div class="body-container">
 			<div class="header-container">
 
-			<div class="top-header-container">
-				<div class="top-header">
-					<span class="left-area registry-area">注册</span>
-					<span class="left-area login-area">登录</span>
-					<span class="logo-area">logo</span>
-					<span class="search-area">seach area</span>
-				</div>
-			</div>
-				
-
-			<div class="bottom-header-container">
-				<div class=" header bottom-header">
-					<span class="menu-item icons">最新</span>
-					<span class="menu-item">WO的秘密</span>
-					<span class="menu-item">TA的秘密</span>
-					<span class="menu-item">出售秘密</span>
-					<span class="menu-item">秘密悬赏</span>
-					<span class="menu-item">漂流瓶</span>
-					<span class="menu-item">长文</span>
-					<span class="menu-item">定制</span>
-				</div>
-			</div>
-			</div>
-			<div class="main-container">
-				<div class="left-container">asdfasdf</div>
-
-
-				<div class="mid-container">
-					<div class="secret-area">
-						<div class="secret-header">
-							<span class ="black-icon"></span>
-							<span class="text">秘密哦</span>
-						</div>
-						<div class="secret-body">
-							<div class="secret-body-container">
-
-								<div class="title-container">
-									<span class="title">这是标题</span>
-									<span class="score">scrole</span>
-								</div>
-								<span class="items photo">
-									<img src='../../images/logo_demo.png'/>
-								</span>
-								<span class="items name">王威</span>
-								<span class="items address">江苏</span>
-								<span class="items sex">男</span>
-								<span class="items age">30</span>
-								<span class="items system-icons money ">60</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="items system-icons lable">哈哈</span>
-								<span class="text-container">
-									asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								asdfasdfasdfasdf<br/>
-								</span>
-								<div class="comment-area">
-									<div class="top-comment"></div>
-									<div class="bottom-comment"></div>
-								</div>
-								
-							</div>
-						</div>
-
-						<div class="comment-area">
-							
-						</div>
+				<div class="top-header-container">
+					<div class="top-header">
+						<span class="left-area registry-area "><span class="system-icons icon"></span>注册</span>
+						<span class="left-area login-area">登录</span>
+						<span class="logo-area system-icons"></span>
+						<span class="search-area">
+						<a class="system-icons button"></a>
+						<input type="text" class="input"/>
+						
+					</span>
 					</div>
 				</div>
 
-
-				<div class="right-container">asdf</div>
+				<div class="bottom-header-container">
+					<div class=" header bottom-header">
+						<span class="menu-item icons">最新
+							<span class="underline"></span>
+						</span>
+						<span class="menu-item-choosen">WO的秘密<span class="underline"></span></span>
+						<span class="menu-item">TA的秘密<span class="underline"></span></span>
+						<span class="menu-item">出售秘密<span class="underline"></span></span>
+						<span class="menu-item">秘密悬赏<span class="underline"></span></span>
+						<span class="menu-item">漂流瓶<span class="underline"></span></span>
+						<span class="menu-item">长文<span class="underline"></span></span>
+						<span class="menu-item">定制<span class="underline"></span></span>
+					</div>
+				</div>
 			</div>
-			
-			
+			<div class="main-container">
+				<div class="left-container">
+					{{> public/rightAdv}}
+				</div>
+
+				<div class="mid-container">
+					{{> public/secret}}
+					{{> public/secret}}
+					{{> public/secret}}
+					{{> public/secret}}
+					{{> public/secret}}
+					{{> public/secret}}
+					{{> public/secret}}
+				</div>
+
+				<div class="right-container">
+					<a href="" class="publish-button">发布一个秘密</a>
+					{{> public/friends}}
+					{{> public/survey}}
+					{{> public/hotSecret}}
+				</div>
+
+			</div>
+
 		</div>
 		<div class="bottom-container">
 			<div class="bottom">
@@ -117,9 +102,36 @@
 		</div>
 	</body>
 	<script src="../../../js/jquery.min.js"></script>
-	
+	<script src="../../../js/jquery.ui.js"></script>
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="../../../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../js/jquery.mousewheel.min.js"></script>
+	<script src="../../../js/jquery.mCustomScrollbar.min.js"></script>
+	<script type="text/javascript">
+		$(".friend-ul").mCustomScrollbar({
+    		theme:"dark"
+		});
+		
+		var dialog = $("#dialog-form").dialog({
+		      autoOpen: true,
+		      height: 300,
+		      width: 350,
+		      modal: true,
+		      buttons: {
+		        "Create an account": function(){},
+		        Cancel: function() {
+		          dialog.dialog( "close" );
+		        }
+		      },
+		      close: function() {
+		        form[ 0 ].reset();
+		        allFields.removeClass( "ui-state-error" );
+		      }
+		   });
+		   $(".ui-dialog-content").mCustomScrollbar({
+    		theme:"dark"
+			});
+		   
+	</script>
+	
 </html>
-
-
