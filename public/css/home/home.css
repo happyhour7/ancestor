@@ -1,0 +1,26 @@
+html,body{width:100%;height:100%;margin:0;padding:0;font-family:"微软雅黑"}
+.body-container{width:100%;min-height:100%;margin:0 auto -110px;background:#f4f4f4}.body-container .header-container{height:102px;width:100%}.body-container .header-container .header{width:100%;height:50px;line-height:50px;border-bottom:1px solid #ccc}
+.body-container .header-container .top-header-container{width:100%;height:51px;background:#000}.body-container .header-container .top-header-container .top-header{width:1366px;height:51px;background:#000;margin:0 auto;color:#fff;text-align:center;position:relative}.body-container .header-container .top-header-container .top-header .left-area{display:block;float:left;height:50px;line-height:50px;color:#fff;text-align:center}
+.body-container .header-container .top-header-container .top-header .registry-area{width:90px}
+.body-container .header-container .top-header-container .top-header .login-area{width:50px}
+.body-container .header-container .top-header-container .top-header .logo-area{display:block;margin:0 auto;height:50px;width:130px;line-height:50px}
+.body-container .header-container .top-header-container .top-header .search-area{display:block;position:absolute;right:0;top:0;height:50px;line-height:50px;width:360px}
+.body-container .header-container .bottom-header-container{width:100%;height:51px;background:#fff}.body-container .header-container .bottom-header-container .bottom-header{background:#fff;color:#000;text-align:center}.body-container .header-container .bottom-header-container .bottom-header .menu-item{display:inline-block;height:50px;line-height:50px;padding:0 20px}
+.body-container .main-container{width:1366px;overflow:hidden;margin:0 auto}.body-container .main-container .left-container{width:245px;margin-top:20px;float:left;overflow:hidden}
+.body-container .main-container .mid-container{width:783px;margin-top:20px;margin-left:29px;float:left;overflow:hidden}
+.body-container .main-container .right-container{width:280px;margin-top:20px;margin-left:29px;float:left;overflow:hidden}
+.bottom-container{height:110px;margin:0 auto;width:100%;background:#000;color:#fff;text-align:center}.bottom-container .bottom{width:1366px;height:110px;text-align:center}.bottom-container .bottom .menu-item{display:inline-block;height:110px;line-height:110px;padding:0 20px}
+.system-icons{background:url(../../images/icons.png)}
+.secret-area .secret-header{width:100%;height:30px;line-height:height;font-size:24px}.secret-area .secret-header .black-icon{display:block;height:30px;width:10px;float:left;background:#000}
+.secret-area .secret-header .text{color:#000}
+.secret-area .secret-body{width:99%;overflow:hidden;background:#fff;border:1px solid #ccc;border-radius:7px;-webkit-border-radius:7px;-moz-border-radius:7px}.secret-area .secret-body .secret-body-container{margin:20px;overflow:hidden}.secret-area .secret-body .secret-body-container .title-container{float:left;width:100%;margin-bottom:20px}.secret-area .secret-body .secret-body-container .title-container .title{display:block;height:30px;width:auto;font-size:24px;float:left}
+.secret-area .secret-body .secret-body-container .title-container .score{display:block;height:30px;width:auto;float:right}
+.secret-area .secret-body .secret-body-container .items{display:block;height:30px;width:auto;line-height:30px;float:left;margin:0 5px}
+.secret-area .secret-body .secret-body-container .photo{border-radius:30px;-webkit-border-radius:30px;-moz-border-radius:30px;overflow:hidden}.secret-area .secret-body .secret-body-container .photo img{max-width:30px;width:100%;height:100%}
+.secret-area .secret-body .secret-body-container .name{font-size:18px;color:#000}
+.secret-area .secret-body .secret-body-container .address{font-size:12px;color:#999}
+.secret-area .secret-body .secret-body-container .sex{font-size:12px;color:#999}
+.secret-area .secret-body .secret-body-container .money{font-size:12px;color:#f00;background-position:-400px -8px;width:20px;padding-left:40px}
+.secret-area .secret-body .secret-body-container .age{font-size:12px;color:#999}
+.secret-area .secret-body .secret-body-container .lable{font-size:12px;padding:0 10px 0 20px;color:#fff;background-position:0 -59px;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px}
+.secret-area .secret-body .secret-body-container .text-container{margin-top:20px;float:left;display:block;word-break:break-all;overflow:hidden;width:100%;font-size:16px;color:#666}
