@@ -10,7 +10,9 @@ a{
  text-decoration:none;
 }  
 @bodyWdith:1366px;
-
+textarea{
+    resize: none;
+}
 .body-container{
     width:100%;
     min-height:100%;
@@ -93,6 +95,7 @@ a{
                         display:block;
                         height:50px;
                         width:50px;
+                        margin:0 3px;
                         cursor:pointer;
                         background-position:-150px 0;
                         float:right;
@@ -647,4 +650,66 @@ a{
             }
         }
     }
+}
+
+.login-dialog{
+    display:none;
+    .round(10px);
+    width:400px;
+    height:400px;
+    position:fixed;
+    left:50%;
+    top:50%;
+    margin:-200px 0 0 -200px;
+    z-index:19;
+    background:#fff;
+    
+    .icon{
+        background-position:-350px 0;
+        width:50px;
+        margin:20px auto;
+        display: block;;
+        height:50px;
+    }
+    .title{
+        .blockwh(100%,30px);
+        line-height: 30px;
+        font-size:18px;
+        color:#999;
+        text-align: center;
+    }
+    
+    .input{
+        width:300px;
+        border:1px solid #ccc;
+        margin:10px 50px;
+        height:30px;
+        line-height: 30px;
+        font-size:18px;
+    }
+    .button{
+        .round(10px);
+        border:0;
+        width:300px;
+        height:50px;
+        margin:20px 50px;
+        color:#fff;
+        background:#f21630;
+        cursor: pointer;;
+    }
+    .cancle{
+        margin:0px 50px;
+        background:#000;
+    }
+}
+.registry-dialog{
+    .round(10px);
+    width:400,
+    height:400;
+    position:fixed;
+    left:50%;
+    top:50%;
+    margin:-200px 0 0 -200px;
+    z-index:19;
+    background:'#fff';
 }

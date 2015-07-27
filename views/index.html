@@ -40,8 +40,8 @@
 
 				<div class="top-header-container">
 					<div class="top-header">
-						<span class="left-area registry-area "><span class="system-icons icon"></span>注册</span>
-						<span class="left-area login-area">登录</span>
+						<span class="left-area registry-area " id="registry-area"><span class="system-icons icon"></span>注册</span>
+						<span class="left-area login-area" id="login-area">登录</span>
 						<span class="logo-area system-icons"></span>
 						<span class="search-area">
 						<a class="system-icons button"></a>
@@ -100,6 +100,9 @@
 				<span class="menu-item">站长邮箱</span>
 			</div>
 		</div>
+		
+		{{> public/login}}
+		{{> public/registry}}
 	</body>
 	<script src="../../../js/jquery.min.js"></script>
 	<script src="../../../js/jquery.ui.js"></script>
@@ -107,13 +110,14 @@
 	<script src="../../../bootstrap/js/bootstrap.min.js"></script>
 	<script src="../../../js/jquery.mousewheel.min.js"></script>
 	<script src="../../../js/jquery.mCustomScrollbar.min.js"></script>
+	<script src="../../../js/public.js"></script>
 	<script type="text/javascript">
 		$(".friend-ul").mCustomScrollbar({
     		theme:"dark"
 		});
 		
 		var dialog = $("#dialog-form").dialog({
-		      autoOpen: true,
+		      autoOpen: false,
 		      height: 300,
 		      width: 350,
 		      modal: true,
