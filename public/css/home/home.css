@@ -59,6 +59,10 @@ textarea{resize:none}
 .login-dialog .button{border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;border:0;width:300px;height:50px;margin:20px 50px;color:#fff;background:#f21630;cursor:pointer}
 .login-dialog .cancle{margin:0 50px;background:#000}
 .registry-dialog{border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;width:400, height:400;position:fixed;left:50%;top:50%;margin:-200px 0 0 -200px;z-index:19;background:'#fff'}
+.notice-area{width:92%;margin-top:10px;height:200px;background:#fff;border:1px solid #ccc;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px}.notice-area .title{display:block;height:30px;width:100%;line-height:30px;text-align:center;font-size:14px;color:#999}
+.user-sex-icon{display:block;height:50px;width:50px;float:left;cursor:pointer;background:url(../../images/user-sex.png)}
+.man{background-position:0 0}
+.woman{background-position:-50px 0}
 .secret-area{overflow:hidden}.secret-area .secret-header{width:100%;height:25px;line-height:height;font-size:24px}.secret-area .secret-header .black-icon{display:block;height:25px;width:10px;float:left;background:#000}
 .secret-area .secret-header .text{color:#000;font-size:14px;display:block;float:left;height:25px;line-height:25px;padding-left:10px}
 .secret-area .secret-body{width:99%;overflow:hidden;background:#fff;border:1px solid #ccc;border-radius:7px;-webkit-border-radius:7px;-moz-border-radius:7px}.secret-area .secret-body .secret-body-container{overflow:hidden}.secret-area .secret-body .secret-body-container .title-container{float:left;width:727px;margin:20px 20px 30px}.secret-area .secret-body .secret-body-container .title-container .title{display:block;height:30px;width:auto;font-size:24px;float:left}
@@ -73,8 +77,14 @@ textarea{resize:none}
 .secret-area .secret-body .secret-body-container .items-container .lable{cursor:pointer;font-size:12px;padding:0 10px 0 20px;color:#fff;background-position:0 -59px;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px}
 .secret-area .secret-body .secret-body-container .text-container{width:100%;overflow:hidden}
 .choosen-secret-type{width:200px;height:50px;line-height:50px;float:left}
-.secret-send-container{border:1px solid #ccc;background:##e7e7e7;jpadding:20px}.secret-send-container input{height:30px;line-height:30px;border:0;width:90%}
+.secret-send-container{border:1px solid #ccc;background:#e7e7e7;padding:20px}.secret-send-container input{height:30px;line-height:30px;border:0;width:90%}
 .secret-send-container td{padding:10px 0;height:30px;line-height:30px}
 .secret-send-container td.lable{text-align:right;width:120px}
 .secret-send-container textarea{width:90%;height:100px;padding:5px;line-height:30px;border:0}
 .secret-send-container .form-group{height:30px;margin-bottom:0}
+.tab-pane{padding:20px;background:#fff;border-left:1px solid #ddd;border-right:1px solid #ddd;border-bottom:1px solid #ddd}.tab-pane input{height:30px;line-height:30px;width:90%;border:0}
+.tab-pane td{padding:10px 0;height:30px;line-height:30px}
+.tab-pane td.lable{text-align:right;width:120px}
+.tab-pane textarea{width:99%;height:100px;padding:5px;line-height:30px;border:0;background:url(../../images/rowbackground.png)}
+.tab-pane .form-group{height:30px;margin-bottom:0}
+.tab-pane .user-lable{display:block;height:50px;width:auto;color:#fff;font-size:12px;background-position:0 -59px}

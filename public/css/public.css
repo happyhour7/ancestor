@@ -59,3 +59,7 @@ textarea{resize:none}
 .login-dialog .button{border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;border:0;width:300px;height:50px;margin:20px 50px;color:#fff;background:#f21630;cursor:pointer}
 .login-dialog .cancle{margin:0 50px;background:#000}
 .registry-dialog{border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;width:400, height:400;position:fixed;left:50%;top:50%;margin:-200px 0 0 -200px;z-index:19;background:'#fff'}
+.notice-area{width:92%;margin-top:10px;height:200px;background:#fff;border:1px solid #ccc;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px}.notice-area .title{display:block;height:30px;width:100%;line-height:30px;text-align:center;font-size:14px;color:#999}
+.user-sex-icon{display:block;height:50px;width:50px;float:left;cursor:pointer;background:url(../../images/user-sex.png)}
+.man{background-position:0 0}
+.woman{background-position:-50px 0}
