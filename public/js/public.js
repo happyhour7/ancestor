@@ -1,13 +1,14 @@
 var page={
 	onload:function(){
 		$("#registry-area").click(function(){
-			$("#login-dialog").show();
-			page.showDialog();
-		});
-		
-		$("#login-area").click(function(){
+			if($("#registry-area").attr("login")=="false")
+			{
+				$("#registry-dialog").show();
+				page.showDialog();
+			}
 			
 		});
+		
 		
 		$("#login-login-button").click(function(){
 			
@@ -21,7 +22,7 @@ var page={
 			
 		});
 		$("#login-area").click(function(){
-			$("#registry-dialog").show();
+			$("#login-dialog").show();
 			page.showDialog();
 		});
 		$("#registry-gotologin-button").click(function(){
@@ -31,6 +32,28 @@ var page={
 		$(".secrect-comment-area").focus(function(){
 			$(this).height(90);
 			$(this).parent().height(90);
+		});
+		
+		$("#login-login-button").click(function(){
+
+				$.ajax({
+					url:"/client/login",
+					type:"post",
+					data:{username:$("#username-input").val(),password:$("#password-input").val()},
+					success:function(data){
+						if(!data.error){
+							$("#login-area").hide();
+							$("#registry-area").html($("#registry-area").html().replace("注册","")+data.username+"&nbsp;&nbsp;<a href='/secret/permsg'>[个人中心]</a>&nbsp;&nbsp;<a href='/'>[返回首页]</a>").css(width,250);
+							$("#login-dialog").hide();
+							$("#system-background").remove();
+							$("#registry-area").attr("login","true")
+						}
+					}
+				});
+		})
+
+		$(".select-subitem").on("click",function(){
+			$(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
 		});
 	},
 	showDialog:function(){

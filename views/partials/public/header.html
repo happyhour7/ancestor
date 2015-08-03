@@ -39,29 +39,33 @@
 
                 <div class="top-header-container">
                     <div class="top-header">
-                        <span class="left-area registry-area " id="registry-area"><span class="system-icons icon"></span>注册</span>
+                    	{{# hasLogin}}
+                    		<span class="left-area registry-area " id="registry-area"  login="true" style="width:250px;"><span class="system-icons icon"></span>{{.}}&nbsp;&nbsp;<a href='/secret/permsg'>[个人中心]</a>&nbsp;&nbsp;&nbsp;<a href='/'>[回到首页]</a></span>
+                    	{{/ hasLogin}}
+                    	
+                    	{{^ hasLogin}}
+                        <span class="left-area registry-area " id="registry-area"  login="false"><span class="system-icons icon"></span>注册</span>
                         <span class="left-area login-area" id="login-area">登录</span>
-                        <span class="logo-area system-icons"></span>
+                        {{/ hasLogin}}
+                        <a class="logo-area system-icons" href="/"></a>
                         <span class="search-area">
                         <a class="system-icons button"></a>
                         <input type="text" class="input"/>
-                        
                     </span>
                     </div>
                 </div>
 
                 <div class="bottom-header-container">
                     <div class=" header bottom-header">
-                        <span class="menu-item icons">最新
+                        <span class="{{#newest_choosen}}menu-item-choosen{{/newest_choosen}}{{^newest_choosen}}menu-item{{/newest_choosen}}"><a href="/">最新</a>
                             <span class="underline"></span>
                         </span>
-                        <span class="menu-item-choosen">WO的秘密<span class="underline"></span></span>
-                        <span class="menu-item">TA的秘密<span class="underline"></span></span>
-                        <span class="menu-item">出售秘密<span class="underline"></span></span>
-                        <span class="menu-item">秘密悬赏<span class="underline"></span></span>
-                        <span class="menu-item">漂流瓶<span class="underline"></span></span>
-                        <span class="menu-item">长文<span class="underline"></span></span>
-                        <span class="menu-item">定制<span class="underline"></span></span>
+                        <span class="{{#wo_choosen}}menu-item-choosen{{/wo_choosen}}{{^wo_choosen}}menu-item{{/wo_choosen}}"><a href="/secret/mine">WO的秘密</a><span class="underline"></span></span>
+                        <span class="{{#ta_choosen}}menu-item-choosen{{/ta_choosen}}{{^ta_choosen}}menu-item{{/ta_choosen}}"><a href="/secret/ta">TA的秘密</a><span class="underline"></span></span>
+                        <span class="{{#sell_choosen}}menu-item-choosen{{/sell_choosen}}{{^sell_choosen}}menu-item{{/sell_choosen}}"><a href="/secret/sell">出售秘密</a><span class="underline"></span></span>
+                        <span class="{{#offer_choosen}}menu-item-choosen{{/offer_choosen}}{{^offer_choosen}}menu-item{{/offer_choosen}}"><a href="/secret/offer">秘密悬赏</a><span class="underline"></span></span>
+                        <span class="{{#floater_choosen}}menu-item-choosen{{/floater_choosen}}{{^floater_choosen}}menu-item{{/floater_choosen}}"><a href="/secret/floater">漂流瓶</a><span class="underline"></span></span>
+                        <span class="{{#order_choosen}}menu-item-choosen{{/order_choosen}}{{^order_choosen}}menu-item{{/order_choosen}}"><a href="/secret/order">定制</a><span class="underline"></span></span>
                     </div>
                 </div>
             </div>

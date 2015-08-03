@@ -5,9 +5,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var init=require('developerjs');
+//var init=require('developerjs');
+var session = require('express-session');
 
 var task=require("./bin/task/router-admin");
+var task_client=require("./bin/task/router-client");
 
 
 var pjax = require('express-pjax');
@@ -30,7 +32,11 @@ app.use((function(){
 })());
 
 
-
+app.use(session({
+  resave:false,
+  saveUninitialized:false,
+  secret: 'keyboard cat'
+}));
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,13 +47,13 @@ app.use(pjax());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'admin')));
 
-app.use(init.ReadConFigFile());
+//app.use(init.ReadConFigFile());
 
 app.use('/',task);
+app.use('/',task_client);
 
 
-
-init.init(app);
+//init.init(app);
 //task();
 
 //注册ancestor路由

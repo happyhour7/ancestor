@@ -16,17 +16,21 @@ module.exports.query=function(sql,fn,logic){
     if(hasOpen===false){
         open();
     }
+    if(sql==""){
+    	fn.apply({},["",logic]);
+    	return;
+    }
     client.query(  
       sql,  
       function selectCb(err, results, fields) {  
         if (err) {  
           throw err;  
         }  
-          
-      if(results)
-      {
-       fn.apply(results,[fields,logic]);
-      }    
+            
+        if(results)
+        {
+         fn.apply(results,[fields,logic]);
+        }    
       }  
     );
 };

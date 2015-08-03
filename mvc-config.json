@@ -5,6 +5,7 @@
     },
 
     "renderOptions": {
+    "secret/mysecret":{"wo_choosen":true},
         "login": {
             "data": [{
                 "one": "one1",

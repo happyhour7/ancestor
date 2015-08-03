@@ -1,7 +1,8 @@
 @import "../public.less";
 
   .secret-area{
-      overflow:hidden;
+    overflow:hidden;
+    margin:20px 0;
     .secret-header{
         width:100%;
         .lineheight(25px);
@@ -106,6 +107,41 @@
         margin-bottom:0;
     }
   }
+.floater-icons{
+    background:url(../../images/floater-icons.png);
+}
+.my-bottom{
+    .blockwh(150px,50px);
+    background-position: -6px -28px;
+}
+.get-bottom{
+    .blockwh(130px,50px);
+    background-position:0 -160px;
+}
+.threw-bottom {
+    .blockwh(130px,50px);
+    background-position:0 -94px;
+}
+.salvage-area{
+    .blockwh(auto,30px);
+    line-height: 30px;
+    background:#666;
+    color:#fff;
+    text-align:center;
+    padding:0 30px;
+    margin:0 auto;  
+    font-size:14px;
+}
+.salvage-button{
+    margin:0 auto;
+    .blockwh(135px,50px);
+    margin-top:50px;
+    .round(200px);
+    cursor:pointer;
+    border:2px solid #ffa912;
+    background-position:0 -160px;
+}
+
 
 .tab-pane{
     padding:20px;
@@ -133,20 +169,45 @@
 
     textarea{
         width:99%;
-        height:100px;
+        height:250px;
         padding:5px;
-        line-height:30px;
+        font-size:20px;
+        color:#666;
+        line-height:50px;
+        overflow:hidden;
         border:0;
-        background:url(../../images/rowbackground.png);
+        background:url(../../images/rowbackground.png) left bottom #f4f4f4;
     }
     .form-group{
         height:30px;
         margin-bottom:0;
     }
     .user-lable{
-        .blockwh(auto,50px);
+        .blockwh(90px,25px);
+        padding-left:20px;
         color:#fff;
+        cursor:pointer;
         font-size:12px;
         background-position:0 -59px;
+    }
+    .floater-replay-button{
+        width:120px;
+        height:50px;
+        line-height: 50px;
+        float:right;
+        color:#fff;
+        border:0; 
+        background:#666;
+        .round(5px);
+    }
+    .floater-button{
+        width:120px;
+        height:50px;
+        line-height: 50px;
+        float:right;
+        color:#fff;
+        border:0; 
+        background-position:-5px -95px;
+        .round(5px);
     }
 }
