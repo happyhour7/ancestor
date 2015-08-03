@@ -1,5 +1,20 @@
 var page={
 	onload:function(){
+
+			$("#current_choosen_type").html("我的秘密");
+
+			$("#mysecret-container-body").show();
+
+			$("#tasecret-container-body").hide();
+			$("#tasecret-container-bus-body").hide();
+
+			$("#sellsecret-container-body").hide();
+			$("#sellsecret-container-bus-body").hide();
+
+			$("#offersecret-container-body").hide();
+			$("#offersecret-container-bus-body").hide();
+
+			
 		$("#mine_secret").click(function(){
 			$("#current_choosen_type").html("我的秘密");
 
@@ -61,8 +76,126 @@ var page={
 			$("#current_choosen_type").html("漂流瓶");
 		});*/
 
-		$(".").on("click",function(){});
+		$(".mine-type-choose").on("click",function(){
+			var datas=dataDIc["type"];
+			var result=datas[$(this).attr("target")];
+			var html="";
+			if(result){
+				for(var i=0;i<result.length;i++)
+				{
+					html+="<li><a class='select-subitem  sub-type-choose'>"+result[i]+"</a></li>";
+				}
+			}
+			$("#mine-sub-select-ul").html(html);
+			$("#secretType").val($(this).text());
+			$(".select-subitem").on("click",function(){
+				$(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
+			});
+			$(".sub-type-choose").on('click',function(){
+				$("#secretSubType").html();
+			});
 
+			$(".sub-type-choose").on('click',function(){
+				$("#secretSubType").html();
+			});
+		});
+		$(".secret-limit-choose").on('click',function(){
+			var text=$(this).text();
+			if(text=="公开"){
+				$("#secretLimit").val("1");
+			}
+			else if(text=="回复可见")
+			{
+				$("#secretLimit").val("2");
+			}
+			else if(text=="好友可见")
+			{
+				$("#secretLimit").val("3");
+			}
+			else 
+			{
+				$("#secretLimit").val("4");
+			}
+		});
+
+		$("#ta-bus-type,#ta-bus-bus-type").on("click",function(){
+			$("#mysecret-container-body").hide();
+
+			$("#tasecret-container-body").hide();
+			$("#tasecret-container-bus-body").show();
+
+			$("#sellsecret-container-body").hide();
+			$("#sellsecret-container-bus-body").hide();
+
+			$("#offersecret-container-body").hide();
+			$("#offersecret-container-bus-body").hide();
+		});
+		$("#ta-personal-type,#ta-personal-bus-type").on("click",function(){
+			$("#mysecret-container-body").hide();
+
+			$("#tasecret-container-body").show();
+			$("#tasecret-container-bus-body").hide();
+
+			$("#sellsecret-container-body").hide();
+			$("#sellsecret-container-bus-body").hide();
+
+			$("#offersecret-container-body").hide();
+			$("#offersecret-container-bus-body").hide();
+		});
+
+
+		$("#sell-secret-personal-personal-ul,#sell-secret-personal-bus-ul").on('click',function(){
+			$("#mysecret-container-body").hide();
+
+			$("#tasecret-container-body").hide();
+			$("#tasecret-container-bus-body").hide();
+
+			$("#sellsecret-container-body").show();
+			$("#sellsecret-container-bus-body").hide();
+
+			$("#offersecret-container-body").hide();
+			$("#offersecret-container-bus-body").hide();
+		});
+		$("#sell-secret-bus-personal-ul,#sell-secret-bus-bus-ul").on('click',function(){
+			$("#mysecret-container-body").hide();
+
+			$("#tasecret-container-body").hide();
+			$("#tasecret-container-bus-body").hide();
+
+			$("#sellsecret-container-body").hide();
+			$("#sellsecret-container-bus-body").show();
+
+			$("#offersecret-container-body").hide();
+			$("#offersecret-container-bus-body").hide();
+		});
+
+		$("#offser-secret-personal-bus-li,#offser-secret-bus-bus-li").on("click",function(){
+			$("#mysecret-container-body").hide();
+
+			$("#tasecret-container-body").hide();
+			$("#tasecret-container-bus-body").hide();
+
+			$("#sellsecret-container-body").hide();
+			$("#sellsecret-container-bus-body").hide();
+
+			$("#offersecret-container-body").hide();
+			$("#offersecret-container-bus-body").show();
+		});
+		$("#offser-secret-personal-personal-li,#offser-secret-bus-personal-li").on("click",function(){
+			$("#mysecret-container-body").hide();
+
+			$("#tasecret-container-body").hide();
+			$("#tasecret-container-bus-body").hide();
+
+			$("#sellsecret-container-body").hide();
+			$("#sellsecret-container-bus-body").hide();
+
+			$("#offersecret-container-body").show();
+			$("#offersecret-container-bus-body").hide();
+		});
+		$(".secret-hop").on("click",function(){
+			$("#secretHope").val();
+		});
 	},
 	showDialog:function(){
 		var background=$("<div/>").css({

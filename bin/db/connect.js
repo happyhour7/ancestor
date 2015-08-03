@@ -34,7 +34,15 @@ module.exports.query=function(sql,fn,logic){
       }  
     );
 };
-
+module.exports.execute=function(sql,columns){
+    if(hasOpen===false){
+        open();
+    }
+    client.query(  
+      sql, 
+      columns  
+    );
+};
 function open(){
     client.connect();
     client.query("use " + TEST_DATABASE);

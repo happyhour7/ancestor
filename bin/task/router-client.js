@@ -2,7 +2,39 @@ var express = require('express');
 var DB=require("../db/connect");
 var session = require('express-session');
 var router = express.Router();
+var fake_datas=require('./fake-data');
 var viewPath='actions/secret/';
+
+
+
+var fake_mine_datas=[];
+var fake_ta_datas=[];
+var fake_sell_datas=[];
+var fake_offser_datas=[];
+
+
+for(var i=0;i<fake_datas.length;i++)
+{
+    var tmp=fake_datas[i];
+    if(tmp.secretType=="我的秘密")
+    {
+        fake_mine_datas.push(tmp);
+    }
+    else if(tmp.secretType=="TA的秘密")
+    {
+        fake_ta_datas.push(tmp);
+    }
+    else if(tmp.secretType=="出售秘密")
+    {
+        fake_sell_datas.push(tmp);
+    }
+    else if(tmp.secretType=="秘密悬赏")
+    {
+        fake_offser_datas.push(tmp);
+    }
+}
+
+
 /* GET home page. */
 router.get('/', function(req, res) {
     render.res=res;
@@ -13,13 +45,14 @@ router.get('/', function(req, res) {
 
 function indexLogic(data){
        data['newest_choosen']=true;
+       data['secretDatas']=fake_datas;
        return data; 
 }
 //我的秘密
 router.get('/secret/mine', function(req, res) {
     render.res=res;
     render.view='mysecret';
-    res.render(viewPath+'mysecret.html',{'wo_choosen':true});
+    res.render(viewPath+'index',{'wo_choosen':true,'secretDatas':fake_mine_datas});
     //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
@@ -39,7 +72,7 @@ router.get('/secret/write', function(req, res) {
 router.get('/secret/ta', function(req, res) {
     render.res=res;
     render.view='mysecret';
-    res.render(viewPath+'mysecret.html',{'ta_choosen':true});
+    res.render(viewPath+'index',{'ta_choosen':true,'secretDatas':fake_ta_datas});
     //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
@@ -48,7 +81,7 @@ router.get('/secret/ta', function(req, res) {
 router.get('/secret/sell', function(req, res) {
     render.res=res;
     render.view='mysecret';
-    res.render(viewPath+'mysecret.html',{'sell_choosen':true});
+    res.render(viewPath+'index',{'sell_choosen':true,'secretDatas':fake_sell_datas});
     //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
@@ -57,17 +90,44 @@ router.get('/secret/sell', function(req, res) {
 router.get('/secret/offer', function(req, res) {
     render.res=res;
     render.view='mysecret';
-    res.render(viewPath+'mysecret.html',{'offer_choosen':true});
+    res.render(viewPath+'index',{'offer_choosen':true,'secretDatas':fake_offser_datas});
     //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
+router.post('/secret/saveSecret',function(req, res){
+    var datas=[];
+    datas.push(req.body.secretType);
+    datas.push(req.body.secretSubType);
+    datas.push(req.body.secretGrandSubType);
+    datas.push(req.body.secretLimit);
+    datas.push(req.body.secretCity);
+    datas.push(req.body.secretKeyWord);
+    datas.push(req.body.secretTitle);
+    datas.push(req.body.secretDate);
+    datas.push(req.body.secretBackground);
+    datas.push(req.body.secretKnown);
+    datas.push(req.body.secretContent);
+    datas.push(req.body.othername);
+    datas.push(req.body.othersex);
+    datas.push(req.body.otherage);
+    datas.push(req.body.otherBuildName);
+    datas.push(req.body.otheraddress);
+    datas.push(req.body.secretPrice);
+
+    var sql="insert into files set secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+            "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
+            "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
+            "secretPrice=?";
+    DB.execute(sql,datas);
+    res.render('/',{newest_choosen:true});
+});
 
 
 //漂流瓶
 router.get('/secret/floater', function(req, res) {
     render.res=res;
     render.view='sendFloater';
-    res.render(viewPath+'mysecret.html',{'floater_choosen':true});
+    res.render(viewPath+'sendFloater',{'floater_choosen':true});
     //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
