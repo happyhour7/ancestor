@@ -3,10 +3,12 @@ var mysql = require('mysql');
 var TEST_DATABASE = 'ancestor';   
   
 //创建连接 
-var client = mysql.createConnection({  
+var client =null;
+
+/* mysql.createConnection({  
   user: 'root',  
   password: 'ww3ww3',  
-});
+});*/
 
 var hasOpen=false;
 
