@@ -15,6 +15,7 @@ var hasOpen=false;
 
 
 module.exports.query=function(sql,fn,logic){
+
     if(hasOpen===false){
         open();
     }
@@ -46,11 +47,13 @@ module.exports.execute=function(sql,columns){
     );
 };
 function open(){
+    return;
     client.connect();
     client.query("use " + TEST_DATABASE);
     hasOpen=true;
 }
 function close(){
+  return;
     client.end();
     hasOpen=false;
 }
