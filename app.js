@@ -10,7 +10,7 @@ var session = require('express-session');
 
 var task=require("./bin/task/router-admin");
 var task_client=require("./bin/task/router-client");
-
+var task_user=require("./bin/task/router-users");
 
 var pjax = require('express-pjax');
 //var partial=require('express-partials');
@@ -51,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'admin')));
 
 app.use('/',task);
 app.use('/',task_client);
+app.use('/',task_user);
 
 
 //init.init(app);

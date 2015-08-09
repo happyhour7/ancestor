@@ -83,12 +83,14 @@ var page={
 			if(result){
 				for(var i=0;i<result.length;i++)
 				{
-					html+="<li><a class='select-subitem  sub-type-choose'>"+result[i]+"</a></li>";
+					html+="<li><a class='select-subitem  sub-type-choose' name='secretSubType'>"+result[i]+"</a></li>";
 				}
 			}
 			$("#mine-sub-select-ul").html(html);
 			$("#secretType").val($(this).text());
 			$(".select-subitem").on("click",function(){
+				var name=$(this).attr("name");
+				$("#"+name+"_hidden").val($(this).text());
 				$(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
 			});
 			$(".sub-type-choose").on('click',function(){
@@ -195,6 +197,24 @@ var page={
 		});
 		$(".secret-hop").on("click",function(){
 			$("#secretHope").val();
+		});
+
+		$(".ta_bus_subtype_select_item").on('click',function(){
+			var subType=$(this).attr("data-src");
+			var grandType=dataDIc["tatype"]["shangjiamimi"][subType]["children"];
+			var _html="";
+			for(var i=0;i<grandType.length;i++)
+			{
+				_html+="<li><a class='select-subitem' name='secretGrandSubType'>"+grandType[i]+"</a></li>";
+			}
+			$("#ta-grand-sub-select-ul").html(_html);
+
+				$("#secretType").val($(this).text());
+				$(".select-subitem").on("click",function(){
+					var name=$(this).attr("name");
+					$("#"+name+"_hidden").val($(this).text());
+					$(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
+				});
 		});
 	},
 	showDialog:function(){

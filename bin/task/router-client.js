@@ -4,7 +4,8 @@ var session = require('express-session');
 var router = express.Router();
 var fake_datas=require('./fake-data');
 var viewPath='actions/secret/';
-
+var formidable = require("formidable");
+var fs = require("fs");
 
 
 var fake_mine_datas=[];
@@ -12,7 +13,7 @@ var fake_ta_datas=[];
 var fake_sell_datas=[];
 var fake_offser_datas=[];
 
-
+DB.test();
 for(var i=0;i<fake_datas.length;i++)
 {
     var tmp=fake_datas[i];
@@ -40,12 +41,12 @@ router.get('/', function(req, res) {
     render.res=res;
     render.req=req;
     render.view="index";
-    DB.query("",render,indexLogic);
+    DB.query("select * from files",render,indexLogic);
 });
 
 function indexLogic(data){
        data['newest_choosen']=true;
-       data['secretDatas']=fake_datas;
+       data['secretDatas']=data;
        return data; 
 }
 //我的秘密
@@ -59,12 +60,14 @@ router.get('/secret/mine', function(req, res) {
 //我的秘密
 router.get('/secret/write', function(req, res) {
     render.res=res;
+    render.req=req;
     render.view='sendSecret';
-    res.render(viewPath+'sendSecret.html',{});
-    //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
+    DB.query("",render,sendSecretLogic);
 });
 
-
+function sendSecretLogic(data){
+    return data;
+}
 
 
 
@@ -89,38 +92,271 @@ router.get('/secret/sell', function(req, res) {
 //秘密悬赏
 router.get('/secret/offer', function(req, res) {
     render.res=res;
-    render.view='mysecret';
-    res.render(viewPath+'index',{'offer_choosen':true,'secretDatas':fake_offser_datas});
-    //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
+    render.req=req;
+    render.view='index';
+    //res.render(viewPath+'index',{'offer_choosen':true,'secretDatas':fake_offser_datas});
+    DB.query("select * from files",render,offerLogic);
 });
+
+function offerLogic(data){
+    data['offer_choosen']=true;
+    data['secretDatas']=data;
+    return data;
+}
+
+
 
 router.post('/secret/saveSecret',function(req, res){
     var datas=[];
-    datas.push(req.body.secretType);
-    datas.push(req.body.secretSubType);
-    datas.push(req.body.secretGrandSubType);
-    datas.push(req.body.secretLimit);
-    datas.push(req.body.secretCity);
-    datas.push(req.body.secretKeyWord);
-    datas.push(req.body.secretTitle);
-    datas.push(req.body.secretDate);
-    datas.push(req.body.secretBackground);
-    datas.push(req.body.secretKnown);
-    datas.push(req.body.secretContent);
-    datas.push(req.body.othername);
-    datas.push(req.body.othersex);
-    datas.push(req.body.otherage);
-    datas.push(req.body.otherBuildName);
-    datas.push(req.body.otheraddress);
-    datas.push(req.body.secretPrice);
-
-    var sql="insert into files set secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+    var splitString="";
+    splitString=req.body.secretMainType+","+
+                req.body.secretType+","+
+                req.body.secretSubType+","+
+                (req.body.secretGrandSubType||"")+","+
+                (req.body.secretLimit||1)+","+
+                (req.body.secretHope||"")+","+
+                (req.body.secretCity||"")+","+
+                (req.body.secretDate||"")+","+
+                (req.body.secretKeyWord||"")+","+
+                (req.body.secretTitle||"")+","+
+                (req.body.secretBackground||"")+","+
+                (req.body.secretContent||"")+","+
+                (req.body.secretKnown||"")+","+
+                (req.body.othername||"")+","+
+                (req.body.othersex||"")+","+
+                (req.body.otherage||"")+","+
+                (req.body.otherBuildName||"")+","+
+                (req.body.otheraddress||"")+","+
+                (req.body.secretPrice||"")+","+
+                (req.body.secretLimitTime||"");
+    datas=splitString.split(',');
+    datas[4]=getInt(datas[4]);
+    datas[14]=getInt(datas[14]);
+    datas[18]=getInt(datas[18]);
+    if(currentSession!==null)
+    {
+        datas.push(currentSession.username);
+    }
+    else
+    {
+        gotoHome();
+        return;
+    }
+    
+    //console.log(datas);
+    var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
             "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
             "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-            "secretPrice=?";
+            "secretPrice=?,owner=?";
     DB.execute(sql,datas);
-    res.render('/',{newest_choosen:true});
+    res.render(viewPath+'index',{newest_choosen:true});
 });
+
+
+
+function gotoHome(){
+    DB.query("select * from files",render,indexLogic);
+}
+
+
+
+
+router.get('/secret/permsg-score',function(req,res){
+    render.res=res;
+    render.req=req;
+    
+    if(currentSession&&currentSession.username)
+    {
+        var username=currentSession.username;
+        var user=currentSession.user;
+        
+        render.view="personal_score";
+        render.apply([user],['',personalScoreLogic]);
+        //var sql="select * from users where username='"+username+"'";
+        //DB.query(sql,render,personalLogic);
+    }
+    else
+    {
+        render.view="index";
+        DB.query("",render,indexLogic);
+    }
+});
+
+function personalScoreLogic(data){
+    if(data.length>0)
+    {
+        var result=clone(data[0]);
+        result["personal_score"]=true;
+        return result;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+router.get('/secret/permsg-friend',function(req,res){
+    render.res=res;
+    render.req=req;
+    
+    if(currentSession&&currentSession.username)
+    {
+        var username=currentSession.username;
+        var user=currentSession.user;
+        
+        render.view="personal_friend";
+        render.apply([user],['',personalFriendLogic]);
+        //var sql="select * from users where username='"+username+"'";
+        //DB.query(sql,render,personalLogic);
+    }
+    else
+    {
+        render.view="index";
+        DB.query("",render,indexLogic);
+    }
+});
+
+function personalFriendLogic(data){
+    if(data.length>0)
+    {
+        var result=clone(data[0]);
+        result["personal_friend"]=true;
+        return result;
+    }
+    else
+    {
+        return false;
+    }
+}
+router.get('/secret/permsg-mysecret',function(req,res){
+    render.res=res;
+    render.req=req;
+    
+    if(currentSession&&currentSession.username)
+    {
+
+        var username=currentSession.username;
+        var user=currentSession.user;
+        render.view="personal_mysecret";
+        
+        render.apply([user],['',personalSecretLogic]);
+        //var sql="select * from users where username='"+username+"'";
+        //DB.query(sql,render,personalLogic);
+    }
+    else
+    {
+        render.view="index";
+        DB.query("",render,indexLogic);
+    }
+});
+function personalSecretLogic(data){
+    if(data.length>0)
+    {
+        var result=clone(data[0]);
+        result["personal_mysecret"]=true;
+        return result;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+router.get('/secret/permsg-msg',function(req,res){
+    render.res=res;
+    render.req=req;
+    
+    if(currentSession&&currentSession.username)
+    {
+        var username=currentSession.username;
+        var user=currentSession.user;
+        render.view="personal_msg";
+        render.apply([user],['',personalMsgLogic]);
+    }
+    else
+    {
+        render.view="index";
+        DB.query("",render,indexLogic);
+    }
+});
+
+function personalMsgLogic(data){
+    if(data.length>0)
+    {
+        var result=clone(data[0]);
+        result["personal_msg_msg"]=true;
+        return result;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+
+
+
+
+router.post('/secret/uploadImage',function(req, res){
+    var form = new formidable.IncomingForm(); //创建上传表单
+    form.encoding = "utf-8"; //设置编辑
+    form.uploadDir = "public/avatar/"; //设置上传目录
+    form.keepExtensions = true; //保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024; //文件大小
+    var uploadName="";
+    form.parse(req, function(err, fields, files) {
+
+        if (err) {
+          res.locals.error = err;
+          res.render(index, { title: TITLE });
+          return; 
+        } 
+       
+        var extName = ''; //后缀名
+        switch (files.fulAvatar.type) {
+            case "image/pjpeg":
+                extName = "jpg";
+                break;
+            case "image/jpeg":
+                extName = "jpg";
+                break; 
+            case "image/png":
+                extName = "png";
+                break;
+            case "image/x-png":
+                extName = "png";
+                break; 
+        }
+
+        if(extName.length == 0){
+              res.locals.error = "只支持png和jpg格式图片";
+              res.render(index, { title: TITLE });
+              return; 
+        }
+
+        var avatarName =  Math.random() + '.' + extName;
+        DB.update("update users set userPhoto='"+avatarName+"' where username='"+currentSession.username+"'",function(){});
+        currentSession.user.userPhoto=avatarName;
+        var newPath = form.uploadDir + avatarName;
+        fs.renameSync(files.fulAvatar.path, newPath); //重命名
+    });
+    
+    res.locals.success = '上传成功';
+    res.json({title:'上传成功！' }); 
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //漂流瓶
@@ -146,7 +382,9 @@ router.post("/client/login",function(req,res){
     render.view='mysecret';
     var sql="select * from users where username='"+req.body.username+"' and password='"+req.body.password+"'";
     DB.query(sql,render,loginLogic);
-})
+});
+
+
 router.get('/secret/permsg',function(req,res){
     render.res=res;
     render.req=req;
@@ -154,9 +392,9 @@ router.get('/secret/permsg',function(req,res){
     if(currentSession&&currentSession.username)
     {
         var username=currentSession.username;
+        var user=currentSession.user;
         render.view="personal";
-        var sql="select * from users where username='"+username+"'";
-        DB.query(sql,render,personalLogic);
+        render.apply([user],['',personalLogic]);
     }
     else
     {
@@ -167,10 +405,57 @@ router.get('/secret/permsg',function(req,res){
     
 });
 
+router.post('/secret/personalUpdate',function(req,res){
+    var _pwd=req.body.password||"";
+    var insertPassword="";
+    if(_pwd!=="")
+    {
+        insertPassword=" password='"+_pwd+"',";
+    }
+    DB.update("update users set "
+                +insertPassword
+                +" sex="+req.body.sex+","
+                +" email='"+req.body.email+"',"
+                +" qq='"+req.body.qq+"',"
+                +" phone='"+req.body.phone+"',"
+                +" address='"+req.body.address+"',"
+                +" mark='"+req.body.mark+"'"
+                +" where username='"+currentSession.username+"'",
+        function(){});
+
+    var username=currentSession.username;
+    var user=currentSession.user;
+    user.sex=parseInt(req.body.sex);
+    user.email=req.body.email;
+    user.qq=req.body.qq;
+    user.phone=req.body.phone;
+    user.address=req.body.address;
+    user.mark=req.body.mark;
+    if(_pwd!="")
+    {
+        user.password=req.body.password;
+    }
+    currentSession.user=user;
+    res.json({title:"更新成功！"});
+});
+
+function getInt(obj){
+    if(isNaN(parseInt(obj)))
+    {
+        return 0;
+    }
+    else
+    {
+        return parseInt(obj);
+    }
+}
+
 function personalLogic(data){
     if(data.length>0)
     {
-        return data[0];
+        var result=clone(data[0]);
+        result["personal_msg"]=true;
+        return result;
     }
     else
     {
@@ -184,6 +469,15 @@ function loginLogic(data){
     if(data.length>0)
     {
     	currentSession.username=data[0].username;
+        currentSession.user=data[0];
+        if(data[0].sex==1)
+        {
+            data[0].man=true;
+        }
+        else
+        {
+            data[0].woman=true;
+        }
         render.res.json(data[0]);
     }
     else
@@ -212,10 +506,29 @@ function render(fields,logic){
 }
 
 function getUserLoginStatues(session){
-	if(currentSession&&currentSession.username)
+	if(session&&session.username)
 	{
-		return currentSession.username;
+		return session.username;
 	}
 	return false;
 }
+
+
+
+
+function clone(obj){  
+    function Clone(){}  
+    Clone.prototype = obj;  
+    var o = new Clone();  
+    for(var a in o){  
+        if(typeof o[a] == "object") {  
+            o[a] = clone3(o[a]);  
+        }  
+    }  
+    return o;  
+} 
+
+
+
+
 module.exports = router;

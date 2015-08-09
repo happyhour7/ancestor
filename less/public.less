@@ -676,8 +676,10 @@ textarea{
         }
     }
 }
-
-.login-dialog{
+.registry-area{
+    width:90px;
+}
+.login-dialog,.registry-dialog{
     display:none;
     .round(10px);
     width:400px;
@@ -706,6 +708,7 @@ textarea{
     
     .input{
         width:300px;
+        padding:0 5px;
         border:1px solid #ccc;
         margin:10px 50px;
         height:30px;
@@ -719,6 +722,7 @@ textarea{
         height:50px;
         margin:20px 50px;
         color:#fff;
+        text-align:center;
         background:#f21630;
         cursor: pointer;;
     }
@@ -728,15 +732,16 @@ textarea{
     }
 }
 .registry-dialog{
+    
     .round(10px);
-    width:400,
-    height:400;
+    background:#fff;
+    width:400px;
+    height:630px;
     position:fixed;
     left:50%;
     top:50%;
-    margin:-200px 0 0 -200px;
+    margin:-315px 0 0 -200px;
     z-index:19;
-    background:'#fff';
 }
 
 
@@ -967,7 +972,9 @@ textarea{
             width:100px;
             text-align:right;
         }
-        .post-button{
+
+    } 
+    .post-button{
             width:80px;
             height:40px;
             line-heiht:40px;
@@ -978,7 +985,6 @@ textarea{
             border:0;
             .round(5px);  
         }
-    }
 }
 
 .good-icon-choosen{

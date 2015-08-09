@@ -98,6 +98,8 @@ var page={
 			$(this).parent().height(30);
 		});
 		$(".select-subitem").on("click",function(){
+			var name=$(this).attr("name");
+			$("#"+name+"_hidden").val($(this).text());
 			$(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
 		});
 
@@ -181,3 +183,20 @@ var page={
 	}
 };
 $(window).bind("load",page.onload);
+
+
+
+function registrySubmit(){
+	var username=$("#registry-username").val();
+	var password=$("#registry-password").val();
+	var sex_woman=$("#registry-woman").attr("checked")||false;
+	var sex_man=$("#registry-man").attr("checked")||false;
+	var email=$("#registry-email").val();
+
+	var city=$("#registry-city").val();
+	var qq=$("#registry-qq").val();
+	var phone=$("#registry-phone").val();
+	alert("haha");
+	return false;
+	
+}
