@@ -1,0 +1,12 @@
+<div style="margin:20px;border-top:1px solid #ccc;">
+    <span style="height:30px;line-height:30px;display:block;float:left;width:100%;border-bottom:1px solid #ccc;cursor:pointer;font-weight:bold;">评论查看&nbsp;&nbsp;&nbsp;&nbsp;(收起)</span>
+    {{# replays}}
+    <span style="display:block;float:left;width:100%;line-height:30px;overflow:hidden;padding-bottom:30px;border-bottom:1px solid #ccc;">
+        <span style="display:block;float:left;width:100%;line-height:30px;overflow:hidden;padding-bottom:20px;color:#aaa;">
+            {{content}}
+        </span>
+        <span style="display:block;float:left;color:#000;">回复人：<span style="color:#ff5a00;">{{#dealUsername username}}{{/dealUsername}}</span></span>
+        <span style="display:block;float:right;color:#000;">回复时间：{{replayTime}}</span>
+    </span>
+    {{/ replays}}
+</div>

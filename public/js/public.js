@@ -1,3 +1,22 @@
+Date.prototype.format =function(format)
+{
+	var o = {
+		"M+" : this.getMonth()+1, //month
+		"d+" : this.getDate(), //day
+		"h+" : this.getHours(), //hour
+		"m+" : this.getMinutes(), //minute
+		"s+" : this.getSeconds(), //second
+		"q+" : Math.floor((this.getMonth()+3)/3), //quarter
+		"S" : this.getMilliseconds() //millisecond
+	}
+	if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+	(this.getFullYear()+"").substr(4- RegExp.$1.length));
+	for(var k in o)if(new RegExp("("+ k +")").test(format))
+	format = format.replace(RegExp.$1,
+	RegExp.$1.length==1? o[k] :
+	("00"+ o[k]).substr((""+ o[k]).length));
+	return format;
+}
 var page={
 	onload:function(){
 		$("#registry-area").click(function(){
@@ -29,10 +48,10 @@ var page={
 		});
 		$(".secrect-comment-area").focus(function(){
 			$(this).height(90);
-			$(this).parent().height(90);
+			$(this).parent().parent().height(100);
 		}).blur(function(){
 			$(this).height(20);
-			$(this).parent().height(30);
+			$(this).parent().parent().height(30);
 		});
 		
 		$("#login-login-button").click(function(){
@@ -104,8 +123,23 @@ var page={
 		});
 
 		var hasClick={};
+		$(".secret-area").each(function(index,obj){
+			var bad=$(this).find(".secret-bad-area");
+			var good=$(this).find(".secret-good-area");
+			if(bad.attr("class").indexOf("bad-icon-choosen")>=0)
+			{
+				hasClick[bad.attr("name")]=bad.attr("id");
+			}
+			else if(good.attr("class").indexOf("good-icon-choosen")>=0)
+			{
+				hasClick[bad.attr("name")]=good.attr("id");
+			}
+			
+
+		});
 		$(".secret-good-area,.secret-bad-area").on("click",function(){
 			var current=parseInt($(this).html());
+			var id=$(this).attr("data");
 			var currentName=$(this).attr("name");
 			var currentClass=$(this).attr("class");
 			if(typeof hasClick[currentName]=="undefined"&&!hasClick[currentName])
@@ -116,19 +150,27 @@ var page={
 				if(currentClass.indexOf("good-icon-choosen")>0)
 				{
 					$(this).removeClass("good-icon-choosen").addClass("good");
+					//点赞减一
+					dealComm("good","pass",id);
 				}
 				else if(currentClass.indexOf(" good")>0)
 				{
 					$(this).addClass("good-icon-choosen").removeClass("good");
+					//点赞加一
+					dealComm("good","add",id);
 				}
 
 				if(currentClass.indexOf("bad-icon-choosen")>0)
 				{
 					$(this).removeClass("bad-icon-choosen").addClass("bad");
+					//鸡蛋减一
+					dealComm("bad","pass",id);
 				}
 				else if(currentClass.indexOf(" bad")>0)
 				{
 					$(this).addClass("bad-icon-choosen").removeClass("bad");
+					//鸡蛋加一
+					dealComm("bad","add",id);
 				}
 
 			}
@@ -141,28 +183,52 @@ var page={
 				if(currentClass.indexOf("good-icon-choosen")>0)
 				{
 					$(this).removeClass("good-icon-choosen").addClass("good");
+					//点赞减一
+					dealComm("good","pass",id);
 				}
 				else if(currentClass.indexOf(" good")>0)
 				{
 					$(this).addClass("good-icon-choosen").removeClass("good");
+					//点赞加一
+					dealComm("good","add",id);
 				}
 
 				if(currentClass.indexOf("bad-icon-choosen")>0)
 				{
 					$(this).removeClass("bad-icon-choosen").addClass("bad");
+					//鸡蛋减一
+					dealComm("bad","pass",id);
 				}
 				else if(currentClass.indexOf(" bad")>0)
 				{
 					$(this).addClass("bad-icon-choosen").removeClass("bad");
+					//鸡蛋加一
+					dealComm("bad","add",id);
 				}
 			}
 			
 			
 		});
-
+		function dealComm(type,deal,id){
+			$.ajax({
+				url:"/secret/func?type="+type+"&deal="+deal+"&fileid="+id,
+				async:false,
+				cache:false,
+				success:function(){
+					console.log("操作成功！");
+				}
+			});
+		}
 		$(".secret-comment-button").on("click",function(){
-			var id=$(this).attr("id").replace("comments-","secret-comments-");
-			$("#"+id).toggle();
+			var parents=$("#secret-body-container-"+$(this).attr("data"));
+			$.ajax({
+				url:"/secret/getAllComments?id="+$(this).attr("data"),
+				async:false,
+				cache:false,
+				success:function(data){
+					console.dir(data);
+				}
+			});
 		});
 
 	},
@@ -200,3 +266,16 @@ function registrySubmit(){
 	return false;
 	
 }
+
+$(".secret-comments-replay-button").click(function(){
+	var text=$(this).prev().find(".secrect-comment-area").val();
+	var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
+	$(this).prev().find(".replayTime").val(currentTime);
+	alert(currentTime);
+	if($.trim(text)!=="")
+	{
+		$(this).prev().find(".secret-comments-replay-submit-button").trigger("click");
+	}
+	
+	
+});

@@ -54,6 +54,15 @@ app.use('/',task_client);
 app.use('/',task_user);
 
 
+
+hbs.registerHelper('dealUsername', function(text) {
+    if(text)
+    {
+        text=text.substring(0,Math.floor(text.length/2))+"*";
+    }
+    
+    return text
+});
 //init.init(app);
 //task();
 

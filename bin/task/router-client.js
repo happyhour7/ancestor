@@ -6,15 +6,23 @@ var fake_datas=require('./fake-data');
 var viewPath='actions/secret/';
 var formidable = require("formidable");
 var fs = require("fs");
-
+var sqlCode=require("./sql");
 
 var fake_mine_datas=[];
 var fake_ta_datas=[];
 var fake_sell_datas=[];
 var fake_offser_datas=[];
 
-DB.test();
-for(var i=0;i<fake_datas.length;i++)
+var homeSQL=sqlCode.homeSQL;
+var loginHomeSQL=sqlCode.loginHomeSQL;
+
+var longStoreSQL=sqlCode.longStoreSQL;
+var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
+
+
+
+
+/*for(var i=0;i<fake_datas.length;i++)
 {
     var tmp=fake_datas[i];
     if(tmp.secretType=="我的秘密")
@@ -33,22 +41,81 @@ for(var i=0;i<fake_datas.length;i++)
     {
         fake_offser_datas.push(tmp);
     }
-}
+}*/
 
+function getHomeSQL(){
+    if(currentSession){
+        return loginHomeSQL.replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username);
+    }
+    else{
+        return homeSQL;
+    }
+}
 
 /* GET home page. */
 router.get('/', function(req, res) {
     render.res=res;
     render.req=req;
     render.view="index";
-    DB.query("select * from files",render,indexLogic);
+    if(currentSession)
+    {
+        DB.query(getHomeSQL(),render,indexLogic);
+    }
+    else{
+        DB.query(getHomeSQL(),render,indexLogic);
+    }
+    
 });
 
 function indexLogic(data){
+
+
+        if(data.length>0)
+        {
+            for(var i=0;i<data.length;i++)
+            {
+                if(currentSession)
+                {
+                    if(data[i].owner==currentSession.username)
+                    {
+                        data[i]["mine"]=true;
+                    }
+                }
+            }
+        }
        data['newest_choosen']=true;
        data['secretDatas']=data;
        return data; 
 }
+
+
+router.get('/secret/longstore',function(req,res){
+    render.res=res;
+    render.req=req;
+    render.view="index";
+    if(currentSession==null)
+    {
+        
+        DB.query(longStoreSQL,render,longsStoryLogic);
+    }
+    else
+    {
+        DB.query(loginLongStoreSQL.replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username)
+            ,render,longsStoryLogic);
+    }
+});
+
+function longsStoryLogic(data){
+    data["longstore_choosen"]=true;
+    data["secretDatas"]=data;
+    return data;
+}
+
+
 //我的秘密
 router.get('/secret/mine', function(req, res) {
     render.res=res;
@@ -57,19 +124,82 @@ router.get('/secret/mine', function(req, res) {
     //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
+var orderSQL="";
+//我的秘密
+router.get('/secret/order', function(req, res) {
+    render.res=res;
+    render.req=req;
+    render.view='order';
+    DB.query(orderSQL,render,function(){return {};});
+    //res.render(viewPath+'index',{'wo_choosen':true,'secretDatas':fake_mine_datas});
+    
+});
+
+
+
 //我的秘密
 router.get('/secret/write', function(req, res) {
     render.res=res;
     render.req=req;
     render.view='sendSecret';
-    DB.query("",render,sendSecretLogic);
+    DB.query('',render,orderLogic);
 });
 
+
+//我的秘密
+router.post('/secret/orderdealsave', function(req, res) {
+    render.res=res;
+    render.req=req;
+    render.view='order';
+    if(currentSession==null)
+    {
+        render.view="index";
+        DB.query(getHomeSQL(),render,indexLogic);
+        return false;
+    }
+    else
+    {
+        var splitString="";
+        splitString=req.body.secretMainType+","+
+                req.body.secretType+","+
+                req.body.secretSubType+","+
+                (req.body.secretGrandSubType||"")+","+
+
+                (req.body.secretCity||"")+","+
+
+                (req.body.secretSex||"")+","+
+                (req.body.secretAge||"");
+        var results=splitString.split(",");
+        results.push(currentSession.username);
+        DB.update("delete from orderdeal where owner='"+currentSession.username+"'",function(){
+            DB.execute("insert into orderdeal set maintype=?,type=?,subtype=?,grandsubtype=?,"+
+                "cityname=?,sex=?,age=?,owner=?",results);
+
+            DB.query(orderSQL,render,orderLogic);
+
+        });
+    }
+    
+});
+function orderLogic(data){
+    return data;
+}
 function sendSecretLogic(data){
     return data;
 }
 
-
+router.post('/secret/replaysave',function(req,res){
+    render.req=req;
+    render.res=res;
+    var sql="insert into replay set replayer=?,content=?,fileid=?,replayTime=?";
+    var result=[];
+    result.push(currentSession.username);
+    result.push(req.body.content);
+    result.push(parseInt(req.body.filedid));
+    result.push(req.body.replayTime)
+    DB.execute(sql,result);
+    DB.query(getHomeSQL(),render,indexLogic);
+});
 
 //他的秘密
 router.get('/secret/ta', function(req, res) {
@@ -94,8 +224,14 @@ router.get('/secret/offer', function(req, res) {
     render.res=res;
     render.req=req;
     render.view='index';
-    //res.render(viewPath+'index',{'offer_choosen':true,'secretDatas':fake_offser_datas});
-    DB.query("select * from files",render,offerLogic);
+    if(currentSession)
+    {
+        DB.query(getHomeSQL()
+            ,render,offerLogic);
+    }
+    else{
+        DB.query(getHomeSQL(),render,offerLogic);
+    }
 });
 
 function offerLogic(data){
@@ -128,7 +264,9 @@ router.post('/secret/saveSecret',function(req, res){
                 (req.body.otherBuildName||"")+","+
                 (req.body.otheraddress||"")+","+
                 (req.body.secretPrice||"")+","+
-                (req.body.secretLimitTime||"");
+                (req.body.secretLimitTime||"")+","+
+                (req.body.islongstory||0)+","+
+                (req.body.longstory||"");
     datas=splitString.split(',');
     datas[4]=getInt(datas[4]);
     datas[14]=getInt(datas[14]);
@@ -136,26 +274,34 @@ router.post('/secret/saveSecret',function(req, res){
     if(currentSession!==null)
     {
         datas.push(currentSession.username);
-    }
-    else
-    {
-        gotoHome();
-        return;
-    }
+    
     
     //console.log(datas);
     var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
             "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
             "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-            "secretPrice=?,owner=?";
+            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,owner=?";
     DB.execute(sql,datas);
-    res.render(viewPath+'index',{newest_choosen:true});
+    render.req=req;
+    render.res=res;
+    render.view="index";
+    DB.query(getHomeSQL()
+            ,render,indexLogic);
+    }
+        else
+    {
+        render.req=req;
+        render.res=res;
+        render.view="index";
+        DB.query(getHomeSQL(),render,indexLogic);
+        return false;
+    }
 });
 
 
 
 function gotoHome(){
-    DB.query("select * from files",render,indexLogic);
+    DB.query(getHomeSQL(),render,indexLogic);
 }
 
 
@@ -362,18 +508,43 @@ router.post('/secret/uploadImage',function(req, res){
 //漂流瓶
 router.get('/secret/floater', function(req, res) {
     render.res=res;
+    render.req=req;
     render.view='sendFloater';
-    res.render(viewPath+'sendFloater',{'floater_choosen':true});
-    //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
+    //render.apply([{}],['',function(data){return data;}]);
+    //res.render(viewPath+'sendFloater',{'floater_choosen':true});
+    if(currentSession)
+    {
+        DB.query("select * from files where islongstory=2 and (owner='"+currentSession.username+"' or othername='"+currentSession.username+"')",render,floaterInitLogic);
+    }
+    else{
+        DB.query(getHomeSQL(),render,indexLogic);
+    }
+    
 });
 
-//定制
-router.get('/secret/order', function(req, res) {
-    render.res=res;
-    render.view='mysecret';
-    res.render(viewPath+'mysecret',{'order_choosen':true});
-    //DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
-});
+function floaterInitLogic(data){
+    if(data.length<0)
+    {
+        return {};
+    }
+    else
+    {
+        for(var i=0;i<data.length;i++)
+        {
+             data[i]["secretTitle"]="漂流瓶";
+             data[i]["secretMainType"]="漂流瓶";
+             
+             if(data[i]["owner"]==currentSession.username)
+             {
+                data[i]["mine"]=true;
+             }
+        }
+        return {secretDatas:data};
+    }
+}
+
+
+
 
 var currentSession=null;
 router.post("/client/login",function(req,res){
@@ -438,7 +609,18 @@ router.post('/secret/personalUpdate',function(req,res){
     currentSession.user=user;
     res.json({title:"更新成功！"});
 });
+router.get('/secret/getAllComments',function(req,res){
+    var id=req.query.id;
 
+    DB.query("select * from replay where fileid="+id,
+        function(fields,logic){
+            var data=logic(this);
+            res.json({replays:data});
+        },
+        function(data){
+            return data;
+        });
+})
 function getInt(obj){
     if(isNaN(parseInt(obj)))
     {
@@ -487,7 +669,31 @@ function loginLogic(data){
     return false;
 }
 
-
+router.get('/secret/func',function(req,res){
+    var type=req.query.type;
+    var deal=req.query.deal;
+    var id=req.query.fileid;
+    console.log("操作数为："+deal);
+    var result=[currentSession.username];
+    var tablename="isbad";
+    if(type=="good")
+    {
+        tablename="isgood";
+        
+    }
+    result.push(1);
+        result.push(parseInt(id));
+    var sql="insert into "+tablename+" set username=?, "+type+"=? , fileid=?";
+    console.log(sql);
+    DB.update("delete from "+tablename+" where username='"+currentSession.username+"' and fileid="+id,function(){
+        if(deal=="add")
+        {
+            console.log(result);
+            DB.execute(sql,result);
+        }
+        res.json({status:"success"});
+    });
+});
 
 router.get('/login2', function(req, res) {
   render(res,'main',{});

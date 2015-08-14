@@ -5,7 +5,11 @@ html,body{
     padding:0;
     font-family:"微软雅黑";
 }
-
+.round(@radius: 5px) {
+    border-radius: @radius;
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+}
 .shengluehao(){
     overflow: hidden;
     white-space: nowrap;
@@ -225,16 +229,19 @@ textarea{
                             line-height: 30px;
                         }
                         .nofloat{
-                            float:none;
+                            float:none;  
                         }
                         .good{
                             background-position: -250px -7px;
+                            height:50px;  
                         }
                         .bad{
                             background-position: -200px -7px;
+                            height:50px;
                         }
                         .comment{
                             background-position: -300px -7px;
+                            height:50px;
                         }
                     }
                     
@@ -346,14 +353,17 @@ textarea{
         
             background-position: -250px 0;
             font-size:12px;
+            height:50px; 
         }
         .bad{
             background-position: -200px 0;
             font-size:12px;
+            height:50px; 
         }
         .comment{
             background-position: -300px 0;
             font-size:12px;
+            height:50px;
         }
     }
 }
@@ -401,11 +411,7 @@ textarea{
     width:@width;
 }
 
-.round(@radius: 5px) {
-    border-radius: @radius;
-    -webkit-border-radius: @radius;
-    -moz-border-radius: @radius;
-}
+
 
 
 .friend-area{
@@ -887,10 +893,10 @@ textarea{
         background:#fff;
         position:relative;
         overflow:hidden;
+
         .container-area{
             padding:10px;
-
-        }
+        } 
         .button-area{
             .blockwh(100%,50px);
             line-height:50px;
@@ -906,12 +912,12 @@ textarea{
                 border:0;
                 padding: 0 20px;
                 margin: 10px 10px;
-
-            }   
+            }  
 
             .del{
                 background:#6f0202;
-            }
+                
+            }  
             .readed{
                 background:#112a71;
             }
@@ -948,7 +954,18 @@ textarea{
                 display:none;
             }
         }
+        .msg-type{
+            .blockwh(100%,30px);
+            line-height:30px;
+            background:#666;
+            color:#fff;
+            text-align:left;
+            font-sizeL:14px;
 
+            .new{
+                display:none;
+            }
+        }
     }
     .personal-table{
         width:100%;
@@ -989,9 +1006,11 @@ textarea{
 
 .good-icon-choosen{
     background-position:-300px -103px;
+    height:50px;
 }
 .bad-icon-choosen{
     background-position:-250px -103px;
+    height:50px;
 }
 
 
