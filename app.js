@@ -63,6 +63,19 @@ hbs.registerHelper('dealUsername', function(text) {
     
     return text
 });
+hbs.registerHelper('myscore', function(currentScore,choosenScore) {
+  if(choosenScore)
+  {
+    if((currentScore+'')==(choosenScore+''))
+    {
+        return "selected='selected'";
+    }
+  }
+    
+    
+    return "";
+});
+
 //init.init(app);
 //task();
 

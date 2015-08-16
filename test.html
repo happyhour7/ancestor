@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	function aa(text){
+		this.name=text;
+	}
+	aa.prototype={
+		alert:function(){
+			alert(this.name);
+		}
+	}
+	var b=new aa("myname");
+	b.alert();
+</script>
+</body>
+</html>

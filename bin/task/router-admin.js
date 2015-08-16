@@ -3,9 +3,9 @@ var DB=require("../db/connect");
 var router = express.Router();
 var viewPath='actions/admin/';
 /* GET home page. */
-router.post('/login', function(req, res) {
+router.post('/admin/login', function(req, res) {
     render.res=res;
-    render.view='main';
+    render.view='index';
     DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 
@@ -21,9 +21,27 @@ function loginLogic(data){
 }
 
 
+router.get('/admin/advUserManager',function(req, res){
+    res.render(viewPath+"advUserManager",{});
+});
 
-router.get('/login2', function(req, res) {
-  render(res,'main',{});
+router.get('/admin/adminUserManager',function(req, res){
+    res.render(viewPath+"adminUserManager",{});
+});
+
+router.get('/admin/userManager',function(req, res){
+    res.render(viewPath+"userManager",{});
+});
+
+router.get('/admin/surveyManager',function(req, res){
+    res.render(viewPath+"surveyManager",{});
+});
+
+router.get('/admin/index', function(req, res) {
+    res.render(viewPath+"index",{});
+});
+router.get('/admin/login', function(req, res) {
+    res.render(viewPath+"login",{});
 });
 
 function render(fields,logic){

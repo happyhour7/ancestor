@@ -289,24 +289,24 @@ var page={
 	},
 	validate:function(){
 
-		var title=$('#secretTitle_text').val()||"";
-		var keyword=$('#secretKeyWord_text').val()||"";
-		var background=$('#secrect-background').val()||"";
-		var content=$('#secrect-content').val()||"";
-		var known=$('#secrect-known').val()||"";
-		var longstory=$('#secrect-longstory').val()||"";
-		var date=$("#secret_date_text").val()||"";
-		var typeone=$("#secrettype_one").text()||"";
-		var limit=$("#secret_select_limit_dropdown").text()||"";
-		var hope=$("#secret_select_hope_dropdown").text()||"";
-		var grandType=$("#secret_select_grandtype_dropdown").text()||"";
-		var cityname=$("#secret_city_text").val()||"";
-		var othername=$('#secret_othername_text').val()||"";
-		var othersex=$('#secret_othersex_text').html()||"";
-		var otherage=$('#secret_otherage_text').html()||"";
-		var subtype=$("#secret_select_subtype_dropdown").text()||"";
-		var buildName=$("#secret_otherBuildName_text").val()||"";
-		var otherAddress=$("#secret_otheraddress_text").val()||"";
+		var title=$('#secretTitle_text').val();
+		var keyword=$('#secretKeyWord_text').val();
+		var background=$('#secrect-background').val();
+		var content=$('#secrect-content').val();
+		var known=$('#secrect-known').val();
+		var longstory=$('#secrect-longstory').val();
+		var date=$("#secret_date_text").val();
+		var typeone=$("#secrettype_one").text();
+		var limit=$("#secret_select_limit_dropdown").text();
+		var hope=$("#secret_select_hope_dropdown").text();
+		var grandType=$("#secret_select_grandtype_dropdown").text();
+		var cityname=$("#secret_city_text").val();
+		var othername=$('#secret_othername_text').val();
+		var othersex=$('#secret_othersex_text').html();
+		var otherage=$('#secret_otherage_text').html();
+		var subtype=$("#secret_select_subtype_dropdown").text();
+		var buildName=$("#secret_otherBuildName_text").val();
+		var otherAddress=$("#secret_otheraddress_text").val();
 
 		if(typeone&&typeone.indexOf("选择类型")>=0)
 		{
@@ -344,27 +344,27 @@ var page={
 		}	
 
 
-		if((othername&&(othername.length==0)))
+		if((othername&&(othername.length==0))&&othername!="")
 		{
-			alert("请输入完整的对方信息");
+			alert("请输入完整的对方信息1");
 			return false;
 		}
 		if(othersex&&$.trim(othersex).indexOf("性别")>=0){
-			alert("请输入完整的对方信息");
+			alert("请输入完整的对方信息2");
 			return false;
 		}
 		if(otherage&&$.trim(otherage).indexOf("年龄")>=0){
-			alert("请输入完整的对方信息");
+			alert("请输入完整的对方信息3");
 			return false;
 		}
 		if(buildName&&(buildName.length==0)||buildName=="")
 		{
-			alert("请输入完整的对方信息");
+			alert("请输入完整的对方信息4");
 			return false;
 		}
 		if(otherAddress&&(otherAddress.length==0)||otherAddress=="")
 		{
-			alert("请输入完整的对方信息");
+			alert("请输入完整的对方信息5");
 			return false;
 		}
 
@@ -388,6 +388,10 @@ var page={
 		if(($.trim(background)==""||$.trim(content)==""||$.trim(known)=="") && $.trim(longstory)=="")
 		{
 			alert("请输入完整秘密内容");
+			return false;
+		}
+		if($("#hasLogin_hidden").val()=="no"){
+			$("#login-area").trigger("click");
 			return false;
 		}
 		return true;

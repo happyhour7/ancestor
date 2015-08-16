@@ -41,7 +41,7 @@ module.exports.update=function(sql,fn){
     );
 }
 
-module.exports.query=function(sql,fn,logic){
+module.exports.query=function(sql,fn,logic,keyname){
     if(hasOpen===false){
         open();
     }
@@ -58,7 +58,7 @@ module.exports.query=function(sql,fn,logic){
             
         if(results)
         {
-         fn.apply(results,[fields,logic]);
+         fn.apply(results,[keyname,logic]);
         }    
       }  
     );
