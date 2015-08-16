@@ -13,7 +13,6 @@
         <link href="../../../css/home/home.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="../../../css/jquery.mCustomScrollbar.min.css">
         <link href="../../../css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-        <link rel="stylesheet" href="../../../css/jquery.ui.css">
     </head>
 
             <div id="dialog-form" title="Create new user" style="display:none;">
@@ -43,14 +42,14 @@
                     	{{/ hasLogin}}
                     	
                     	{{^ hasLogin}}
-                        <span class="left-area registry-area " id="registry-area"  login="false"><span class="system-icons icon"></span>注册</span>
-                        <span class="left-area login-area" id="login-area">登录</span>
+                            <span class="left-area registry-area " id="registry-area"  login="false"><span class="system-icons icon"></span>注册</span>
+                            <span class="left-area login-area" id="login-area">登录</span>
                         {{/ hasLogin}}
                         <a class="logo-area system-icons" href="/"></a>
                         <span class="search-area">
-                        <a class="system-icons button"></a>
-                        <input type="text" class="input"/>
-                    </span>
+                            <a class="system-icons button"></a>
+                            <input type="text" class="input"/>
+                        </span>
                     </div>
                 </div>
 
@@ -64,6 +63,9 @@
                         <span class="{{#sell_choosen}}menu-item-choosen{{/sell_choosen}}{{^sell_choosen}}menu-item{{/sell_choosen}}"><a href="/secret/sell">出售秘密</a><span class="underline"></span></span>
                         <span class="{{#offer_choosen}}menu-item-choosen{{/offer_choosen}}{{^offer_choosen}}menu-item{{/offer_choosen}}"><a href="/secret/offer">秘密悬赏</a><span class="underline"></span></span>
                         <span class="{{#floater_choosen}}menu-item-choosen{{/floater_choosen}}{{^floater_choosen}}menu-item{{/floater_choosen}}"><a href="/secret/floater">漂流瓶</a><span class="underline"></span></span>
+
+                        <span class="{{#longstore_choosen}}menu-item-choosen{{/longstore_choosen}}{{^longstore_choosen}}menu-item{{/longstore_choosen}}"><a href="/secret/longstore">长文</a><span class="underline"></span></span>
+
                         <span class="{{#order_choosen}}menu-item-choosen{{/order_choosen}}{{^order_choosen}}menu-item{{/order_choosen}}"><a href="/secret/order">定制</a><span class="underline"></span></span>
                     </div>
                 </div>

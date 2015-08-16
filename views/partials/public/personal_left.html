@@ -1,0 +1,21 @@
+<form class="form-signin" id="user-photo-upload-form" action="/secret/uploadImage" role="form" method="post" target="uploadImage" enctype='multipart/form-data'>
+    <h4 class="form-signin-heading">&nbsp;&nbsp;&nbsp;上传头像</h4>
+    <div id="preview_fake">
+    	<img src="/avatar/{{userPhoto}}" style="max-width:100%;min-height:243px;" id="preview"/>
+    </div>
+    
+    <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this)" />	 
+    <br/> 
+</form>
+<button id="btnSub_upload" class="btn btn-lg btn-primary" style="width:100%;" type="submit">上 传</button>
+<iframe id="uploadImage_iframe" name="uploadImage" style="display:none;"></iframe>
+<img id="preview_size_fake" />
+<span id="swh"></span>
+
+<span class="item-container">
+	<a href="/secret/permsg" class="{{# personal_msg}}personal-item-choosen{{/ personal_msg}}{{^ personal_msg}}personal-item{{/ personal_msg}}">个人信息</a>
+    <a href="/secret/permsg-mysecret" class="{{# personal_mysecret}}personal-item-choosen{{/ personal_mysecret}}{{^ personal_mysecret}}personal-item{{/ personal_mysecret}}">我的秘密</a>
+    <a href="/secret/permsg-score" class="{{# personal_score}}personal-item-choosen{{/ personal_score}}{{^ personal_score}}personal-item{{/ personal_score}}">积分充值</a>
+    <a href="/secret/permsg-friend" class="{{# personal_friend}}personal-item-choosen{{/ personal_friend}}{{^ personal_friend}}personal-item{{/ personal_friend}}">我的好友</a>
+    <a href="/secret/permsg-msg" class="{{# personal_msg_msg}}personal-item-choosen{{/ personal_msg_msg}}{{^ personal_msg_msg}}personal-item{{/ personal_msg_msg}}">我的消息</a>
+</span>
