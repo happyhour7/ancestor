@@ -59,7 +59,7 @@ app.use('/',task_client);
 //注册ancestor路由
 
 
-app.listen(3000);
-console.log('web服务已经在3000端口启动，请访问：http://localhost:3000');
+app.listen(80);
+console.log('web服务已经在80端口');
 
 module.exports = app;
