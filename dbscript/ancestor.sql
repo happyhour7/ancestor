@@ -1,5 +1,5 @@
-﻿# Host: localhost  (Version: 5.5.20)
-# Date: 2015-08-16 16:57:22
+﻿# Host: 10.20.107.253  (Version: 5.1.73-community)
+# Date: 2015-08-17 21:57:39
 # Generator: MySQL-Front 5.3  (Build 4.214)
 
 /*!40101 SET NAMES utf8 */;
@@ -24,6 +24,45 @@ CREATE TABLE `admin` (
 #
 
 INSERT INTO `admin` VALUES (1,'管理员','admin',NULL,'admin',NULL);
+
+#
+# Structure for table "advs"
+#
+
+DROP TABLE IF EXISTS `advs`;
+CREATE TABLE `advs` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `images` varchar(255) DEFAULT NULL,
+  `href` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "advs"
+#
+
+
+#
+# Structure for table "advuser"
+#
+
+DROP TABLE IF EXISTS `advuser`;
+CREATE TABLE `advuser` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "advuser"
+#
+
+INSERT INTO `advuser` VALUES (2,'admin','ww3ww3','admin','firstpage-top,firstpage-left-top,firstpage-left-mid,firstpage-left-bottom,innerpage-left-top,innerpage-left-bottom');
 
 #
 # Structure for table "files"
@@ -63,7 +102,7 @@ CREATE TABLE `files` (
   `advlocation` varchar(255) DEFAULT NULL,
   `filetype` int(11) DEFAULT '1',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COMMENT='帖子';
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COMMENT='帖子';
 
 #
 # Data for table "files"
@@ -102,13 +141,13 @@ CREATE TABLE `isbad` (
   `bad` int(11) DEFAULT NULL,
   `fileid` int(11) DEFAULT NULL,
   PRIMARY KEY (`isbadId`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "isbad"
 #
 
-INSERT INTO `isbad` VALUES (16,'test',1,52),(17,'test',1,60),(18,'test',1,67);
+INSERT INTO `isbad` VALUES (16,'test',1,52),(17,'test',1,60),(18,'test',1,67),(19,'xishuai',1,66);
 
 #
 # Structure for table "isgood"
@@ -185,13 +224,13 @@ CREATE TABLE `score` (
   `score` int(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`scoreId`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "score"
 #
 
-INSERT INTO `score` VALUES (25,60,4,'test'),(27,9,6,'test'),(28,52,5,'test'),(29,53,8,'test'),(30,67,9,'test');
+INSERT INTO `score` VALUES (25,60,4,'test'),(27,9,6,'test'),(28,52,5,'test'),(29,53,8,'test'),(30,67,9,'test'),(31,66,6,'xishuai');
 
 #
 # Structure for table "talk"
@@ -248,13 +287,13 @@ CREATE TABLE `users` (
   `address` varchar(200) DEFAULT NULL,
   `mark` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "users"
 #
 
-INSERT INTO `users` VALUES (1,'test','test',0,1,10,'happyhour7@163.com','南京','251619896','13813994215','0.06278088735416532.jpg','asdfasdf2323','asdfasdfasdfas'),(67,'william wang','123456',1,1,10,'happyhour7@163.com','南京','251619896','13813994215','demo_logo.png',NULL,NULL),(68,'william wang','123456',1,1,10,'happyhour7@163.com','南京','251619896','13813994215','demo_logo.png',NULL,NULL),(69,'william wang','123456',1,1,10,'happyhour7@163.com','南京','251619896','13813994215','demo_logo.png',NULL,NULL),(70,'william wang','123456',1,1,10,'happyhour7@163.com','南京','251619896','13813994215','demo_logo.png',NULL,NULL);
+INSERT INTO `users` VALUES (1,'test','test',0,1,10,'happyhour7@163.com','南京','251619896','13813994215','0.06278088735416532.jpg','asdfasdf2323','asdfasdfasdfas'),(71,'asdfasdf','asdfasdf',1,1,10,'happyhour7@163.com','南京','2516198663','13813994215','demo_logo.png',NULL,NULL),(72,'xishuai','ww3ww3',1,1,10,'happyhour7@163.com','南京','2516198663','13813994215','demo_logo.png',NULL,NULL);
 
 #
 # Structure for table "agvscore"
