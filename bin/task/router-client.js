@@ -43,6 +43,7 @@ function getHomeSQL(){
 /*返回给客户端的数据*/
 var returnData={};
 var currentQueue=null;
+var _tmpData={};
 /* GET home page. */
 router.get('/', function(req, res) {
     render.res=res;
@@ -53,12 +54,46 @@ router.get('/', function(req, res) {
         DB.query(getHomeSQL(),bindData,indexLogic,'secretDatas');
     }});
 
+
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
+        
     }});
     currentQueue.start();
 });
+
+function firstAdvLogic(data){
+    for(var i=0;i<data.length;i++)
+    {
+        var tmp=data[i];
+        if(tmp.location=="firstpage-top"){
+            _tmpData["firstpageTop"]=tmp;
+        }
+        if(tmp.location=="firstpage-left-top"){
+            _tmpData["firstpageLeftTop"]=tmp;
+        }
+        if(tmp.location=="firstpage-left-mid"){
+            _tmpData["firstpageLeftMid"]=tmp;
+        }
+        if(tmp.location=="firstpage-left-bottom"){
+            _tmpData["firstpageLeftBottom"]=tmp;
+        }
+        if(tmp.location=="innerpage-left-top"){
+            _tmpData["innerpageLeftTop"]=tmp;
+        }
+        if(tmp.location=="innerpage-left-bottom"){
+            _tmpData["innerpageLeftBottom"]=tmp;
+        }
+    }
+    
+    return _tmpData;
+}
 function bindData(keyname,logic){
     var data=logic(this);
     if(currentQueue.next()){

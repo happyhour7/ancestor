@@ -13,14 +13,87 @@ router.post('/adv/login', function(req, res) {
     currentSession=req.session;
     currentSession.username=req.body.userid;
     render.view='index';
-    DB.query("select * from advuser where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
+
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from advuser where userid='"+req.body.userid+"' and password='"+req.body.password+"'",bindData,loginLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        DB.query("select * from advs where owner='"+currentSession.username+"'",render,advuserLogic,'secretDatas')
+        currentQueue.end();
+    }});
+    currentQueue.start();
 });
 var currentQueue=null;
+function advuserLogic(data){
+    var result={};
+    for(var i=0;i<data.length;i++)
+    {
+        var tmp=data[i];
+        if(tmp.location=="firstpage-top"&&
+            currentSession.location.indexOf("firstpage-top")>=0)
+        {
+            result["firstpageTop"]=tmp;
+        }
+        else if(currentSession.location.indexOf("firstpage-top")>=0&&
+            typeof result["firstpageTop"]=='undefined'){
+            result["firstpageTop"]=true;
+        }
+
+        if(tmp.location=="firstpage-left-top"&&
+            currentSession.location.indexOf("firstpage-left-top")>=0){
+            result["firstpageLeftTop"]=tmp;
+        }else if(currentSession.location.indexOf("firstpage-left-top")>=0&&
+            typeof result["firstpageLeftTop"]=='undefined'){
+            result["firstpageLeftTop"]=true;
+        }
+
+        if(tmp.location=="firstpage-left-mid"&&
+            currentSession.location.indexOf("firstpage-left-mid")>=0){
+            result["firstpageLeftMid"]=tmp;
+        }else if(currentSession.location.indexOf("firstpage-left-mid")>=0&&
+            typeof result["firstpageLeftMid"]=='undefined'){
+            result["firstpageLeftMid"]=true;
+        }
+
+        if(tmp.location=="firstpage-left-bottom"&&
+            currentSession.location.indexOf("firstpage-left-bottom")>=0){
+            result["firstpageLeftBottom"]=tmp;
+        }
+        else if(currentSession.location.indexOf("firstpage-left-bottom")>=0&&
+            typeof result["firstpageLeftBottom"]=='undefined'){
+            result["firstpageLeftBottom"]=true;
+        }
+
+        if(tmp.location=="innerpage-left-top"&&
+            currentSession.location.indexOf("innerpage-left-top")>=0){
+            result["innerpageLeftTop"]=tmp;
+        }else if(currentSession.location.indexOf("innerpage-left-top")>=0&&
+            typeof result["innerpageLeftTop"]=='undefined'){
+            result["innerpageLeftTop"]=true;
+        }
+
+
+        if(tmp.location=="innerpage-left-bottom"&&
+            currentSession.location.indexOf("innerpage-left-bottom")>=0){
+            result["innerpageLeftBottom"]=tmp;
+        }else if(currentSession.location.indexOf("innerpage-left-bottom")>=0&&
+            typeof result["innerpageLeftBottom"]=='undefined'){
+            result["innerpageLeftBottom"]=true;
+        }
+    }
+
+    //result["advDatas"]=data;
+    
+    //console.log(result);
+    result["username"]=currentSession.username;
+    return result;
+}
 function loginLogic(data){
     if(data.length>0)
     {
-        
-        
+        currentSession.location=data[0].location;
         return data[0];
     }
     else
@@ -50,7 +123,7 @@ router.get('/adv/surveyManager',function(req, res){
 router.get('/adv/index', function(req, res) {
     res.render(viewPath+"index",{});
 });
-console.log("注册广告用户登录");
+
 router.get('/adv/login', function(req, res) {
     res.render(viewPath+"login",{});
 });
@@ -67,8 +140,21 @@ router.post('/adv/addAdvUser',function(req, res){
     DB.execute(sql,result);
     res.json({status:"success"});
 });
+
+
 router.post('/adv/save',function(req,res){
-    
+    var imgPath=currentSession.advImage;
+    var href=req.body.href;
+    var location=req.body.location;
+    var results=[currentSession.username];
+        results.push(location);
+        results.push(imgPath);
+        results.push(href);
+        console.dir(results);
+    DB.update("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'",function(){
+        DB.execute("insert into advs set owner=?,location=?,images=?,href=?",results);
+    });
+    res.json({status:"success"});
 });
 
 router.post('/adv/saveImage',function(req, res){
@@ -84,7 +170,6 @@ router.post('/adv/saveImage',function(req, res){
         var href=req.body.href;
         if (err) {
           res.locals.error = err;
-            console.log("出错了！");
           res.json({title:'出错了'});
           return; 
         } 
@@ -107,28 +192,23 @@ router.post('/adv/saveImage',function(req, res){
 
         if(extName.length == 0){
               res.locals.error = "只支持png和jpg格式图片";
-              console.log("出错了的发的发的发的发的！");
               res.json({title:'只支持png和jpg格式图片'});
               return; 
         }
         
         var avatarName =  Math.random() + '.' + extName;
-        var results=[currentSession.username];
-        results.push(location);
-        results.push(avatarName);
-        results.push(href);
+        
 
-        //DB.update("update users set userPhoto='"+avatarName+"' where username='"+currentSession.username+"'",function(){});
-        console.log("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'");
-        DB.update("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'",function(){
-            //console.log("执行到此");
+        //console.log("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'");
+        /*DB.update("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'",function(){
             DB.execute("insert into advs set owner=?,location=?,images=?,href",results);
-        });
+        });*/
         var newPath = form.uploadDir + avatarName;
+        currentSession.advImage=avatarName;
         fs.renameSync(files.fulAvatar.path, newPath); //重命名
     });
     
-    //res.locals.success = '上传成功';
+
     res.json({title:'上传成功！' }); 
 });
 
