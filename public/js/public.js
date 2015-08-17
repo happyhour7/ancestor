@@ -63,7 +63,7 @@ function buildValidateNum(){
 				.css({
 					"background-position":(num*-30)+"px  0px"
 				}).appendTo("#registry-valinum-content");
-	$("#registry-valinum-content").attr("result",result);
+	$("#registry-valinum-content").attr("data",result);
 }
 var page={
 	onload:function(){
@@ -111,6 +111,7 @@ var page={
 					alert("请输入完整的用户名密码");
 					return false;
 				}
+
 				$.ajax({
 					url:"/client/login",
 					type:"post",
@@ -123,6 +124,10 @@ var page={
 							$("#system-background").remove();
 							$("#registry-area").attr("login","true");
 							$("#hasLogin_hidden").val("yes");
+						}
+						else
+						{
+							alert(data.error);
 						}
 					}
 				});
@@ -160,10 +165,20 @@ var page={
 			}
 			if($("#registry-validatecode").val()!=$("#registry-valinum-content").attr("data"))
 			{
-				alert("请输入正确的验证码");
+				alert("请输入正确的验证码"+$("#registry-valinum-content").attr("data"));
 				return false;
 			}
-			$("#registry-registry-submit-button").trigger("click");
+			//$("#registry-registry-submit-button").trigger("click");
+			$.ajax({
+				type:"post",
+				dataType:"json",
+				url:"/user/registry",
+				data:$("#registry-form").serialize(),
+				success:function(data){
+					console.log(data);
+				}
+			});
+			$("#registry-gotologin-button").trigger("click");
 		});
 		$(".publish-button").click(function(){
 			if($("#hasLogin_hidden").val()=="no")
