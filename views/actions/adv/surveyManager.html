@@ -48,7 +48,7 @@
         <li><a href="/admin/adminUserManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>管理员管理</span></a></li>
-        <li class="active"><!-- class="nav-parent"-->
+        <li><!-- class="nav-parent"-->
         <a href="/admin/advUserManager">
         <i class="fa fa-laptop"></i>
          <span>广告用户管理</span></a>
@@ -65,7 +65,7 @@
         <li><a href="/admin/userManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>普通用户管理</span></a></li>
-        <li><a href="/admin/surveyManager">
+        <li class="active"><a href="/admin/surveyManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>调查管理</span></a></li>
         <!--<li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
@@ -364,7 +364,7 @@
     </div><!-- headerbar -->
 
     <div class="pageheader">
-      <h2><i class="fa fa-laptop"></i> Dashboard <span>Subtitle goes here...</span></h2>
+      <h2><i class="fa fa-home"></i> Dashboard <span>Subtitle goes here...</span></h2>
       <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
@@ -378,125 +378,401 @@
 
       <div class="row">
 
-      <div class="mb20">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs nav-dark">
-          <li class="active"><a href="#home2" data-toggle="tab"><strong>广告用户查看</strong></a></li>
-          <li class=""><a href="#profile2" data-toggle="tab"><strong>用户添加</strong></a></li>
-          <li class=""><a href="#profile3" data-toggle="tab"><strong>广告管理</strong></a></li>
-        </ul>
-        
-        <!-- Tab panes -->
-        <div class="tab-content mb30">
-          <div class="tab-pane active" id="home2">
-            <div class="table-responsive">
-          <table class="table table-success table-hover mb30" id="advuser-table">
+        <div class="col-sm-6 col-md-3">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="images/is-user.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Visits Today</small>
+                    <h1>900k+</h1>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                <div class="row">
+                  <div class="col-xs-6">
+                    <small class="stat-label">Pages / Visit</small>
+                    <h4>7.80</h4>
+                  </div>
+
+                  <div class="col-xs-6">
+                    <small class="stat-label">% New Visits</small>
+                    <h4>76.43%</h4>
+                  </div>
+                </div><!-- row -->
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-md-3">
+          <div class="panel panel-danger panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">% Unique Visitors</small>
+                    <h1>54.40%</h1>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                <small class="stat-label">Avg. Visit Duration</small>
+                <h4>01:80:22</h4>
+
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-md-3">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Page Views</small>
+                    <h1>300k+</h1>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                <small class="stat-label">% Bounce Rate</small>
+                <h4>34.23%</h4>
+
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-md-3">
+          <div class="panel panel-dark panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="images/is-money.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Today's Earnings</small>
+                    <h1>$655</h1>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                <div class="row">
+                  <div class="col-xs-6">
+                    <small class="stat-label">Last Week</small>
+                    <h4>$32,322</h4>
+                  </div>
+
+                  <div class="col-xs-6">
+                    <small class="stat-label">Last Month</small>
+                    <h4>$503,000</h4>
+                  </div>
+                </div><!-- row -->
+
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+      </div><!-- row -->
+
+      <div class="row">
+        <div class="col-sm-8 col-md-9">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h5 class="subtitle mb5">Network Performance</h5>
+                  <p class="mb15">Duis autem vel eum iriure dolor in hendrerit in vulputate...</p>
+                  <div id="basicflot" style="width: 100%; height: 300px; margin-bottom: 20px"></div>
+                </div><!-- col-sm-8 -->
+                <div class="col-sm-4">
+                  <h5 class="subtitle mb5">Server Status</h5>
+                  <p class="mb15">Summary of the status of your server.</p>
+
+                  <span class="sublabel">CPU Usage (40.05 - 32 cpus)</span>
+                  <div class="progress progress-sm">
+                    <div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-primary"></div>
+                  </div><!-- progress -->
+
+                  <span class="sublabel">Memory Usage (32.2%)</span>
+                  <div class="progress progress-sm">
+                    <div style="width: 32%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success"></div>
+                  </div><!-- progress -->
+
+                  <span class="sublabel">Disk Usage (82.2%)</span>
+                  <div class="progress progress-sm">
+                    <div style="width: 82%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-danger"></div>
+                  </div><!-- progress -->
+
+                  <span class="sublabel">Databases (63/100)</span>
+                  <div class="progress progress-sm">
+                    <div style="width: 63%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-warning"></div>
+                  </div><!-- progress -->
+
+                  <span class="sublabel">Domains (2/10)</span>
+                  <div class="progress progress-sm">
+                    <div style="width: 20%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success"></div>
+                  </div><!-- progress -->
+
+                  <span class="sublabel">Email Account (13/50)</span>
+                  <div class="progress progress-sm">
+                    <div style="width: 26%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success"></div>
+                  </div><!-- progress -->
+
+
+                </div><!-- col-sm-4 -->
+              </div><!-- row -->
+            </div><!-- panel-body -->
+          </div><!-- panel -->
+        </div><!-- col-sm-9 -->
+
+        <div class="col-sm-4 col-md-3">
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+            <h5 class="subtitle mb5">Most Browser Used</h5>
+            <p class="mb15">Duis autem vel eum iriure dolor in hendrerit in vulputate...</p>
+            <div id="donut-chart2" class="ex-donut-chart"></div>
+            </div><!-- panel-body -->
+          </div><!-- panel -->
+
+        </div><!-- col-sm-3 -->
+
+      </div><!-- row -->
+
+      <div class="row">
+
+        <div class="col-sm-7">
+
+          <div class="table-responsive">
+            <table class="table table-bordered mb30">
             <thead>
               <tr>
                 <th>#</th>
-                <th>用户ID</th>
-                <th>用户姓名</th>
-                <th>广告区域</th>
-                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
               </tr>
             </thead>
-            <tbody id="advuser-table-tbody">
+            <tbody>
               <tr>
                 <td>1</td>
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>@mdo</td>
-                <td>
-                  <a href="" style="opacity: 0;"><i class="fa fa-pencil"></i></a>
-                  <a href="" class="delete-row" style="opacity: 0;"><i class="fa fa-trash-o"></i></a>
-                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
               </tr>
             </tbody>
           </table>
-          </div>
-          </div>
-          <div class="tab-pane" id="profile2">
-            <div class="row">
+          </div><!-- table-responsive -->
 
+        </div><!-- col-sm-7 -->
 
-          <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="panel-btns">
-              <a href="" class="panel-close">×</a>
-              <a href="" class="minimize">−</a>
+        <div class="col-sm-5">
+
+          <div class="panel panel-success">
+            <div class="panel-heading padding5">
+              <div id="line-chart" class="ex-line-chart"></div>
             </div>
-            <h4 class="panel-title">添加广告用户</h4>
-          </div>
-           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/addAdvUser">
-          <div class="panel-body panel-body-nopadding" style="display: block;">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">登陆账号</label>
-                <div class="col-sm-6">
-                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
+            <div class="panel-body">
+              <div class="tinystat pull-left">
+                <div id="sparkline" class="chart mt5"></div>
+                <div class="datainfo">
+                  <span class="text-muted">Average Sales</span>
+                  <h4>$630,201</h4>
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">用户名</label>
-                <div class="col-sm-6">
-                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
+              </div><!-- tinystat -->
+              <div class="tinystat pull-right">
+                <div id="sparkline2" class="chart mt5"></div>
+                <div class="datainfo">
+                  <span class="text-muted">Total Sales</span>
+                  <h4>$139,201</h4>
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">确认密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
-                </div>
-              </div>
-
-              
-
-          <div class="form-group">
-                <label class="col-sm-3 control-label">广告区域位置</label>
-                <div class="col-sm-6">
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
-              </div>
-          </div>
-          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
-              
-        </form>
-            <iframe name="myiframe" style="display:none;"></iframe>
-          </div><!-- panel-body -->
-          
-          <div class="panel-footer" style="display: block;">
-           <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
+              </div><!-- tinystat -->
             </div>
-           </div>
-          </div><!-- panel-footer -->
-          
-            </div>
-            </div>
-          </div>
-              <div class="tab-pane" id="profile3">
-              广告管理
-            </div>
-        </div>
-        
-  
-        
-        </div>
+          </div><!-- panel -->
+
+        </div><!-- col-sm-6 -->
       </div><!-- row -->
 
+      <div class="row">
+        <div class="col-sm-6 col-md-4">
+          <div class="panel panel-default widget-photoday">
+            <div class="panel-body">
+              <a href="" class="photoday"><img src="images/photos/photo1.png" alt="" /></a>
+              <div class="photo-details">
+                <h4 class="photo-title">Strawhat In The Beach</h4>
+                <small class="text-muted"><i class="fa fa-map-marker"></i> San Franciso, California, USA</small>
+                <small>By: <a href="">ThemePixels</a></small>
+              </div><!-- photo-details -->
+              <ul class="photo-meta">
+                <li><span><i class="fa fa-eye"></i> 32,102</span></li>
+                <li><a href="#"><i class="fa fa-heart"></i> 1,003</a></li>
+                <li><a href="#"><i class="fa fa-comments"></i> 52</a></li>
+              </ul>
+            </div><!-- panel-body -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-md-4">
+          <div class="panel panel-default panel-alt widget-messaging">
+          <div class="panel-heading">
+              <div class="panel-btns">
+                <a href="" class="panel-edit"><i class="fa fa-edit"></i></a>
+              </div><!-- panel-btns -->
+              <h3 class="panel-title">Messaging</h3>
+            </div>
+            <div class="panel-body">
+              <ul>
+                <li>
+                  <small class="pull-right">Dec 10</small>
+                  <h4 class="sender">Jennier Lawrence</h4>
+                  <small>Lorem ipsum dolor sit amet...</small>
+                </li>
+                <li>
+                  <small class="pull-right">Dec 9</small>
+                  <h4 class="sender">Marsha Mellow</h4>
+                  <small>Lorem ipsum dolor sit amet...</small>
+                </li>
+                <li>
+                  <small class="pull-right">Dec 9</small>
+                  <h4 class="sender">Holly Golightly</h4>
+                  <small>Lorem ipsum dolor sit amet...</small>
+                </li>
+                <li>
+                  <small class="pull-right">Dec 10</small>
+                  <h4 class="sender">Jennier Lawrence</h4>
+                  <small>Lorem ipsum dolor sit amet...</small>
+                </li>
+                <li>
+                  <small class="pull-right">Dec 9</small>
+                  <h4 class="sender">Marsha Mellow</h4>
+                  <small>Lorem ipsum dolor sit amet...</small>
+                </li>
+              </ul>
+            </div><!-- panel-body -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-md-4">
+          <div class="panel panel-dark panel-alt widget-quick-status-post">
+          <div class="panel-heading">
+              <div class="panel-btns">
+                <a href="" class="panel-close">&times;</a>
+                <a href="" class="minimize">&minus;</a>
+              </div><!-- panel-btns -->
+              <h3 class="panel-title">Quick Status Post</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#post-status" data-toggle="tab"><i class="fa fa-pencil"></i> <strong>Status</strong></a></li>
+                <li><a href="#post-photo" data-toggle="tab"><i class="fa fa-picture-o"></i> <strong>Photo</strong></a></li>
+                <li><a href="#post-checkin" data-toggle="tab"><i class="fa fa-map-marker"></i> <strong>Check-In</strong></a></li>
+              </ul>
+              <div class="tab-content">
+                <div id="post-status" class="tab-pane active">
+                  <input type="text" class="form-control" placeholder="What's your status?" />
+                </div>
+                <div id="post-photo" class="tab-pane">
+                  <input type="text" class="form-control" placeholder="Choose photo" />
+                </div>
+                <div id="post-checkin" class="tab-pane">
+                  <input type="text" class="form-control" placeholder="Search location" />
+                </div>
+                <button class="btn btn-primary btn-block mt10">Submit Post</button>
+              </div><!-- tab-content -->
+
+            </div><!-- panel-body -->
+          </div><!-- panel -->
+
+          <div class="mb20"></div>
+
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-warning panel-alt widget-today">
+                <div class="panel-heading text-center">
+                  <i class="fa fa-calendar-o"></i>
+                </div>
+                <div class="panel-body text-center">
+                  <h3 class="today">Fri, Dec 13</h3>
+                </div><!-- panel-body -->
+              </div><!-- panel -->
+            </div>
+
+            <div class="col-xs-6">
+              <div class="panel panel-danger panel-alt widget-time">
+                <div class="panel-heading text-center">
+                  <i class="glyphicon glyphicon-time"></i>
+                </div>
+                <div class="panel-body text-center">
+                  <h3 class="today">4:50AM PST</h3>
+                </div><!-- panel-body -->
+              </div><!-- panel -->
+            </div>
+          </div>
+        </div><!-- col-sm-6 -->
+
+      </div>
 
     </div><!-- contentpanel -->
 
@@ -796,6 +1072,5 @@
 
 
 {{> admin/foot}}
-<script src="../../../../js/addAdvUser.js"></script>
 </body>
 </html>

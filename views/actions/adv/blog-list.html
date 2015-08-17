@@ -1,7 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-{{> admin/header}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+  <title>Bracket Responsive Bootstrap3 Admin</title>
+
+  <link href="css/style.default.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
@@ -13,18 +27,19 @@
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
 </div>
 
+
 <section>
-
+  
   <div class="leftpanel">
-
+    
     <div class="logopanel">
         <h1><span>[</span> bracket <span>]</span></h1>
     </div><!-- logopanel -->
-
+    
     <div class="leftpanelinner">
-
+        
         <!-- This is only visible to small devices -->
-        <div class="visible-xs hidden-sm hidden-md hidden-lg">
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
             <div class="media userlogged">
                 <img alt="" src="images/photos/loggeduser.png" class="media-object">
                 <div class="media-body">
@@ -32,7 +47,7 @@
                     <span>"Life is so..."</span>
                 </div>
             </div>
-
+          
             <h5 class="sidebartitle actitle">Account</h5>
             <ul class="nav nav-pills nav-stacked nav-bracket mb30">
               <li><a href="profile.html"><i class="fa fa-user"></i> <span>Profile</span></a></li>
@@ -41,34 +56,23 @@
               <li><a href="signout.html"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
             </ul>
         </div>
-
+      
       <h5 class="sidebartitle">Navigation</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
-        <li><a href="/admin/index"><i class="fa fa-home"></i> <span>管理主页</span></a></li>
-        <li><a href="/admin/adminUserManager">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>管理员管理</span></a></li>
-        <li class="active"><!-- class="nav-parent"-->
-        <a href="/admin/advUserManager">
-        <i class="fa fa-laptop"></i>
-         <span>广告用户管理</span></a>
-          <!--<ul class="children">
-            <li><a href="general-forms.html"><i class="fa fa-caret-right"></i>普通用户管理</a></li>
+        <li><a href="index.html"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+        <li><a href="email.html"><span class="pull-right badge badge-success">2</span><i class="fa fa-envelope-o"></i> <span>Email</span></a></li>
+        <li class="nav-parent"><a href=""><i class="fa fa-edit"></i> <span>Forms</span></a>
+          <ul class="children">
+            <li><a href="general-forms.html"><i class="fa fa-caret-right"></i> General Forms</a></li>
             <li><a href="form-layouts.html"><i class="fa fa-caret-right"></i> Form Layouts</a></li>
             <li><a href="form-validation.html"><i class="fa fa-caret-right"></i> Form Validation</a></li>
             <li><a href="form-wizards.html"><i class="fa fa-caret-right"></i> Form Wizards</a></li>
             <li><a href="wysiwyg.html"><i class="fa fa-caret-right"></i> Text Editor</a></li>
             <li><a href="code-editor.html"><i class="fa fa-caret-right"></i> Code Editor</a></li>
                                 <li><a href="x-editable.html"><i class="fa fa-caret-right"></i> X-Editable</a></li>
-          </ul>-->
+          </ul>
         </li>
-        <li><a href="/admin/userManager">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>普通用户管理</span></a></li>
-        <li><a href="/admin/surveyManager">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>调查管理</span></a></li>
-        <!--<li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
+        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
           <ul class="children">
             <li><a href="buttons.html"><i class="fa fa-caret-right"></i> Buttons</a></li>
             <li><a href="icons.html"><span class="pull-right badge badge-danger">updated</span><i class="fa fa-caret-right"></i> Icons</a></li>
@@ -91,12 +95,12 @@
             </ul>
         </li>
         <li><a href="maps.html"><i class="fa fa-map-marker"></i> <span>Maps</span></a></li>
-        <li class="nav-parent"><a href=""><i class="fa fa-file-text"></i> <span>Pages</span></a>
-          <ul class="children">
+        <li class="nav-parent nav-active active"><a href=""><i class="fa fa-file-text"></i> <span>Pages</span></a>
+          <ul class="children" style="display: block;">
             <li><a href="calendar.html"><i class="fa fa-caret-right"></i> Calendar</a></li>
             <li><a href="media-manager.html"><i class="fa fa-caret-right"></i> Media Manager</a></li>
             <li><a href="timeline.html"><i class="fa fa-caret-right"></i> Timeline</a></li>
-            <li><a href="blog-list.html"><i class="fa fa-caret-right"></i> Blog List</a></li>
+            <li class="active"><a href="blog-list.html"><i class="fa fa-caret-right"></i> Blog List</a></li>
             <li><a href="blog-single.html"><i class="fa fa-caret-right"></i> Blog Single</a></li>
             <li><a href="people-directory.html"><i class="fa fa-caret-right"></i> People Directory</a></li>
             <li><a href="profile.html"><i class="fa fa-caret-right"></i> Profile</a></li>
@@ -117,63 +121,63 @@
                 <li><a href="fixed-width.html"><i class="fa fa-caret-right"></i> Fixed Width Page</a></li>
                 <li><a href="fixed-width2.html"><i class="fa fa-caret-right"></i> Fixed Width w/ Menu</a></li>
             </ul>
-        </li>-->
+        </li>
       </ul>
-
+      
       <div class="infosummary">
-        <h5 class="sidebartitle">Information Summary</h5>
+        <h5 class="sidebartitle">Information Summary</h5>    
         <ul>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Daily Traffic</span>
                     <h4>630, 201</h4>
                 </div>
-                <div id="sidebar-chart" class="chart"></div>
+                <div id="sidebar-chart" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Average Users</span>
                     <h4>1, 332, 801</h4>
                 </div>
-                <div id="sidebar-chart2" class="chart"></div>
+                <div id="sidebar-chart2" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Disk Usage</span>
                     <h4>82.2%</h4>
                 </div>
-                <div id="sidebar-chart3" class="chart"></div>
+                <div id="sidebar-chart3" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">CPU Usage</span>
                     <h4>140.05 - 32</h4>
                 </div>
-                <div id="sidebar-chart4" class="chart"></div>
+                <div id="sidebar-chart4" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Memory Usage</span>
                     <h4>32.2%</h4>
                 </div>
-                <div id="sidebar-chart5" class="chart"></div>
+                <div id="sidebar-chart5" class="chart"></div>   
             </li>
         </ul>
       </div><!-- infosummary -->
-
+      
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
-
+  
   <div class="mainpanel">
-
+    
     <div class="headerbar">
-
+      
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
-
+      
       <form class="searchform" action="index.html" method="post">
         <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
       </form>
-
+      
       <div class="header-right">
         <ul class="headermenu">
           <li>
@@ -360,148 +364,267 @@
           </li>
         </ul>
       </div><!-- header-right -->
-
+      
     </div><!-- headerbar -->
-
+        
     <div class="pageheader">
-      <h2><i class="fa fa-laptop"></i> Dashboard <span>Subtitle goes here...</span></h2>
+      <h2><i class="fa fa-file-text"></i> Blog List <span>Read our latest news...</span></h2>
       <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
           <li><a href="index.html">Bracket</a></li>
-          <li class="active">Dashboard</li>
+          <li><a href="index.html">Pages</a></li>
+          <li class="active">Blog List</li>
         </ol>
       </div>
     </div>
-
+    
     <div class="contentpanel">
-
-      <div class="row">
-
-      <div class="mb20">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs nav-dark">
-          <li class="active"><a href="#home2" data-toggle="tab"><strong>广告用户查看</strong></a></li>
-          <li class=""><a href="#profile2" data-toggle="tab"><strong>用户添加</strong></a></li>
-          <li class=""><a href="#profile3" data-toggle="tab"><strong>广告管理</strong></a></li>
-        </ul>
+      
+      <div id="bloglist" class="row">
         
-        <!-- Tab panes -->
-        <div class="tab-content mb30">
-          <div class="tab-pane active" id="home2">
-            <div class="table-responsive">
-          <table class="table table-success table-hover mb30" id="advuser-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>用户ID</th>
-                <th>用户姓名</th>
-                <th>广告区域</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="advuser-table-tbody">
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                  <a href="" style="opacity: 0;"><i class="fa fa-pencil"></i></a>
-                  <a href="" class="delete-row" style="opacity: 0;"><i class="fa fa-trash-o"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          </div>
-          </div>
-          <div class="tab-pane" id="profile2">
-            <div class="row">
-
-
-          <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="panel-btns">
-              <a href="" class="panel-close">×</a>
-              <a href="" class="minimize">−</a>
-            </div>
-            <h4 class="panel-title">添加广告用户</h4>
-          </div>
-           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/addAdvUser">
-          <div class="panel-body panel-body-nopadding" style="display: block;">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">登陆账号</label>
-                <div class="col-sm-6">
-                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
-                </div>
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog1.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Getting Started With Film Photography</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 03, 2014</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda</p>
+                <button class="btn btn-sm btn-white">Read More</button>
               </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">用户名</label>
-                <div class="col-sm-6">
-                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">确认密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
-                </div>
-              </div>
-
-              
-
-          <div class="form-group">
-                <label class="col-sm-3 control-label">广告区域位置</label>
-                <div class="col-sm-6">
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
-              </div>
-          </div>
-          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
-              
-        </form>
-            <iframe name="myiframe" style="display:none;"></iframe>
-          </div><!-- panel-body -->
-          
-          <div class="panel-footer" style="display: block;">
-           <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
             </div>
-           </div>
-          </div><!-- panel-footer -->
-          
-            </div>
-            </div>
-          </div>
-              <div class="tab-pane" id="profile3">
-              广告管理
-            </div>
-        </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
         
-  
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog2.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Rigging in Autodesk 3Ds Max</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 02, 2014</li>
+                <li><a href="">18 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
         
-        </div>
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item blog-quote">
+            <div class="quote quote-primary">
+                <a href="">
+                  Walking on water and developing software from a specification are easy if both are frozen
+                  <small class="quote-author">- Edward V Berard</small>
+                </a>
+              </div>
+            <div class="blog-details">
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 02, 2014</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+            </div><!-- blog-details -->
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog3.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Which is the best 3D Rendering Software?</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 02, 2014</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <div class="blog-video">
+              <iframe src="http://player.vimeo.com/video/51478176" allowfullscreen></iframe>
+            </div>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Traversing Files in Java 7</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 01, 2014</li>
+                <li><a href="">5 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item blog-quote">
+            <div class="quote quote-success">
+                <a href="">
+                  Any fool can write code that a computer can understand. Good programmers write code that humans can understand.
+                  <small class="quote-author">- Martin Fowler</small>
+                </a>
+              </div>
+            <div class="blog-details">
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Dec 31, 2013</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+            </div><!-- blog-details -->
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog4.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">How to Create Infinite Scrolling on Your Website</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Dec 30, 2014</li>
+                <li><a href="">3 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/media1.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Getting Started With Film Photography</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Dec 30, 2013</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item blog-quote">
+            <div class="quote quote-danger">
+                <a href="">
+                  Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.
+                  <small class="quote-author">- Brian Kernighan</small>
+                </a>
+              </div>
+            <div class="blog-details">
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Dec 29, 2013</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+            </div><!-- blog-details -->
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog1.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Getting Started With Film Photography</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 03, 2014</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog2.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Rigging in Autodesk 3Ds Max</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 02, 2014</li>
+                <li><a href="">18 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item blog-quote">
+            <div class="quote quote-primary">
+                <a href="">
+                  Walking on water and developing software from a specification are easy if both are frozen
+                  <small class="quote-author">- Edward V Berard</small>
+                </a>
+              </div>
+            <div class="blog-details">
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 02, 2014</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+            </div><!-- blog-details -->
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="images/photos/blog3.jpg" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="">Which is the best 3D Rendering Software?</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="">TmPxls</a></li>
+                <li>Jan 02, 2014</li>
+                <li><a href="">2 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->
+        
       </div><!-- row -->
-
-
+      
     </div><!-- contentpanel -->
-
+    
   </div><!-- mainpanel -->
-
+  
   <div class="rightpanel">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-justified">
@@ -510,7 +633,7 @@
         <li><a href="#rp-history" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
         <li><a href="#rp-settings" data-toggle="tab"><i class="fa fa-gear"></i></a></li>
     </ul>
-
+        
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="rp-alluser">
@@ -573,9 +696,9 @@
                     </div><!-- media -->
                 </li>
             </ul>
-
+            
             <div class="mb30"></div>
-
+            
             <h5 class="sidebartitle">Offline Users</h5>
             <ul class="chatuserlist">
                 <li>
@@ -756,7 +879,7 @@
             </ul>
         </div>
         <div class="tab-pane pane-settings" id="rp-settings">
-
+            
             <h5 class="sidebartitle mb20">Settings</h5>
             <div class="form-group">
                 <label class="col-xs-8 control-label">Show Offline Users</label>
@@ -764,38 +887,79 @@
                     <div class="toggle toggle-success"></div>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-xs-8 control-label">Enable History</label>
                 <div class="col-xs-4 control-label">
                     <div class="toggle toggle-success"></div>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-xs-8 control-label">Show Full Name</label>
                 <div class="col-xs-4 control-label">
                     <div class="toggle-chat1 toggle-success"></div>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-xs-8 control-label">Show Location</label>
                 <div class="col-xs-4 control-label">
                     <div class="toggle toggle-success"></div>
                 </div>
             </div>
-
+            
         </div><!-- tab-pane -->
-
+        
     </div><!-- tab-content -->
   </div><!-- rightpanel -->
-
-
+  
 </section>
 
 
-{{> admin/foot}}
-<script src="../../../../js/addAdvUser.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+
+
+<script src="js/masonry.pkgd.min.js"></script>
+
+<script src="js/custom.js"></script>
+<script>
+  jQuery(window).load(function(){
+    
+    "use strict";
+  
+    var container = document.querySelector('#bloglist');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: '.col-xs-6',
+      itemSelector: '.col-xs-6'
+    });
+    
+    // check on load
+    if(jQuery(window).width() <= 480 )
+        msnry.destroy();
+
+    // check on resize
+    jQuery(window).resize(function(){
+        if(jQuery(this).width() <= 480 )
+            msnry.destroy();
+    });
+    
+    // relayout items when clicking chat icon
+    jQuery('#chatview, .menutoggle').click(function(){
+       msnry.layout();
+    });
+
+  });
+  
+</script>
+
 </body>
 </html>

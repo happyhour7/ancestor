@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 {{> admin/header}}
@@ -120,46 +120,7 @@
         </li>-->
       </ul>
 
-      <div class="infosummary">
-        <h5 class="sidebartitle">Information Summary</h5>
-        <ul>
-            <li>
-                <div class="datainfo">
-                    <span class="text-muted">Daily Traffic</span>
-                    <h4>630, 201</h4>
-                </div>
-                <div id="sidebar-chart" class="chart"></div>
-            </li>
-            <li>
-                <div class="datainfo">
-                    <span class="text-muted">Average Users</span>
-                    <h4>1, 332, 801</h4>
-                </div>
-                <div id="sidebar-chart2" class="chart"></div>
-            </li>
-            <li>
-                <div class="datainfo">
-                    <span class="text-muted">Disk Usage</span>
-                    <h4>82.2%</h4>
-                </div>
-                <div id="sidebar-chart3" class="chart"></div>
-            </li>
-            <li>
-                <div class="datainfo">
-                    <span class="text-muted">CPU Usage</span>
-                    <h4>140.05 - 32</h4>
-                </div>
-                <div id="sidebar-chart4" class="chart"></div>
-            </li>
-            <li>
-                <div class="datainfo">
-                    <span class="text-muted">Memory Usage</span>
-                    <h4>32.2%</h4>
-                </div>
-                <div id="sidebar-chart5" class="chart"></div>
-            </li>
-        </ul>
-      </div><!-- infosummary -->
+
 
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
@@ -377,124 +338,176 @@
     <div class="contentpanel">
 
       <div class="row">
-
-      <div class="mb20">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs nav-dark">
-          <li class="active"><a href="#home2" data-toggle="tab"><strong>广告用户查看</strong></a></li>
-          <li class=""><a href="#profile2" data-toggle="tab"><strong>用户添加</strong></a></li>
-          <li class=""><a href="#profile3" data-toggle="tab"><strong>广告管理</strong></a></li>
-        </ul>
-        
-        <!-- Tab panes -->
-        <div class="tab-content mb30">
-          <div class="tab-pane active" id="home2">
-            <div class="table-responsive">
-          <table class="table table-success table-hover mb30" id="advuser-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>用户ID</th>
-                <th>用户姓名</th>
-                <th>广告区域</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="advuser-table-tbody">
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                  <a href="" style="opacity: 0;"><i class="fa fa-pencil"></i></a>
-                  <a href="" class="delete-row" style="opacity: 0;"><i class="fa fa-trash-o"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="panel-close">×</a>
+            <a href="" class="minimize">−</a>
           </div>
-          </div>
-          <div class="tab-pane" id="profile2">
-            <div class="row">
-
-
-          <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="panel-btns">
-              <a href="" class="panel-close">×</a>
-              <a href="" class="minimize">−</a>
-            </div>
-            <h4 class="panel-title">添加广告用户</h4>
-          </div>
-           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/addAdvUser">
-          <div class="panel-body panel-body-nopadding" style="display: block;">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">登陆账号</label>
-                <div class="col-sm-6">
-                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">用户名</label>
-                <div class="col-sm-6">
-                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">确认密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
-                </div>
-              </div>
-
-              
-
-          <div class="form-group">
-                <label class="col-sm-3 control-label">广告区域位置</label>
-                <div class="col-sm-6">
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
-              </div>
-          </div>
-          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
-              
-        </form>
-            <iframe name="myiframe" style="display:none;"></iframe>
-          </div><!-- panel-body -->
-          
-          <div class="panel-footer" style="display: block;">
-           <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
-            </div>
-           </div>
-          </div><!-- panel-footer -->
-          
-            </div>
-            </div>
-          </div>
-              <div class="tab-pane" id="profile3">
-              广告管理
-            </div>
+          <h4 class="panel-title">Input Fields</h4>
+          <p>Individual form controls automatically receive some global styling. All textual elements with <code>.form-control</code> are set to width: 100%; by default. Wrap labels and controls in <code>.form-group</code> for optimum spacing.</p>
         </div>
-        
-  
-        
+        <div class="panel-body panel-body-nopadding" style="display: block;">
+          
+          <form class="form-horizontal form-bordered">
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Default Input</label>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Default Input" class="form-control">
+              </div>
+            </div>
+            
+            <div class="form-group">
+          <label class="col-sm-3 control-label" for="disabledinput">Disabled Input</label>
+          <div class="col-sm-6">
+           <input type="text" placeholder="Disabled Input" id="disabledinput" class="form-control" disabled="">
+          </div>
         </div>
+            
+            <div class="form-group">
+          <label class="col-sm-3 control-label" for="readonlyinput">Read-Only Input</label>
+          <div class="col-sm-6">
+           <input type="text" value="Read Only Input" id="readonlyinput" class="form-control" readonly="readonly">
+          </div>
+        </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Help Text</label>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Help Text" class="form-control">
+                <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Input w/ Tooltip</label>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Hover me" title="" data-toggle="tooltip" data-trigger="hover" class="form-control tooltips" data-original-title="Tooltip goes here">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Input w/ Popover</label>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Click Me" class="form-control popovers" data-toggle="popover" data-placement="top" data-original-title="The Title" data-content="Content goes here..." data-trigger="click">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Placeholder</label>
+              <div class="col-sm-6">
+                <input type="text" placeholder="This is a placeholder" class="form-control">
+              </div>
+            </div>
+            
+            <div class="form-group has-success">
+              <label class="col-sm-3 control-label">Input with success</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            
+            <div class="form-group has-warning">
+              <label class="col-sm-3 control-label">Input with warning</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            
+            <div class="form-group has-error">
+              <label class="col-sm-3 control-label">Input with error</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Column sizing</label>
+              <div class="col-sm-4">
+                <input type="text" placeholder=".col-sm-4" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                <input type="text" placeholder=".col-sm-3" class="form-control">
+              </div>
+              <div class="col-sm-2">
+                <input type="text" placeholder=".col-sm-2" class="form-control">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Input Sizing</label>
+              <div class="col-sm-5">
+                <input type="text" placeholder=".input-sm" class="form-control input-sm mb15">
+                <input type="text" placeholder="default" class="form-control mb15">
+                <input type="text" placeholder=".input-lg" class="form-control input-lg">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Input Tags</label>
+              <div class="col-sm-7">
+                <input name="tags" id="tags" class="form-control" value="foo,bar,baz" style="display: none;"><div id="tags_tagsinput" class="tagsinput" style="width: auto; height: 100px;"><span class="tag"><span>foo聽聽</span><a href="#" title="Removing tag">x</a></span><span class="tag"><span>bar聽聽</span><a href="#" title="Removing tag">x</a></span><span class="tag"><span>baz聽聽</span><a href="#" title="Removing tag">x</a></span><div id="tags_addTag"><input id="tags_tag" value="" data-default="add a tag" style="color: rgb(102, 102, 102); width: 68px;"></div><div class="tags_clear"></div></div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Textarea</label>
+              <div class="col-sm-7">
+                <textarea class="form-control" rows="5"></textarea>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Autogrow Textarea</label>
+              <div class="col-sm-7">
+                <textarea id="autoResizeTA" class="form-control" rows="5" style="height: 90px;"></textarea>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Radio</label>
+              <div class="col-sm-6">
+           <div class="radio"><label><input type="radio"> Unchecked</label></div>
+           <div class="radio"><label><input type="radio" checked=""> Checked</label></div>
+           <div class="radio"><label><input type="radio" disabled=""> Disabled Unchecked</label></div>
+           <div class="radio"><label><input type="radio" checked="" disabled=""> Disabled Checked</label></div>
+          </div>
+            </div>
+            
+            <div class="form-group">
+          <label class="col-sm-3 control-label" for="checkbox">Checkbox</label>
+          <div class="col-sm-6">
+           <div class="checkbox block"><label><input type="checkbox"> Unchecked</label></div>
+           <div class="checkbox block"><label><input type="checkbox" checked=""> Checked</label></div>
+           <div class="checkbox block"><label><input type="checkbox" disabled=""> Disabled Unchecked</label></div>
+           <div class="checkbox block"><label><input type="checkbox" checked="" disabled=""> Disabled Checked</label></div>
+          </div>
+        </div>
+            
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Spinner</label>
+              <div class="col-sm-9">
+                <span class="ui-spinner ui-widget ui-widget-content ui-corner-all"><input type="text" id="spinner" class="ui-spinner-input" autocomplete="off" role="spinbutton" aria-valuenow="0"><a class="ui-spinner-button ui-spinner-up ui-corner-tr" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-n">▲</span></a><a class="ui-spinner-button ui-spinner-down ui-corner-br" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-s">▼</span></a></span>
+                <span class="help-block">Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.</span>
+              </div>
+            </div>
+            
+          </form>
+          
+        </div><!-- panel-body -->
+        
+        <div class="panel-footer" style="display: block;">
+       <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <button class="btn btn-primary">Submit</button>&nbsp;
+          <button class="btn btn-default">Cancel</button>
+        </div>
+       </div>
+      </div><!-- panel-footer -->
+        
+      </div>
       </div><!-- row -->
 
 
@@ -796,6 +809,5 @@
 
 
 {{> admin/foot}}
-<script src="../../../../js/addAdvUser.js"></script>
 </body>
 </html>

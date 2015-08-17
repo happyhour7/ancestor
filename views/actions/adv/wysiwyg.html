@@ -1,7 +1,23 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-{{> admin/header}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+  <title>Bracket Responsive Bootstrap3 Admin</title>
+
+  <link href="css/style.default.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+  
 </head>
 
 <body>
@@ -13,18 +29,19 @@
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
 </div>
 
+
 <section>
-
+  
   <div class="leftpanel">
-
+    
     <div class="logopanel">
         <h1><span>[</span> bracket <span>]</span></h1>
     </div><!-- logopanel -->
-
+    
     <div class="leftpanelinner">
-
+        
         <!-- This is only visible to small devices -->
-        <div class="visible-xs hidden-sm hidden-md hidden-lg">
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
             <div class="media userlogged">
                 <img alt="" src="images/photos/loggeduser.png" class="media-object">
                 <div class="media-body">
@@ -32,7 +49,7 @@
                     <span>"Life is so..."</span>
                 </div>
             </div>
-
+          
             <h5 class="sidebartitle actitle">Account</h5>
             <ul class="nav nav-pills nav-stacked nav-bracket mb30">
               <li><a href="profile.html"><i class="fa fa-user"></i> <span>Profile</span></a></li>
@@ -41,34 +58,23 @@
               <li><a href="signout.html"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
             </ul>
         </div>
-
+      
       <h5 class="sidebartitle">Navigation</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
-        <li><a href="/admin/index"><i class="fa fa-home"></i> <span>管理主页</span></a></li>
-        <li><a href="/admin/adminUserManager">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>管理员管理</span></a></li>
-        <li class="active"><!-- class="nav-parent"-->
-        <a href="/admin/advUserManager">
-        <i class="fa fa-laptop"></i>
-         <span>广告用户管理</span></a>
-          <!--<ul class="children">
-            <li><a href="general-forms.html"><i class="fa fa-caret-right"></i>普通用户管理</a></li>
+        <li><a href="index.html"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+        <li><a href="email.html"><span class="pull-right badge badge-success">2</span><i class="fa fa-envelope-o"></i> <span>Email</span></a></li>
+        <li class="nav-parent nav-active active"><a href=""><i class="fa fa-edit"></i> <span>Forms</span></a>
+          <ul class="children" style="display: block">
+            <li><a href="general-forms.html"><i class="fa fa-caret-right"></i> General Forms</a></li>
             <li><a href="form-layouts.html"><i class="fa fa-caret-right"></i> Form Layouts</a></li>
             <li><a href="form-validation.html"><i class="fa fa-caret-right"></i> Form Validation</a></li>
             <li><a href="form-wizards.html"><i class="fa fa-caret-right"></i> Form Wizards</a></li>
-            <li><a href="wysiwyg.html"><i class="fa fa-caret-right"></i> Text Editor</a></li>
+            <li class="active"><a href="wysiwyg.html"><i class="fa fa-caret-right"></i> Text Editor</a></li>
             <li><a href="code-editor.html"><i class="fa fa-caret-right"></i> Code Editor</a></li>
                                 <li><a href="x-editable.html"><i class="fa fa-caret-right"></i> X-Editable</a></li>
-          </ul>-->
+          </ul>
         </li>
-        <li><a href="/admin/userManager">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>普通用户管理</span></a></li>
-        <li><a href="/admin/surveyManager">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>调查管理</span></a></li>
-        <!--<li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
+        <li class="nav-parent"><a href=""><i class="fa fa-suitcase"></i> <span>UI Elements</span></a>
           <ul class="children">
             <li><a href="buttons.html"><i class="fa fa-caret-right"></i> Buttons</a></li>
             <li><a href="icons.html"><span class="pull-right badge badge-danger">updated</span><i class="fa fa-caret-right"></i> Icons</a></li>
@@ -117,63 +123,63 @@
                 <li><a href="fixed-width.html"><i class="fa fa-caret-right"></i> Fixed Width Page</a></li>
                 <li><a href="fixed-width2.html"><i class="fa fa-caret-right"></i> Fixed Width w/ Menu</a></li>
             </ul>
-        </li>-->
+        </li>
       </ul>
-
+      
       <div class="infosummary">
-        <h5 class="sidebartitle">Information Summary</h5>
+        <h5 class="sidebartitle">Information Summary</h5>    
         <ul>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Daily Traffic</span>
                     <h4>630, 201</h4>
                 </div>
-                <div id="sidebar-chart" class="chart"></div>
+                <div id="sidebar-chart" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Average Users</span>
                     <h4>1, 332, 801</h4>
                 </div>
-                <div id="sidebar-chart2" class="chart"></div>
+                <div id="sidebar-chart2" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Disk Usage</span>
                     <h4>82.2%</h4>
                 </div>
-                <div id="sidebar-chart3" class="chart"></div>
+                <div id="sidebar-chart3" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">CPU Usage</span>
                     <h4>140.05 - 32</h4>
                 </div>
-                <div id="sidebar-chart4" class="chart"></div>
+                <div id="sidebar-chart4" class="chart"></div>   
             </li>
             <li>
                 <div class="datainfo">
                     <span class="text-muted">Memory Usage</span>
                     <h4>32.2%</h4>
                 </div>
-                <div id="sidebar-chart5" class="chart"></div>
+                <div id="sidebar-chart5" class="chart"></div>   
             </li>
         </ul>
       </div><!-- infosummary -->
-
+      
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
-
+  
   <div class="mainpanel">
-
+    
     <div class="headerbar">
-
+      
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
-
+      
       <form class="searchform" action="index.html" method="post">
         <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
       </form>
-
+      
       <div class="header-right">
         <ul class="headermenu">
           <li>
@@ -360,148 +366,113 @@
           </li>
         </ul>
       </div><!-- header-right -->
-
+      
     </div><!-- headerbar -->
-
+        
     <div class="pageheader">
-      <h2><i class="fa fa-laptop"></i> Dashboard <span>Subtitle goes here...</span></h2>
+      <h2><i class="fa fa-pencil"></i> WYSIWYG <span>Subtitle goes here...</span></h2>
       <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
           <li><a href="index.html">Bracket</a></li>
-          <li class="active">Dashboard</li>
+          <li><a href="general-forms.html">Forms</a></li>
+          <li class="active">WYSIWYG</li>
         </ol>
       </div>
     </div>
-
+    
     <div class="contentpanel">
-
-      <div class="row">
-
-      <div class="mb20">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs nav-dark">
-          <li class="active"><a href="#home2" data-toggle="tab"><strong>广告用户查看</strong></a></li>
-          <li class=""><a href="#profile2" data-toggle="tab"><strong>用户添加</strong></a></li>
-          <li class=""><a href="#profile3" data-toggle="tab"><strong>广告管理</strong></a></li>
-        </ul>
-        
-        <!-- Tab panes -->
-        <div class="tab-content mb30">
-          <div class="tab-pane active" id="home2">
-            <div class="table-responsive">
-          <table class="table table-success table-hover mb30" id="advuser-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>用户ID</th>
-                <th>用户姓名</th>
-                <th>广告区域</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="advuser-table-tbody">
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                  <a href="" style="opacity: 0;"><i class="fa fa-pencil"></i></a>
-                  <a href="" class="delete-row" style="opacity: 0;"><i class="fa fa-trash-o"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="panel-close">&times;</a>
+            <a href="" class="minimize">&minus;</a>
           </div>
+          <h4 class="panel-title">HTML 5 WYSIWYG Editor</h4>
+          <p>Open source rich text editor based on HTML5 and the progressive-enhancement approach. Uses a sophisticated security concept and aims to generate fully valid HTML5 markup by preventing unmaintainable tag soups and inline styles. <a href="http://jhollingworth.github.io/bootstrap-wysihtml5/" target="_blank">http://jhollingworth.github.io/bootstrap-wysihtml5/</a></p>
+        </div>
+        <div class="panel-body">
+          <textarea id="wysiwyg" placeholder="Enter text here..." class="form-control" rows="10"></textarea>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="panel-close">&times;</a>
+            <a href="" class="minimize">&minus;</a>
           </div>
-          <div class="tab-pane" id="profile2">
+          <h4 class="panel-title">CKEditor</h4>
+          <p>CKEditor is a ready-for-use HTML text editor designed to simplify web content creation. It's a WYSIWYG editor that brings common word processor features directly to your web pages. <a href="http://ckeditor.com/" target="_blank">http://ckeditor.com/</a></p>
+        </div>
+        <div class="panel-body">
+          <textarea id="ckeditor" placeholder="Enter text here..." class="form-control" rows="10"></textarea>
+        </div>
+      </div>
+            
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="panel-close">&times;</a>
+            <a href="" class="minimize">&minus;</a>
+          </div>
+          <h4 class="panel-title">Inline Editing</h4>
+          <p>This sample page demonstrates the inline editing feature - CKEditor instances will be created automatically from page elements with <code>contentEditable</code> attribute set to value <code>true</code></p>
+        </div>
+        <div class="panel-body">
             <div class="row">
-
-
-          <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="panel-btns">
-              <a href="" class="panel-close">×</a>
-              <a href="" class="minimize">−</a>
+                
+                <div class="col-sm-6">
+                    <div id="inlineedit2" contenteditable="true">
+                        <h3>What is Lorem Ipsum?</h3>
+                        <p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6">
+                    <div id="inlineedit1" contenteditable="true">
+                        <h3>CSS3 Media Queries</h3>
+                        <p>CSS3 introduces an extension on the media types you might already use in HTML4 and CSS2. These media types allow you to define style sheets specifically for screen and print media types, as well as others. But with CSS3 media queries, you can be more precise about where exactly you want to apply the styles it defines.</p>
+                    </div>
+                </div>
             </div>
-            <h4 class="panel-title">添加广告用户</h4>
-          </div>
-           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/addAdvUser">
-          <div class="panel-body panel-body-nopadding" style="display: block;">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">登陆账号</label>
-                <div class="col-sm-6">
-                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">用户名</label>
-                <div class="col-sm-6">
-                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">确认密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
-                </div>
-              </div>
-
-              
-
-          <div class="form-group">
-                <label class="col-sm-3 control-label">广告区域位置</label>
-                <div class="col-sm-6">
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
-              </div>
-          </div>
-          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
-              
-        </form>
-            <iframe name="myiframe" style="display:none;"></iframe>
-          </div><!-- panel-body -->
           
-          <div class="panel-footer" style="display: block;">
-           <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
-            </div>
-           </div>
-          </div><!-- panel-footer -->
-          
-            </div>
-            </div>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="panel-close">&times;</a>
+            <a href="" class="minimize">&minus;</a>
           </div>
-              <div class="tab-pane" id="profile3">
-              广告管理
+          <h4 class="panel-title">Replace DIV On The Fly</h4>
+          <p>This sample shows how to automatically replace <code>&lt;div&gt;</code> elements with a CKEditor instance on the fly, following user's <strong>doubleclick</strong>.</p>
+        </div>
+        <div class="panel-body">
+            
+            <div class="ck-editable">
+                <h4>Paragraph 1</h4>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras et ipsum quis mi semper accumsan. Integer pretium dui id massa. Suspendisse in nisl sit amet urna rutrum imperdiet. Nulla eu tellus. Donec ante nisi, ullamcorper quis, fringilla nec, sagittis eleifend, pede. Nulla commodo interdum massa. Donec id metus. Fusce eu ipsum. Suspendisse auctor. Phasellus fermentum porttitor risus.</p>
             </div>
+            
+            <div class="ck-editable">
+                <h4>Paragraph 2</h4>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras et ipsum quis mi semper accumsan. Integer pretium dui id massa. Suspendisse in nisl sit amet urna rutrum imperdiet. Nulla eu tellus. Donec ante nisi, ullamcorper quis, fringilla nec, sagittis eleifend, pede. Nulla commodo interdum massa. Donec id metus. Fusce eu ipsum. Suspendisse auctor. Phasellus fermentum porttitor risus.</p>
+            </div>
+            
+            <div class="ck-editable">
+                <h4>Paragraph 3</h4>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras et ipsum quis mi semper accumsan. Integer pretium dui id massa. Suspendisse in nisl sit amet urna rutrum imperdiet. Nulla eu tellus. Donec ante nisi, ullamcorper quis, fringilla nec, sagittis eleifend, pede. Nulla commodo interdum massa. Donec id metus. Fusce eu ipsum. Suspendisse auctor. Phasellus fermentum porttitor risus.</p>
+            </div>
+          
         </div>
-        
-  
-        
-        </div>
-      </div><!-- row -->
-
-
+      </div>
+      
     </div><!-- contentpanel -->
-
+    
   </div><!-- mainpanel -->
-
+  
   <div class="rightpanel">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-justified">
@@ -510,7 +481,7 @@
         <li><a href="#rp-history" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
         <li><a href="#rp-settings" data-toggle="tab"><i class="fa fa-gear"></i></a></li>
     </ul>
-
+        
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="rp-alluser">
@@ -573,9 +544,9 @@
                     </div><!-- media -->
                 </li>
             </ul>
-
+            
             <div class="mb30"></div>
-
+            
             <h5 class="sidebartitle">Offline Users</h5>
             <ul class="chatuserlist">
                 <li>
@@ -756,7 +727,7 @@
             </ul>
         </div>
         <div class="tab-pane pane-settings" id="rp-settings">
-
+            
             <h5 class="sidebartitle mb20">Settings</h5>
             <div class="form-group">
                 <label class="col-xs-8 control-label">Show Offline Users</label>
@@ -764,38 +735,105 @@
                     <div class="toggle toggle-success"></div>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-xs-8 control-label">Enable History</label>
                 <div class="col-xs-4 control-label">
                     <div class="toggle toggle-success"></div>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-xs-8 control-label">Show Full Name</label>
                 <div class="col-xs-4 control-label">
                     <div class="toggle-chat1 toggle-success"></div>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-xs-8 control-label">Show Location</label>
                 <div class="col-xs-4 control-label">
                     <div class="toggle toggle-success"></div>
                 </div>
             </div>
-
+            
         </div><!-- tab-pane -->
-
+        
     </div><!-- tab-content -->
   </div><!-- rightpanel -->
-
-
+  
 </section>
 
 
-{{> admin/foot}}
-<script src="../../../../js/addAdvUser.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+
+
+<script src="js/wysihtml5-0.3.0.min.js"></script>
+<script src="js/bootstrap-wysihtml5.js"></script>
+<script src="js/ckeditor/ckeditor.js"></script>
+<script src="js/ckeditor/adapters/jquery.js"></script>
+
+<script src="js/custom.js"></script>
+
+<script>
+jQuery(document).ready(function(){
+    
+    "use strict";
+    
+  // HTML5 WYSIWYG Editor
+  jQuery('#wysiwyg').wysihtml5({color: true,html:true});
+  
+  // CKEditor
+  jQuery('#ckeditor').ckeditor();
+  
+  jQuery('#inlineedit1, #inlineedit2').ckeditor();
+  
+  // Uncomment the following code to test the "Timeout Loading Method".
+  // CKEDITOR.loadFullCoreTimeout = 5;
+
+  window.onload = function() {
+  // Listen to the double click event.
+  if ( window.addEventListener )
+	document.body.addEventListener( 'dblclick', onDoubleClick, false );
+  else if ( window.attachEvent )
+	document.body.attachEvent( 'ondblclick', onDoubleClick );
+  };
+
+  function onDoubleClick( ev ) {
+	// Get the element which fired the event. This is not necessarily the
+	// element to which the event has been attached.
+	var element = ev.target || ev.srcElement;
+
+	// Find out the div that holds this element.
+	var name;
+
+	do {
+		element = element.parentNode;
+	}
+	while ( element && ( name = element.nodeName.toLowerCase() ) &&
+		( name != 'div' || element.className.indexOf( 'editable' ) == -1 ) && name != 'body' );
+
+	if ( name == 'div' && element.className.indexOf( 'editable' ) != -1 )
+		replaceDiv( element );
+	}
+
+	var editor;
+
+	function replaceDiv( div ) {
+		if ( editor )
+			editor.destroy();
+		editor = CKEDITOR.replace( div );
+	}
+
+});
+</script>
+
 </body>
 </html>

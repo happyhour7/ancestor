@@ -2,13 +2,14 @@ var express = require('express');
 var DB=require("../db/connect");
 var router = express.Router();
 var viewPath='actions/admin/';
+var Queue=require("../queue");
 /* GET home page. */
 router.post('/admin/login', function(req, res) {
     render.res=res;
     render.view='index';
     DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
-
+var currentQueue=null;
 function loginLogic(data){
     if(data.length>0)
     {
@@ -44,6 +45,56 @@ router.get('/admin/login', function(req, res) {
     res.render(viewPath+"login",{});
 });
 
+
+router.post('/admin/addAdvUser',function(req, res){
+    var sql="insert into advuser set userid=?,username=?,password=?,location=?"
+    var result=[];
+    result.push(req.body.userid);
+    result.push(req.body.username);
+    result.push(req.body.password);
+    result.push(req.body.location.join(","));
+    console.log(req.body.location.join(","));
+    DB.execute(sql,result);
+    res.json({status:"success"});
+});
+
+
+
+router.get('/admin/getAdvUser',function(req, res){
+    ajaxRender.res=res;
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from advuser",bindData,getUserLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        ajaxRender.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+    }});
+    currentQueue.start();
+});
+
+function getUserLogic(data){
+    var result=[];
+    if(data.length>0)
+    {
+        result=data;
+    }
+    return result;
+}
+function bindData(keyname,logic){
+    var data=logic(this);
+    if(currentQueue.next()){
+        currentQueue.exec(data);
+    }
+}
+
+
+
+function ajaxRender(keyname,logic){
+    var data=logic(this);
+    ajaxRender.res.json(data)
+}
 function render(fields,logic){
     var result=logic(this);
     if(result!==false)

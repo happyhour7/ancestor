@@ -168,7 +168,6 @@ var page={
 				alert("请输入正确的验证码"+$("#registry-valinum-content").attr("data"));
 				return false;
 			}
-			//$("#registry-registry-submit-button").trigger("click");
 			$.ajax({
 				type:"post",
 				dataType:"json",

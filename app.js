@@ -11,7 +11,7 @@ var session = require('express-session');
 var task=require("./bin/task/router-admin");
 var task_client=require("./bin/task/router-client");
 var task_user=require("./bin/task/router-users");
-
+var task_adv=require("./bin/task/router-adv");
 var pjax = require('express-pjax');
 //var partial=require('express-partials');
 var app = express();
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'admin')));
 app.use('/',task);
 app.use('/',task_client);
 app.use('/',task_user);
-
+app.use('/',task_adv);
 
 
 hbs.registerHelper('dealUsername', function(text) {
