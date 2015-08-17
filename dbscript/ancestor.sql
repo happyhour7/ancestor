@@ -1,5 +1,5 @@
-﻿# Host: 10.20.107.253  (Version: 5.1.73-community)
-# Date: 2015-08-17 21:57:39
+﻿# Host: localhost  (Version: 5.5.20)
+# Date: 2015-08-18 02:50:58
 # Generator: MySQL-Front 5.3  (Build 4.214)
 
 /*!40101 SET NAMES utf8 */;
@@ -43,6 +43,7 @@ CREATE TABLE `advs` (
 # Data for table "advs"
 #
 
+INSERT INTO `advs` VALUES (5,'admin','firstpage-top',NULL,'http://www.baidu.com'),(8,'admin','firstpage-left-top','0.15174923790618777.jpg','http://www.baidu.com'),(9,'admin','firstpage-left-mid','0.17376918881200254.jpg','http://www.baidu.com'),(10,'admin','firstpage-left-bottom','0.2883514794521034.jpg','http://www.baidu.com');
 
 #
 # Structure for table "advuser"
@@ -56,7 +57,7 @@ CREATE TABLE `advuser` (
   `username` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "advuser"
@@ -287,7 +288,7 @@ CREATE TABLE `users` (
   `address` varchar(200) DEFAULT NULL,
   `mark` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "users"
