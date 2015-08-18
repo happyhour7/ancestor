@@ -40,6 +40,17 @@ function getHomeSQL(){
     }
 }
 
+
+function getLongStorySQL(){
+	 if(currentSession){
+        return loginLongStoreSQL.replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username);
+    }
+    else{
+        return longStoreSQL;
+    }
+}
 /*返回给客户端的数据*/
 var returnData={};
 var currentQueue=null;
@@ -69,14 +80,17 @@ router.get('/', function(req, res) {
 });
 
 function firstAdvLogic(data){
-    write("myjson.txt",data);
     for(var i=0;i<data.length;i++)
     {
         var tmp=data[i];
+        try{
+        	tmp.score=global.cache["adv"][render.res.cookie["username"]][tmp.location];
+        }catch(e){}
         if(tmp.location=="firstpage-top"){
             _tmpData["firstpageTop"]=tmp;
         }
         if(tmp.location=="firstpage-left-top"){
+
             _tmpData["firstpageLeftTop"]=tmp;
         }
         if(tmp.location=="firstpage-left-mid"){
@@ -92,7 +106,7 @@ function firstAdvLogic(data){
             _tmpData["innerpageLeftBottom"]=tmp;
         }
     }
-    
+    console.log(_tmpData);
     return _tmpData;
 }
 function bindData(keyname,logic){
@@ -126,18 +140,25 @@ router.get('/secret/longstore',function(req,res){
     render.res=res;
     render.req=req;
     render.view="index";
-    if(currentSession==null)
-    {
+    
+    
+    currentQueue=new Queue("longstory");
+    currentQueue.push({exec:function(){
+        DB.query(getLongStorySQL(),bindData,longsStoryLogic,'secretDatas');
+    }});
+
+
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
-        DB.query(longStoreSQL,render,longsStoryLogic);
-    }
-    else
-    {
-        DB.query(loginLongStoreSQL.replace("<username>",currentSession.username)
-            .replace("<username>",currentSession.username)
-            .replace("<username>",currentSession.username)
-            ,render,longsStoryLogic);
-    }
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        
+    }});
+    currentQueue.start();
 });
 
 function longsStoryLogic(data){
@@ -155,6 +176,11 @@ router.get('/secret/mine', function(req, res) {
     currentQueue=new Queue("mine");
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='WO的秘密' "),bindData,woLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
@@ -196,10 +222,24 @@ router.get('/secret/order', function(req, res) {
 
 //我的秘密
 router.get('/secret/write', function(req, res) {
+
+    
+    
     render.res=res;
     render.req=req;
-    render.view='sendSecret';
-    DB.query('',render,orderLogic);
+    render.view="sendSecret";
+    currentQueue=new Queue("sendSecret");
+
+    currentQueue.push({exec:function(data){
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        
+    }});
+    currentQueue.start();
 });
 
 
@@ -270,6 +310,11 @@ router.get('/secret/ta', function(req, res) {
 
         DB.query(getHomeSQL(" and secretMainType='TA的秘密' "),bindData,taLogic,'secretDatas');
     }});
+	currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -311,6 +356,11 @@ router.get('/secret/sell', function(req, res) {
         DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,sellLogic,'secretDatas');
     }});
     currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
         currentQueue=null;
@@ -347,6 +397,11 @@ router.get('/secret/offer', function(req, res) {
     currentQueue=new Queue("offer");
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='悬赏秘密' "),bindData,offerLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
@@ -438,19 +493,10 @@ router.post('/secret/saveSecret',function(req, res){
             "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
     DB.execute(sql,datas);
     res.redirect("/");
-    /*render.req=req;
-    render.res=res;
-    render.view="index";
-    DB.query(getHomeSQL()
-            ,render,indexLogic);*/
     }
         else
     {
         res.redirect("/");
-        /*render.req=req;
-        render.res=res;
-        render.view="index";
-        DB.query(getHomeSQL(),render,indexLogic);*/
     }
 });
 
@@ -474,13 +520,10 @@ router.get('/secret/permsg-score',function(req,res){
         
         render.view="personal_score";
         render.apply([user],['',personalScoreLogic]);
-        //var sql="select * from users where username='"+username+"'";
-        //DB.query(sql,render,personalLogic);
     }
     else
     {
-        render.view="index";
-        DB.query("",render,indexLogic);
+        res.redirect("/");
     }
 });
 
@@ -514,8 +557,7 @@ router.get('/secret/permsg-friend',function(req,res){
     }
     else
     {
-        render.view="index";
-        DB.query("",render,indexLogic);
+        res.redirect("/");
     }
 });
 
@@ -548,8 +590,7 @@ router.get('/secret/permsg-mysecret',function(req,res){
     }
     else
     {
-        render.view="index";
-        DB.query("",render,indexLogic);
+        res.redirect("/");
     }
 });
 function personalSecretLogic(data){
@@ -578,8 +619,7 @@ router.get('/secret/permsg-msg',function(req,res){
     }
     else
     {
-        render.view="index";
-        DB.query("",render,indexLogic);
+        res.redirect("/");
     }
 });
 
@@ -670,6 +710,11 @@ router.get('/secret/floater', function(req, res) {
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,floaterInitLogic,'secretDatas');
     }});
+	currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});  
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -900,6 +945,7 @@ function render(fields,logic){
     {
     	hasLogin=getUserLoginStatues(render.req.session);
     	result["hasLogin"]=hasLogin;
+    	result["userid"]=render.res.cookie["username"];
         render.res.render(viewPath+render.view, result);
     }
     

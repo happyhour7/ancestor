@@ -4,14 +4,13 @@ var router = express.Router();
 var viewPath='actions/adv/';
 var Queue=require("../queue");
 var fs=require("fs");
+var cache=require("../cache");
 var formidable = require("formidable");
 /* GET home page. */
-var currentSession=null;
+var currentSession={};
 router.post('/adv/login', function(req, res) {
     render.res=res;
     render.req=req;
-    currentSession=req.session;
-    currentSession.username=req.body.userid;
     render.view='index';
 
     currentQueue=new Queue("index");
@@ -20,7 +19,8 @@ router.post('/adv/login', function(req, res) {
     }});
 
     currentQueue.push({exec:function(data){
-        DB.query("select * from advs where owner='"+currentSession.username+"'",render,advuserLogic,'secretDatas')
+        DB.query("select * from advs where owner='"+req.body.userid+"'",render,advuserLogic,'secretDatas');
+        res.cookie["username"]=req.body.userid;
         currentQueue.end();
     }});
     currentQueue.start();
@@ -32,68 +32,74 @@ function advuserLogic(data){
     {
         var tmp=data[i];
         if(tmp.location=="firstpage-top"&&
-            currentSession.location.indexOf("firstpage-top")>=0)
+            render.res.cookie["location"].indexOf("firstpage-top")>=0)
         {
             result["firstpageTop"]=tmp;
+             result["firstpageTop"]["replay"]=global.cache["firstpage-top"];
         }
-        else if(currentSession.location.indexOf("firstpage-top")>=0&&
+        else if(render.res.cookie["location"].indexOf("firstpage-top")>=0&&
             typeof result["firstpageTop"]=='undefined'){
             result["firstpageTop"]=true;
         }
 
         if(tmp.location=="firstpage-left-top"&&
-            currentSession.location.indexOf("firstpage-left-top")>=0){
+            render.res.cookie["location"].indexOf("firstpage-left-top")>=0){
             result["firstpageLeftTop"]=tmp;
-        }else if(currentSession.location.indexOf("firstpage-left-top")>=0&&
+            result["firstpageLeftTop"]["replay"]=global.cache["firstpage-left-top"];
+        }else if(render.res.cookie["location"].indexOf("firstpage-left-top")>=0&&
             typeof result["firstpageLeftTop"]=='undefined'){
             result["firstpageLeftTop"]=true;
         }
 
         if(tmp.location=="firstpage-left-mid"&&
-            currentSession.location.indexOf("firstpage-left-mid")>=0){
+            render.res.cookie["location"].indexOf("firstpage-left-mid")>=0){
             result["firstpageLeftMid"]=tmp;
-        }else if(currentSession.location.indexOf("firstpage-left-mid")>=0&&
+            result["firstpageLeftMid"]["replay"]=global.cache["firstpage-left-mid"];
+        }else if(render.res.cookie["location"].indexOf("firstpage-left-mid")>=0&&
             typeof result["firstpageLeftMid"]=='undefined'){
             result["firstpageLeftMid"]=true;
         }
 
         if(tmp.location=="firstpage-left-bottom"&&
-            currentSession.location.indexOf("firstpage-left-bottom")>=0){
+            render.res.cookie["location"].indexOf("firstpage-left-bottom")>=0){
             result["firstpageLeftBottom"]=tmp;
+            result["firstpageLeftBottom"]["replay"]=global.cache["firstpage-left-bottom"];
         }
-        else if(currentSession.location.indexOf("firstpage-left-bottom")>=0&&
+        else if(render.res.cookie["location"].indexOf("firstpage-left-bottom")>=0&&
             typeof result["firstpageLeftBottom"]=='undefined'){
             result["firstpageLeftBottom"]=true;
         }
 
         if(tmp.location=="innerpage-left-top"&&
-            currentSession.location.indexOf("innerpage-left-top")>=0){
+            render.res.cookie["location"].indexOf("innerpage-left-top")>=0){
             result["innerpageLeftTop"]=tmp;
-        }else if(currentSession.location.indexOf("innerpage-left-top")>=0&&
+            result["innerpageLeftTop"]["replay"]=global.cache["innerpage-left-top"];
+        }else if(render.res.cookie["location"].indexOf("innerpage-left-top")>=0&&
             typeof result["innerpageLeftTop"]=='undefined'){
             result["innerpageLeftTop"]=true;
         }
 
 
         if(tmp.location=="innerpage-left-bottom"&&
-            currentSession.location.indexOf("innerpage-left-bottom")>=0){
+            render.res.cookie["location"].indexOf("innerpage-left-bottom")>=0){
             result["innerpageLeftBottom"]=tmp;
-        }else if(currentSession.location.indexOf("innerpage-left-bottom")>=0&&
+            result["innerpageLeftBottom"]["replay"]=global.cache["innerpage-left-bottom"];
+        }else if(render.res.cookie["location"].indexOf("innerpage-left-bottom")>=0&&
             typeof result["innerpageLeftBottom"]=='undefined'){
             result["innerpageLeftBottom"]=true;
         }
     }
-
     //result["advDatas"]=data;
     
     //console.log(result);
-    result["username"]=currentSession.username;
+    result["username"]=render.res.cookie["username"];
+    console.log(result);
     return result;
 }
 function loginLogic(data){
     if(data.length>0)
     {
-        currentSession.location=data[0].location;
+        render.res.cookie["location"]=data[0].location;
         return data[0];
     }
     else
@@ -143,15 +149,15 @@ router.post('/adv/addAdvUser',function(req, res){
 
 
 router.post('/adv/save',function(req,res){
-    var imgPath=currentSession.advImage;
+    var imgPath=res.cookie["advImage"];
     var href=req.body.href;
     var location=req.body.location;
-    var results=[currentSession.username];
+    var results=[res.cookie["username"]];
         results.push(location);
         results.push(imgPath);
         results.push(href);
         console.dir(results);
-    DB.update("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'",function(){
+    DB.update("delete from advs where owner='"+res.cookie["username"]+"' and location='"+location+"'",function(){
         DB.execute("insert into advs set owner=?,location=?,images=?,href=?",results);
     });
     res.json({status:"success"});
@@ -197,14 +203,10 @@ router.post('/adv/saveImage',function(req, res){
         }
         
         var avatarName =  Math.random() + '.' + extName;
-        
 
-        //console.log("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'");
-        /*DB.update("delete from advs where owner='"+currentSession.username+"' and location='"+location+"'",function(){
-            DB.execute("insert into advs set owner=?,location=?,images=?,href",results);
-        });*/
         var newPath = form.uploadDir + avatarName;
-        currentSession.advImage=avatarName;
+        //currentSession.advImage=avatarName;
+        res.cookie["advImage"]=avatarName;
         fs.renameSync(files.fulAvatar.path, newPath); //重命名
     });
     
@@ -212,10 +214,53 @@ router.post('/adv/saveImage',function(req, res){
     res.json({title:'上传成功！' }); 
 });
 
+router.get('/adv/sendComment',function(req,res){
+	var userid=req.query.userid;
+	var comment=req.query.comment;
+	var date=req.query.date;
+	var location=req.query.location;
+	var result=global.cache[location];
+	if(result)
+	{
+		result.push({
+				userid:userid,
+				comment:comment,
+				date:date,
+				location:location
+		});
+		global.cache[location]=result;
+	}
+	else{
+		result=[{
+				userid:userid,
+				comment:comment,
+				date:date,
+				location:location
+		}];
+		global.cache[location]=result;
+		
+	}
+	console.log(global.cache);
+	res.json({status:"success"});
+});
 
 
-
-
+router.get('/adv/setScore',function(req,res){
+	var userid=req.query.userid;
+	var score=req.query.score;
+	var location=req.query.location;
+	if(!global.cache["adv"])
+	{
+		global.cache["adv"]={};
+	}
+	if(!global.cache["adv"][userid])
+	{
+		global.cache["adv"][userid]={};
+	}
+	global.cache["adv"][userid][location]=score;
+	res.json({status:"success"});
+	
+})
 
 
 

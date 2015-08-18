@@ -21,11 +21,40 @@ function loginLogic(data){
     }
 }
 
-
+router.get('/admin/delAdvUser',function(req, res){
+	var username=req.query.username;
+	DB.update("delete from advuser where username='"+username+"'",function(){
+		res.json({status:"success"});
+	});
+})
 router.get('/admin/advUserManager',function(req, res){
     res.render(viewPath+"advUserManager",{});
 });
 
+router.get('/admin/advUserManagerAdd',function(req, res){
+    res.render(viewPath+"advUserManagerAdd",{});
+});
+
+router.get('/admin/advUserManagerMod',function(req, res){
+	render.res=res;
+	render.req=req;
+	var userid=req.query.userid;
+	render.view="advUserManagerMod"
+	currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from advuser where userid='"+userid+"'",bindData,advUserManagerModLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+
+    currentQueue.start();
+});
+function advUserManagerModLogic(data){
+	return data[0];
+}
 router.get('/admin/adminUserManager',function(req, res){
     res.render(viewPath+"adminUserManager",{});
 });
@@ -57,6 +86,26 @@ router.post('/admin/addAdvUser',function(req, res){
     DB.execute(sql,result);
     res.json({status:"success"});
 });
+
+router.post('/admin/updateAdvUser',function(req, res){
+	var password=req.body.password||"";
+	var sql="";
+	if(password!="")
+	{
+		sql="update advuser set username='"+req.body.username+"',password='"+password+"',location='"+req.body.location.join(",")+"' where userid='"+req.body.userid+"'";
+	}
+	else{
+		sql="update advuser set username='"+req.body.username+"',location='"+req.body.location.join(",")+"' where userid='"+req.body.userid+"'";
+	}
+    
+    DB.update(sql,function(){
+    	res.json({status:"success"});
+    });
+    
+});
+
+
+
 
 
 
