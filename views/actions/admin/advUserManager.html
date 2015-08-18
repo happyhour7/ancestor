@@ -383,23 +383,24 @@
         <ul class="nav nav-tabs nav-dark">
           <li class="active"><a href="#home2" data-toggle="tab"><strong>广告用户查看</strong></a></li>
           <li class=""><a href="#profile2" data-toggle="tab"><strong>用户添加</strong></a></li>
+          <li class=""><a href="#profile3" data-toggle="tab"><strong>广告管理</strong></a></li>
         </ul>
         
         <!-- Tab panes -->
         <div class="tab-content mb30">
           <div class="tab-pane active" id="home2">
             <div class="table-responsive">
-          <table class="table table-success table-hover mb30">
+          <table class="table table-success table-hover mb30" id="advuser-table">
             <thead>
               <tr>
                 <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>用户ID</th>
+                <th>用户姓名</th>
+                <th>广告区域</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="advuser-table-tbody">
               <tr>
                 <td>1</td>
                 <td>Mark</td>
@@ -408,26 +409,6 @@
                 <td>
                   <a href="" style="opacity: 0;"><i class="fa fa-pencil"></i></a>
                   <a href="" class="delete-row" style="opacity: 0;"><i class="fa fa-trash-o"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>
-                  <a href="" style="color:#666;">修改</a>
-                  <a href="" class="delete-row">删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>
-                  <a href="">修改</a>
-                  <a href="" class="delete-row">删除</a>
                 </td>
               </tr>
             </tbody>
@@ -446,35 +427,33 @@
             </div>
             <h4 class="panel-title">添加广告用户</h4>
           </div>
+           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/addAdvUser">
           <div class="panel-body panel-body-nopadding" style="display: block;">
-            
-            <form class="form-horizontal form-bordered">
-              
               <div class="form-group">
                 <label class="col-sm-3 control-label">登陆账号</label>
                 <div class="col-sm-6">
-                  <input type="text" name="userid" placeholder="登陆账号" class="form-control">
+                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-sm-3 control-label">用户名</label>
                 <div class="col-sm-6">
-                  <input type="text" name="username" placeholder="用户姓名" class="form-control">
+                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-sm-3 control-label">密码</label>
                 <div class="col-sm-6">
-                  <input type="password" name="password" placeholder="输入密码" class="form-control">
+                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-sm-3 control-label">确认密码</label>
                 <div class="col-sm-6">
-                  <input type="password" name="passwords" placeholder="确认密码" class="form-control">
+                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
                 </div>
               </div>
 
@@ -483,36 +462,34 @@
           <div class="form-group">
                 <label class="col-sm-3 control-label">广告区域位置</label>
                 <div class="col-sm-6">
-                 <div class="radio"><label><input name="adv-area" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
-                 <div class="radio"><label><input name="adv-area" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
-                 <div class="radio"><label><input name="adv-area" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
-                 <div class="radio"><label><input name="adv-area" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
-                 <div class="radio"><label><input name="adv-area" type="checkbox" value="firstpage-left-bottom"> 内页左上广告</label></div>
-                 <div class="radio"><label><input name="adv-area" type="checkbox" value="firstpage-left-bottom"> 内页左下广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
               </div>
           </div>
           <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
               
         </form>
-            
+            <iframe name="myiframe" style="display:none;"></iframe>
           </div><!-- panel-body -->
           
           <div class="panel-footer" style="display: block;">
-         <div class="row">
-          <div class="col-sm-6 col-sm-offset-3">
-            <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
-          </div>
-         </div>
-        </div><!-- panel-footer -->
+           <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
+            </div>
+           </div>
+          </div><!-- panel-footer -->
           
-        </div>
-
-
-
-
-
+            </div>
             </div>
           </div>
+              <div class="tab-pane" id="profile3">
+              广告管理
+            </div>
         </div>
         
   
@@ -819,5 +796,6 @@
 
 
 {{> admin/foot}}
+<script src="../../../../js/addAdvUser.js"></script>
 </body>
 </html>

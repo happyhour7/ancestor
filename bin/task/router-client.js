@@ -43,6 +43,7 @@ function getHomeSQL(){
 /*返回给客户端的数据*/
 var returnData={};
 var currentQueue=null;
+var _tmpData={};
 /* GET home page. */
 router.get('/', function(req, res) {
     render.res=res;
@@ -53,12 +54,47 @@ router.get('/', function(req, res) {
         DB.query(getHomeSQL(),bindData,indexLogic,'secretDatas');
     }});
 
+
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
+        
     }});
     currentQueue.start();
 });
+
+function firstAdvLogic(data){
+    write("myjson.txt",data);
+    for(var i=0;i<data.length;i++)
+    {
+        var tmp=data[i];
+        if(tmp.location=="firstpage-top"){
+            _tmpData["firstpageTop"]=tmp;
+        }
+        if(tmp.location=="firstpage-left-top"){
+            _tmpData["firstpageLeftTop"]=tmp;
+        }
+        if(tmp.location=="firstpage-left-mid"){
+            _tmpData["firstpageLeftMid"]=tmp;
+        }
+        if(tmp.location=="firstpage-left-bottom"){
+            _tmpData["firstpageLeftBottom"]=tmp;
+        }
+        if(tmp.location=="innerpage-left-top"){
+            _tmpData["innerpageLeftTop"]=tmp;
+        }
+        if(tmp.location=="innerpage-left-bottom"){
+            _tmpData["innerpageLeftBottom"]=tmp;
+        }
+    }
+    
+    return _tmpData;
+}
 function bindData(keyname,logic){
     var data=logic(this);
     if(currentQueue.next()){
@@ -341,7 +377,23 @@ function offerLogic(data){
    write("myjson.txt",data);
    return result; 
 }
+router.get('/secret/del',function(req,res){
+    var id=req.query.id;
+    console.log(id);
+    if(!isNaN(id))
+    {
+        DB.update("delete from files where id="+id,function(){
+            res.json({status:"success"});
 
+        });
+
+    }
+    else
+    {
+        res.json({status:"error"});
+    }
+    
+});
 
 
 router.post('/secret/saveSecret',function(req, res){
@@ -368,7 +420,8 @@ router.post('/secret/saveSecret',function(req, res){
                 (req.body.secretPrice||"")+","+
                 (req.body.secretLimitTime||"")+","+
                 (req.body.islongstory||0)+","+
-                (req.body.longstory||"");
+                (req.body.longstory||"")+","+
+                (req.body.createTime||"");
     datas=splitString.split(',');
     datas[4]=getInt(datas[4]);
     datas[14]=getInt(datas[14]);
@@ -382,21 +435,22 @@ router.post('/secret/saveSecret',function(req, res){
     var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
             "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
             "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,owner=?";
+            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
     DB.execute(sql,datas);
-    render.req=req;
+    res.redirect("/");
+    /*render.req=req;
     render.res=res;
     render.view="index";
     DB.query(getHomeSQL()
-            ,render,indexLogic);
+            ,render,indexLogic);*/
     }
         else
     {
-        render.req=req;
+        res.redirect("/");
+        /*render.req=req;
         render.res=res;
         render.view="index";
-        DB.query(getHomeSQL(),render,indexLogic);
-        return false;
+        DB.query(getHomeSQL(),render,indexLogic);*/
     }
 });
 

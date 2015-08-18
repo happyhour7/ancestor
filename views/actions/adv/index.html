@@ -1,0 +1,684 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+{{> admin/header}}
+</head>
+
+<body>
+
+
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+<section>
+
+  <div class="leftpanel">
+
+    <div class="logopanel">
+        <h1><span>[</span> 太极网络 <span>]</span></h1>
+    </div><!-- logopanel -->
+
+    <div class="leftpanelinner">
+
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div class="media userlogged">
+                <img alt="" src="images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4>John Doe</h4>
+                    <span>"Life is so..."</span>
+                </div>
+            </div>
+
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+              <li><a href=""><i class="fa fa-cog"></i> <span>Account Settings</span></a></li>
+              <li><a href=""><i class="fa fa-question-circle"></i> <span>Help</span></a></li>
+              <li><a href="signout.html"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+            </ul>
+        </div>
+
+      <h5 class="sidebartitle">Navigation</h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li class="active"><a href="/adv/index"><i class="fa fa-home"></i> <span>广告管理</span></a></li>
+      </ul>
+
+
+
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+
+  <div class="mainpanel">
+
+    <div class="headerbar">
+
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" id="" data-toggle="dropdown">
+                {{username}}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> Help</a></li>
+                <li><a href="signin.html"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+
+    </div><!-- headerbar -->
+
+
+
+    <div class="contentpanel">
+         <div class="row">
+
+         <!--首页置顶广告-->
+         {{# firstpageTop}}
+           <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-btns">
+                  <a href="" class="panel-close">×</a>
+                  <a href="" class="minimize">−</a>
+                </div>
+                <h4 class="panel-title">首页置顶广告</h4>
+              </div>
+            <form method="post" action="/adv/saveImage" id="top-adv-form" target="top-adv-iframe" enctype='multipart/form-data'>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">图片预览</label>
+                  <div class="col-sm-6">
+                    
+                        <div id="previewFirstTop_fake">
+                          <img src="/avatar/{{images}}" style="max-width:775px;max-height:150px;width:775px;height:150px;"  id="previewFirstTop"/>
+                        </div>
+                        
+                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewFirstTop','previewFirstTop_fake')" /> 
+                  </div>
+              </div>
+              <div class="form-group"style="margin-bottom:20px;">
+               <label class="col-sm-3 control-label">图片上传</label>
+               <div class="col-sm-6">
+                  
+                  <button class="btn btn-success" id="upload-img" style="display:block;float:left;">上传图片</button>
+                </div>
+              </div>
+                </form>
+
+                <form method="post" action="/adv/save" target="top-adv-iframe">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">广告链接</label>
+                  <div class="col-sm-6">
+                    <input type="text" value="{{href}}" name="href" class="form-control"/>
+                  </div>
+              </div>
+              <input type="submit" style="display:none;" id="top-adv-submit-button"/>
+              <input type="hidden" value="firstpage-top" name="location"/>
+            </form>
+            <iframe name="top-adv-iframe" style="display:none;"></iframe>
+            <div class="form-group" style="padding-bottom:20px;">
+                  <button class="btn btn-success" id="top-adv-save-button" style="display:block;margin:0 auto;">保存广告</button>
+            </div>
+          </div>
+          {{/ firstpageTop}}
+
+
+            <!--首页左侧顶上广告-->
+            {{# firstpageLeftTop}}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-btns">
+                  <a href="" class="panel-close">×</a>
+                  <a href="" class="minimize">−</a>
+                </div>
+                <h4 class="panel-title">首页左侧置顶广告</h4>
+              </div>
+            <form method="post" action="/adv/saveImage" id="top-adv-form" target="top-adv-iframe" enctype='multipart/form-data'>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">图片预览</label>
+                  <div class="col-sm-6">
+                    
+                        <div id="previewLeftTop_fake">
+                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftTop"/>
+                        </div>
+                        
+                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewLeftTop','previewLeftTop_fake')"  style="max-width:245px;min-width:245px;"/> 
+                  </div>
+              </div>
+              <div class="form-group"style="margin-bottom:20px;">
+               <label class="col-sm-3 control-label">图片上传</label>
+               <div class="col-sm-6">
+                  
+                  <button class="btn btn-success" id="upload-img" style="display:block;float:left;">上传图片</button>
+                </div>
+              </div>
+                </form>
+
+                <form method="post" action="/adv/save" target="top-adv-iframe">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">广告链接</label>
+                  <div class="col-sm-6">
+                    <input type="text" value="{{href}}" name="href" class="form-control"/>
+                  </div>
+              </div>
+              <input type="submit" style="display:none;" id="left-top-adv-submit-button"/>
+              <input type="hidden" value="firstpage-left-top" name="location"/>
+            </form>
+            <iframe name="top-adv-iframe" style="display:none;"></iframe>
+            <div class="form-group" style="padding-bottom:20px;">
+                  <button class="btn btn-success" id="left-top-adv-save-button" style="display:block;margin:0 auto;">保存广告</button>
+            </div>
+          </div>
+          {{/ firstpageLeftTop}}
+
+          <!--首页左侧中间广告-->
+          {{# firstpageLeftMid}}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-btns">
+                  <a href="" class="panel-close">×</a>
+                  <a href="" class="minimize">−</a>
+                </div>
+                <h4 class="panel-title">首页左侧中间广告</h4>
+              </div>
+            <form method="post" action="/adv/saveImage" id="top-adv-form" target="left-mid-adv-iframe" enctype='multipart/form-data'>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">图片预览</label>
+                  <div class="col-sm-6">
+                    
+                        <div id="previewLeftMid_fake" style="max-width:245px;min-width:245px;min-height:245px;">
+                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftMid"/>
+                        </div>
+                        
+                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewLeftMid','previewLeftMid_fake')" style="max-width:245px;min-width:245px;" /> 
+                  </div>
+              </div>
+              <div class="form-group"style="margin-bottom:20px;">
+               <label class="col-sm-3 control-label">图片上传</label>
+               <div class="col-sm-6">
+                  
+                  <button class="btn btn-success" id="upload-img" style="display:block;float:left;">上传图片</button>
+                </div>
+              </div>
+                </form>
+
+                <form method="post" action="/adv/save" target="top-adv-iframe">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">广告链接</label>
+                  <div class="col-sm-6">
+                    <input type="text" value="{{href}}" name="href" class="form-control"/>
+                  </div>
+              </div>
+              <input type="submit" style="display:none;" id="left-mid-adv-submit-button"/>
+              <input type="hidden" value="firstpage-left-mid" name="location"/>
+            </form>
+            <iframe name="left-mid-adv-iframe" style="display:none;"></iframe>
+            <div class="form-group" style="padding-bottom:20px;">
+                  <button class="btn btn-success" id="left-mid-adv-save-button" style="display:block;margin:0 auto;">保存广告</button>
+            </div>
+          </div>
+          {{/ firstpageLeftMid}}
+
+
+
+          <!--首页左侧最下面的广告-->
+          {{# firstpageLeftBottom}}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-btns">
+                  <a href="" class="panel-close">×</a>
+                  <a href="" class="minimize">−</a>
+                </div>
+                <h4 class="panel-title">首页左侧最底置顶</h4>
+              </div>
+            <form method="post" action="/adv/saveImage" id="top-adv-form" target="left-bottom-adv-iframe" enctype='multipart/form-data'>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">图片预览</label>
+                  <div class="col-sm-6">
+                    
+                        <div id="previewLeftBottom_fake" style="max-width:245px;min-width:245px;min-height:245px;">
+                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftBottom"/>
+                        </div>
+                        
+                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewLeftBottom','previewLeftBottom_fake')"  style="max-width:245px;min-width:245px;"/> 
+                  </div>
+              </div>
+              <div class="form-group"style="margin-bottom:20px;">
+               <label class="col-sm-3 control-label">图片上传</label>
+               <div class="col-sm-6">
+                  
+                  <button class="btn btn-success" id="upload-img" style="display:block;float:left;">上传图片</button>
+                </div>
+              </div>
+                </form>
+
+                <form method="post" action="/adv/save" target="left-bottom-adv-iframe">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">广告链接</label>
+                  <div class="col-sm-6">
+                    <input type="text" value="{{href}}" name="href" class="form-control"/>
+                  </div>
+              </div>
+              <input type="submit" style="display:none;" id="left-bottom-adv-submit-button"/>
+              <input type="hidden" value="firstpage-left-bottom" name="location"/>
+            </form>
+            <iframe name="top-adv-iframe" style="display:none;"></iframe>
+            <div class="form-group" style="padding-bottom:20px;">
+                  <button class="btn btn-success" id="left-bottom-adv-save-button" style="display:block;margin:0 auto;">保存广告</button>
+            </div>
+          </div>
+          {{/ firstpageLeftBottom}}
+
+
+          <!--内页左侧置顶广告-->
+          {{# innerpageLeftTop}}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-btns">
+                  <a href="" class="panel-close">×</a>
+                  <a href="" class="minimize">−</a>
+                </div>
+                <h4 class="panel-title">内页左侧置顶广告</h4>
+              </div>
+            <form method="post" action="/adv/saveImage" id="top-adv-form" target="inner-left-top-adv-iframe" enctype='multipart/form-data'>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">图片预览</label>
+                  <div class="col-sm-6">
+                    
+                        <div id="previewinnerpageLeftTop_fake" style="max-width:245px;min-width:245px;min-height:245px;">
+                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewinnerpageLeftTop"/>
+                        </div>
+                        
+                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewinnerpageLeftTop','previewinnerpageLeftTop_fake')" style="max-width:245px;min-width:245px;" /> 
+                  </div>
+              </div>
+              <div class="form-group"style="margin-bottom:20px;">
+               <label class="col-sm-3 control-label">图片上传</label>
+               <div class="col-sm-6">
+                  
+                  <button class="btn btn-success" id="upload-img" style="display:block;float:left;">上传图片</button>
+                </div>
+              </div>
+                </form>
+
+                <form method="post" action="/adv/save" target="inner-left-top-adv-iframe">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">广告链接</label>
+                  <div class="col-sm-6">
+                    <input type="text" value="{{href}}" name="href" class="form-control"/>
+                  </div>
+              </div>
+              <input type="submit" style="display:none;" id="inner-left-top-adv-submit-button"/>
+              <input type="hidden" value="innerpage-left-top" name="location"/>
+            </form>
+            <iframe name="top-adv-iframe" style="display:none;"></iframe>
+            <div class="form-group" style="padding-bottom:20px;">
+                  <button class="btn btn-success" id="inner-left-top-adv-save-button" style="display:block;margin:0 auto;">保存广告</button>
+            </div>
+          </div>
+          {{/ innerpageLeftTop}}
+
+          <!--内页左侧置底广告-->
+          {{# innerpageLeftBottom}}
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-btns">
+                  <a href="" class="panel-close">×</a>
+                  <a href="" class="minimize">−</a>
+                </div>
+                <h4 class="panel-title">内页左侧置底广告</h4>
+              </div>
+            <form method="post" action="/adv/saveImage" id="top-adv-form" target="inner-left-bottom-adv-iframe" enctype='multipart/form-data'>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">图片预览</label>
+                  <div class="col-sm-6">
+                    
+                        <div id="previewinnerpageLeftBottom_fake" style="max-width:245px;min-width:245px;min-height:245px;">
+                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewinnerpageLeftBottom"/>
+                        </div>
+                        
+                        <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewinnerpageLeftBottom','previewinnerpageLeftBottom_fake')"  style="max-width:245px;min-width:245px;"/> 
+                  </div>
+              </div>
+              <div class="form-group"style="margin-bottom:20px;">
+               <label class="col-sm-3 control-label">图片上传</label>
+               <div class="col-sm-6">
+                  
+                  <button class="btn btn-success" id="upload-img" style="display:block;float:left;">上传图片</button>
+                </div>
+              </div>
+                </form>
+
+                <form method="post" action="/adv/save" target="inner-left-bottom-adv-iframe">
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">广告链接</label>
+                  <div class="col-sm-6">
+                    <input type="text" value="{{href}}" name="href" class="form-control"/>
+                  </div>
+              </div>
+              <input type="submit" style="display:none;" id="top-adv-submit-button"/>
+              <input type="hidden" value="inner-left-bottom-adv-submit-button" name="location"/>
+            </form>
+            <iframe name="inner-left-bottom-adv-iframe" style="display:none;"></iframe>
+            <div class="form-group" style="padding-bottom:20px;">
+                  <button class="btn btn-success" id="inner-left-bottom-adv-save-button" style="display:block;margin:0 auto;">保存广告</button>
+            </div>
+          </div>
+          {{/ innerpageLeftBottom}}
+
+
+
+
+         </div>
+    </div><!-- contentpanel -->
+
+  </div><!-- mainpanel -->
+
+  <div class="rightpanel">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#rp-alluser" data-toggle="tab"><i class="fa fa-users"></i></a></li>
+        <li><a href="#rp-favorites" data-toggle="tab"><i class="fa fa-heart"></i></a></li>
+        <li><a href="#rp-history" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
+        <li><a href="#rp-settings" data-toggle="tab"><i class="fa fa-gear"></i></a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="rp-alluser">
+            <h5 class="sidebartitle">Online Users</h5>
+            <ul class="chatuserlist">
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/userprofile.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Eileen Sideways</strong>
+                            <small>Los Angeles, CA</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user1.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <span class="pull-right badge badge-danger">2</span>
+                            <strong>Zaham Sindilmaca</strong>
+                            <small>San Francisco, CA</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user2.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Nusja Nawancali</strong>
+                            <small>Bangkok, Thailand</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user3.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Renov Leongal</strong>
+                            <small>Cebu City, Philippines</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user4.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Weno Carasbong</strong>
+                            <small>Tokyo, Japan</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+            </ul>
+
+            <div class="mb30"></div>
+
+            <h5 class="sidebartitle">Offline Users</h5>
+            <ul class="chatuserlist">
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user5.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Eileen Sideways</strong>
+                            <small>Los Angeles, CA</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user2.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Zaham Sindilmaca</strong>
+                            <small>San Francisco, CA</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user3.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Nusja Nawancali</strong>
+                            <small>Bangkok, Thailand</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user4.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Renov Leongal</strong>
+                            <small>Cebu City, Philippines</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user5.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Weno Carasbong</strong>
+                            <small>Tokyo, Japan</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user4.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Renov Leongal</strong>
+                            <small>Cebu City, Philippines</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user5.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Weno Carasbong</strong>
+                            <small>Tokyo, Japan</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+            </ul>
+        </div>
+        <div class="tab-pane" id="rp-favorites">
+            <h5 class="sidebartitle">Favorites</h5>
+            <ul class="chatuserlist">
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user2.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Eileen Sideways</strong>
+                            <small>Los Angeles, CA</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user1.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Zaham Sindilmaca</strong>
+                            <small>San Francisco, CA</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user3.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Nusja Nawancali</strong>
+                            <small>Bangkok, Thailand</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user4.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Renov Leongal</strong>
+                            <small>Cebu City, Philippines</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user5.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Weno Carasbong</strong>
+                            <small>Tokyo, Japan</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+            </ul>
+        </div>
+        <div class="tab-pane" id="rp-history">
+            <h5 class="sidebartitle">History</h5>
+            <ul class="chatuserlist">
+                <li class="online">
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user4.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Eileen Sideways</strong>
+                            <small>Hi hello, ctc?... would you mind if I go to your...</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user2.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Zaham Sindilmaca</strong>
+                            <small>This is to inform you that your product that we...</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+                <li>
+                    <div class="media">
+                        <a href="#" class="pull-left media-thumb">
+                            <img alt="" src="images/photos/user3.png" class="media-object">
+                        </a>
+                        <div class="media-body">
+                            <strong>Nusja Nawancali</strong>
+                            <small>Are you willing to have a long term relat...</small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+            </ul>
+        </div>
+        <div class="tab-pane pane-settings" id="rp-settings">
+
+            <h5 class="sidebartitle mb20">Settings</h5>
+            <div class="form-group">
+                <label class="col-xs-8 control-label">Show Offline Users</label>
+                <div class="col-xs-4 control-label">
+                    <div class="toggle toggle-success"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-8 control-label">Enable History</label>
+                <div class="col-xs-4 control-label">
+                    <div class="toggle toggle-success"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-8 control-label">Show Full Name</label>
+                <div class="col-xs-4 control-label">
+                    <div class="toggle-chat1 toggle-success"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-8 control-label">Show Location</label>
+                <div class="col-xs-4 control-label">
+                    <div class="toggle toggle-success"></div>
+                </div>
+            </div>
+
+        </div><!-- tab-pane -->
+
+    </div><!-- tab-content -->
+  </div><!-- rightpanel -->
+
+
+</section>
+
+
+{{> admin/foot}}
+
+<script type="text/javascript" src="../../../../js/advsave.js"></script>
+</body>
+</html>
