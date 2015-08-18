@@ -101,8 +101,8 @@ var page={
 			$(this).height(90);
 			$(this).parent().parent().height(100);
 		}).blur(function(){
-			$(this).height(20);
-			$(this).parent().parent().height(30);
+			$(this).height(25);
+			$(this).parent().parent().height(25);
 		});
 		
 		$("#login-login-button").click(function(){
@@ -124,6 +124,7 @@ var page={
 							$("#system-background").remove();
 							$("#registry-area").attr("login","true");
 							$("#hasLogin_hidden").val("yes");
+							location.reload();
 						}
 						else
 						{
@@ -192,6 +193,11 @@ var page={
 		});
 
 		$(".secret-comments-replay-button").on('click',function(){
+			if($("#hasLogin_hidden").val()=="no")
+			{
+				$("#login-area").trigger("click");
+				return;
+			}
 			if($(".secrect-comment-area").val()=="")
 			{
 				return;
@@ -354,6 +360,12 @@ var page={
 			});
 		}
 		$(".secret-score-select").change(function(){
+			if($("#hasLogin_hidden").val()=="no")
+			{
+				$("#login-area").trigger("click");
+				return false;
+			}
+
 			var choosenScore=$(this).find("option:selected").text();
 			var id=$(this).attr("data");
 			$.ajax({
@@ -435,5 +447,40 @@ $(".secret-comments-replay-button").click(function(){
 		$(this).prev().find(".secret-comments-replay-submit-button").trigger("click");
 	}
 	
-	
+
+});
+
+$(window).scroll(function(){
+		if($(this).scrollTop()>100)
+		{
+			$("<div/>").css({
+				width:70,
+				height:70,
+				position:"fixed",
+				bottom:100,
+				right:50,
+				background:"url(../../images/icons.png)  -14px -165px #333",
+				cursor:"pointer"
+			}).attr("class","scrollToTop").appendTo("body").click(function(){
+				$(window).scrollTop(0);
+			});
+		}
+		else
+		{
+			$(".scrollToTop").remove();
+		}
+	});
+
+
+$(".secret-del-button").click(function(){
+	var id=$(this).attr("data");
+	var _that=this;
+	$.ajax({
+		url:"/secret/del?id="+id,
+		async:false,
+		cache:false,
+		success:function(data){
+			$(_that).parent().parent().remove();
+		}
+	})
 });

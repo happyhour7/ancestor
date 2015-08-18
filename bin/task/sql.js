@@ -11,7 +11,7 @@ module.exports.homeSQL=
     "left join agvscore as agv on files.id=agv.fileid "+
     "where secretLimit<=1 and islongstory<>2 "+
     " <where> "+
-    " group by files.id order by files.filetype, files.secretDate desc";
+    " group by files.id order by files.filetype, files.createTime desc";
 
 
 
@@ -30,7 +30,7 @@ module.exports.loginHomeSQL=
     "(secretLimit=2 and files.owner in(select friendname from friends where username='<username>'))) "+
     "and islongstory<>2  "+
     " <where> "+
-    "group by files.id order by files.filetype, files.secretDate desc ";
+    "group by files.id order by files.filetype, files.createTime  desc";
 
 module.exports.longStoreSQL="select * from files  where secretLimit=1 and islongstory=1 order by id  desc";
 module.exports.loginLongStoreSQL=

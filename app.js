@@ -54,27 +54,8 @@ app.use('/',task_client);
 app.use('/',task_user);
 app.use('/',task_adv);
 
+require("./bin/task/helper");
 
-hbs.registerHelper('dealUsername', function(text) {
-    if(text)
-    {
-        text=text.substring(0,Math.floor(text.length/2))+"*";
-    }
-    
-    return text
-});
-hbs.registerHelper('myscore', function(currentScore,choosenScore) {
-  if(choosenScore)
-  {
-    if((currentScore+'')==(choosenScore+''))
-    {
-        return "selected='selected'";
-    }
-  }
-    
-    
-    return "";
-});
 
 //init.init(app);
 //task();

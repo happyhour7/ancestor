@@ -69,6 +69,7 @@ router.get('/', function(req, res) {
 });
 
 function firstAdvLogic(data){
+    write("myjson.txt",data);
     for(var i=0;i<data.length;i++)
     {
         var tmp=data[i];
@@ -376,7 +377,23 @@ function offerLogic(data){
    write("myjson.txt",data);
    return result; 
 }
+router.get('/secret/del',function(req,res){
+    var id=req.query.id;
+    console.log(id);
+    if(!isNaN(id))
+    {
+        DB.update("delete from files where id="+id,function(){
+            res.json({status:"success"});
 
+        });
+
+    }
+    else
+    {
+        res.json({status:"error"});
+    }
+    
+});
 
 
 router.post('/secret/saveSecret',function(req, res){
@@ -403,7 +420,8 @@ router.post('/secret/saveSecret',function(req, res){
                 (req.body.secretPrice||"")+","+
                 (req.body.secretLimitTime||"")+","+
                 (req.body.islongstory||0)+","+
-                (req.body.longstory||"");
+                (req.body.longstory||"")+","+
+                (req.body.createTime||"");
     datas=splitString.split(',');
     datas[4]=getInt(datas[4]);
     datas[14]=getInt(datas[14]);
@@ -417,21 +435,22 @@ router.post('/secret/saveSecret',function(req, res){
     var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
             "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
             "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,owner=?";
+            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
     DB.execute(sql,datas);
-    render.req=req;
+    res.redirect("/");
+    /*render.req=req;
     render.res=res;
     render.view="index";
     DB.query(getHomeSQL()
-            ,render,indexLogic);
+            ,render,indexLogic);*/
     }
         else
     {
-        render.req=req;
+        res.redirect("/");
+        /*render.req=req;
         render.res=res;
         render.view="index";
-        DB.query(getHomeSQL(),render,indexLogic);
-        return false;
+        DB.query(getHomeSQL(),render,indexLogic);*/
     }
 });
 

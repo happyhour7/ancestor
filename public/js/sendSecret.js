@@ -180,6 +180,7 @@ var page={
         $("#ta_secret_post_button").on('click',function(){
         	if(page.validate()!==false)
         	{
+        		$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
         		$("#secretMainType_hidden").val($("#current_choosen_type").text());
 	        	//console.log($("#secretMainType_hidden").val());
 	        	//console.log($("#current_choosen_type").text());
@@ -192,6 +193,7 @@ var page={
         $("#bus_secret_pos_button").on('click',function(){
         	if(page.validate()!==false)
         	{
+        		$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
 	        	$("#secretMainType_hidden").val($("#current_choosen_type").text());
 	            $("#secretType_hidden").val($("#secrettype_one").text());
 	        	$("#bus_secret_submit_button").trigger("click");
@@ -203,18 +205,18 @@ var page={
 
         $("#sell_secret_post_button").on('click',function(){
         	$("#secretMainType_hidden").val($("#current_choosen_type").text());
+
+        	$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
+
             $("#secretType_hidden").val($("#secrettype_one").text());
 
         	$("#sell_secret_submit_button").trigger("click");
         });
 
 
-        $("#sell_secret_buy_post_button").on('click',function(){
-
-
+        	$("#sell_secret_buy_post_button").on('click',function(){
         	$("#secretMainType_hidden").val($("#current_choosen_type").text());
             $("#secretType_hidden").val($("#secrettype_one").text());
-
         	$("#sell_secret_buy_submit_button").trigger("click");
         });
 
@@ -224,12 +226,14 @@ var page={
 
 
         $("#offer_secret_post_button").on('click',function(){
+        	$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
         	$("#secretMainType_hidden").val($("#current_choosen_type").text());
             $("#secretType_hidden").val($("#secrettype_one").text());
         	$("#offer_secret_submit_button").trigger("click");
         });
 
         $("#offer_secret_buy_post_button").on('click',function(){
+        	$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
         	$("#secretMainType_hidden").val($("#current_choosen_type").text());
             $("#secretType_hidden").val($("#secrettype_one").text());
         	$("#offer_secret_buy_submit_button").trigger("click");
@@ -242,8 +246,9 @@ var page={
         	if(page.validate()!==false)
         	{
         		$("#secretMainType_hidden").val($("#current_choosen_type").text());
-            $("#secretType_hidden").val($("#secrettype_one").text());
-        	$("#mine_secret_submit_button").trigger("click");
+        		$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
+	            $("#secretType_hidden").val($("#secrettype_one").text());
+	        	$("#mine_secret_submit_button").trigger("click");
         	}
 
         	
