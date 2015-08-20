@@ -20,7 +20,9 @@ function loginLogic(data){
         render.res.render(viewPath+"index",{error:"用户名或密码错误，请重新登录"});
     }
 }
-
+router.get('/admin/systemNotice',function(req,res){
+    res.render(viewPath+'systemNotice',{});
+})
 
 router.get('/admin/advUserManager',function(req, res){
     res.render(viewPath+"advUserManager",{});
