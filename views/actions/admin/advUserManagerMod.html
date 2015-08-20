@@ -65,21 +65,11 @@
         <li><a href="/admin/userManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>普通用户管理</span></a></li>
-
-
         <li><a href="/admin/surveyManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>调查管理</span></a></li>
 
-
-
-        <li><a href="/admin/systemNotice">
-        <!--<span class="pull-right badge badge-success">2</span>-->
-        <i class="fa fa-laptop"></i> <span>网站公告</span></a></li>
-        
       </ul>
-
-
 
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
@@ -299,40 +289,84 @@
       <div class="row">
 
       <div class="mb20">
-        <!-- Nav tabs -->
-        <!-- Tab panes -->
-        <div class="panel panel-default">
+
+        
+
+
+
+          <div class="tab-pane" id="profile2">
+            <div class="row">
+
+
+          <div class="panel panel-default">
           <div class="panel-heading">
             <div class="panel-btns">
               <a href="" class="panel-close">×</a>
               <a href="" class="minimize">−</a>
             </div>
-            <h4 class="panel-title">广告用户管理</h4>
+            <h4 class="panel-title">修改用户信息</h4>
           </div>
-        <div class="tab-content mb30">
-          <div class="tab-pane active" id="home2">
-            <div class="table-responsive">
-            	<button class="btn btn-primary advuser-add-btn" style="float:right;margin-bottom:10px;">添加用户</button>
-          <table class="table table-success table-hover mb30" id="advuser-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>用户ID</th>
-                <th>用户姓名</th>
-                <th>广告区域</th>
-                <th>管理</th>
-              </tr>
-            </thead>
-            <tbody id="advuser-table-tbody">
-              <tr>
-              </tr>
-            </tbody>
-          </table>
+           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/updateAdvUser">
+          <div class="panel-body panel-body-nopadding" style="display: block;">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">登陆账号</label>
+                <div class="col-sm-6">
+                  <input type="text" name="userid" id="userid" value="{{userid}}" readonly="readonly" placeholder="登陆账号" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">用户名</label>
+                <div class="col-sm-6">
+                  <input type="text" name="username" id="username" value="{{username}}"  placeholder="用户姓名" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">密码</label>
+                <div class="col-sm-6">
+                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">确认密码</label>
+                <div class="col-sm-6">
+                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
+                </div>
+              </div>
+
+          <div class="form-group">
+                <label class="col-sm-3 control-label">广告区域位置</label>
+                <div class="col-sm-6">
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
+                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
+              </div>
+          </div>
+          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
+              
+        </form>
+        	<input type="hidden" value={{location}} id="location_hidden" />
+            <iframe name="myiframe" style="display:none;"></iframe>
+          </div><!-- panel-body -->
           
+          <div class="panel-footer" style="display: block;">
+           <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
+            </div>
+           </div>
+          </div><!-- panel-footer -->
+          
+            </div>
+            </div>
           </div>
-          </div>
-        </div>
-        </div>
+
+        
   
         
         </div>

@@ -8,6 +8,7 @@ $.ajax({
                 "<td><<userid>></td>"+
                 "<td><<username>></td>"+
                 "<td><<location>></td>"+
+                "<td data='<<username>>'><button class='btn btn-warning btn-advuser-mod' style='width:80px;margin:10px;'>修改</button><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:10px;'>删除</button></td>"+
                 "</tr>";
         var result="";
 
@@ -26,10 +27,30 @@ $.ajax({
             result+=html.replace("<<index>>",i+1)
                             .replace("<<userid>>",tmp.userid)
                             .replace("<<username>>",tmp.username)
+                            .replace("<<username>>",tmp.username)
                             .replace("<<location>>",_location);
         }
         $("#advuser-table-tbody").html(result);
+        $(".btn-advuser-mod").click(function(){
+        	var username=$(this).parent().attr("data");
+        	window.location="/admin/advUserManagerMod?userid="+username;
+        });
+        $(".btn-advuser-del").click(function(){
+        	var username=$(this).parent().attr("data");
+        	$.ajax({
+        		url:"/admin/delAdvUser?username="+username,
+        		async:false,
+        		cache:false,
+        		success:function(data){
+        			location.reload();
+        		}
+        	});
+        });
     }
+});
+
+$(".advuser-add-btn").click(function(){
+	window.location="/admin/advUserManagerAdd";
 });
 
 $("#advUser_add_post_button").click(function(){
@@ -39,4 +60,17 @@ $("#advUser_add_post_button").click(function(){
     $("#password").val("");
     $("#passwords").val("");
     $("input[name='location']").removeAttr("checked");
+    window.location="/admin/advUserManager";
 });
+
+
+if($("#location_hidden")[0]!=null)
+{
+	var results=$("#location_hidden").val().split(',');
+	console.log(results);
+	for(var i=0;i<results.length;i++)
+	{
+		$("input[value='"+results[i]+"']").attr("checked","checked");
+	}
+	
+}

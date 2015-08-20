@@ -30,7 +30,45 @@ Handlebars.registerHelper('dealUsername', function(text) {
 
 
 
+function replaySuccess(){
+	var div=$("<div/>").css({
+				width:200,
+				height:50,
+				"text-align":"center",
+				"line-height":"50px",
+				color:"#fff",
+				background:"#333",
+				position:"fixed",
+				left:"50%",
+				top:"30%",
+				"z-index":999,
+				"margin-top":"-25px",
+				"margin-left":"-100px",
+				"filter":"alpha(opacity=0)",
+				"-moz-opacity":"0",
+				"-khtml-opacity": "0",
+				"opacity": "0"
 
+			}).html("回复成功！").appendTo("body");
+			div.animate({"filter":"alpha(opacity=100)",
+						"-moz-opacity":"1",
+						"-khtml-opacity": "1",
+						"opacity": "1",
+						top:"50%"
+						},500,function(){
+							window.setTimeout(function(){
+								div.animate({top:"80%",
+								"filter":"alpha(opacity=0)",
+								"-moz-opacity":"0",
+								"-khtml-opacity": "0",
+								"opacity": "0",
+								},500,function(){
+									div.remove();
+								});
+							},1000);
+						});
+
+}
 
 function ranom(){ 
 	var data=["0","1","2","3","4","5","6","7","8","9"]; 
@@ -82,11 +120,54 @@ var page={
 			
 		});
 		
-		
+		$(".adv-replay-btn").click(function(){
+			if($("#hasLogin_hidden").val()=="no")
+			{
+				$("#login-area").trigger("click");
+				return false;
+			}
+			var text=$(this).prev().val();
+			if(text=="")
+			{
+				return false;
+			}
+			var _that=this;
+			$.ajax({
+				url:"/adv/sendComment?userid="+$("#hasLogin_hidden").attr("username")+"&comment="+text+"&date="+(new Date()).format('yyyy-MM-dd hh:mm:ss')+"&location="+$(this).next().val(),
+				async:false,
+				cache:false,
+				success:function(data){
+					$(_that).prev().val("");
+					replaySuccess();
+				}
+			});
+		});
+		$(".adv-replay-top-btn").click(function(){
+			if($("#hasLogin_hidden").val()=="no")
+			{
+				$("#login-area").trigger("click");
+				return false;
+			}
+			var text=$(this).prev().find(".secrect-comment-area").val();
+			if(text=="")
+			{
+				return false;
+			}
+			var _that=this;
+			$.ajax({
+				url:"/adv/sendComment?userid="+$("#hasLogin_hidden").attr("username")+"&comment="+text+"&date="+(new Date()).format('yyyy-MM-dd hh:mm:ss')+"&location="+$(this).next().val(),
+				async:false,
+				cache:false,
+				success:function(data){
+					$(_that).prev().find(".secrect-comment-area").val("");
+					replaySuccess();
+				}
+			});
+		});
 
 		$("#login-cancle-button").click(function(){
 			$("#login-dialog").hide();
-			$("#system-background").remove();
+			$(".system-background").remove();
 		});
 		
 		$("#login-area").click(function(){
@@ -121,7 +202,7 @@ var page={
 							$("#login-area").hide();
 							$("#registry-area").html($("#registry-area").html().replace("注册","")+data.username+"&nbsp;&nbsp;<a href='/secret/permsg'>[个人中心]</a>&nbsp;&nbsp;<a href='/'>[返回首页]</a>").css("width",250);
 							$("#login-dialog").hide();
-							$("#system-background").remove();
+							$(".system-background").remove();
 							$("#registry-area").attr("login","true");
 							$("#hasLogin_hidden").val("yes");
 							location.reload();
@@ -202,43 +283,7 @@ var page={
 			{
 				return;
 			}
-			var div=$("<div/>").css({
-				width:200,
-				height:50,
-				"text-align":"center",
-				"line-height":"50px",
-				color:"#fff",
-				background:"#333",
-				position:"fixed",
-				left:"50%",
-				top:"30%",
-				"z-index":999,
-				"margin-top":"-25px",
-				"margin-left":"-100px",
-				"filter":"alpha(opacity=0)",
-				"-moz-opacity":"0",
-				"-khtml-opacity": "0",
-				"opacity": "0"
-
-			}).html("回复成功！").appendTo("body");
-			div.animate({"filter":"alpha(opacity=100)",
-						"-moz-opacity":"1",
-						"-khtml-opacity": "1",
-						"opacity": "1",
-						top:"50%"
-						},500,function(){
-							window.setTimeout(function(){
-								div.animate({top:"80%",
-								"filter":"alpha(opacity=0)",
-								"-moz-opacity":"0",
-								"-khtml-opacity": "0",
-								"opacity": "0",
-								},500,function(){
-									div.remove();
-								});
-							},1000);
-						});
-
+			
 			$(this).prev().css({height:"20px"}).val("");
 			$(this).parent().height(30);
 		});
@@ -368,12 +413,33 @@ var page={
 
 			var choosenScore=$(this).find("option:selected").text();
 			var id=$(this).attr("data");
+			var that=this;
 			$.ajax({
 				url:"/secret/setScore?id="+id+"&score="+choosenScore,
 				async:false,
 				cache:false,
 				success:function(){
 					console.log("执行成功！");
+					$(that).attr("disabled","disabled");
+				}
+			});
+		});
+		
+		$(".adv-score-select").change(function(){
+			if($("#hasLogin_hidden").val()=="no")
+			{
+				$("#login-area").trigger("click");
+				return false;
+			}
+			var that=this;
+			var choosenScore=$(this).find("option:selected").text();
+			var location=$(this).parent().prev().prev().val();
+			$.ajax({
+				url:"/adv/setScore?userid="+$("#hasLogin_hidden").attr("username")+"&score="+choosenScore+"&location="+location,
+				async:false,
+				cache:false,
+				success:function(){
+					$(that).attr("disabled","disabled");
 				}
 			});
 		});
@@ -415,7 +481,7 @@ var page={
 			'-khtml-opacity': '0.5',  
 			'opacity': '0.5',  
 			'z-index':18
-		}).attr("id","system-background").appendTo("body");
+		}).attr("class","system-background").appendTo("body");
 	}
 };
 $(window).bind("load",page.onload);
@@ -438,10 +504,15 @@ function registrySubmit(){
 }
 
 $(".secret-comments-replay-button").click(function(){
+	if($("#hasLogin_hidden").val()=="no")
+	{
+		$("#login-area").trigger("click");
+		return;
+	}	
 	var text=$(this).prev().find(".secrect-comment-area").val();
 	var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
 	$(this).prev().find(".replayTime").val(currentTime);
-
+	replaySuccess();
 	if($.trim(text)!=="")
 	{
 		$(this).prev().find(".secret-comments-replay-submit-button").trigger("click");

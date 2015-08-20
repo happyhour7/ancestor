@@ -46,7 +46,6 @@ Queue.prototype={
 		this.currentItem=null;
 		this.length=0;
 		this._datas=[];
-		console.log("清空队列");
 	}
 }
 console.log(new Queue());
