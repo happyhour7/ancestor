@@ -20,12 +20,35 @@ function loginLogic(data){
         render.res.render(viewPath+"index",{error:"用户名或密码错误，请重新登录"});
     }
 }
-<<<<<<< HEAD
-router.get('/admin/systemNotice',function(req,res){
-    res.render(viewPath+'systemNotice',{});
-})
 
-=======
+router.get('/admin/systemNotice',function(req,res){
+    render.req=req;
+    render.res=res;
+    render.view='systemNotice';
+    currentQueue=new Queue("systemNotice");
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config",bindData,systemNoticeLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+    currentQueue.start();
+});
+function systemNoticeLogic(data){
+    return data[0];
+}
+
+router.post('/admin/saveNotice',function(req,res){
+    var content=req.body.content;
+    DB.update("delete from config where system='system'",function(){
+        var sql="insert into config set notice=? ,system=?";
+        DB.execute(sql,[content,'system']);
+        res.json({status:"success"});
+    });
+});
+
 
 router.get('/admin/delAdvUser',function(req, res){
 	var username=req.query.username;
@@ -33,7 +56,7 @@ router.get('/admin/delAdvUser',function(req, res){
 		res.json({status:"success"});
 	});
 })
->>>>>>> 7dbd31ac28067f4c5a0aa9da2a40f84a0d90d72a
+
 router.get('/admin/advUserManager',function(req, res){
     res.render(viewPath+"advUserManager",{});
 });

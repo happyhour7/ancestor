@@ -254,14 +254,21 @@ var page={
         	
         });
 
+        var tmpBackground="";
+        var tmpContent="";
+        var tempKnow="";
 
         /*转长文确认*/
         $("#secrect-background,#secrect-content,#secrect-known").on("keyup",function(){
         	var backgroundLength=$("#secrect-background").val().length;
         	var contentLength=$("#secrect-content").val().length;
         	var knownLength=$("#secrect-known").val().length;
-        	if(backgroundLength+contentLength+knownLength>140)
+        	if(backgroundLength+contentLength+knownLength>=140)
         	{
+        		tmpBackground=$("#secrect-background").val();
+        		tmpContent=$("#secrect-content").val();
+        		tempKnow=$("#secrect-known").val();
+
         		$("#secret_background_tr").hide();
         		$("#secret_content_tr").hide();
         		$("#secret_known_tr").hide();
@@ -274,22 +281,36 @@ var page={
         		$("#is_longstory_hidden").val("1");//长文标志位
         		$("#secrect-longstory").focus();
         	}
+        	
         });
+		$("#secrect-longstory").on("keyup",function(){
+			if($("#secrect-longstory").val().length<140&&(tmpBackground!=""||tmpContent!=""||tempKnow!="")) {
+				$("#secret_background_tr").show();
+	    		$("#secret_content_tr").show();
+	    		$("#secret_known_tr").show();
+	    		$("#secret_longstory_tr").hide();
 
+
+	    		$("#secrect-background").val(tmpBackground);
+	    		$("#secrect-content").val(tmpContent);
+	    		$("#secrect-known").val(tempKnow);
+	    		$("#secrect-known").focus();
+    		}
+		});
 
 
 
         $('[data-toggle="tooltip"]').tooltip();
         $('.form_date').datetimepicker({
-          language:  'zh-CN',
-          format: 'yyyy-mm-dd',
-              weekStart: 1,
-              todayBtn:  1,
-          autoclose: 1,
-          todayHighlight: 1,
-          startView: 2,
-          minView: 2,
-          forceParse: 0
+	          language:  'zh-CN',
+	          format: 'yyyy-mm',
+	          weekStart: 1,
+	          todayBtn:  1,
+	          autoclose: 1,
+	          todayHighlight: 1,
+	          startView: 3,
+	          minView: 3,
+	          forceParse: 0
           });
 	},
 	validate:function(){
