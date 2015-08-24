@@ -18,7 +18,7 @@ var loginHomeSQL=sqlCode.loginHomeSQL;
 
 var longStoreSQL=sqlCode.longStoreSQL;
 var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
-
+var hotSecretSQL=sqlCode.hotSecretSQL;
 
 
 
@@ -72,6 +72,12 @@ router.get('/', function(req, res) {
         
     }});
     currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
+        
+    }});
+    getHostSecret();
+
+    currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
         
@@ -79,6 +85,63 @@ router.get('/', function(req, res) {
     currentQueue.start();
 });
 
+function getHostSecret(){
+    hotSecretSQL
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query(hotSecretSQL,bindData,hotSecretLogic,'secretDatas');
+        
+    }});
+}
+
+function hotSecretLogic(data){
+    _tmpData["hostSecret"]=data;
+    return _tmpData;
+}
+router.get('/search',function(req,res){
+    var keyword=req.query.keyword;
+        render.res=res;
+    render.req=req;
+    render.view="index";
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query(getHomeSQL(" and (owner like '%"+keyword+"%' or"+
+                            " secretTitle like '%"+keyword+"%' or "+
+                            " secretMainType like '%"+keyword+"%' or "+
+                            " secretType like '%"+keyword+"%' or "+
+                            " secretSubType like '%"+keyword+"%' or "+
+                            " secretCity like '%"+keyword+"%' or "+
+                            " secretKeyWord like '%"+keyword+"%' or "+
+                            " longstory like '%"+keyword+"%')")
+                        ,bindData,indexLogic,'secretDatas');
+    }});
+
+
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
+        
+    }});
+
+    currentQueue.push({exec:function(data){
+        write("myjson.txt",data[0]);
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        
+    }});
+    currentQueue.start();
+});
+
+
+function systemNoticeLogic(data){
+    var notice=data[0];
+    _tmpData["systemNotice"]=notice.notice;
+    return _tmpData;
+}
 function firstAdvLogic(data){
     for(var i=0;i<data.length;i++)
     {
@@ -106,7 +169,6 @@ function firstAdvLogic(data){
             _tmpData["innerpageLeftBottom"]=tmp;
         }
     }
-    console.log(_tmpData);
     return _tmpData;
 }
 function bindData(keyname,logic){
@@ -454,6 +516,8 @@ router.get('/secret/del',function(req,res){
 router.post('/secret/saveSecret',function(req, res){
     var datas=[];
     var splitString="";
+    render.res=res;
+    render.req=req;
     splitString=req.body.secretMainType+","+
                 req.body.secretType+","+
                 req.body.secretSubType+","+
@@ -492,6 +556,7 @@ router.post('/secret/saveSecret',function(req, res){
             "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
             "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
     DB.execute(sql,datas);
+    AddScore(5);
     res.redirect("/");
     }
         else
@@ -500,7 +565,13 @@ router.post('/secret/saveSecret',function(req, res){
     }
 });
 
-
+function AddScore(num){
+    console.log("update users set score="+(parseInt(currentSession.user.score)+num)+" where username='"+currentSession.username+"'");
+    DB.update("update users set score="+(parseInt(currentSession.user.score)+num)+" where username='"+currentSession.username+"'",function(){
+        
+    });
+    
+}
 
 function gotoHome(){
     DB.query(getHomeSQL(),render,indexLogic);

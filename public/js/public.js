@@ -230,36 +230,42 @@ var page={
 				alert("请输入所在城市");
 				return false;
 			}
-			if($("#registry-email")=="")
-			{
-				alert("请输入注册电子邮箱");
-				return false;
-			}
-			if($("#registry-qq")=="")
-			{
-				alert("请输入注册QQ");
-				return false;
-			}
-			if($("#registry-phone")=="")
-			{
-				alert("请输入注册手机号");
-				return false;
-			}
 			if($("#registry-validatecode").val()!=$("#registry-valinum-content").attr("data"))
 			{
 				alert("请输入正确的验证码"+$("#registry-valinum-content").attr("data"));
 				return false;
 			}
+			var isOk=true;
+			$.ajax({
+				type:"get",
+				async:false,
+				url:"/user/hasRegistried?username="+$("#registry-username").val(),
+				success:function(data){
+					if(data.status!="OK")
+					{
+						isOk=false;
+					}
+				}
+			});
+
+			if(!isOk){
+				alert("该账号已被注册！");
+				return;
+			}
+
 			$.ajax({
 				type:"post",
+				async:false,
 				dataType:"json",
 				url:"/user/registry",
 				data:$("#registry-form").serialize(),
 				success:function(data){
-					console.log(data);
+					alert("注册成功：\r\n登录账号："+$("#registry-username").val()+"\r\n登录密码："+$("#registry-password").val());
+					$("#registry-gotologin-button").trigger("click");
 				}
 			});
-			$("#registry-gotologin-button").trigger("click");
+
+			
 		});
 		$(".publish-button").click(function(){
 			if($("#hasLogin_hidden").val()=="no")
@@ -307,8 +313,6 @@ var page={
 			{
 				hasClick[bad.attr("name")]=good.attr("id");
 			}
-			
-
 		});
 		$(".secret-good-area,.secret-bad-area").on("click",function(){
 			var current=parseInt($(this).html());
@@ -447,7 +451,6 @@ var page={
 			var parents=$("#secret-body-container-"+$(this).attr("data"));
 			if(parents.find(".comment-title-bar")[0]!=null)
 			{
-				console.log(parents.find(".comment-title-bar"));
 				return false;
 			}
 			$.ajax({
@@ -546,12 +549,22 @@ $(window).scroll(function(){
 $(".secret-del-button").click(function(){
 	var id=$(this).attr("data");
 	var _that=this;
-	$.ajax({
-		url:"/secret/del?id="+id,
-		async:false,
-		cache:false,
-		success:function(data){
-			$(_that).parent().parent().remove();
-		}
-	})
+	if(confirm("确认删除该秘密吗？"))
+	{
+		$.ajax({
+			url:"/secret/del?id="+id,
+			async:false,
+			cache:false,
+			success:function(data){
+				$(_that).parent().parent().remove();
+			}
+		});
+	}
+	
+});
+
+$(".search-button").click(function(){
+	if($(this).next().val()=="")
+		return false;
+	document.location="/search?keyword="+$(this).next().val();
 });

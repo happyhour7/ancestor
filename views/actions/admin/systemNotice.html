@@ -42,13 +42,13 @@
             </ul>
         </div>
 
-      <h5 class="sidebartitle">Navigation</h5>
+      <h5 class="sidebartitle">任务导航</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
         <li><a href="/admin/index"><i class="fa fa-home"></i> <span>管理主页</span></a></li>
         <li><a href="/admin/adminUserManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>管理员管理</span></a></li>
-        <li class="active"><!-- class="nav-parent"-->
+        <li><!-- class="nav-parent"-->
         <a href="/admin/advUserManager">
         <i class="fa fa-laptop"></i>
          <span>广告用户管理</span></a>
@@ -62,12 +62,10 @@
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>调查管理</span></a></li>
 
-        <li><a href="/admin/systemNotice">
+        <li class="active"><a href="/admin/systemNotice">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>网站公告</span></a></li>
       </ul>
-
-      
 
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
@@ -78,297 +76,41 @@
 
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
 
-      <form class="searchform" action="index.html" method="post">
-        <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
-      </form>
-
-      <div class="header-right">
-        <ul class="headermenu">
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-user"></i>
-                <span class="badge">2</span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-head pull-right">
-                <h5 class="title">2 Newly Registered Users</h5>
-                <ul class="dropdown-list user-list">
-                  <li class="new">
-                    <div class="thumb"><a href=""><img src="images/photos/user1.png" alt="" /></a></div>
-                    <div class="desc">
-                      <h5><a href="">Draniem Daamul (@draniem)</a> <span class="badge badge-success">new</span></h5>
-                    </div>
-                  </li>
-                  <li class="new">
-                    <div class="thumb"><a href=""><img src="images/photos/user2.png" alt="" /></a></div>
-                    <div class="desc">
-                      <h5><a href="">Zaham Sindilmaca (@zaham)</a> <span class="badge badge-success">new</span></h5>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="thumb"><a href=""><img src="images/photos/user3.png" alt="" /></a></div>
-                    <div class="desc">
-                      <h5><a href="">Weno Carasbong (@wenocar)</a></h5>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="thumb"><a href=""><img src="images/photos/user4.png" alt="" /></a></div>
-                    <div class="desc">
-                      <h5><a href="">Nusja Nawancali (@nusja)</a></h5>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="thumb"><a href=""><img src="images/photos/user5.png" alt="" /></a></div>
-                    <div class="desc">
-                      <h5><a href="">Lane Kitmari (@lane_kitmare)</a></h5>
-                    </div>
-                  </li>
-                  <li class="new"><a href="">See All Users</a></li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-envelope"></i>
-                <span class="badge">1</span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-head pull-right">
-                <h5 class="title">You Have 1 New Message</h5>
-                <ul class="dropdown-list gen-list">
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user1.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Draniem Daamul <span class="badge badge-success">new</span></span>
-                      <span class="msg">Lorem ipsum dolor sit amet...</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user2.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Nusja Nawancali</span>
-                      <span class="msg">Lorem ipsum dolor sit amet...</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Weno Carasbong</span>
-                      <span class="msg">Lorem ipsum dolor sit amet...</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user4.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Zaham Sindilmaca</span>
-                      <span class="msg">Lorem ipsum dolor sit amet...</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user5.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Veno Leongal</span>
-                      <span class="msg">Lorem ipsum dolor sit amet...</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new"><a href="">Read All Messages</a></li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-globe"></i>
-                <span class="badge">5</span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-head pull-right">
-                <h5 class="title">You Have 5 New Notifications</h5>
-                <ul class="dropdown-list gen-list">
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user4.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Zaham Sindilmaca <span class="badge badge-success">new</span></span>
-                      <span class="msg">is now following you</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user5.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Weno Carasbong <span class="badge badge-success">new</span></span>
-                      <span class="msg">is now following you</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Veno Leongal <span class="badge badge-success">new</span></span>
-                      <span class="msg">likes your recent status</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Nusja Nawancali <span class="badge badge-success">new</span></span>
-                      <span class="msg">downloaded your work</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Nusja Nawancali <span class="badge badge-success">new</span></span>
-                      <span class="msg">send you 2 messages</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new"><a href="">See All Notifications</a></li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <img src="images/photos/loggeduser.png" alt="" />
-                John Doe
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> Help</a></li>
-                <li><a href="signin.html"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <button id="chatview" class="btn btn-default tp-icon chat-icon">
-                <i class="glyphicon glyphicon-comment"></i>
-            </button>
-          </li>
-        </ul>
-      </div><!-- header-right -->
-
     </div><!-- headerbar -->
 
     <div class="pageheader">
-      <h2><i class="fa fa-laptop"></i> Dashboard <span>Subtitle goes here...</span></h2>
-      <div class="breadcrumb-wrapper">
-        <span class="label">You are here:</span>
-        <ol class="breadcrumb">
-          <li><a href="index.html">Bracket</a></li>
-          <li class="active">Dashboard</li>
-        </ol>
-      </div>
+      <h2><i class="fa fa-home"></i> 系统通知 </h2>
     </div>
-
     <div class="contentpanel">
-
       <div class="row">
 
       <div class="mb20">
-
+        <!-- Nav tabs -->
         <!-- Tab panes -->
-          <div class="tab-pane" id="profile2">
-            <div class="row">
-
-
-          <div class="panel panel-default">
+        <div class="panel panel-default">
           <div class="panel-heading">
             <div class="panel-btns">
               <a href="" class="panel-close">×</a>
               <a href="" class="minimize">−</a>
             </div>
-            <h4 class="panel-title">添加广告用户</h4>
+            <h4 class="panel-title">定制系统通知</h4>
           </div>
-           <form class="form-horizontal form-bordered" id="mypost-frame" target="myiframe" method="post" action="/admin/addAdvUser">
-          <div class="panel-body panel-body-nopadding" style="display: block;">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">登陆账号</label>
-                <div class="col-sm-6">
-                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">用户名</label>
-                <div class="col-sm-6">
-                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-sm-3 control-label">确认密码</label>
-                <div class="col-sm-6">
-                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
-                </div>
-              </div>
-
-              
-
-          <div class="form-group">
-                <label class="col-sm-3 control-label">广告区域位置</label>
-                <div class="col-sm-6">
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-top"> 首页置顶广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-top"> 首页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-mid"> 首页左中广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="firstpage-left-bottom"> 首页左下广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-top"> 内页左上广告</label></div>
-                 <div class="radio"><label><input name="location" type="checkbox" value="innerpage-left-bottom"> 内页左下广告</label></div>
-              </div>
+        <div class="tab-content mb30">
+          <div class="tab-pane active" id="home2">
+            <div class="table-responsive">
+             <form method="post" action="/admin/saveNotice" target="savePostNotice">
+               <textarea id='textarea1' value="{{notice}}" name="content" style='height:900px; width:100%;'>{{notice}}</textarea>
+               <input type="submit" name="button" id="submit_task" style="display:none;"/>
+               
+             </form>
+             <button class="btn btn-success" id="task" style="margin:20px auto 20px;display:block;">提交</button>
+             <iframe name="savePostNotice" style="display:none;"></iframe>
           </div>
-          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
-              
-        </form>
-            <iframe name="myiframe" style="display:none;"></iframe>
-          </div><!-- panel-body -->
-          
-          <div class="panel-footer" style="display: block;">
-           <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
-            </div>
-           </div>
-          </div><!-- panel-footer -->
-          
-            </div>
-            </div>
           </div>
-
-        
-  
-        
+        </div>
+        </div>
         </div>
       </div><!-- row -->
-
-
     </div><!-- contentpanel -->
 
   </div><!-- mainpanel -->
@@ -667,6 +409,11 @@
 
 
 {{> admin/foot}}
-<script src="../../../../js/addAdvUser.js"></script>
+<script type="text/javascript">
+var editor = $('#textarea1').wangEditor();
+$("#task").click(function(){
+  $("#submit_task").trigger("click");
+});
+</script>
 </body>
 </html>

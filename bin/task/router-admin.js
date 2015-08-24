@@ -21,12 +21,42 @@ function loginLogic(data){
     }
 }
 
+router.get('/admin/systemNotice',function(req,res){
+    render.req=req;
+    render.res=res;
+    render.view='systemNotice';
+    currentQueue=new Queue("systemNotice");
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config",bindData,systemNoticeLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+    currentQueue.start();
+});
+function systemNoticeLogic(data){
+    return data[0];
+}
+
+router.post('/admin/saveNotice',function(req,res){
+    var content=req.body.content;
+    DB.update("delete from config where system='system'",function(){
+        var sql="insert into config set notice=? ,system=?";
+        DB.execute(sql,[content,'system']);
+        res.json({status:"success"});
+    });
+});
+
+
 router.get('/admin/delAdvUser',function(req, res){
 	var username=req.query.username;
 	DB.update("delete from advuser where username='"+username+"'",function(){
 		res.json({status:"success"});
 	});
 })
+
 router.get('/admin/advUserManager',function(req, res){
     res.render(viewPath+"advUserManager",{});
 });

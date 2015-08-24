@@ -14,6 +14,16 @@ module.exports.homeSQL=
     " group by files.id order by files.filetype, files.createTime desc";
 
 
+module.exports.hotSecretSQL="select count(replay.replayId) as commNum,files.*,count(isgood.good) as goodNum,count(isgood.bad) as badNum "+
+    ",agv.avgScore as avgscore "+
+    "from files "+
+    "left join isgood on files.id=isgood.fileid  "+
+    "left join replay on files.id=replay.fileid  "+
+    "left join agvscore as agv on files.id=agv.fileid "+
+    "where secretLimit<=1 and islongstory<>2 "+
+    " group by files.id order by  commNum  desc limit 1,5";
+
+
 
 module.exports.loginHomeSQL=
     "select count(replay.replayId) as commNum,files.*,count(isgood.good) as goodNum1,count(isbad.bad) as badNum1 , "+
