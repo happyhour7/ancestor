@@ -142,7 +142,10 @@ router.get('/search',function(req,res){
         DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
-
+    if(currentSession)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         write("myjson.txt",data[0]);
         render.apply(data[0],['',function(data){return data;}]);
@@ -224,7 +227,10 @@ router.get('/secret/longstore',function(req,res){
     currentQueue.push({exec:function(){
         DB.query(getLongStorySQL(),bindData,longsStoryLogic,'secretDatas');
     }});
-
+    if(currentSession)
+    {
+        getMyFriends();
+    }
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
@@ -260,6 +266,10 @@ router.get('/secret/mine', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    if(currentSession)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -312,6 +322,10 @@ router.get('/secret/write', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    if(currentSession)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -393,6 +407,10 @@ router.get('/secret/ta', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    if(currentSession)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -438,6 +456,10 @@ router.get('/secret/sell', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    if(currentSession)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -476,6 +498,10 @@ router.get('/secret/offer', function(req, res) {
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='悬赏秘密' "),bindData,offerLogic,'secretDatas');
     }});
+    if(currentSession)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');

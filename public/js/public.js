@@ -629,7 +629,6 @@ function buildChatWin(title,target){
 		var textarea=$(this).prev().prev();
 		var currentValue=textarea.html();
 		var username=$("#registry-area").text().split("[")[0];
-		alert(text);
 		if(text!="")
 		{
 			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
@@ -640,6 +639,7 @@ function buildChatWin(title,target){
 
 			});
 		}
+		$(this).prev().val("");
 	}).appendTo(win);
 }
 if($(".friend-area")[0]!=null)
