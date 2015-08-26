@@ -1,0 +1,20 @@
+\{{# results}}
+    <span class="msg-item">
+        <span class="msg-type">&nbsp;&nbsp;\{{msgtype}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\{{#showComeFrom   msgtype  comefrom}}\{{/showComeFrom}}</span>
+        <div class="container-area">
+            \{{msg}}
+        </div>
+        <span class="button-area">
+            \{{#getType  msgtype Id comefrom}}\{{/getType}}
+        </span>
+    </span>
+\{{/ results}}
+
+\{{^ results}}
+    <span class="msg-item">
+        <span class="msg-type">&nbsp;&nbsp;暂无系统消息</span>
+        <div class="container-area">
+            暂无系统消息
+        </div>
+    </span>
+\{{/ results}}
