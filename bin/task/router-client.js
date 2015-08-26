@@ -76,7 +76,11 @@ router.get('/', function(req, res) {
         
     }});
     getHostSecret();
-
+    if(currentSession)
+    {
+        getMyFriends();
+    }
+    
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         currentQueue.end();
@@ -85,8 +89,20 @@ router.get('/', function(req, res) {
     currentQueue.start();
 });
 
+function getMyFriends(){
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        console.log("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'");
+        DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'",bindData,getMyFirendsLogic,'secretDatas');
+    }});
+}
+function getMyFirendsLogic(data){
+    _tmpData["friends"]=data.slice(1);
+
+    console.log(currentSession.username);
+    return _tmpData;
+}
 function getHostSecret(){
-    hotSecretSQL
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query(hotSecretSQL,bindData,hotSecretLogic,'secretDatas');
@@ -615,7 +631,7 @@ function personalScoreLogic(data){
 router.get('/secret/permsg-friend',function(req,res){
     render.res=res;
     render.req=req;
-    
+
     if(currentSession&&currentSession.username)
     {
         var username=currentSession.username;
@@ -631,6 +647,38 @@ router.get('/secret/permsg-friend',function(req,res){
         res.redirect("/");
     }
 });
+
+
+router.get('/secret/getMyFriends',function(req,res){
+    render.req=req;
+    render.res=res;
+    if(currentSession&&currentSession.username)
+    {
+            currentQueue=new Queue("longstory");
+            currentQueue.push({exec:function(){
+                DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'",bindData,getFriendNames,'secretDatas');
+            }});
+
+            currentQueue.push({exec:function(data){
+                _tmpData={results:data[0].slice(1)};
+                res.json(_tmpData);
+            }});
+            currentQueue.start();
+    }
+    else
+    {
+        res.redirect("/");
+    }
+
+});
+
+function getFriendNames(data){
+    for(var i=0;i<data.length;i++)
+    {
+        data[i].isFriend=true;
+    }
+    return data;
+}
 
 function personalFriendLogic(data){
     if(data.length>0)
@@ -1039,13 +1087,200 @@ function clone(obj){
     var o = new Clone();  
     for(var a in o){  
         if(typeof o[a] == "object") {  
-            o[a] = clone3(o[a]);  
+            o[a] = clone(o[a]);  
         }  
     }  
     return o;  
 } 
 
+router.get('/search/user',function(req,res){
+    var where =req.query.where;
+    currentQueue=new Queue("haha");
+    currentQueue.push({exec:function(){
+        DB.query("select * from users where username like '%"+where+"%' or cityname like '%"+where+"%'",bindData,searchUserLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from friends where username = '"+currentSession.username+"'",bindData,getMyFriendAndMoshengren,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        _tmpData={results:data[0]};
+        res.json(_tmpData);
+    }});
+    currentQueue.start();
+});
+function searchUserLogic(data){
+    return data;
+}
+function getMyFriendAndMoshengren(data){
+    for(var i=0;i<_tmpData.length;i++)
+    {
+        var isFriend=false;
+        for(var j=0;j<data.length;j++)
+        {
+            if(data[j].friendname==_tmpData[i].username)
+            {
+                //isFriend=true;
+                _tmpData[i].isFriend=true;
+                break;
+            }
+                
+        }
+    }
+    return _tmpData;
+}
+router.post('/friend/addmsg',function(req,res){
+    var msg=req.body.msg;
+    var friendname=req.body.frendname;
+    var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+    var result=[friendname];
+    result.push(msg);
+    result.push("未读");
+    result.push("等待审核");
+    result.push("好友申请验证");
+    result.push(currentSession.username);
+    DB.execute(sql,result);
+    res.json({status:"success"});
+});
+
+router.get('/personal/getSystemMsg',function(req,res){
+    render.req=req;
+    render.res=res;
+    currentQueue=new Queue("haha");
+    currentQueue.push({exec:function(){
+        DB.query("select * from systemmsg where username='"+currentSession.username+"'",bindData,getSytemMsgLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        _tmpData={results:data[0]};
+        res.json(_tmpData);
+    }});
+    currentQueue.start();
+});
+router.get('/personal/getSystemMsg',function(req,res){
+    render.req=req;
+    render.res=res;
+    currentQueue=new Queue("haha");
+    currentQueue.push({exec:function(){
+        DB.query("select * from systemmsg where username='"+currentSession.username+"'",bindData,getSytemMsgLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        _tmpData={results:data[0]};
+        res.json(_tmpData);
+    }});
+    currentQueue.start();
+});
+
+function getSytemMsgLogic(data){
+    return data;
+}
+
+router.get('/friend/addAgree',function(req,res){
+    var come=req.query.come;
+    var id=req.query.id;
+    DB.update("delete from systemmsg where id="+id,function(){});
+    var username=currentSession.username;
+    var results=[come];
+    results.push(username);
+    DB.execute("insert into friends set friendname=?,username=?",results);
+    DB.execute("insert into friends set username=?,friendname=?",results);
+
+    var successResultUser=[currentSession.username];
+    successResultUser.push("好友验证通过");
+    successResultUser.push("验证通过");
+    successResultUser.push("未读消息");
+    successResultUser.push("您通过了来自"+come+"的好友申请");
+    successResultUser.push("系统消息");
+    DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultUser);
 
 
 
+    var successResultCome=[come];
+    successResultCome.push("好友验证通过");
+    successResultCome.push("验证通过");
+    successResultCome.push("未读消息");
+    successResultCome.push(currentSession.username+"通过了您的好友申请");
+    successResultCome.push("系统消息");
+    DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultCome);
+
+
+
+
+    res.json({status:"success"});
+});
+router.get('/friend/addDisagree',function(req,res){
+    var come=req.query.come;
+    var id=req.query.id;
+    DB.update("delete from systemmsg where id="+id,function(){});
+
+
+    var successResultUser=[currentSession.username];
+    successResultUser.push("好友验证未通过");
+    successResultUser.push("验证通过");
+    successResultUser.push("未读消息");
+    successResultUser.push("您拒绝了来自"+come+"的好友申请");
+    successResultUser.push("系统消息");
+    DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultUser);
+
+
+
+    var successResultCome=[come];
+    successResultCome.push("好友验证未通过");
+    successResultCome.push("验证通过");
+    successResultCome.push("未读消息");
+    successResultCome.push(currentSession.username+"拒绝了您的好友申请");
+    successResultCome.push("系统消息");
+    DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultCome);
+    res.json({status:"success"});
+});
+
+router.get('/systemmsg/del',function(req,res){
+    var id=req.query.id;
+    DB.update('delete from systemmsg where id='+id,function(){});
+    res.json({status:"success"});
+});
+router.post('/chat/save',function(req,res){
+    var from=req.body.from;
+    var to=req.body.to;
+    var text=req.body.msg;
+    var time=req.body.time;
+
+    if(!global.cache["chat"])
+    {
+        global.cache["chat"]={};
+    }
+    if(!global.cache["chat"][to])
+    {
+        global.cache["chat"][to]=[];
+    }
+    global.cache["chat"][to].push({from:from,to:to,msg:text,time:time,hasSend:false});
+    res.json({statu:"success"});
+});
+
+router.get('/chat/getMine',function(req,res){
+    var to=req.query.to;
+
+
+    if(!global.cache["chat"])
+    {
+        global.cache["chat"]={};
+    }
+    if(!global.cache["chat"][to])
+    {
+        global.cache["chat"][to]=[];
+    }
+    var resutls=[];
+    for(var i=0;i<global.cache["chat"][to].length;i++)
+    {
+        if(global.cache["chat"][to][i].hasSend===false)
+        {
+
+            resutls.push(global.cache["chat"][to][i]);
+            global.cache["chat"][to][i].hasSend=true;
+        }
+    }
+    res.json(resutls);
+});
 module.exports = router;

@@ -91,3 +91,23 @@ hbs.registerHelper('isScoreDisabled', function(score) {
   }
     return "";
 });
+
+
+hbs.registerHelper('showComeFrom', function(type,comefrom) {
+  if(type=="好友申请验证")
+  {
+    return "来自"+comefrom+"的好友申请";
+  }
+    return "";
+});
+
+
+
+hbs.registerHelper('getType', function(type) {
+  if(type=="好友申请验证")
+  {
+    return "<button class='btn btn-success btn-agree-success-buttton'>同意</button>"+
+            "<button class='btn btn-danger btn-disagree-success-buttton'>拒绝</button>";
+  }
+    return "<button class='btn btn-danger'>删除</button>";
+});

@@ -474,7 +474,9 @@ textarea{
                     padding:0;margin:0;
                     overflow:auto;
                     max-height:300px;
+
                     li{
+                        cursor:pointer;
                         padding:0 0 0 10px;
                         position:relative;
                         overflow:hidden;
@@ -482,7 +484,7 @@ textarea{
                         .photo{
                             .blockwh(35px,35px);
                             float:left;
-                            .round(5px);
+                            .round(5px);   
                             overflow:hidden;
                             
                             img{
@@ -491,6 +493,10 @@ textarea{
                             }
                         }
                         
+                        &:hover{
+                            background:#e0e0e0;
+
+                        }
                         
                         .user-msg{
                             .blockwh(160px,18px);
@@ -862,7 +868,7 @@ textarea{
     .frinend-item{
         display:inline-block;
         width:49%;
-        height:100px;
+        height:200px;
         margin:0 auto;
         border:1px solid #ccc;
         .round(5px);
@@ -870,7 +876,7 @@ textarea{
 
         .container-area{
             padding:10px;
-            height:50px;
+            height:145px;
             position:relative;
             line-height:25px;
 
@@ -884,12 +890,9 @@ textarea{
             span{    
                 .blockwh(auto,25px);
                 line-height:25px;
-                float:left;
                 cursor:pointer;
             }
             .mark-friend{
-                position:absolute;
-                bottom:-10px;
                 right:10px;
                 left:70px;
                 text-align:left;
@@ -918,8 +921,9 @@ textarea{
         position:relative;
         overflow:hidden;
 
-        .container-area{
+        .container-area{    
             padding:10px;
+            text-align:left;
         } 
         .button-area{
             .blockwh(100%,50px);
@@ -1007,11 +1011,11 @@ textarea{
             padding: 0 5px;
         }
         .mark{
-            width:97%;
+            width:250px;  
         }
         .lable{
             width:100px;
-            text-align:right;
+            text-align:right;  
         }
 
     } 

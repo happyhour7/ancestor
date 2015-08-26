@@ -568,3 +568,90 @@ $(".search-button").click(function(){
 		return false;
 	document.location="/search?keyword="+$(this).next().val();
 });
+
+
+$(".friend-ul").find("li").dblclick(function(){
+	var username=$(this).attr("username");
+	buildChatWin("与"+username+"聊天中",username);
+});
+var currentSystemUsername=$("#registry-area").text().split("[")[0];
+function buildChatWin(title,target){
+	var win=$("<div/>").css({
+		width:400,
+		height:350,
+		position:"fixed",
+		bottom:5,
+		left:5,
+		"z-index":0,
+		background:"#fff",
+		border:"1px solid #000"
+	}).appendTo("body");
+	var title=$("<span/>").css({
+		height:"50px",
+		"line-height":"50px",
+		"text-align":"left",
+		"font-size":20,
+		"padding-left":9,
+		display:"block"
+	}).html(title).appendTo(win);
+
+
+	var closeButton=$("<span/>").css({
+		width:30,
+		height:30,
+		"background-position":"-110px -211px",
+		position:"absolute",
+		right:8,
+		top:11,
+		cursor:"pointer",
+	}).attr("class","system-icons").click(function(){
+		$(this).parent().remove();
+	}).appendTo(win);
+	var textarea=$("<div/>").css({
+		width:380,
+		height:250,
+		border:"1px solid #ccc",
+		color:"#000",
+		margin: "5px 0 0 9px"
+	}).attr("readonly","").appendTo(win);
+
+	var input =$("<input/>").css({width:300,height:30,border:"1px solid #ccc",
+			"line-height":"30px",
+			"margin-left":9
+	}).appendTo(win);
+
+	var button=$("<button/>").attr("class","btn btn-primary")
+	.css({
+		"margin-left":5,
+		width:74
+	}).text("发送").click(function(){
+		var text=$(this).prev().val();
+		var textarea=$(this).prev().prev();
+		var currentValue=textarea.html();
+		var username=$("#registry-area").text().split("[")[0];
+		alert(text);
+		if(text!="")
+		{
+			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+			textarea.html(currentValue+"<br/>"+currentSystemUsername+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+
+				"<span style='display:block;width:100%;height:10px;'></span>");
+
+			$.post('/chat/save',{frome:username,to:target,msg:text,time:time},function(){
+
+			});
+		}
+	}).appendTo(win);
+}
+if($(".friend-area")[0]!=null)
+{
+	window.setInterval(function(){
+		$.ajax({
+			url:"/chat/getMine?to="+currentSystemUsername,
+			async:false,
+			success:function(data){
+				console.dir(data);
+			}
+
+		});
+	},1000);
+}

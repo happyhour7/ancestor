@@ -1,5 +1,5 @@
 ﻿# Host: 10.20.14.17  (Version: 5.1.73-community)
-# Date: 2015-08-24 21:38:19
+# Date: 2015-08-26 22:07:18
 # Generator: MySQL-Front 5.3  (Build 4.214)
 
 /*!40101 SET NAMES utf8 */;
@@ -148,7 +148,7 @@ CREATE TABLE `friends` (
 # Data for table "friends"
 #
 
-INSERT INTO `friends` VALUES (1,NULL,NULL,'william wang','test');
+INSERT INTO `friends` VALUES (3,NULL,NULL,'test','蟋蟀'),(5,NULL,NULL,'蟋蟀','test'),(6,NULL,NULL,'test','xishuai'),(7,NULL,NULL,'xishuai','test');
 
 #
 # Structure for table "isbad"
@@ -253,6 +253,28 @@ CREATE TABLE `score` (
 INSERT INTO `score` VALUES (25,60,4,'test'),(27,9,6,'test'),(28,52,5,'test'),(29,53,8,'test'),(30,67,9,'test'),(31,66,6,'xishuai'),(32,82,6,'test');
 
 #
+# Structure for table "systemmsg"
+#
+
+DROP TABLE IF EXISTS `systemmsg`;
+CREATE TABLE `systemmsg` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `msgtype` varchar(255) DEFAULT NULL,
+  `isOk` varchar(255) DEFAULT NULL,
+  `isReaded` varchar(255) DEFAULT NULL,
+  `msg` varchar(255) DEFAULT NULL,
+  `comefrom` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "systemmsg"
+#
+
+INSERT INTO `systemmsg` VALUES (8,'xishuai','好友验证通过','验证通过','未读消息','您通过了来自test的好友申请','系统消息'),(9,'test','好友验证通过','验证通过','未读消息','xishuai通过了您的好友申请','系统消息'),(12,'xishuai','好友验证未通过','验证通过','未读消息','蟋蟀拒绝了您的好友申请','系统消息');
+
+#
 # Structure for table "talk"
 #
 
@@ -307,13 +329,13 @@ CREATE TABLE `users` (
   `address` varchar(200) DEFAULT NULL,
   `mark` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "users"
 #
 
-INSERT INTO `users` VALUES (1,'test','test',0,1,15,'happyhour7@163.com','南京','251619896','13813994215','0.06278088735416532.jpg','asdfasdf2323','asdfasdfasdfas'),(71,'asdfasdf','asdfasdf',1,1,10,'happyhour7@163.com','南京','2516198663','13813994215','demo_logo.png',NULL,NULL),(72,'xishuai','ww3ww3',1,1,10,'happyhour7@163.com','南京','2516198663','13813994215','demo_logo.png',NULL,NULL),(83,'蟋蟀','xishuai',1,1,10,NULL,'南京',NULL,NULL,'demo_logo.png',NULL,NULL);
+INSERT INTO `users` VALUES (1,'test','test',0,1,15,'happyhour7@163.com','南京','251619896','13813994215','0.06278088735416532.jpg','asdfasdf2323','asdfasdfasdfas'),(71,'asdfasdf','asdfasdf',1,1,10,'happyhour7@163.com','南京','2516198663','13813994215','demo_logo.png',NULL,NULL),(72,'xishuai','ww3ww3',1,1,10,'happyhour7@163.com','南京','2516198663','13813994215','demo_logo.png',NULL,NULL),(83,'蟋蟀','xishuai',1,1,10,NULL,'南京',NULL,NULL,'demo_logo.png',NULL,NULL),(84,'william wang','test',1,1,10,NULL,'南京',NULL,NULL,'demo_logo.png','g','这里是个性签名');
 
 #
 # Structure for table "agvscore"
