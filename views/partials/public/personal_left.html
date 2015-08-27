@@ -17,5 +17,9 @@
     <a href="/secret/permsg-mysecret" class="{{# personal_mysecret}}personal-item-choosen{{/ personal_mysecret}}{{^ personal_mysecret}}personal-item{{/ personal_mysecret}}">我的秘密</a>
     <a href="/secret/permsg-score" class="{{# personal_score}}personal-item-choosen{{/ personal_score}}{{^ personal_score}}personal-item{{/ personal_score}}">积分充值</a>
     <a href="/secret/permsg-friend" class="{{# personal_friend}}personal-item-choosen{{/ personal_friend}}{{^ personal_friend}}personal-item{{/ personal_friend}}">我的好友</a>
-    <a href="/secret/permsg-msg" class="{{# personal_msg_msg}}personal-item-choosen{{/ personal_msg_msg}}{{^ personal_msg_msg}}personal-item{{/ personal_msg_msg}}">我的消息</a>
+    <a href="/secret/permsg-msg" class="{{# personal_msg_msg}}personal-item-choosen{{/ personal_msg_msg}}{{^ personal_msg_msg}}personal-item{{/ personal_msg_msg}}">我的消息
+    {{# hasNew}}
+        <span style='color:#f00;'>[新消息]</span>
+    {{/ hasNew}}
+    </a>
 </span>
