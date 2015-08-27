@@ -35,7 +35,6 @@ function getHomeSQL(){
     }
     else{
         var tmp=homeSQL.replace("<where>",otherWhere);
-        console.log(tmp);
         return tmp;
     }
 }
@@ -72,6 +71,7 @@ router.get('/', function(req, res) {
         
     }});
     currentQueue.push({exec:function(data){
+        
         DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
@@ -80,10 +80,9 @@ router.get('/', function(req, res) {
     {
         getMyFriends();
     }
-    
     currentQueue.push({exec:function(data){
-        render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+        render.apply(data[0],['',function(data){return data;}]);console.log
+        //currentQueue.end();
         
     }});
     currentQueue.start();
@@ -106,7 +105,6 @@ function getHostSecret(){
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query(hotSecretSQL,bindData,hotSecretLogic,'secretDatas');
-        
     }});
 }
 
@@ -657,14 +655,18 @@ function personalScoreLogic(data){
 router.get('/secret/permsg-friend',function(req,res){
     render.res=res;
     render.req=req;
+    currentQueue=new currentQueue("friend");
 
     if(currentSession&&currentSession.username)
     {
-        var username=currentSession.username;
-        var user=currentSession.user;
-        
-        render.view="personal_friend";
-        render.apply([user],['',personalFriendLogic]);
+
+        currentQueue.push({exec:function(){
+            var username=currentSession.username;
+            var user=currentSession.user;
+            render.view="personal_friend";
+            render.apply([user],['',personalFriendLogic]);
+        }});
+        currentQueue.start();
         //var sql="select * from users where username='"+username+"'";
         //DB.query(sql,render,personalLogic);
     }
@@ -673,7 +675,9 @@ router.get('/secret/permsg-friend',function(req,res){
         res.redirect("/");
     }
 });
+function getnewMsg(){
 
+}
 
 router.get('/secret/getMyFriends',function(req,res){
     render.req=req;
@@ -761,6 +765,7 @@ router.get('/secret/permsg-msg',function(req,res){
         var user=currentSession.user;
         render.view="personal_msg";
         render.apply([user],['',personalMsgLogic]);
+        DB.update("update systemmsg set isReaded='已读' where username='"+currentSession.username+"'",function(){});
     }
     else
     {
@@ -923,8 +928,7 @@ router.get('/secret/permsg',function(req,res){
     }
     else
     {
-        render.view="index";
-        DB.query("",render,indexLogic);
+        res.redirect("/");
     }
     
     
@@ -1076,30 +1080,60 @@ router.get('/login2', function(req, res) {
 function render(fields,logic){
 
     var result;
-    if(logic)
+    currentQueue=new Queue("");
+        if(logic)
+        {
+            result=logic(this);
+        }
+        else
+        {
+            result=this;
+        }
+        
+        var hasLogin=false;
+        hasLogin=getUserLoginStatues(render.req.session);
+        result["hasLogin"]=hasLogin;
+        result["userid"]=render.res.cookie["username"];
+        if(result!==false)
+        {
+            
+            
+        
+            if(currentSession)
+            {
+                currentQueue.push({exec:function(){
+                    DB.query("select * from systemmsg where username='"+currentSession.username+"' and isReaded='未读消息'",bindData,newMsgLogic,'secretDatas');
+                }}); 
+            }
+
+            
+            
+        }
+        currentQueue.push({exec:function(data){
+            console.log(data);
+                if(data)
+                {
+                    result["hasNew"]=data[0];
+                }
+                
+                render.res.render(viewPath+render.view, result);
+                currentQueue.end();
+            }});
+            currentQueue.start();
+}
+
+function newMsgLogic(data){
+    if(data.length>0)
     {
-        result=logic(this);
+        return true;
     }
-    else
-    {
-        result=this;
-    }
-    
-    var hasLogin=false;
-    if(result!==false)
-    {
-    	hasLogin=getUserLoginStatues(render.req.session);
-    	result["hasLogin"]=hasLogin;
-    	result["userid"]=render.res.cookie["username"];
-        render.res.render(viewPath+render.view, result);
-    }
-    
+    return null;
 }
 
 function getUserLoginStatues(session){
-	if(session&&session.username)
+	if(currentSession&&currentSession.username)
 	{
-		return session.username;
+		return currentSession.username;
 	}
 	return false;
 }
@@ -1308,5 +1342,11 @@ router.get('/chat/getMine',function(req,res){
         }
     }
     res.json(resutls);
+});
+
+router.get('/logout',function(req,res){
+    currentSession=null;
+    res.cookie["username"]=null;
+    res.redirect("/");
 });
 module.exports = router;
