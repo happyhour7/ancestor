@@ -94,9 +94,20 @@ router.get('/admin/userManager',function(req, res){
 });
 
 router.get('/admin/surveyManager',function(req, res){
-    res.render(viewPath+"surveyManager",{});
+    currentQueue=new Queue();
+    currentQueue.push({exec:function(){
+        DB.query("select * from survey",bindData,getUserLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        console.log(data[0][0]);
+        res.render(viewPath+"surveyManager",data[0][0]);
+    }});
+    currentQueue.start();
+    
 });
-
+function surveyLogic(data){
+    return data;
+}
 router.get('/admin/index', function(req, res) {
     res.render(viewPath+"index",{});
 });
@@ -135,7 +146,28 @@ router.post('/admin/updateAdvUser',function(req, res){
 });
 
 
+router.post('/admin/postSurvey',function(req,res){
+    var question=req.body.question;
+    var answer1=req.body.answer1;
+    var answer2=req.body.answer2;
+    var answer3=req.body.answer3;
+    var answer4=req.body.answer4;
+    var answer5=req.body.answer5;
+    var answer6=req.body.answer6;
 
+    var sql="insert into survey set question=?,answer1=?,answer2=?,answer3=?,answer4=?,answer5=?,answer6=?";
+    var results=[question];
+    results.push(answer1);
+    results.push(answer2);
+    results.push(answer3);
+    results.push(answer4);
+    results.push(answer5);
+    results.push(answer6);
+    DB.update("delete from survey",function(){
+        DB.execute(sql,results);
+        res.redirect("/admin/surveyManager");
+    });
+});
 
 
 

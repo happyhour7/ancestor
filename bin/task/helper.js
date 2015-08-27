@@ -111,3 +111,11 @@ hbs.registerHelper('getType', function(type) {
   }
     return "<button class='btn btn-danger'>删除</button>";
 });
+
+hbs.registerHelper('isNull', function(obj) {
+  if(typeof obj==='undefined'||obj==null||obj=="")
+  {
+    return false;
+  }
+  return true;
+});
