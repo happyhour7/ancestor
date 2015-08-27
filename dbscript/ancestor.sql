@@ -1,5 +1,5 @@
 ﻿# Host: 10.20.14.17  (Version: 5.1.73-community)
-# Date: 2015-08-26 22:07:18
+# Date: 2015-08-27 22:12:02
 # Generator: MySQL-Front 5.3  (Build 4.214)
 
 /*!40101 SET NAMES utf8 */;
@@ -142,7 +142,7 @@ CREATE TABLE `friends` (
   `friendname` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "friends"
@@ -253,6 +253,49 @@ CREATE TABLE `score` (
 INSERT INTO `score` VALUES (25,60,4,'test'),(27,9,6,'test'),(28,52,5,'test'),(29,53,8,'test'),(30,67,9,'test'),(31,66,6,'xishuai'),(32,82,6,'test');
 
 #
+# Structure for table "survey"
+#
+
+DROP TABLE IF EXISTS `survey`;
+CREATE TABLE `survey` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) DEFAULT NULL,
+  `answer1` varchar(255) DEFAULT NULL,
+  `answer2` varchar(255) DEFAULT NULL,
+  `answer3` varchar(255) DEFAULT NULL,
+  `answer4` varchar(255) DEFAULT NULL,
+  `answer5` varchar(255) DEFAULT NULL,
+  `answer6` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "survey"
+#
+
+INSERT INTO `survey` VALUES (3,'这是调查问题','这是选项一','这是选项二2','这是选项三3','','','');
+
+#
+# Structure for table "surveyanswer"
+#
+
+DROP TABLE IF EXISTS `surveyanswer`;
+CREATE TABLE `surveyanswer` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `good` varchar(11) DEFAULT NULL,
+  `choose` int(11) DEFAULT NULL,
+  `bad` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "surveyanswer"
+#
+
+INSERT INTO `surveyanswer` VALUES (1,'test','haha',1,NULL),(2,'蟋蟀',NULL,1,'haha');
+
+#
 # Structure for table "systemmsg"
 #
 
@@ -266,13 +309,13 @@ CREATE TABLE `systemmsg` (
   `msg` varchar(255) DEFAULT NULL,
   `comefrom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "systemmsg"
 #
 
-INSERT INTO `systemmsg` VALUES (8,'xishuai','好友验证通过','验证通过','未读消息','您通过了来自test的好友申请','系统消息'),(9,'test','好友验证通过','验证通过','未读消息','xishuai通过了您的好友申请','系统消息'),(12,'xishuai','好友验证未通过','验证通过','未读消息','蟋蟀拒绝了您的好友申请','系统消息');
+INSERT INTO `systemmsg` VALUES (8,'xishuai','好友验证通过','验证通过','已读','您通过了来自test的好友申请','系统消息'),(12,'xishuai','好友验证未通过','验证通过','已读','蟋蟀拒绝了您的好友申请','系统消息');
 
 #
 # Structure for table "talk"

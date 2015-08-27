@@ -80,25 +80,70 @@ router.get('/', function(req, res) {
     {
         getMyFriends();
     }
+    getSurvey();
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);console.log
-        //currentQueue.end();
+        //
         
     }});
     currentQueue.start();
 });
+function getSurvey(){
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from survey",bindData,surveyLogic,'secretDatas');
+    }});
 
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select count(Id) as cc from surveyanswer where good<>null or good <>''",bindData,surveyGoodLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select count(Id) as cc from surveyanswer where bad<>null or bad<>''",bindData,surveyBadLogic,'secretDatas');
+    }});
+    if(currentSession&&currentSession.username)
+    {
+        currentQueue.push({exec:function(data){
+                _tmpData=data[0];
+                DB.query("select count(Id) as cc from surveyanswer where username='"+currentSession.username+"'",bindData,surveyLawLogic,'secretDatas');
+        }});
+    }
+
+}
+function surveyLawLogic(data){
+    if(data[0].cc>0)
+    {
+        _tmpData["survey"]["law"]="law";
+    }
+    else
+    {
+        
+        _tmpData["survey"]["law"]=null;
+    }
+    return _tmpData;
+}
+function surveyGoodLogic(data){
+
+    _tmpData["survey"]["good"]=data[0].cc;
+    return _tmpData;
+}
+function surveyBadLogic(data){
+    _tmpData["survey"]["bad"]=data[0].cc;
+    return _tmpData;
+}
+function surveyLogic(data){
+    _tmpData["survey"]=data[0];
+    return _tmpData;
+}
 function getMyFriends(){
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        console.log("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'");
         DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'",bindData,getMyFirendsLogic,'secretDatas');
     }});
 }
 function getMyFirendsLogic(data){
     _tmpData["friends"]=data.slice(1);
-
-    console.log(currentSession.username);
     return _tmpData;
 }
 function getHostSecret(){
@@ -147,7 +192,6 @@ router.get('/search',function(req,res){
     currentQueue.push({exec:function(data){
         write("myjson.txt",data[0]);
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
         
     }});
     currentQueue.start();
@@ -237,7 +281,7 @@ router.get('/secret/longstore',function(req,res){
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
         
     }});
     currentQueue.start();
@@ -270,7 +314,7 @@ router.get('/secret/mine', function(req, res) {
     }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
     }});
     currentQueue.start();
 });
@@ -326,7 +370,7 @@ router.get('/secret/write', function(req, res) {
     }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
         
     }});
     currentQueue.start();
@@ -411,7 +455,7 @@ router.get('/secret/ta', function(req, res) {
     }
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
         currentQueue=null;
     }});
 
@@ -459,8 +503,7 @@ router.get('/secret/sell', function(req, res) {
         getMyFriends();
     }
     currentQueue.push({exec:function(data){
-        render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
         currentQueue=null;
     }});
     currentQueue.start();
@@ -507,7 +550,7 @@ router.get('/secret/offer', function(req, res) {
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
         currentQueue=null;
     }});
     currentQueue.start();
@@ -867,7 +910,7 @@ router.get('/secret/floater', function(req, res) {
     }});  
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+
         currentQueue=null;
     }});
     currentQueue.start();
@@ -1117,7 +1160,7 @@ function render(fields,logic){
                 }
                 
                 render.res.render(viewPath+render.view, result);
-                currentQueue.end();
+                
             }});
             currentQueue.start();
 }
@@ -1348,5 +1391,27 @@ router.get('/logout',function(req,res){
     currentSession=null;
     res.cookie["username"]=null;
     res.redirect("/");
+});
+
+
+router.post('/survey/post',function(req,res){
+    var type=req.body.choosetype;
+    var choose=req.body.answer;
+    var username=currentSession.username;
+    var sql="";
+    if(type=="good")
+    {
+        sql="insert into surveyanswer set username=?,choose=?,good=?";
+    }
+    else
+    {
+        sql="insert into surveyanswer set username=?,choose=?,bad=?";
+    }
+    var results=[username];
+    results.push(parseInt(choose));
+    results.push("haha");
+    DB.execute(sql,results);
+    res.json({status:"error"});
+    
 });
 module.exports = router;

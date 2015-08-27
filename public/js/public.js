@@ -644,7 +644,7 @@ function buildChatWin(title,target){
 }
 if($(".friend-area")[0]!=null)
 {
-	window.setInterval(function(){
+	/*window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
@@ -653,5 +653,102 @@ if($(".friend-area")[0]!=null)
 			}
 
 		});
-	},1000);
+	},1000);*/
 }
+var isChooseSurvey=false;
+$(".survey-container").find(".good").click(function(){
+	if($("#hasLogin_hidden").val()=="no")
+	{
+		$("#login-area").trigger("click");
+		return;
+	}
+	if($("#survey-law").val()=="law")
+	{
+		alert("您已经参与该调查");
+		return;
+	}
+	changeSurveyResult("good");
+	$(".survey-container").find(".good").unbind();
+	$(".survey-container").find(".bad").unbind();
+	$("#choosetype").val("good");
+	isChooseSurvey=true;
+});
+$(".survey-container").find(".bad").click(function(){
+	if($("#hasLogin_hidden").val()=="no")
+	{
+		$("#login-area").trigger("click");
+		return;
+	}
+	if($("#survey-law").val()=="law")
+	{
+		alert("您已经参与该调查");
+		return;
+	}
+	changeSurveyResult("bad");
+	$(".survey-container").find(".good").unbind();
+	$(".survey-container").find(".bad").unbind();
+	$("#choosetype").val("bad");
+	isChooseSurvey=true;
+});
+changeSurveyResult();
+function changeSurveyResult(type){
+	var resultWidth=$(".survey-container").find(".result").width()-5;
+	var goodarea=$(".survey-container").find(".good-area");
+	var badarea=$(".survey-container").find(".bad-area");
+	var goodButton=$(".survey-container").find(".good");
+	var badButton=$(".survey-container").find(".bad")
+	var good=parseInt(goodButton.attr("num"));
+	var bad=parseInt(badButton.attr("num"));
+	if(type=="good")
+		good++;
+	else if(type=="bad")
+		bad++;
+	if(good+bad==0)
+	{
+		goodarea.width(0);
+		badarea.width(0);
+	}
+	else
+	{
+		var unit=resultWidth/(good+bad);
+		goodarea.width(unit*good);
+		badarea.width(unit*bad);
+		goodButton.attr("num",good);
+		badButton.attr("num",bad);
+	}
+	$(".survey-container").find(".good-num").html(good);
+	$(".survey-container").find(".bad-num").html(bad);
+
+
+}
+
+$("#post-button").click(function(){
+	if($("#hasLogin_hidden").val()=="no")
+	{
+		$("#login-area").trigger("click");
+		return;
+	}
+	if($("#survey-law").val()=="law")
+	{
+		alert("您已经参与该调查");
+		return;
+	}
+	if(isChooseSurvey===false)
+	{
+		alert("请选择赞成或不赞成");
+		return false;
+	}
+	if($("input[name='answer']:checked").val())
+	{
+		$("#survey-submit").trigger("click");
+		alert("回答成功！");
+	}
+	else
+	{
+		alert("请选择调查原因");
+		return false;
+	}
+
+
+	
+});
