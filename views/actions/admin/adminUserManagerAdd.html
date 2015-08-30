@@ -28,13 +28,13 @@
 
         </div>
 
-      <h5 class="sidebartitle">导航菜单</h5>
+      <h5 class="sidebartitle">Navigation</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
         <!--<li><a href="/admin/index"><i class="fa fa-home"></i> <span>管理主页</span></a></li>-->
-        <li><a href="/admin/adminUserManager">
+        <li class="active"><a href="/admin/adminUserManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>管理员管理</span></a></li>
-        <li class="active"><!-- class="nav-parent"-->
+        <li><!-- class="nav-parent"-->
         <a href="/admin/advUserManager">
         <i class="fa fa-laptop"></i>
          <span>广告用户管理</span></a>
@@ -53,7 +53,7 @@
         <i class="fa fa-laptop"></i> <span>网站公告</span></a></li>
       </ul>
 
-
+      
 
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
@@ -69,12 +69,14 @@
       </form>-->
 
       <div class="header-right">
+        
       </div><!-- header-right -->
 
     </div><!-- headerbar -->
 
     <div class="pageheader">
-      <h2><i class="fa fa-laptop"></i> 广告用户管理 </h2>
+      <h2><i class="fa fa-laptop"></i> 管理员管理 <span>管理员添加</span></h2>
+
     </div>
 
     <div class="contentpanel">
@@ -82,40 +84,68 @@
       <div class="row">
 
       <div class="mb20">
-        <!-- Nav tabs -->
+
         <!-- Tab panes -->
-        <div class="panel panel-default">
+          <div class="tab-pane" id="profile2">
+            <div class="row">
+
+
+          <div class="panel panel-default">
           <div class="panel-heading">
             <div class="panel-btns">
               <a href="" class="panel-close">×</a>
               <a href="" class="minimize">−</a>
             </div>
-            <h4 class="panel-title">广告用户管理</h4>
+            <h4 class="panel-title">添加管理员</h4>
           </div>
-        <div class="tab-content mb30">
-          <div class="tab-pane active" id="home2">
-            <div class="table-responsive">
-            	<button class="btn btn-primary advuser-add-btn" style="float:right;margin-bottom:10px;">添加用户</button>
-          <table class="table table-success table-hover mb30" id="advuser-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>用户ID</th>
-                <th>用户姓名</th>
-                <th>广告区域</th>
-                <th>管理</th>
-              </tr>
-            </thead>
-            <tbody id="advuser-table-tbody">
-              <tr>
-              </tr>
-            </tbody>
-          </table>
+           <form class="form-horizontal form-bordered" id="mypost-frame" method="post" action="/admin/addAdmin">
+          <div class="panel-body panel-body-nopadding" style="display: block;">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">登陆账号</label>
+                <div class="col-sm-6">
+                  <input type="text" name="userid" id="userid" placeholder="登陆账号" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">用户名</label>
+                <div class="col-sm-6">
+                  <input type="text" name="username" id="username"  placeholder="用户姓名" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">密码</label>
+                <div class="col-sm-6">
+                  <input type="password" name="password" id="password" placeholder="输入密码" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">确认密码</label>
+                <div class="col-sm-6">
+                  <input type="password" name="passwords" id="passwords" placeholder="确认密码" class="form-control">
+                </div>
+              </div>
+          <input type="submit" id="advUser_add_submit_button" style="display:none;"/>
+              
+        </form>
+            <iframe name="myiframe" style="display:none;"></iframe>
+          </div><!-- panel-body -->
           
+          <div class="panel-footer" style="display: block;">
+           <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+              <button class="btn btn-primary" id="advUser_add_post_button">提交信息</button>&nbsp;
+            </div>
+           </div>
+          </div><!-- panel-footer -->
+          
+            </div>
+            </div>
           </div>
-          </div>
-        </div>
-        </div>
+
+        
   
         
         </div>
@@ -420,6 +450,25 @@
 
 
 {{> admin/foot}}
-<script src="../../../../js/addAdvUser.js"></script>
+<script type="text/javascript">
+$("#advUser_add_post_button").click(function(){
+  var userid=$("#userid").val();
+  var username=$("#username").val();
+  var password=$("#password").val();
+  var passwords=$("#passwords").val();
+  if(userid==""||username==""||password=="")
+  {
+    alert("请输入完整的用户信息");
+    return;
+  }
+  if(password!=passwords)
+  {
+    alert("两次输入的密码不一致");
+    return;
+  }
+  $("#advUser_add_submit_button").trigger("click");
+  
+});
+</script>
 </body>
 </html>

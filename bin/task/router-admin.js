@@ -6,7 +6,7 @@ var Queue=require("../queue");
 /* GET home page. */
 router.post('/admin/login', function(req, res) {
     render.res=res;
-    render.view='index';
+    render.view='adminUserManager';
     DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
 });
 var currentQueue=null;
@@ -55,7 +55,102 @@ router.get('/admin/delAdvUser',function(req, res){
 	DB.update("delete from advuser where username='"+username+"'",function(){
 		res.json({status:"success"});
 	});
-})
+});
+
+
+router.post('/admin/addAdmin',function(req,res){
+    var sql="insert into admin set userid=?,username=?,password=?"
+    var result=[];
+    result.push(req.body.userid);
+    result.push(req.body.username);
+    result.push(req.body.password);
+    DB.execute(sql,result);
+    //res.json({status:"success"});
+    res.redirect('/admin/adminUserManager');
+});
+
+
+/*增加管理员*/
+router.get('/admin/adminUserManagerAdd',function(req,res){
+    res.render(viewPath+"adminUserManagerAdd",{});
+});
+
+/*修改管理员*/
+router.get('/admin/adminUserManagerMod',function(req,res){
+    render.res=res;
+    render.req=req;
+    var userid=req.query.userid;
+    render.view="adminUserManagerMod"
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from admin where userid='"+userid+"'",bindData,advUserManagerModLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+
+    currentQueue.start();
+});
+
+
+/*删除管理员*/
+router.get('/admin/adminUserManagerDel',function(req,res){
+    var username=req.query.username;
+    console.log("delete from admin where userid='"+username+"'");
+    DB.update("delete from admin where userid='"+username+"'",function(){
+        //res.json({status:"success"});
+        res.redirect('/admin/adminUserManager');
+    });
+});
+
+
+/*router.get('/admin/userManagerDetail',function(req, res){
+    var userid=req.query.userid;
+    render.res=res;
+    render.req=req;
+    var userid=req.query.userid;
+    render.view="userManagerDetail"
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from users where Id="+userid,bindData,advUserManagerModLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        //render.apply(data[0],['',function(data){return data;}]);
+        res.json(data[0]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+
+    currentQueue.start();
+});*/
+
+router.get('/admin/delUsers',function(req,res){
+    var userid=req.query.userid;
+    DB.update("delete from users where Id="+userid,function(){
+        res.redirect("/admin/userManager");
+    });
+});
+router.get('/admin/getRegistryUser',function(req, res){
+    render.res=res;
+    render.req=req;
+    var userid=req.query.userid;
+    render.view="advUserManagerMod"
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from users ",bindData,getUserLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        //render.apply(data[0],['',function(data){return data;}]);
+        res.json(data[0]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+
+    currentQueue.start();
+});
+
 
 router.get('/admin/advUserManager',function(req, res){
     res.render(viewPath+"advUserManager",{});
@@ -82,6 +177,7 @@ router.get('/admin/advUserManagerMod',function(req, res){
 
     currentQueue.start();
 });
+function getUserLogic(data){return data;}
 function advUserManagerModLogic(data){
 	return data[0];
 }
@@ -169,7 +265,19 @@ router.post('/admin/postSurvey',function(req,res){
     });
 });
 
+router.get('/admin/getAdmins',function(req, res){
+    ajaxRender.res=res;
+    currentQueue=new Queue("index");
+    currentQueue.push({exec:function(){
+        DB.query("select * from admin",bindData,getUserLogic,'secretDatas');
+    }});
 
+    currentQueue.push({exec:function(data){
+        ajaxRender.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+    }});
+    currentQueue.start();
+});
 
 router.get('/admin/getAdvUser',function(req, res){
     ajaxRender.res=res;
