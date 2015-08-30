@@ -576,6 +576,8 @@ $(".friend-ul").find("li").dblclick(function(){
 });
 var currentSystemUsername=$("#registry-area").text().split("[")[0];
 function buildChatWin(title,target){
+	if($(".target-text-area")[0]!=null)
+		return;
 	var win=$("<div/>").css({
 		width:400,
 		height:350,
@@ -612,8 +614,9 @@ function buildChatWin(title,target){
 		height:250,
 		border:"1px solid #ccc",
 		color:"#000",
-		margin: "5px 0 0 9px"
-	}).attr("readonly","").appendTo(win);
+		margin: "5px 0 0 9px",
+		overflow:"auto"
+	}).attr("readonly","").attr("class","target-text-area").appendTo(win);
 
 	var input =$("<input/>").css({width:300,height:30,border:"1px solid #ccc",
 			"line-height":"30px",
@@ -626,34 +629,47 @@ function buildChatWin(title,target){
 		width:74
 	}).text("发送").click(function(){
 		var text=$(this).prev().val();
-		var textarea=$(this).prev().prev();
-		var currentValue=textarea.html();
-		var username=$("#registry-area").text().split("[")[0];
-		if(text!="")
-		{
-			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-			textarea.html(currentValue+"<br/>"+currentSystemUsername+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+
-				"<span style='display:block;width:100%;height:10px;'></span>");
-
-			$.post('/chat/save',{frome:username,to:target,msg:text,time:time},function(){
-
-			});
-		}
+		sendMsg({text:text,target:target,from:currentSystemUsername});
 		$(this).prev().val("");
 	}).appendTo(win);
 }
+
+function sendMsg(data){
+	var text=data.text;
+	var textarea=$(".target-text-area");
+	var currentValue=textarea.html();
+	var username=$("#registry-area").text().split("[")[0];
+	if(text!="")
+	{
+		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+		textarea.html(currentValue+"<br/>"+data.from+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+
+			"<span style='display:block;width:100%;height:10px;'></span>");
+		$.post('/chat/save',{from:username,to:data.target,msg:text,time:time},function(){
+
+		});
+	}
+}
 if($(".friend-area")[0]!=null)
 {
-	/*window.setInterval(function(){
+	window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
 			success:function(data){
-				console.dir(data);
+				if(data.length>0)
+				{
+					for(var i=0;i<data.length;i++)
+					{
+						buildChatWin("与"+data[i].from+"聊天中",data[i].from);
+						sendMsg({text:data[i].msg,target:data[i].from,from:data[i].from});
+					}
+				}
+				
+				
 			}
 
 		});
-	},1000);*/
+	},1000);
 }
 var isChooseSurvey=false;
 $(".survey-container").find(".good").click(function(){
