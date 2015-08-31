@@ -76,7 +76,7 @@ hbs.registerHelper('otherSecretName', function(username) {
   {
     if(username!=''&&username!='undefined')
     {
-        return "<br/><br/><span class='items address'>对方姓名："+username+"</span>";
+        return "<span class='items address'>对方姓名："+username.substr(0,usrename.length/2)+"*"+"</span>";
     }
   }
     return "";
@@ -118,4 +118,16 @@ hbs.registerHelper('isNull', function(obj) {
     return false;
   }
   return true;
+});
+
+
+hbs.registerHelper("otherSecretBuildName",function(address1,address2){
+  if(address1==""&&address2=="")
+  {
+    return "";
+  }
+  else
+  {
+    return "<span class='items address'>地址："+address1+address2+"</span>"
+  }
 });

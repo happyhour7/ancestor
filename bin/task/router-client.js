@@ -159,11 +159,14 @@ function hotSecretLogic(data){
 }
 router.get('/search',function(req,res){
     var keyword=req.query.keyword;
+    var type=req.query.type||"";
         render.res=res;
     render.req=req;
     render.view="index";
     currentQueue=new Queue("index");
-    currentQueue.push({exec:function(){
+    if(type=="")
+    {
+        currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and (owner like '%"+keyword+"%' or"+
                             " secretTitle like '%"+keyword+"%' or "+
                             " secretMainType like '%"+keyword+"%' or "+
@@ -173,7 +176,17 @@ router.get('/search',function(req,res){
                             " secretKeyWord like '%"+keyword+"%' or "+
                             " longstory like '%"+keyword+"%')")
                         ,bindData,indexLogic,'secretDatas');
-    }});
+        }});
+    }
+    else
+    {
+        currentQueue.push({exec:function(){
+        DB.query(getHomeSQL(" and ("+
+                            " secretKeyWord like '%"+keyword+"%')")
+                        ,bindData,indexLogic,'secretDatas');
+        }});
+    }
+    
 
 
     currentQueue.push({exec:function(data){
@@ -281,7 +294,7 @@ router.get('/secret/longstore',function(req,res){
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-
+        currentQueue.end();
         
     }});
     currentQueue.start();
@@ -776,14 +789,28 @@ router.get('/secret/permsg-mysecret',function(req,res){
         var username=currentSession.username;
         var user=currentSession.user;
         render.view="personal_mysecret";
-        
         render.apply([user],['',personalSecretLogic]);
-        //var sql="select * from users where username='"+username+"'";
-        //DB.query(sql,render,personalLogic);
     }
     else
     {
         res.redirect("/");
+    }
+});
+router.get('/secret/getMineSecret',function(){
+    if(currentSession&&currentSession.username)
+    {
+        currentQueue=new Queue("");
+        currentQueue.push({exec:function(){
+            DB.query("select * from files where owner='"+currentSession.username+"'",bindData,getFriendNames,'secretDatas');
+        }});
+        currentQueue.push({exec:function(data){
+            res.json(data);
+            currentQueue.end();
+        }});
+    }
+    else
+    {
+        res.json({status:"error"});
     }
 });
 function personalSecretLogic(data){
@@ -900,7 +927,7 @@ router.get('/secret/floater', function(req, res) {
     render.res=res;
     render.req=req;
     render.view="sendFloater";
-    currentQueue=new Queue("sell");
+    currentQueue=new Queue("floater");
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='漂流瓶' "),bindData,floaterInitLogic,'secretDatas');
     }});
@@ -911,8 +938,7 @@ router.get('/secret/floater', function(req, res) {
     }});  
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
-        currentQueue=null;
+
     }});
     currentQueue.start();
     //console.log(currentQueue._datas);
@@ -1133,7 +1159,6 @@ router.get('/login2', function(req, res) {
 });
 
 function render(fields,logic){
-
     var result;
     currentQueue=new Queue("");
         if(logic)
@@ -1151,30 +1176,22 @@ function render(fields,logic){
         result["userid"]=render.res.cookie["username"];
         if(result!==false)
         {
-            
-            
-        
             if(currentSession)
             {
                 currentQueue.push({exec:function(){
                     DB.query("select * from systemmsg where username='"+currentSession.username+"' and isReaded='未读消息'",bindData,newMsgLogic,'secretDatas');
                 }}); 
             }
-
-            
-            
         }
         currentQueue.push({exec:function(data){
-            //console.log(data);
-                if(data)
-                {
-                    result["hasNew"]=data[0];
-                }
-                
-                render.res.render(viewPath+render.view, result);
-                
-            }});
-            currentQueue.start();
+            if(data)
+            {
+                result["hasNew"]=data[0];
+            }
+            render.res.render(viewPath+render.view, result);
+            currentQueue.end();
+        }});
+        currentQueue.start();
 }
 
 function newMsgLogic(data){
