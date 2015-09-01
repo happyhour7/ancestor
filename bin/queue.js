@@ -13,7 +13,6 @@ Queue.prototype={
 	push:function(obj){
 		this.length++;
 		this._datas.push(obj);
-		//console.log(this._datas.length);
 	},
 	next:function(){
 		if(this._currentIndex<=this.length-1)

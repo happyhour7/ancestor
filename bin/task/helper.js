@@ -76,7 +76,7 @@ hbs.registerHelper('otherSecretName', function(username) {
   {
     if(username!=''&&username!='undefined')
     {
-        return "<span class='items address'>对方姓名："+username.substr(0,usrename.length/2)+"*"+"</span>";
+        return "<span class='items address'>对方姓名："+username.substr(0,username.length/2)+"*"+"</span>";
     }
   }
     return "";
