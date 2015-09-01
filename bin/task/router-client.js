@@ -140,6 +140,7 @@ function getMyFriends(){
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"' order by u.Id",bindData,getMyFirendsLogic,'secretDatas');
+        console.log("friends");
     }});
 }
 function getMyFirendsLogic(data){
@@ -198,10 +199,12 @@ router.get('/search',function(req,res){
         DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
+    getHostSecret();
     if(currentSession)
     {
         getMyFriends();
     }
+    getSurvey();
     currentQueue.push({exec:function(data){
         write("myjson.txt",data[0]);
         render.apply(data[0],['',function(data){return data;}]);
@@ -282,11 +285,12 @@ router.get('/secret/longstore',function(req,res){
     currentQueue.push({exec:function(){
         DB.query(getLongStorySQL(),bindData,longsStoryLogic,'secretDatas');
     }});
+    getHostSecret();
     if(currentSession)
     {
         getMyFriends();
     }
-
+getSurvey();
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
@@ -294,7 +298,7 @@ router.get('/secret/longstore',function(req,res){
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
+        //currentQueue.end();
         
     }});
     currentQueue.start();
@@ -321,10 +325,12 @@ router.get('/secret/mine', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    getHostSecret();
     if(currentSession)
     {
         getMyFriends();
     }
+    getSurvey();
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
 
@@ -377,10 +383,12 @@ router.get('/secret/write', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    getHostSecret();
     if(currentSession)
     {
         getMyFriends();
     }
+    getSurvey();
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
 
@@ -453,23 +461,27 @@ router.get('/secret/ta', function(req, res) {
     currentQueue=null;
     
     currentQueue=new Queue("index");
+
     currentQueue.push({exec:function(){
 
         DB.query(getHomeSQL(" and secretMainType='TA的秘密' "),bindData,taLogic,'secretDatas');
     }});
+    getHostSecret();
+    if(currentSession)
+    {
+        getMyFriends();
+    }
+    getSurvey();
 	currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
-    if(currentSession)
-    {
-        getMyFriends();
-    }
+    
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-
-        currentQueue=null;
+        console.log("over");
+        
     }});
 
     currentQueue.start();
@@ -511,14 +523,15 @@ router.get('/secret/sell', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    getHostSecret();
     if(currentSession)
     {
         getMyFriends();
     }
+    getSurvey();
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
-        currentQueue.end();
-        currentQueue=null;
+        
     }});
     currentQueue.start();
     //console.log(currentQueue._datas);
@@ -553,10 +566,12 @@ router.get('/secret/offer', function(req, res) {
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='悬赏秘密' "),bindData,offerLogic,'secretDatas');
     }});
+    getHostSecret();
     if(currentSession)
     {
         getMyFriends();
     }
+    getSurvey();
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
@@ -565,7 +580,7 @@ router.get('/secret/offer', function(req, res) {
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
 
-        currentQueue=null;
+        
     }});
     currentQueue.start();
     //console.log(currentQueue._datas);
@@ -712,7 +727,7 @@ function personalScoreLogic(data){
 router.get('/secret/permsg-friend',function(req,res){
     render.res=res;
     render.req=req;
-    currentQueue=new currentQueue("friend");
+    currentQueue=new Queue("friend");
 
     if(currentSession&&currentSession.username)
     {
@@ -936,7 +951,14 @@ router.get('/secret/floater', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});  
+    getHostSecret();
+    if(currentSession)
+    {
+        getMyFriends();
+    }
+    getSurvey();
     currentQueue.push({exec:function(data){
+        console.log(data[0]);
         render.apply(data[0],['',function(data){return data;}]);
 
     }});
@@ -1005,7 +1027,24 @@ router.get('/secret/permsg',function(req,res){
         var username=currentSession.username;
         var user=currentSession.user;
         render.view="personal";
-        render.apply([user],['',personalLogic]);
+        currentQueue=new Queue("asdf");
+        _tmpData={};
+        currentQueue.push({exec:function(data){
+            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){console.log(data);_tmpData=data[0];return data[0];},'secretDatas');
+        }});
+        getHostSecret();
+        if(currentSession)
+        {
+            getMyFriends();
+        }
+        getSurvey();
+        
+        currentQueue.push({exec:function(data){
+            console.log(data[0]);
+            render.apply([data[0]],['',personalLogic]);
+        }});
+        currentQueue.start();
+        
     }
     else
     {
@@ -1022,15 +1061,16 @@ router.post('/secret/personalUpdate',function(req,res){
     {
         insertPassword=" password='"+_pwd+"',";
     }
-    DB.update("update users set "
+    var sql="update users set "
                 +insertPassword
                 +" sex="+req.body.sex+","
                 +" email='"+req.body.email+"',"
                 +" qq='"+req.body.qq+"',"
                 +" phone='"+req.body.phone+"',"
-                +" address='"+req.body.address+"',"
+                +" cityname='"+req.body.cityname+"',"
                 +" mark='"+req.body.mark+"'"
-                +" where username='"+currentSession.username+"'",
+                +" where username='"+currentSession.username+"'";
+    DB.update(sql,
         function(){});
 
     var username=currentSession.username;
@@ -1039,7 +1079,7 @@ router.post('/secret/personalUpdate',function(req,res){
     user.email=req.body.email;
     user.qq=req.body.qq;
     user.phone=req.body.phone;
-    user.address=req.body.address;
+    user.cityname=req.body.cityname;
     user.mark=req.body.mark;
     if(_pwd!="")
     {
@@ -1095,6 +1135,14 @@ function personalLogic(data){
     if(data.length>0)
     {
         var result=clone(data[0]);
+        if(data[0].sex==1)
+        {
+            result["men"]=true;
+        }
+        else
+        {
+            console.log("性别："+data[0].sex);
+        }
         result["personal_msg"]=true;
         return result;
     }
