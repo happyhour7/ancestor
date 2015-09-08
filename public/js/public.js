@@ -634,7 +634,7 @@ function buildChatWin(title,target){
 	.css({
 		"margin-left":5,
 		width:74
-	}).text("发送").click(function(){
+	}).text("发送").unbind().click(function(){
 		var text=$(this).prev().val();
 		sendMsg({text:text,target:target,from:currentSystemUsername});
 		$(this).prev().val("");
@@ -668,7 +668,7 @@ if($(".friend-area")[0]!=null)
 					for(var i=0;i<data.length;i++)
 					{
 						buildChatWin("与"+data[i].from+"聊天中",data[i].from);
-						sendMsg({text:data[i].msg,target:data[i].from,from:data[i].from});
+						//sendMsg({text:data[i].msg,target:data[i].from,from:data[i].from});
 					}
 				}
 			}

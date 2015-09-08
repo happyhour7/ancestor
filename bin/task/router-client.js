@@ -362,11 +362,30 @@ router.get('/secret/order', function(req, res) {
     render.res=res;
     render.req=req;
     render.view='order';
-    DB.query(orderSQL,render,function(){return {};});
-    //res.render(viewPath+'index',{'wo_choosen':true,'secretDatas':fake_mine_datas});
+    currentQueue=new Queue("");
+
+    currentQueue.push({exec:function(data){
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
     
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from files",render,function(_data){return  _tmpData;});
+    }});
+    currentQueue.start();
 });
 
+function getMyOrder(){
+    if(currentSession!=null)
+    {
+        return "select * from userorder where username='"+currentSession.username+"'";
+    }
+    else
+    {
+        return "select * from userorder where username='allusers'";
+    }
+}
 
 
 //我的秘密
@@ -1429,7 +1448,6 @@ router.post('/chat/save',function(req,res){
         global.cache["chat"][to]=[];
     }
     global.cache["chat"][to].push({from:from,to:to,msg:text,time:time,hasSend:false});
-    console.log(global.cache["chat"]);
     res.json({statu:"success"});
 });
 
@@ -1450,6 +1468,7 @@ router.get('/chat/getMine',function(req,res){
         global.cache["chat"][to]=[];
     }
     var resutls=[];
+
     for(var i=0;i<global.cache["chat"][to].length;i++)
     {
         if(global.cache["chat"][to][i].hasSend===false)
