@@ -583,7 +583,7 @@ function buildChatWin(title,target){
 		height:350,
 		position:"fixed",
 		bottom:5,
-		left:5,
+		right:5,
 		"z-index":0,
 		background:"#fff",
 		border:"1px solid #000"
@@ -621,6 +621,13 @@ function buildChatWin(title,target){
 	var input =$("<input/>").css({width:300,height:30,border:"1px solid #ccc",
 			"line-height":"30px",
 			"margin-left":9
+	}).bind({
+		keypress:function(event){
+			if(event.keycode==13)
+			{
+				$(this).next().trigger("click");
+			}
+		}
 	}).appendTo(win);
 
 	var button=$("<button/>").attr("class","btn btn-primary")
@@ -642,7 +649,7 @@ function sendMsg(data){
 	if(text!="")
 	{
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-		textarea.html(currentValue+"<br/>"+data.from+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+
 			"<span style='display:block;width:100%;height:10px;'></span>");
 		$.post('/chat/save',{from:username,to:data.target,msg:text,time:time},function(){
 

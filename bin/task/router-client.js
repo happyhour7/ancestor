@@ -1468,7 +1468,7 @@ router.get('/chat/getMine',function(req,res){
         global.cache["chat"][to]=[];
     }
     var resutls=[];
-    //console.log(global.cache["chat"][to]);
+
     for(var i=0;i<global.cache["chat"][to].length;i++)
     {
         if(global.cache["chat"][to][i].hasSend===false)
