@@ -963,17 +963,12 @@ router.get('/secret/floater', function(req, res) {
     render.view="sendFloater";
     currentQueue=new Queue("floater");
     currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType='漂流瓶' "),bindData,floaterInitLogic,'secretDatas');
+        DB.query(floaterGetSQLQuery(" and files.owner='<username>' "),bindData,floaterInitLogic,'secretDatas');
     }});
 	currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
-    }});
-    // 捞捞看
-    currentQueue.push({exec:function(data){
-        _tmpData=data[0];
-        DB.query(floaterGetSQLQuery(" and secretMainType='漂流瓶' "), bindData, floaterInitLogic, 'secretDatas');
     }});
     getHostSecret();
     if(currentSession)
@@ -987,8 +982,22 @@ router.get('/secret/floater', function(req, res) {
     }});
     currentQueue.start();
     //console.log(currentQueue._datas);
+});
 
-    
+// 捞捞看
+router.get('/secret/floater/try', function(req, res) {
+    currentQueue=new Queue("floater_try");
+    // 捞捞看
+    currentQueue.push({exec:function(data){
+        DB.query(floaterGetSQLQuery(" and secretCity = '<cityname>' and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
+
+    }});  
+    currentQueue.push({exec:function(data){
+        res.json(data[0]);
+        
+        currentQueue=null;
+    }});
+    currentQueue.start();
 });
 
 function floaterGetSQLQuery () {
@@ -998,9 +1007,9 @@ function floaterGetSQLQuery () {
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
+                    .replace("<where>",otherWhere)
                     .replace("<username>",currentSession.username)
-                    .replace("<cityname>",currentSession.user.cityname)
-                    .replace("<where>",otherWhere);
+                    .replace("<cityname>",currentSession.user.cityname);
     }
     else{
         var tmp=homeSQL.replace("<where>",otherWhere);
@@ -1025,8 +1034,7 @@ function getFloatersLogic(data){
         }
     }
 
-    _tmpData["other_floaters"]=data;
-    return _tmpData;
+    return data;
 }
 
 function floaterInitLogic(data){

@@ -53,7 +53,7 @@ module.exports.floaterGetSQL=
     "left join replay on files.id=replay.fileid   "+
     "left join score on files.id=score.fileid and score.username='<username>' "+
     "left join agvscore as agv on files.id=agv.fileid "+
-    "where (secretCity='<cityname>)"+
+    "where (secretMainType='漂流瓶')"+
     " <where> "+
     "group by files.id order by files.filetype, files.createTime  desc";
 
