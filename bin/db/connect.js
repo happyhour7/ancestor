@@ -5,7 +5,7 @@ var TEST_DATABASE = 'ancestor';
 //创建连接 
 var client =mysql.createConnection({  
   user: 'root',  
-  password: 'ww3ww3',  
+  password: '6399998',  
 });
 
 var hasOpen=false;

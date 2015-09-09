@@ -15,6 +15,7 @@ var fake_offser_datas=[];
 var write=require("./toFile");
 var homeSQL=sqlCode.homeSQL;
 var loginHomeSQL=sqlCode.loginHomeSQL;
+var floaterGetSQL=sqlCode.floaterGetSQL;
 
 var longStoreSQL=sqlCode.longStoreSQL;
 var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
@@ -140,7 +141,6 @@ function getMyFriends(){
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"' order by u.Id",bindData,getMyFirendsLogic,'secretDatas');
-        console.log("friends");
     }});
 }
 function getMyFirendsLogic(data){
@@ -681,14 +681,14 @@ router.post('/secret/saveSecret',function(req, res){
         datas.push(currentSession.username);
     
     
-    ////console.log(datas);
-    var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
-            "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
-            "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
-    DB.execute(sql,datas);
-    AddScore(5);
-    res.redirect("/");
+        ////console.log(datas);
+        var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+                "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
+                "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
+                "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
+        DB.query(sql,datas);
+        AddScore(5);
+        res.redirect("/");
     }
         else
     {
@@ -969,7 +969,12 @@ router.get('/secret/floater', function(req, res) {
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
-    }});  
+    }});
+    // 捞捞看
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query(floaterGetSQLQuery(" and secretMainType='漂流瓶' "), bindData, floaterInitLogic, 'secretDatas');
+    }});
     getHostSecret();
     if(currentSession)
     {
@@ -977,18 +982,52 @@ router.get('/secret/floater', function(req, res) {
     }
     getSurvey();
     currentQueue.push({exec:function(data){
-        console.log(data[0]);
         render.apply(data[0],['',function(data){return data;}]);
 
     }});
     currentQueue.start();
     //console.log(currentQueue._datas);
 
-
-
-
     
 });
+
+function floaterGetSQLQuery () {
+    var otherWhere=arguments[0]||"";
+    if(currentSession){
+        return floaterGetSQL.replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<cityname>",currentSession.user.cityname)
+                    .replace("<where>",otherWhere);
+    }
+    else{
+        var tmp=homeSQL.replace("<where>",otherWhere);
+        return tmp;
+    }
+}
+
+function getFloatersLogic(data){
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
+        {
+            data[i]["secretTitle"]="漂流瓶";
+            data[i]["secretMainType"]="漂流瓶";
+            if(currentSession)
+            {
+                if(data[i].owner==currentSession.username)
+                {
+                    data[i]["mine"]=true;
+                }
+            }
+        }
+    }
+
+    _tmpData["other_floaters"]=data;
+    return _tmpData;
+}
 
 function floaterInitLogic(data){
     var result={};
@@ -1029,8 +1068,11 @@ router.post("/client/login",function(req,res){
     }});  
     currentQueue.push({exec:function(data){
         var result=data[0]||data;
+        if(result.Id) {
+            res.cookie["username"]=result.username;    
+        }
         res.json(result);
-
+        
         currentQueue=null;
     }});
     currentQueue.start();
