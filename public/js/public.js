@@ -279,7 +279,7 @@ var page={
 			
 		});
 
-		$(".secret-comments-replay-button").on('click',function(){
+		/*$(".secret-comments-replay-button").on('click',function(){
 			if($("#hasLogin_hidden").val()=="no")
 			{
 				$("#login-area").trigger("click");
@@ -292,7 +292,7 @@ var page={
 			
 			$(this).prev().css({height:"20px"}).val("");
 			$(this).parent().height(30);
-		});
+		});*/
 		$(".select-subitem").on("click",function(){
 			var name=$(this).attr("name");
 			$("#"+name+"_hidden").val($(this).text());
@@ -787,67 +787,70 @@ $('#profile .salvage-button').click(function() {
 		async:false,
 		cache:false,
 		success:function(data){
-			var html = '{{#each this}}'+
-				'<div class="secret-area">'+
-					'<div class="secret-header">'+
-						'<span class ="black-icon"></span>'+
-						'<span class="text">{{secretMainType}}</span>'+
-					'</div>'+
-					'<div class="secret-body">'+
-						'<div class="secret-body-container">'+
+			if(data.error){
+				alert(data.error);
+				return;
+			}
+			var template = Handlebars.compile($('#floaters_try').html());
+			$('#floaters_list').empty().append(template(data));
 
-							'<div class="title-container">'+
-								'<span class="title">{{secretTitle}}</span>'+
-								'<span class="score">{{score}}</span>'+
-							'</div>'+
-							'<div class="items-container">'+
-								'<span class="items photo">'+
-									'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" style="width:50px;height:50px;"/>'+
-								'</span>'+
-								'{{^ mine}}'+
-									'<span class="items name">{{#dealUsername ../owner}}{{/dealUsername}}</span>'+
-								'{{/mine}}'+
-								'{{# mine}}'+
-									'<span class="items name">{{../owner}}</span>'+
-								'{{/mine}}'+
-								'<span class="items address">{{secretCity}}</span>'+
-								'<span class="items sex">{{sex}}</span>'+
-								'<span class="items age">{{age}}</span>'+
-								'<span class="items system-icons lable">{{secretKeyWord}}</span>'+
-								'<div class="text-container">'+
-									'{{longstory}}'+
-								'</div>'+
-							'</div>'+
-							'<div class="comment-area">'+
-								'<div class="top">'+
-									'<textarea type="text" class="input  secrect-comment-area" style="background:none;" maxlength="140"></textarea>'+
-									'<button class="button secret-comments-replay-button"  data="{{secretID}}">发送</button>'+
-									<!--<span class="score">评分：{{score}}</span>-->
-								'</div>'+
-								'<div class="bottom">'+
-									'<span class="left-text">漂流瓶发出时间：</span>'+
-									'<span class="left-text">{{secretDate}}</span>'+
-									'<span class="system-icons comment func-area secret-comment-button" num="{{comments}}" id="comments-{{secretID}}"title="评论" data-toggle="tooltip" data-placement="right">{{comments}}</span>'+
-								'</div>'+
-							'</div>'+
-							'<div style="width:100%;padding: 5px 20px;float:left;border-top:1px solid #ccc;display:none;" id="secret-comments-{{secretID}}">'+
-								'{{# replays}}'+
-								'<div class="height:50px;line-height:50px;margin-bottom:10px;">'+
-									'<span style="font-weight:bold;">{{username}} 回复：</span>'+
-									'<span>{{content}}</span>'+
-									'<div style="color:#ccc;text-align:left;height:30px;line-height:30px;">'+
-										'{{date}}'+
-									'</div>'+
-								'</div>'+
-								'{{/ replays}}'+
-							'</div>'+
-						'</div>'+
+			// 提交漂流瓶回复
+			$(".floater-replay-button").click(function(){
+				if($("#hasLogin_hidden").val()=="no")
+				{
+					$("#login-area").trigger("click");
+					return;
+				}	
+				var text=$(this).prev().find(".secrect-comment-area").val();
+				var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
+				$.ajax({
+					url: '/secret/floater/reply',
+					cache: false,
+					dataType:"json",
+					type: 'POST',
+					data: {
+						content: text,
+						filedid: $(this).prev().find('input[name="filedid"]').val(),
+						replayTime: currentTime
+					},
+					success: function(data) {
+						if(data.error) {
+							alert(data.error);
+							return;
+						}
+						replaySuccess();
+					}
+				});
+			});
+		}
+	});
+});
 
-					'</div>'+
-				'</div>'+
-				'{{/each}}';
-			var template = Handlebars.compile(html);
-			$(_that).after(template(data));
+// 提交漂流瓶回复
+$(".floater-replay-button").click(function(){
+	if($("#hasLogin_hidden").val()=="no")
+	{
+		$("#login-area").trigger("click");
+		return;
+	}	
+	var text=$(this).prev().find(".secrect-comment-area").val();
+	var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
+	$.ajax({
+		url: '/secret/floater/reply',
+		cache: false,
+		dataType:"json",
+		type: 'POST',
+		data: {
+			content: text,
+			filedid: $(this).prev().find('input[name="filedid"]').val(),
+			replayTime: currentTime
+		},
+		success: function(data) {
+			if(data.error) {
+				alert(data.error);
+				return;
+			}
+			replaySuccess();
 		}
 	});
 });

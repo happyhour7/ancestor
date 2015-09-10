@@ -72,6 +72,13 @@ module.exports.execute=function(sql,columns){
       columns  
     );
 };
+
+module.exports.exec = function(sql, datas, callback) {
+  if(hasOpen ===false) {
+    open();
+  }
+  client.query(sql, datas, callback);
+};
 function open(){
     client.connect();
     client.query("use " + TEST_DATABASE);

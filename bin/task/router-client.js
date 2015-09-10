@@ -645,6 +645,7 @@ router.get('/secret/del',function(req,res){
 
 
 router.post('/secret/saveSecret',function(req, res){
+    console.log(req.body);return;
     var datas=[];
     var splitString="";
     render.res=res;
@@ -1032,9 +1033,11 @@ function getFloatersLogic(data){
                 }
             }
         }
-    }
 
-    return data;
+        return data;
+    }
+    
+    return {error:"什么都没有捞到"};
 }
 
 function floaterInitLogic(data){
@@ -1059,6 +1062,29 @@ function floaterInitLogic(data){
    write("myjson.txt",data);
    return result; 
 }
+
+// 回复漂流瓶
+router.post('/secret/floater/reply', function(req, res) {
+    var sql="insert into replay set ?";
+    var result={
+        replayer: currentSession.username,
+        content: req.body.content,
+        fileid: req.body.filedid,
+        replayTime: req.body.replayTime
+    };
+
+    DB.exec(sql, result, function(err, data) {
+        if(err)
+            throw err;
+
+        var status = true;
+        if(!data.insertId){
+            status = {error:"回复失败"};
+        }
+
+        res.json(status);
+    });
+});
 
 
 
