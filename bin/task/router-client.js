@@ -364,7 +364,13 @@ router.get('/secret/order', function(req, res) {
     render.view='order';
     currentQueue=new Queue("");
 
+    currentQueue.push({exec:function(){
+        DB.query(getMyOrder(),bindData,orderInitLogin,'secretDatas');
+        
+    }});
+
     currentQueue.push({exec:function(data){
+        _tmpData = data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
@@ -379,12 +385,36 @@ router.get('/secret/order', function(req, res) {
 function getMyOrder(){
     if(currentSession!=null)
     {
-        return "select * from userorder where username='"+currentSession.username+"'";
+        return "select * from orderdeal where owner='"+currentSession.username+"'";
     }
     else
     {
-        return "select * from userorder where username='allusers'";
+        return "select * from orderdeal where owner='allusers'";
     }
+}
+
+// 定制页面数据初始化逻辑
+function orderInitLogin (data) {
+    var result = {};
+    if(data.length > 0)
+    {
+        for (var i = 0; i < data.length; i++) {
+            data[i]["secretTitle"]="我的定制";
+            data[i]["secretMainType"]="定制";
+            if(currentSession)
+            {
+                if(data[i].owner==currentSession.username)
+                {
+                    data[i]["mine"]=true;
+                }
+            }
+        }
+    }
+
+    result['order_choosen'] = true;
+    result['secretDatas'] = data;
+
+    return result;
 }
 
 
@@ -645,7 +675,6 @@ router.get('/secret/del',function(req,res){
 
 
 router.post('/secret/saveSecret',function(req, res){
-    console.log(req.body);return;
     var datas=[];
     var splitString="";
     render.res=res;
@@ -1084,6 +1113,65 @@ router.post('/secret/floater/reply', function(req, res) {
 
         res.json(status);
     });
+});
+
+// 扔漂流瓶
+router.post('/secret/saveFloater',function(req, res){
+    var datas=[];
+    var splitString="";
+    render.res=res;
+    render.req=req;
+    splitString=req.body.secretMainType+","+
+                req.body.secretType+","+
+                req.body.secretSubType+","+
+                (req.body.secretGrandSubType||"")+","+
+                (req.body.secretLimit||1)+","+
+                (req.body.secretHope||"")+","+
+                (req.body.secretCity||"")+","+
+                (req.body.secretDate2||"")+","+
+                (req.body.secretKeyWord||"")+","+
+                (req.body.secretTitle||"")+","+
+                (req.body.secretBackground||"")+","+
+                (req.body.secretContent||"")+","+
+                (req.body.secretKnown||"")+","+
+                (req.body.othername||"")+","+
+                (req.body.othersex||"")+","+
+                (req.body.otherage||"")+","+
+                (req.body.otherBuildName||"")+","+
+                (req.body.otheraddress||"")+","+
+                (req.body.secretPrice||"")+","+
+                (req.body.secretLimitTime||"")+","+
+                (req.body.islongstory||0)+","+
+                (req.body.longstory||"")+","+
+                (req.body.createTime||"");
+    datas=splitString.split(',');
+    datas[4]=getInt(datas[4]);
+    datas[14]=getInt(datas[14]);
+    datas[18]=getInt(datas[18]);
+    if(currentSession!==null)
+    {
+        datas.push(currentSession.username);
+    
+    
+        ////console.log(datas);
+        var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+                "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
+                "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
+                "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
+        DB.exec(sql, datas, function(err, data) {
+            if(err)
+                throw err;
+
+            console.log(data.insertId);
+
+            res.redirect("/secret/floater");
+        });
+        
+    }
+        else
+    {
+        res.redirect("/");
+    }
 });
 
 

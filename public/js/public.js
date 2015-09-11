@@ -1,22 +1,26 @@
-Date.prototype.format =function(format)
-{
-	var o = {
-		"M+" : this.getMonth()+1, //month
-		"d+" : this.getDate(), //day
-		"h+" : this.getHours(), //hour
-		"m+" : this.getMinutes(), //minute
-		"s+" : this.getSeconds(), //second
-		"q+" : Math.floor((this.getMonth()+3)/3), //quarter
-		"S" : this.getMilliseconds() //millisecond
-	}
-	if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
-	(this.getFullYear()+"").substr(4- RegExp.$1.length));
-	for(var k in o)if(new RegExp("("+ k +")").test(format))
-	format = format.replace(RegExp.$1,
-	RegExp.$1.length==1? o[k] :
-	("00"+ o[k]).substr((""+ o[k]).length));
-	return format;
+Date.prototype.format = function(format){ 
+    var o = { 
+        "M+" : this.getMonth()+1, //month 
+        "d+" : this.getDate(), //day 
+        "h+" : this.getHours(), //hour 
+        "m+" : this.getMinutes(), //minute 
+        "s+" : this.getSeconds(), //second 
+        "q+" : Math.floor((this.getMonth()+3)/3), //quarter 
+        "S" : this.getMilliseconds() //millisecond 
+    } 
+
+    if(/(y+)/.test(format)) { 
+        format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    } 
+    console.log(o);
+    for(var k in o) { 
+        if(new RegExp("("+ k +")").test(format)) { 
+            format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
+        } 
+    } 
+    return format; 
 }
+
 Handlebars.registerHelper('dealUsername', function(text) {
     if(text)
     {
@@ -822,35 +826,6 @@ $('#profile .salvage-button').click(function() {
 					}
 				});
 			});
-		}
-	});
-});
-
-// 提交漂流瓶回复
-$(".floater-replay-button").click(function(){
-	if($("#hasLogin_hidden").val()=="no")
-	{
-		$("#login-area").trigger("click");
-		return;
-	}	
-	var text=$(this).prev().find(".secrect-comment-area").val();
-	var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
-	$.ajax({
-		url: '/secret/floater/reply',
-		cache: false,
-		dataType:"json",
-		type: 'POST',
-		data: {
-			content: text,
-			filedid: $(this).prev().find('input[name="filedid"]').val(),
-			replayTime: currentTime
-		},
-		success: function(data) {
-			if(data.error) {
-				alert(data.error);
-				return;
-			}
-			replaySuccess();
 		}
 	});
 });

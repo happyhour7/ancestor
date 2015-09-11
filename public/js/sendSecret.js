@@ -254,17 +254,6 @@ var page={
         	
         });
 
-        // 扔漂流瓶
-        $("#floater_post_button").on('click',function(){
-
-        	if(page.validate()!==false)
-        	{
-        		$("#secretMainType_hidden").val('漂流瓶');
-        		$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
-	        	$("#floater_post_button").trigger("click");
-        	}
-        });
-
 
         var tmpBackground="";
         var tmpContent="";
