@@ -59,7 +59,7 @@
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
 
 
-      <div class="header-right">
+      <!-- <div class="header-right">
         <ul class="headermenu">
           <li>
             <div class="btn-group">
@@ -75,7 +75,7 @@
             </div>
           </li>
         </ul>
-      </div><!-- header-right -->
+      </div> --><!-- header-right -->
 
     </div><!-- headerbar -->
 
@@ -98,10 +98,12 @@
               <div class="form-group">
                   <label class="col-sm-3 control-label">图片预览</label>
                   <div class="col-sm-6">
-                    
+                        
+                        {{# images}}
                         <div id="previewFirstTop_fake">
-                          <img src="/avatar/{{images}}" style="max-width:775px;max-height:150px;width:775px;height:150px;"  id="previewFirstTop"/>
+                          <img src="/avatar/{{.}}" style="max-width:775px;max-height:150px;width:775px;height:150px;"  id="previewFirstTop"/>
                         </div>
+                        {{/ images}}
                         
                         <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewFirstTop','previewFirstTop_fake')" /> 
                   </div>
@@ -224,10 +226,12 @@
               <div class="form-group">
                   <label class="col-sm-3 control-label">图片预览</label>
                   <div class="col-sm-6">
-                    
+                        
+                        {{# images}}
                         <div id="previewLeftMid_fake" style="max-width:245px;min-width:245px;min-height:245px;">
-                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftMid"/>
+                          <img src="/avatar/{{.}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftMid"/>
                         </div>
+                        {{/ images}}
                         
                         <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewLeftMid','previewLeftMid_fake')" style="max-width:245px;min-width:245px;" /> 
                   </div>
@@ -288,10 +292,12 @@
               <div class="form-group">
                   <label class="col-sm-3 control-label">图片预览</label>
                   <div class="col-sm-6">
-                    
+                        
+                        {{# images}}
                         <div id="previewLeftBottom_fake" style="max-width:245px;min-width:245px;min-height:245px;">
-                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftBottom"/>
+                          <img src="/avatar/{{.}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewLeftBottom"/>
                         </div>
+                        {{/ images}}
                         
                         <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewLeftBottom','previewLeftBottom_fake')"  style="max-width:245px;min-width:245px;"/> 
                   </div>
@@ -351,10 +357,12 @@
               <div class="form-group">
                   <label class="col-sm-3 control-label">图片预览</label>
                   <div class="col-sm-6">
-                    
+                        
+                        {{# images}}
                         <div id="previewinnerpageLeftTop_fake" style="max-width:245px;min-width:245px;min-height:245px;">
-                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewinnerpageLeftTop"/>
+                          <img src="/avatar/{{.}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewinnerpageLeftTop"/>
                         </div>
+                        {{/ images}}
                         
                         <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewinnerpageLeftTop','previewinnerpageLeftTop_fake')" style="max-width:245px;min-width:245px;" /> 
                   </div>
@@ -413,10 +421,12 @@
               <div class="form-group">
                   <label class="col-sm-3 control-label">图片预览</label>
                   <div class="col-sm-6">
-                    
+                        
+                        {{# images}}
                         <div id="previewinnerpageLeftBottom_fake" style="max-width:245px;min-width:245px;min-height:245px;">
-                          <img src="/avatar/{{images}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewinnerpageLeftBottom"/>
+                          <img src="/avatar/{{.}}" style="max-width:245px;min-width:245px;min-height:245px;"  id="previewinnerpageLeftBottom"/>
                         </div>
+                        {{/ images}}
                         
                         <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this,'previewinnerpageLeftBottom','previewinnerpageLeftBottom_fake')"  style="max-width:245px;min-width:245px;"/> 
                   </div>

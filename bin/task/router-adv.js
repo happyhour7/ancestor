@@ -11,22 +11,30 @@ var currentSession={};
 router.post('/adv/login', function(req, res) {
     render.res=res;
     render.req=req;
-    render.view='index';
+    // render.view='index';
 
-    currentQueue=new Queue("index");
+    currentQueue=new Queue("login");
     currentQueue.push({exec:function(){
         DB.query("select * from advuser where userid='"+req.body.userid+"' and password='"+req.body.password+"'",bindData,loginLogic,'secretDatas');
     }});
 
     currentQueue.push({exec:function(data){
-        DB.query("select * from advs where owner='"+req.body.userid+"'",render,advuserLogic,'secretDatas');
-        res.cookie["username"]=req.body.userid;
+        if(data[0]['error']){
+            render.view="login";
+            render.apply(data[0],['',function(_data){return _data;}]);
+        }else{
+            res.cookie["username"]=req.body.userid;
+
+            res.redirect('/adv/index');
+        }
+        
         currentQueue.end();
     }});
     currentQueue.start();
 });
 var currentQueue=null;
 function advuserLogic(data){
+    
     var result={};
     for(var i=0;i<data.length;i++)
     {
@@ -104,8 +112,7 @@ function loginLogic(data){
     }
     else
     {
-        render.res.render(viewPath+"index",{error:"用户名或密码错误，请重新登录"});
-        return false;
+        return {error:"用户名或密码错误，请重新登录"};
     }
 }
 
@@ -127,7 +134,17 @@ router.get('/adv/surveyManager',function(req, res){
 });
 
 router.get('/adv/index', function(req, res) {
-    res.render(viewPath+"index",{});
+    render.res=res;
+    render.req=req;
+    render.view='index';
+
+    currentQueue=new Queue("index");
+
+    currentQueue.push({exec:function(data){
+        DB.query("select * from advs where owner='"+res.cookie["username"]+"'",render,advuserLogic,'secretDatas');
+        currentQueue = null;
+    }});
+    currentQueue.start();
 });
 
 router.get('/adv/login', function(req, res) {
@@ -337,7 +354,16 @@ function ajaxRender(keyname,logic){
     ajaxRender.res.json(data)
 }
 function render(fields,logic){
-    var result=logic(this);
+    var result;
+    if(logic)
+    {
+        result=logic(this);
+    }
+    else
+    {
+        result=this;
+    }
+
     if(result!==false)
     {
         render.res.render(viewPath+render.view, result);
