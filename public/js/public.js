@@ -773,59 +773,5 @@ $("#post-button").click(function(){
 		return false;
 	}
 
-
-	
 });
 
-// 捞捞看
-$('#profile .salvage-button').click(function() {
-	if($("#hasLogin_hidden").val()=="no")
-	{// 未登录，则显示登录提示框
-		$("#login-area").trigger("click");
-		return false;
-	}
-
-	var _that=this;
-	$.ajax({
-		url:"/secret/floater/try",
-		async:false,
-		cache:false,
-		success:function(data){
-			if(data.error){
-				alert(data.error);
-				return;
-			}
-			var template = Handlebars.compile($('#floaters_try').html());
-			$('#floaters_list').empty().append(template(data));
-
-			// 提交漂流瓶回复
-			$(".floater-replay-button").click(function(){
-				if($("#hasLogin_hidden").val()=="no")
-				{
-					$("#login-area").trigger("click");
-					return;
-				}	
-				var text=$(this).prev().find(".secrect-comment-area").val();
-				var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
-				$.ajax({
-					url: '/secret/floater/reply',
-					cache: false,
-					dataType:"json",
-					type: 'POST',
-					data: {
-						content: text,
-						filedid: $(this).prev().find('input[name="filedid"]').val(),
-						replayTime: currentTime
-					},
-					success: function(data) {
-						if(data.error) {
-							alert(data.error);
-							return;
-						}
-						replaySuccess();
-					}
-				});
-			});
-		}
-	});
-});

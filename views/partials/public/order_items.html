@@ -4,7 +4,7 @@
 		<span class ="black-icon"></span>
 		<span class="text">{{secretMainType}}</span>
 		{{#mine}}
-		<span class="system-icons secret-del-button" data={{Id}}>删除</span>
+		<span class="system-icons order-del-button" data={{Id}}>删除</span>
 		{{/mine}}
 	</div>
 	<div class="secret-body">
@@ -25,7 +25,7 @@
 				<span style="color:#000;font-size:12px;float:left;height:30px;line-height:30px;">所有者：</span>
 				<span class="items name">{{../owner}}</span>
 				{{/ mine}}
-
+				
 				{{# type}}
 				<span class="items">类型：</span><span class="items sex">{{.}}</span>
 				{{/ type}}
@@ -37,7 +37,8 @@
 				{{# grandsubtype}}
 				<span class="items">孙类型：</span><span class="items sex">{{.}}</span>
 				{{/ grandsubtype}}
-
+				
+				<br />
 				{{# cityname}}
 				<span class="items">城市：</span><span class="items sex">{{.}}</span>
 				{{/ cityname}}
