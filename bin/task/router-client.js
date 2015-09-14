@@ -570,7 +570,6 @@ router.get('/secret/order', function(req, res) {
     
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        console.log(_tmpData);
         DB.query("",render,function(_data){return  _tmpData;});
     }});
     currentQueue.start();
@@ -1148,6 +1147,37 @@ router.get('/secret/permsg-mysecret',function(req,res){
             DB.query("select * from files where owner='"+currentSession.username+"'",bindData,getMySecrets,'secretDatas');
         }});
 
+        // 添加个人信用评分
+        currentQueue.push({exec:function(data){
+            _tmpData=data[0];
+            var sql = '';
+
+            if(_tmpData['secretDatas']){
+                var owners = [];
+                for(var o in _tmpData['secretDatas']){
+                    owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+                }
+
+                sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+            }
+
+            DB.query(sql, bindData, function(_data){
+                var avgDatas = {};
+                for(var a in _data){
+                    avgDatas[_data[a]['username']] = _data[a]['average'];
+                }
+
+                if(JSON.stringify(avgDatas) != "{}"){
+                    for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                        var secret = _tmpData['secretDatas'][k];
+                        secret['personal_score'] = avgDatas[secret['owner']];
+                    };
+                }
+
+                return _tmpData;
+            });
+        }});
+
         getHostSecret();
         getMyFriends();
         currentQueue.push({exec:function(data){
@@ -1202,7 +1232,6 @@ router.get('/secret/getMineSecret',function(){
     }
 });
 function personalSecretLogic(data){
-    console.log(data);
     if(data.length>0)
     {
         var result=clone(data[0]);
@@ -1568,7 +1597,7 @@ router.get('/secret/permsg',function(req,res){
         currentQueue=new Queue("asdf");
         _tmpData={};
         currentQueue.push({exec:function(data){
-            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){console.log(data);_tmpData=data[0];return data[0];},'secretDatas');
+            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){_tmpData=data[0];return data[0];},'secretDatas');
         }});
         getHostSecret();
         if(currentSession)
@@ -1578,7 +1607,6 @@ router.get('/secret/permsg',function(req,res){
         getSurvey();
         
         currentQueue.push({exec:function(data){
-            console.log(data[0]);
             render.apply([data[0]],['',personalLogic]);
         }});
         currentQueue.start();
