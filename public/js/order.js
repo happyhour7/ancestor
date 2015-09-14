@@ -105,7 +105,23 @@ $(".order-title").click(function(){
     $("#order-oirder-container").toggle();
 });
 
-$("#current_choosen_type").html("WO的秘密");
+// 初始化定制数据
+$("#secret_select_maintype_dropdown").html(current_pindao+'<span class="caret"></span>');
+$('input[name="secretMainType"]').val(current_pindao);
+$("#type_ul>li>a").html(current_type+'<span class="caret"></span>');
+$('input[name="secretType"]').val(current_type);
+$("#subtype_ul>li>a").html(current_subtype+'<span class="caret"></span>');
+$('input[name="secretSubType"]').val(current_subtype);
+$("#grandsubtype_ul>li>a").html(current_grandsubtype+'<span class="caret"></span>');
+$('input[name="secretGrandSubType"]').val(current_grandsubtype);
+$('input[name="secretCity"]').val(cityname);
+var sex_text = sex ? '男':'女';
+$('#secret_othersex_text').html(sex_text+'<span class="caret"></span>');
+$('input[name="secretSex"]').val(sex);
+
+$('#secret_otherage_text').html(age+'<span class="caret"></span>');
+$('input[name="secretAge"]').val(age);
+
 $('#grandsubtype_label').hide();
 eventBind();
 

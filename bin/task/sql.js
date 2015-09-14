@@ -57,6 +57,12 @@ module.exports.floaterGetSQL=
     " <where> "+
     "group by files.id order by files.filetype, files.createTime  desc";
 
+module.exports.personalAvgGetSQL = "select username, round(avg(agv.avgScore),1) as average from users "+
+"left join files on files.owner=username "+
+"left join agvscore as agv on files.id=agv.fileid "+
+"where username in (<username>) "+
+"group by username";
+
 module.exports.longStoreSQL="select * from files  where secretLimit=1 and islongstory=1 order by id  desc";
 module.exports.loginLongStoreSQL=
     "select * from files left join isgood on files.id=isgood.fileid and isgood.username='<username>'  "+
