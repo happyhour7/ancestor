@@ -15,6 +15,7 @@ var fake_offser_datas=[];
 var write=require("./toFile");
 var homeSQL=sqlCode.homeSQL;
 var loginHomeSQL=sqlCode.loginHomeSQL;
+var floaterGetSQL=sqlCode.floaterGetSQL;
 
 var longStoreSQL=sqlCode.longStoreSQL;
 var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
@@ -140,7 +141,6 @@ function getMyFriends(){
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"' order by u.Id",bindData,getMyFirendsLogic,'secretDatas');
-        console.log("friends");
     }});
 }
 function getMyFirendsLogic(data){
@@ -356,43 +356,11 @@ function woLogic(data){
        result['secretDatas']=data;
        return result; 
 }
-var orderSQL="";
-//我的秘密
-router.get('/secret/order', function(req, res) {
-    render.res=res;
-    render.req=req;
-    render.view='order';
-    currentQueue=new Queue("");
-
-    currentQueue.push({exec:function(data){
-        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
-        
-    }});
-    
-    currentQueue.push({exec:function(data){
-        _tmpData=data[0];
-        DB.query("select * from files",render,function(_data){return  _tmpData;});
-    }});
-    currentQueue.start();
-});
-
-function getMyOrder(){
-    if(currentSession!=null)
-    {
-        return "select * from userorder where username='"+currentSession.username+"'";
-    }
-    else
-    {
-        return "select * from userorder where username='allusers'";
-    }
-}
 
 
 //我的秘密
 router.get('/secret/write', function(req, res) {
 
-    
-    
     render.res=res;
     render.req=req;
     render.view="sendSecret";
@@ -417,7 +385,68 @@ router.get('/secret/write', function(req, res) {
 });
 
 
-//我的秘密
+
+//我的定制
+router.get('/secret/order', function(req, res) {
+    render.res=res;
+    render.req=req;
+    render.view='order';
+    currentQueue=new Queue("");
+
+    currentQueue.push({exec:function(){
+        DB.query(getMyOrder(),bindData,orderInitLogin,'secretDatas');
+        
+    }});
+
+    currentQueue.push({exec:function(data){
+        _tmpData = data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        DB.query("select * from files",render,function(_data){return  _tmpData;});
+    }});
+    currentQueue.start();
+});
+
+function getMyOrder(){
+    if(currentSession!=null)
+    {
+        return "select * from orderdeal where owner='"+currentSession.username+"'";
+    }
+    else
+    {
+        return "select * from orderdeal where owner='allusers'";
+    }
+}
+
+// 定制页面数据初始化逻辑
+function orderInitLogin (data) {
+    var result = {};
+    if(data.length > 0)
+    {
+        for (var i = 0; i < data.length; i++) {
+            data[i]["secretTitle"]="我的定制";
+            data[i]["secretMainType"]="定制";
+            if(currentSession)
+            {
+                if(data[i].owner==currentSession.username)
+                {
+                    data[i]["mine"]=true;
+                }
+            }
+        }
+    }
+
+    result['order_choosen'] = true;
+    result['secretDatas'] = data;
+
+    return result;
+}
+
+//保存定制
 router.post('/secret/orderdealsave', function(req, res) {
     render.res=res;
     render.req=req;
@@ -446,18 +475,30 @@ router.post('/secret/orderdealsave', function(req, res) {
             DB.execute("insert into orderdeal set maintype=?,type=?,subtype=?,grandsubtype=?,"+
                 "cityname=?,sex=?,age=?,owner=?",results);
 
-            DB.query(orderSQL,render,orderLogic);
+            res.redirect('/secret/order');
 
         });
     }
     
 });
-function orderLogic(data){
-    return data;
-}
-function sendSecretLogic(data){
-    return data;
-}
+
+// 删除定制
+router.get('/secret/orderdealdel', function(req, res) {
+    var id=req.query.id;
+    if(!isNaN(id))
+    {
+        DB.update("delete from orderdeal where id="+id,function(){
+            res.json({status:"success"});
+        });
+
+    }
+    else
+    {
+        res.json({status:"error"});
+    }
+});
+
+
 
 router.post('/secret/replaysave',function(req,res){
     render.req=req;
@@ -681,14 +722,14 @@ router.post('/secret/saveSecret',function(req, res){
         datas.push(currentSession.username);
     
     
-    ////console.log(datas);
-    var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
-            "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
-            "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
-    DB.execute(sql,datas);
-    AddScore(5);
-    res.redirect("/");
+        ////console.log(datas);
+        var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+                "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
+                "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
+                "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
+        DB.query(sql,datas);
+        AddScore(5);
+        res.redirect("/");
     }
         else
     {
@@ -813,23 +854,57 @@ function personalFriendLogic(data){
         return false;
     }
 }
+
+// 个人中心中的我的秘密
 router.get('/secret/permsg-mysecret',function(req,res){
     render.res=res;
     render.req=req;
-    
+
     if(currentSession&&currentSession.username)
     {
-
         var username=currentSession.username;
         var user=currentSession.user;
-        render.view="personal_mysecret";
-        render.apply([user],['',personalSecretLogic]);
+
+        currentQueue=new Queue("permsg-mysecret");
+        currentQueue.push({exec:function(){
+            DB.query("select * from files where owner='"+currentSession.username+"'",bindData,getMySecrets,'secretDatas');
+        }});
+        getHostSecret();
+        getMyFriends();
+        currentQueue.push({exec:function(data){
+            _tmpData = data[0];
+            render.view="personal_mysecret";
+            /*DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+            DB.query("select * from files",render,function(_data){return  _tmpData;});*/
+            render.apply([user, _tmpData],['',personalSecretLogic]);
+
+        }});
+        currentQueue.start();
     }
     else
     {
         res.redirect("/");
     }
 });
+
+function getMySecrets(data){
+    var result={};
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
+        {
+            if(data[i].owner==currentSession.username)
+            {
+                data[i]["mine"]=true;
+            }
+        }
+    }
+    result['secretDatas']=data;
+    return result; 
+}
+
+
+
 router.get('/secret/getMineSecret',function(){
     if(currentSession&&currentSession.username)
     {
@@ -848,10 +923,14 @@ router.get('/secret/getMineSecret',function(){
     }
 });
 function personalSecretLogic(data){
+    console.log(data);
     if(data.length>0)
     {
         var result=clone(data[0]);
         result["personal_mysecret"]=true;
+        result["secretDatas"] = data[1]["secretDatas"];
+        result["hostSecret"] = data[1]["hostSecret"];
+        result["friends"] = data[1]["friends"];
         return result;
     }
     else
@@ -945,31 +1024,20 @@ router.post('/secret/uploadImage',function(req, res){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-//漂流瓶
+//我的漂流瓶
 router.get('/secret/floater', function(req, res) {
     render.res=res;
     render.req=req;
     render.view="sendFloater";
     currentQueue=new Queue("floater");
     currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType='漂流瓶' "),bindData,floaterInitLogic,'secretDatas');
+        DB.query(floaterGetSQLQuery(" and files.owner='<username>' "),bindData,floaterInitLogic,'secretDatas');
     }});
-	currentQueue.push({exec:function(data){
+    currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
-    }});  
+    }});
     getHostSecret();
     if(currentSession)
     {
@@ -977,18 +1045,91 @@ router.get('/secret/floater', function(req, res) {
     }
     getSurvey();
     currentQueue.push({exec:function(data){
-        console.log(data[0]);
         render.apply(data[0],['',function(data){return data;}]);
 
     }});
     currentQueue.start();
     //console.log(currentQueue._datas);
-
-
-
-
-    
 });
+
+//获取漂流瓶的回复
+router.get('/secret/floaterComments', function(req, res) {
+    var id=req.query.id;
+
+    DB.query(
+        "select * from replay where fileid="+id,
+        function(fields,logic){
+            var data=logic(this);
+            if(data.length==0)
+            {
+                res.json({});
+            }
+            else
+            {
+                res.json({replays:data});
+            }
+            
+        },
+        function(data){
+            return data;
+        }
+    );
+});
+
+// 捞捞看
+router.get('/secret/floater/try', function(req, res) {
+    currentQueue=new Queue("floater_try");
+    // 捞捞看
+    currentQueue.push({exec:function(data){
+        DB.query(floaterGetSQLQuery(" and secretCity = '<cityname>' and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
+
+    }});  
+    currentQueue.push({exec:function(data){
+        res.json(data[0]);
+        
+        currentQueue=null;
+    }});
+    currentQueue.start();
+});
+
+function floaterGetSQLQuery () {
+    var otherWhere=arguments[0]||"";
+    if(currentSession){
+        return floaterGetSQL.replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
+                    .replace("<where>",otherWhere)
+                    .replace("<username>",currentSession.username)
+                    .replace("<cityname>",currentSession.user.cityname);
+    }
+    else{
+        var tmp=homeSQL.replace("<where>",otherWhere);
+        return tmp;
+    }
+}
+
+function getFloatersLogic(data){
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
+        {
+            data[i]["secretTitle"]="漂流瓶";
+            data[i]["secretMainType"]="漂流瓶";
+            if(currentSession)
+            {
+                if(data[i].owner==currentSession.username)
+                {
+                    data[i]["mine"]=true;
+                }
+            }
+        }
+
+        return data;
+    }
+    
+    return {error:"什么都没有捞到"};
+}
 
 function floaterInitLogic(data){
     var result={};
@@ -1013,6 +1154,102 @@ function floaterInitLogic(data){
    return result; 
 }
 
+// 回复漂流瓶
+router.post('/secret/floater/reply', function(req, res) {
+    var sql="insert into replay set ?";
+    var result={
+        replayer: currentSession.username,
+        content: req.body.content,
+        fileid: req.body.filedid,
+        replayTime: req.body.replayTime
+    };
+
+    DB.exec(sql, result, function(err, data) {
+        if(err)
+            throw err;
+
+        var status = true;
+        if(!data.insertId){
+            status = {error:"回复失败"};
+        }
+
+        res.json(status);
+    });
+});
+
+// 扔漂流瓶
+router.post('/secret/saveFloater',function(req, res){
+    var datas=[];
+    var splitString="";
+    render.res=res;
+    render.req=req;
+    splitString=req.body.secretMainType+","+
+                req.body.secretType+","+
+                req.body.secretSubType+","+
+                (req.body.secretGrandSubType||"")+","+
+                (req.body.secretLimit||1)+","+
+                (req.body.secretHope||"")+","+
+                (req.body.secretCity||"")+","+
+                (req.body.secretDate2||"")+","+
+                (req.body.secretKeyWord||"")+","+
+                (req.body.secretTitle||"")+","+
+                (req.body.secretBackground||"")+","+
+                (req.body.secretContent||"")+","+
+                (req.body.secretKnown||"")+","+
+                (req.body.othername||"")+","+
+                (req.body.othersex||"")+","+
+                (req.body.otherage||"")+","+
+                (req.body.otherBuildName||"")+","+
+                (req.body.otheraddress||"")+","+
+                (req.body.secretPrice||"")+","+
+                (req.body.secretLimitTime||"")+","+
+                (req.body.islongstory||0)+","+
+                (req.body.longstory||"")+","+
+                (req.body.createTime||"");
+    datas=splitString.split(',');
+    datas[4]=getInt(datas[4]);
+    datas[14]=getInt(datas[14]);
+    datas[18]=getInt(datas[18]);
+    if(currentSession!==null)
+    {
+        datas.push(currentSession.username);
+    
+    
+        ////console.log(datas);
+        var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+                "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
+                "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
+                "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
+        DB.exec(sql, datas, function(err, data) {
+            if(err)
+                throw err;
+
+            res.redirect("/secret/floater");
+        });
+        
+    }
+        else
+    {
+        res.redirect("/");
+    }
+});
+
+// 删除漂流瓶
+router.get('/secret/floaterdel', function(req, res) {
+    var id=req.query.id;
+    if(!isNaN(id))
+    {
+        DB.update("delete from files where id="+id,function(){
+            res.json({status:"success"});
+        });
+
+    }
+    else
+    {
+        res.json({status:"error"});
+    }
+});
+
 
 
 
@@ -1029,8 +1266,11 @@ router.post("/client/login",function(req,res){
     }});  
     currentQueue.push({exec:function(data){
         var result=data[0]||data;
+        if(result.Id) {
+            res.cookie["username"]=result.username;    
+        }
         res.json(result);
-
+        
         currentQueue=null;
     }});
     currentQueue.start();

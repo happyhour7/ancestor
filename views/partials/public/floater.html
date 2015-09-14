@@ -3,9 +3,12 @@
 	<div class="secret-header">
 		<span class ="black-icon"></span>
 		<span class="text">{{secretMainType}}</span>
+		{{#mine}}
+		<span class="system-icons floater-del-button" data={{Id}}>删除</span>
+		{{/mine}}
 	</div>
 	<div class="secret-body">
-		<div class="secret-body-container">
+		<div class="secret-body-container" id="secret-body-container-{{Id}}">
 
 			<div class="title-container">
 				<span class="title">{{secretTitle}}</span>
@@ -32,17 +35,20 @@
 			</div>
 			<div class="comment-area">
 				<div class='top'>
-					<textarea type="text" class="input  secrect-comment-area" style="background:none;" maxlength="140"></textarea>
-					<button class="button secret-comments-replay-button"  data="{{secretID}}">发送</button>
+					<form action="/secret/floater/reply" method="post" target="secret-replay-iframe-{{Id}}" style="width:100%;">
+						<textarea type="text" class="input  secrect-comment-area" style="background:none;" maxlength="140"></textarea>
+						<input type="hidden" name="filedid" value="{{Id}}"/>
+					</form>
+					<button class="button floater-replay-button"  data="{{Id}}">发送</button>
 					<!--<span class="score">评分：{{score}}</span>-->
 				</div>
 				<div class="bottom">
 					<span class="left-text">漂流瓶发出时间：</span>
 					<span class="left-text">{{secretDate}}</span>
-					<span class="system-icons comment func-area secret-comment-button" num="{{comments}}" id="comments-{{secretID}}"title="评论" data-toggle="tooltip" data-placement="right">{{comments}}</span>
+					<span class="system-icons comment func-area floater-comment-button" data="{{Id}}" num="{{comments}}" id="comments-{{Id}}" title="评论" data-toggle="tooltip" data-placement="right">{{comments}}</span>
 				</div>
 			</div>
-			<div style="width:100%;padding: 5px 20px;float:left;border-top:1px solid #ccc;display:none;" id="secret-comments-{{secretID}}">
+			<div style="width:100%;padding: 5px 20px;float:left;border-top:1px solid #ccc;display:none;" id="secret-comments-{{Id}}">
 				{{# replays}}
 				<div class="height:50px;line-height:50px;margin-bottom:10px;">
 					<span style="font-weight:bold;">{{username}} 回复：</span>

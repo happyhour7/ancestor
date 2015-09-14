@@ -1,0 +1,57 @@
+{{# secretDatas}}
+<div class="secret-area">
+	<div class="secret-header">
+		<span class ="black-icon"></span>
+		<span class="text">{{secretMainType}}</span>
+		{{#mine}}
+		<span class="system-icons order-del-button" data={{Id}}>删除</span>
+		{{/mine}}
+	</div>
+	<div class="secret-body">
+		<div class="secret-body-container" id="secret-body-container-{{Id}}">
+			
+			<div class="title-container">
+				<span class="title">{{secretTitle}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#000;font-size:12px;">频道：</span><a href="/search?type='keyword'&keyword={{secretKeyWord}}" class="items system-icons lable">{{maintype}}</a></span>
+			</div>
+			<div class="items-container">
+				<span class="items photo">
+					<img src='{{> public/defaultImage}}' style="width:30px;height:40px;"/>
+				</span>
+				{{^ mine}}
+				<span style="color:#000;font-size:14px;float:left;height:30px;line-height:30px;">所有者：</span>
+				<span class="items name">{{#dealUsername ../owner}}{{/dealUsername}}</span>
+				{{/ mine}}
+				{{# mine}}
+				<span style="color:#000;font-size:12px;float:left;height:30px;line-height:30px;">所有者：</span>
+				<span class="items name">{{../owner}}</span>
+				{{/ mine}}
+				
+				{{# type}}
+				<span class="items">类型：</span><span class="items sex">{{.}}</span>
+				{{/ type}}
+
+				{{# subtype}}
+				<span class="items">子类型：</span><span class="items sex">{{.}}</span>
+				{{/ subtype}}
+
+				{{# grandsubtype}}
+				<span class="items">孙类型：</span><span class="items sex">{{.}}</span>
+				{{/ grandsubtype}}
+				
+				<br />
+				{{# cityname}}
+				<span class="items">城市：</span><span class="items sex">{{.}}</span>
+				{{/ cityname}}
+
+				<span class="items sex">性别：</span><span class="items sex">{{#if sex}}男{{else}}女{{/if}}</span>
+
+				{{# age}}
+				<span class="items age">年龄：</span><span class="items sex">{{.}}</span>
+				{{/ age}}
+			</div>
+
+		</div>
+
+	</div>
+</div>
+{{/ secretDatas}}

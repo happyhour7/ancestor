@@ -5,7 +5,7 @@ var TEST_DATABASE = 'ancestor';
 //创建连接 
 var client =mysql.createConnection({  
   user: 'root',  
-  password: 'ww3ww3',  
+  password: '6399998',  
 });
 
 var hasOpen=false;
@@ -71,6 +71,13 @@ module.exports.execute=function(sql,columns){
       sql, 
       columns  
     );
+};
+
+module.exports.exec = function(sql, datas, callback) {
+  if(hasOpen ===false) {
+    open();
+  }
+  client.query(sql, datas, callback);
 };
 function open(){
     client.connect();

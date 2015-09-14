@@ -1,26 +1,34 @@
-Date.prototype.format = function(format){ 
-    var o = { 
-        "M+" : this.getMonth()+1, //month 
-        "d+" : this.getDate(), //day 
-        "h+" : this.getHours(), //hour 
-        "m+" : this.getMinutes(), //minute 
-        "s+" : this.getSeconds(), //second 
-        "q+" : Math.floor((this.getMonth()+3)/3), //quarter 
-        "S" : this.getMilliseconds() //millisecond 
-    } 
-
-    if(/(y+)/.test(format)) { 
-        format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-    } 
-
-    for(var k in o) { 
-        if(new RegExp("("+ k +")").test(format)) { 
-            format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
-        } 
-    } 
-    return format; 
-} 
 var floaterPage={
+    floaterValidate: function(){// 扔漂流瓶验证
+
+        var cityname=$("#secret_city_text").val();
+        var otherage=$('#secret_otherage_text').text();
+        var othersex=$('#othersex_hidden').val();
+        var keyword=$('#secretKeyWord_text').val();
+        var content=$('#secrect-content').val();
+        
+
+        if($.trim(cityname)=="")
+        {
+            alert("请输入目的城市");
+            return false;
+        }
+        if(otherage&&$.trim(otherage).indexOf("年龄")>=0){
+            alert("请选择年龄");
+            return false;
+        }
+        if(othersex==''){
+            alert("请选择性别");
+            return false;
+        }
+        if($.trim(keyword)=="")
+        {
+            alert("请输入关键字");
+            return false;
+        }
+
+        return true;
+    },
     load:function(){
         var currentChoosenSex={};
         $(".user-sex-icon").css({
@@ -48,7 +56,6 @@ var floaterPage={
                 if(target)
                 {
                     $("#"+target).val($(this).attr("value"));
-                    console.log(target);
                 }
             },
             "mouseover":function(){
@@ -73,9 +80,126 @@ var floaterPage={
             }
         });
 
+        // 获取漂流瓶的回复
+        $(".floater-comment-button").on("click",function(){
+            console.log($(this).attr('data'));
+            var parents=$("#secret-body-container-"+$(this).attr("data"));
+            if(parents.find(".comment-title-bar")[0]!=null)
+            {
+                return false;
+            }
+            $.ajax({
+                url:"/secret/floaterComments?id="+$(this).attr("data"),
+                async:false,
+                cache:false,
+                success:function(data){
+                    var source=$("#secretComment-temple").html();
+                    var template=Handlebars.compile(source);
+                    console.dir(data);
+                    var html=template(data);
+                    parents.append(html);
+                    $(".comment-title-bar").unbind().click(function(){
+                        $(this).parent().remove();
+                    });
+                }
+            });
+        });
+
+        // 捞捞看
+        $('#profile .salvage-button').click(function() {
+            if($("#hasLogin_hidden").val()=="no")
+            {// 未登录，则显示登录提示框
+                $("#login-area").trigger("click");
+                return false;
+            }
+
+            var _that=this;
+            $.ajax({
+                url:"/secret/floater/try",
+                async:false,
+                cache:false,
+                success:function(data){
+                    if(data.error){
+                        alert(data.error);
+                        return;
+                    }
+                    var template = Handlebars.compile($('#floaters_try').html());
+                    $('#floaters_list').empty().append(template(data));
+
+                    // 激活回复框事件
+                    $(".secrect-comment-area").focus(function(){
+                        $(this).height(90);
+                        $(this).parent().parent().height(100);
+                    }).blur(function(){
+                        $(this).height(25);
+                        $(this).parent().parent().height(25);
+                    });
+
+                    // 提交漂流瓶回复
+                    $(".floater-replay-button").click(function(){
+                        if($("#hasLogin_hidden").val()=="no")
+                        {
+                            $("#login-area").trigger("click");
+                            return;
+                        }   
+                        var text=$(this).prev().find(".secrect-comment-area").val();
+                        var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
+                        $.ajax({
+                            url: '/secret/floater/reply',
+                            cache: false,
+                            dataType:"json",
+                            type: 'POST',
+                            data: {
+                                content: text,
+                                filedid: $(this).prev().find('input[name="filedid"]').val(),
+                                replayTime: currentTime
+                            },
+                            success: function(data) {
+                                if(data.error) {
+                                    alert(data.error);
+                                    return;
+                                }
+                                replaySuccess();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    
+        // 扔漂流瓶事件
         $("#floater_post_button").click(function(){
-            $("#secretDate_shidden").val((new Date()).format("yyyy-MM-dd hh:mm"));
-            $("#floater_submit_button").trigger("click");
+            if($("#hasLogin_hidden").val()=="no")
+            {
+                $("#login-area").trigger("click");
+                return;
+            }
+
+            if(floaterPage.floaterValidate()!==false)
+            {
+                $("#secretMainType_hidden").val('漂流瓶');
+                $("#secretDate_hidden").val((new Date()).format('yyyy-MM-dd'));
+                $("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
+                $("#floater_form").submit();
+            }
+        });
+
+        // 漂流瓶删除事件
+        $(".floater-del-button").click(function(){
+            var id=$(this).attr("data");
+            var _that=this;
+            if(confirm("确认删除该秘密吗？"))
+            {
+                $.ajax({
+                    url:"/secret/floaterdel?id="+id,
+                    async:false,
+                    cache:false,
+                    success:function(data){
+                        $(_that).parent().parent().remove();
+                    }
+                });
+            }
+            
         });
     }
 };
