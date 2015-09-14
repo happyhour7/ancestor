@@ -14,46 +14,46 @@
 			<span class="bad-area"></span>
 		</span>
 	</div>
-	<div style='margin:0 10px;'>
-	<input type="hidden" value="{{law}}" id="survey-law"/>
-	<form action="/survey/post" method="post" id="form-post" target="myiframe">
-	<input type="hidden" value="" id="choosetype" name="choosetype"/>
-		{{# answer1}}
-		<div style='margin:5px 0;'>
-			<input type="radio" name="answer" id="answer1" value="1"/>{{.}}
-		</div>
-		{{/ answer1}}
-
-		{{# answer2}}
-		<div style='margin:5px 0;'>
-			<input type="radio" name="answer" id="answer2" value="2"/>{{.}}
-		</div>
-		{{/ answer2}}
-
-		{{#if answer3}}
-		<div style='margin:5px 0;'>
-			<input type="radio" name="answer" id="answer3" value="3"/>{{answer3}}
-		</div>
-		{{/if}}
-
-		{{#if answer4}}
-		<div style='margin:5px 0;'>
-			<input type="radio" name="answer" id="answer4" value="4"/>{{answer4}}
-		</div>
-		{{/if}}
-
-		{{#if  answer5}}
-		<div style='margin:5px 0;'>
-			<input type="radio" name="answer" id="answer5" value="5"/>{{answer5}}
-		</div>
-		{{/if}}
-
-		{{#if answer6}}
-		<div style='margin:5px 0;'>
-			<input type="radio" name="answer" id="answer6" value="6"/>{{answer6}}
-		</div>
-		{{/if}}
-	</div>
+	<!-- <div style='margin:0 10px;'>
+		<input type="hidden" value="{{law}}" id="survey-law"/>
+		<form action="/survey/post" method="post" id="form-post" target="myiframe">
+		<input type="hidden" value="" id="choosetype" name="choosetype"/>
+			{{# answer1}}
+			<div style='margin:5px 0;'>
+				<input type="radio" name="answer" id="answer1" value="1"/>{{.}}
+			</div>
+			{{/ answer1}}
+	
+			{{# answer2}}
+			<div style='margin:5px 0;'>
+				<input type="radio" name="answer" id="answer2" value="2"/>{{.}}
+			</div>
+			{{/ answer2}}
+	
+			{{#if answer3}}
+			<div style='margin:5px 0;'>
+				<input type="radio" name="answer" id="answer3" value="3"/>{{answer3}}
+			</div>
+			{{/if}}
+	
+			{{#if answer4}}
+			<div style='margin:5px 0;'>
+				<input type="radio" name="answer" id="answer4" value="4"/>{{answer4}}
+			</div>
+			{{/if}}
+	
+			{{#if  answer5}}
+			<div style='margin:5px 0;'>
+				<input type="radio" name="answer" id="answer5" value="5"/>{{answer5}}
+			</div>
+			{{/if}}
+	
+			{{#if answer6}}
+			<div style='margin:5px 0;'>
+				<input type="radio" name="answer" id="answer6" value="6"/>{{answer6}}
+			</div>
+			{{/if}}
+	</div> -->
 	<input type="submit" style="display:none;" id="survey-submit"/>
 	</form>
 	<iframe name="myiframe" style="display:none;"></iframe>

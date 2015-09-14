@@ -2,6 +2,8 @@ var express = require('express');
 var DB=require("../db/connect");
 var router = express.Router();
 var viewPath='actions/admin/';
+var sqlCode=require("./sql");
+var personalAvgGetSQL=sqlCode.personalAvgGetSQL;
 var Queue=require("../queue");
 /* GET home page. */
 router.post('/admin/login', function(req, res) {
@@ -141,6 +143,37 @@ router.get('/admin/getRegistryUser',function(req, res){
     currentQueue.push({exec:function(){
         DB.query("select * from users ",bindData,getUserLogic,'secretDatas');
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+        if(_tmpData.length > 0){
+            var owners = [];
+            for(var o in _tmpData){
+                owners.push('"'+_tmpData[o].username+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+        
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData.length; k++) {
+                    var secret = _tmpData[k];
+                    secret['personal_score'] = avgDatas[secret['username']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
     currentQueue.push({exec:function(data){
         //render.apply(data[0],['',function(data){return data;}]);
         res.json(data[0]);

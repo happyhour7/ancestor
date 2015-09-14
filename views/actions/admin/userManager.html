@@ -446,7 +446,7 @@ $.ajax({
                             .replace("<<username>>",tmp.username)
                             .replace("<<sex>>",tmp.sex=="1"?"男":"女")
                             .replace("<<city>>",tmp.cityname)
-                            .replace("<<score>>",tmp.score)
+                            .replace("<<score>>",tmp.personal_score||0)
                             .replace("<<mark>>",tmp.mark)
                             .replace("<<userid>>",tmp.Id);
         }

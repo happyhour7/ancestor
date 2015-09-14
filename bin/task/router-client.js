@@ -16,6 +16,7 @@ var write=require("./toFile");
 var homeSQL=sqlCode.homeSQL;
 var loginHomeSQL=sqlCode.loginHomeSQL;
 var floaterGetSQL=sqlCode.floaterGetSQL;
+var personalAvgGetSQL=sqlCode.personalAvgGetSQL;
 
 var longStoreSQL=sqlCode.longStoreSQL;
 var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
@@ -65,6 +66,37 @@ router.get('/', function(req, res) {
         DB.query(getHomeSQL(),bindData,indexLogic,'secretDatas');
     }});
 
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
@@ -72,7 +104,6 @@ router.get('/', function(req, res) {
         
     }});
     currentQueue.push({exec:function(data){
-        
         DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
@@ -224,7 +255,8 @@ function firstAdvLogic(data){
     {
         var tmp=data[i];
         try{
-        	tmp.score=global.cache["adv"][render.res.cookie["username"]][tmp.location];
+            tmp.score=global.cache["adv"][render.res.cookie["username"]][tmp.location];
+        	tmp.userscore=global.cache["adv"][render.res.cookie["username"]][tmp.location];
         }catch(e){}
         if(tmp.location=="firstpage-top"){
             _tmpData["firstpageTop"]=tmp;
@@ -256,22 +288,23 @@ function bindData(keyname,logic){
 }
 function indexLogic(data){
     var result={};
-        if(data.length>0)
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
         {
-            for(var i=0;i<data.length;i++)
+            if(currentSession)
             {
-                if(currentSession)
+                if(data[i].owner==currentSession.username)
                 {
-                    if(data[i].owner==currentSession.username)
-                    {
-                        data[i]["mine"]=true;
-                    }
+                    data[i]["mine"]=true;
                 }
             }
+
         }
-       result['newest_choosen']=true;
-       result['secretDatas']=data;
-       return result; 
+    }
+   result['newest_choosen']=true;
+   result['secretDatas']=data;
+   return result; 
 }
 
 
@@ -285,6 +318,38 @@ router.get('/secret/longstore',function(req,res){
     currentQueue.push({exec:function(){
         DB.query(getLongStorySQL(),bindData,longsStoryLogic,'secretDatas');
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
     getHostSecret();
     if(currentSession)
     {
@@ -320,6 +385,38 @@ router.get('/secret/mine', function(req, res) {
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='WO的秘密' "),bindData,woLogic,'secretDatas');
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
@@ -398,15 +495,83 @@ router.get('/secret/order', function(req, res) {
         
     }});
 
+    // 根据定制获取的秘密
+    currentQueue.push({exec:function(data){
+        _tmpData = data[0];
+        var order = _tmpData['order_info'];
+        var sql = '';
+
+        if(JSON.stringify(order) != "{}"){
+            var where = 'and secretMainType="'+order['maintype']+'" and secretType="'+order['type']+'" and secretSubType="'+order['subtype']+'" and secretCity="'+order['cityname']+'" and othersex='+order['sex']+' and otherage="'+order['age']+'"';
+            if(order['maintype'] != 'WO的秘密'){
+                where += ' and secretGrandSubType="'+order['grandsubtype']+'"';
+            }
+            sql = homeSQL.replace('<where>', where);
+        }
+        
+        DB.query(sql, bindData, function(secretDatas){
+
+            if(secretDatas.length >0){
+                for (var i = 0; i < secretDatas.length; i++) {
+                    secretDatas[i]["secretTitle"]="我的定制";
+                    secretDatas[i]["secretMainType"]="定制";
+                    if(currentSession)
+                    {
+                        if(secretDatas[i].owner==currentSession.username)
+                        {
+                            secretDatas[i]["mine"]=true;
+                        }
+                    }
+                }
+
+                _tmpData['secretDatas'] = secretDatas;
+            }
+
+            return _tmpData;
+        });
+    }});
+
     currentQueue.push({exec:function(data){
         _tmpData = data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
     
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        DB.query("select * from files",render,function(_data){return  _tmpData;});
+        console.log(_tmpData);
+        DB.query("",render,function(_data){return  _tmpData;});
     }});
     currentQueue.start();
 });
@@ -425,25 +590,12 @@ function getMyOrder(){
 // 定制页面数据初始化逻辑
 function orderInitLogin (data) {
     var result = {};
-    if(data.length > 0)
-    {
-        for (var i = 0; i < data.length; i++) {
-            data[i]["secretTitle"]="我的定制";
-            data[i]["secretMainType"]="定制";
-            if(currentSession)
-            {
-                if(data[i].owner==currentSession.username)
-                {
-                    data[i]["mine"]=true;
-                }
-            }
-        }
-    }
-
+    
     result['order_choosen'] = true;
-    result['secretDatas'] = data;
+    result['order_info'] = data[0]||{};
 
     return result;
+
 }
 
 //保存定制
@@ -526,6 +678,38 @@ router.get('/secret/ta', function(req, res) {
 
         DB.query(getHomeSQL(" and secretMainType='TA的秘密' "),bindData,taLogic,'secretDatas');
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
     getHostSecret();
     if(currentSession)
     {
@@ -578,6 +762,38 @@ router.get('/secret/sell', function(req, res) {
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,sellLogic,'secretDatas');
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
@@ -626,6 +842,38 @@ router.get('/secret/offer', function(req, res) {
     currentQueue.push({exec:function(){
         DB.query(getHomeSQL(" and secretMainType='悬赏秘密' "),bindData,offerLogic,'secretDatas');
     }});
+
+    // 添加个人信用评分
+    currentQueue.push({exec:function(data){
+        _tmpData=data[0];
+        var sql = '';
+
+        if(_tmpData['secretDatas']){
+            var owners = [];
+            for(var o in _tmpData['secretDatas']){
+                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+            }
+
+            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+        }
+
+        DB.query(sql, bindData, function(_data){
+            var avgDatas = {};
+            for(var a in _data){
+                avgDatas[_data[a]['username']] = _data[a]['average'];
+            }
+
+            if(JSON.stringify(avgDatas) != "{}"){
+                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                    var secret = _tmpData['secretDatas'][k];
+                    secret['personal_score'] = avgDatas[secret['owner']];
+                };
+            }
+
+            return _tmpData;
+        });
+    }});
+
     getHostSecret();
     if(currentSession)
     {
@@ -821,6 +1069,36 @@ router.get('/secret/getMyFriends',function(req,res){
                 DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'",bindData,getFriendNames,'secretDatas');
             }});
 
+            // 添加个人信用评分
+            currentQueue.push({exec:function(data){
+                _tmpData=data[0];
+                var sql = '';
+                if(_tmpData.length > 0){
+                    var owners = [];
+                    for(var o in _tmpData){
+                        owners.push('"'+_tmpData[o].username+'"');
+                    }
+
+                    sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+                }
+                
+                DB.query(sql, bindData, function(_data){
+                    var avgDatas = {};
+                    for(var a in _data){
+                        avgDatas[_data[a]['username']] = _data[a]['average'];
+                    }
+
+                    if(JSON.stringify(avgDatas) != "{}"){
+                        for (var k = 0; k < _tmpData.length; k++) {
+                            var secret = _tmpData[k];
+                            secret['personal_score'] = avgDatas[secret['username']];
+                        };
+                    }
+
+                    return _tmpData;
+                });
+            }});
+
             currentQueue.push({exec:function(data){
                 _tmpData={results:data[0].slice(1)};
                 res.json(_tmpData);
@@ -869,6 +1147,7 @@ router.get('/secret/permsg-mysecret',function(req,res){
         currentQueue.push({exec:function(){
             DB.query("select * from files where owner='"+currentSession.username+"'",bindData,getMySecrets,'secretDatas');
         }});
+
         getHostSecret();
         getMyFriends();
         currentQueue.push({exec:function(data){
