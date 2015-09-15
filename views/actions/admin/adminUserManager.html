@@ -456,12 +456,10 @@ $.ajax({
         $("#advuser-table-tbody").html(result);
         $(".btn-advuser-mod").click(function(){
           var username=$(this).parent().attr("data");
-          alert(username);
           window.location="/admin/adminUserManagerMod?userid="+username;
         });
         $(".btn-advuser-del").click(function(){
           var username=$(this).parent().attr("data");
-          alert(username);
           $.ajax({
             url:"/admin/adminUserManagerDel?username="+username,
             async:false,
