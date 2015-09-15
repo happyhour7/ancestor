@@ -974,11 +974,16 @@ router.post('/secret/saveSecret',function(req, res){
                 "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
                 "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
                 "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
-        DB.query(sql,datas);
-        AddScore(5);
-        res.redirect("/");
+        DB.exec(sql,datas, function(err, result){
+            if(err)
+                throw err;
+
+            AddScore(5);
+            res.redirect("/");
+        });
+        
     }
-        else
+    else
     {
         res.redirect("/");
     }
