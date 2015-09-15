@@ -1463,7 +1463,7 @@ function floaterInitLogic(data){
     }
    result['floater_choosen']=true;
    result['secretDatas']=data;
-   write("myjson.txt",data);
+
    return result; 
 }
 

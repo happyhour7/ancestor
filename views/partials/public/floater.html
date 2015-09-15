@@ -26,11 +26,11 @@
 					<span class="items name">{{../owner}}</span>
 				{{/mine}}
 				<span class="items address">{{secretCity}}</span>
-				<span class="items sex">{{sex}}</span>
-				<span class="items age">{{age}}</span>
+				<span class="items sex">{{#if othersex}}男{{else}}女{{/if}}</span>
+				<span class="items age">{{otherage}}</span>
 				<span class="items system-icons lable">{{secretKeyWord}}</span>
 				<div class="text-container">
-					{{longstory}}
+					{{secretContent}}
 				</div>
 			</div>
 			<div class="comment-area">
