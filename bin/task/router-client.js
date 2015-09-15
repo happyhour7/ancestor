@@ -63,7 +63,7 @@ router.get('/', function(req, res) {
     render.view="index";
     currentQueue=new Queue("index");
     currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(),bindData,indexLogic,'secretDatas');
+        DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
     }});
 
     // 添加个人信用评分
