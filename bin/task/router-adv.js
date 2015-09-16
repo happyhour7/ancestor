@@ -177,7 +177,7 @@ router.post('/adv/save',function(req,res){
     DB.update("delete from advs where owner='"+res.cookie["username"]+"' and location='"+location+"'",function(){
         DB.execute("insert into advs set owner=?,location=?,images=?,href=?",results);
     });
-    res.json({status:"success"});
+    res.redirect('/adv/index');
 });
 
 router.post('/adv/saveImage',function(req, res){
