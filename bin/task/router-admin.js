@@ -252,8 +252,24 @@ router.post('/admin/addAdvUser',function(req, res){
     result.push(req.body.username);
     result.push(req.body.password);
     result.push(req.body.location.join(","));
-    console.log(req.body.location.join(","));
     DB.execute(sql,result);
+
+    // 插入选择的广告
+    var params = [];
+    var advSql = 'insert into advs(owner, location) values';
+    var locations = req.body.location;
+    for(var l in locations){
+        if(l == locations.length - 1){
+            advSql += '(?,?)';
+        }else{
+            advSql += '(?,?), ';
+        }
+        params.push(req.body.username)
+        params.push(locations[l]);
+    }
+    console.log(advSql, params);
+    DB.execute(advSql, params);
+
     res.json({status:"success"});
 });
 
