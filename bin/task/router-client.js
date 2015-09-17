@@ -1070,7 +1070,7 @@ router.get('/secret/getMyFriends',function(req,res){
     {
             currentQueue=new Queue("longstory");
             currentQueue.push({exec:function(){
-                DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"'",bindData,getFriendNames,'secretDatas');
+                DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,getFriendNames,'secretDatas');
             }});
 
             // 添加个人信用评分
@@ -1104,7 +1104,7 @@ router.get('/secret/getMyFriends',function(req,res){
             }});
 
             currentQueue.push({exec:function(data){
-                _tmpData={results:data[0].slice(1)};
+                _tmpData={results:data[0]};
                 res.json(_tmpData);
             }});
             currentQueue.start();

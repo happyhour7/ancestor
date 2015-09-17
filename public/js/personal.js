@@ -6,6 +6,7 @@ var page_personal={
 
 		$("#personal-msg-post-button").click(function(){
 			$("#personal_update_form").submit();
+			alert('提交成功');
 		});
 
 
