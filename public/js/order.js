@@ -113,7 +113,7 @@ $('input[name="secretType"]').val(current_type);
 $("#subtype_ul>li>a").html(current_subtype+'<span class="caret"></span>');
 $('input[name="secretSubType"]').val(current_subtype);
 $("#grandsubtype_ul>li>a").html(current_grandsubtype+'<span class="caret"></span>');
-$('input[name="secretGrandSubType"]').val(current_grandsubtype!='选择孙类型'?current_grandsubtype:'');
+$('input[name="secretGrandSubType"]').val(current_grandsubtype);
 $('input[name="secretCity"]').val(cityname);
 var sex_text = sex ? '男':'女';
 $('#secret_othersex_text').html(sex_text+'<span class="caret"></span>');
@@ -301,6 +301,8 @@ function eventBind(){
         }
 
         $('#subtype_ul>li>a').html("选择子类型<span class='caret'></span>");
+        $('#secretSubType_hidden').val('');
+
         $('#subtype_ul ul').html(html);
         eventBind();
     });
@@ -330,6 +332,8 @@ function eventBind(){
         }
 
         $('#grandsubtype_ul>li>a').html("选择孙类型<span class='caret'></span>");
+        $('#secretGrandSubType_hidden').val('');
+
         $('#grandsubtype_ul ul').html(html);
         eventBind();
     });
