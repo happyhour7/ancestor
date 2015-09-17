@@ -141,7 +141,11 @@ router.get('/adv/index', function(req, res) {
     currentQueue=new Queue("index");
 
     currentQueue.push({exec:function(data){
-        DB.query("select * from advs where owner='"+res.cookie["username"]+"'",render,advuserLogic,'secretDatas');
+        DB.query("select * from advs where owner='"+res.cookie["username"]+"'",bindData,advuserLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(_data){return _data;}]);
         currentQueue = null;
     }});
     currentQueue.start();
