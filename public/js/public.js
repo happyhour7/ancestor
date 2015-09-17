@@ -643,6 +643,15 @@ function buildChatWin(title,target){
 		sendMsg({text:text,target:target,from:currentSystemUsername});
 		$(this).prev().val("");
 	}).appendTo(win);
+
+	// 回车发送
+	$(button).prev().keypress(function(e){
+		if(e.which == 13){
+			var text=$(this).val();
+			sendMsg({text:text,target:target,from:currentSystemUsername});
+			$(this).val("");
+		}
+	})
 }
 
 function sendMsg(data){

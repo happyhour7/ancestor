@@ -287,6 +287,8 @@ function eventBind(){
         if(subtype){
             for(i in subtype)
             {
+                if(i == 'children')
+                    continue;
                 var subtype_name = subtype[i];
                 html+='<li><a';
                 if(target === 'shangjiamimi') {
