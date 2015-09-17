@@ -14,6 +14,7 @@ var fake_sell_datas=[];
 var fake_offser_datas=[];
 var write=require("./toFile");
 var homeSQL=sqlCode.homeSQL;
+var orderSQL=sqlCode.orderSQL;
 var loginHomeSQL=sqlCode.loginHomeSQL;
 var floaterGetSQL=sqlCode.floaterGetSQL;
 var personalAvgGetSQL=sqlCode.personalAvgGetSQL;
@@ -502,13 +503,30 @@ router.get('/secret/order', function(req, res) {
         var sql = '';
 
         if(JSON.stringify(order) != "{}"){
-            var where = 'and secretMainType="'+order['maintype']+'" and secretType="'+order['type']+'" and secretSubType="'+order['subtype']+'" and secretCity="'+order['cityname']+'" and othersex='+order['sex']+' and otherage="'+order['age']+'"';
-            if(order['maintype'] != 'WO的秘密'){
+            var where = 'owner="'+order['owner']+'" and secretMainType="'+order['maintype']+'"';
+
+            if(order['type']){
+                where += ' and secretType="'+order['type']+'"';
+            }
+            if(order['subtype']){
+                where += ' and secretSubType="'+order['subtype']+'"';
+            }
+            if(order['cityname']){
+                where += ' and secretCity="'+order['cityname']+'"';
+            }
+            if(order['sex']){
+                where += ' and othersex='+order['sex'];
+            }
+            if(order['age']){
+                where += ' and otherage="'+order['age']+'"';
+            }
+
+            if(order['maintype'] != 'WO的秘密' && order['grandsubtype']){
                 where += ' and secretGrandSubType="'+order['grandsubtype']+'"';
             }
-            sql = homeSQL.replace('<where>', where);
+            sql = orderSQL.replace('<where>', where);
         }
-        
+        console.log(sql);
         DB.query(sql, bindData, function(secretDatas){
 
             if(secretDatas.length >0){
