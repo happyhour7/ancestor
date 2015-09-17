@@ -526,7 +526,7 @@ router.get('/secret/order', function(req, res) {
             }
             sql = orderSQL.replace('<where>', where);
         }
-        console.log(sql);
+
         DB.query(sql, bindData, function(secretDatas){
 
             if(secretDatas.length >0){
@@ -620,6 +620,7 @@ router.post('/secret/orderdealsave', function(req, res) {
     render.res=res;
     render.req=req;
     render.view='order';
+    console.log(req.body);
     if(currentSession==null)
     {
         render.view="index";
