@@ -23,7 +23,7 @@ var floaterPage={
         }
         if($.trim(keyword)=="")
         {
-            alert("请输入关键字");
+            alert("请输入标签");
             return false;
         }
 
