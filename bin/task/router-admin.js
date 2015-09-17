@@ -19,7 +19,7 @@ function loginLogic(data){
     }
     else
     {
-        render.res.render(viewPath+"index",{error:"用户名或密码错误，请重新登录"});
+        render.res.render(viewPath+"login",{error:"用户名或密码错误，请重新登录"});
     }
 }
 
