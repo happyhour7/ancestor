@@ -109,11 +109,11 @@ $(".order-title").click(function(){
 $("#secret_select_maintype_dropdown").html(current_pindao+'<span class="caret"></span>');
 $('input[name="secretMainType"]').val(current_pindao);
 $("#type_ul>li>a").html(current_type+'<span class="caret"></span>');
-$('input[name="secretType"]').val(current_type);
+$('input[name="secretType"]').val(current_type!='选择类型'?current_type:'');
 $("#subtype_ul>li>a").html(current_subtype+'<span class="caret"></span>');
-$('input[name="secretSubType"]').val(current_subtype);
+$('input[name="secretSubType"]').val(current_subtype!='选择子类型'?current_subtype:'');
 $("#grandsubtype_ul>li>a").html(current_grandsubtype+'<span class="caret"></span>');
-$('input[name="secretGrandSubType"]').val(current_grandsubtype);
+$('input[name="secretGrandSubType"]').val(current_grandsubtype!='选择孙类型'?current_grandsubtype:'');
 $('input[name="secretCity"]').val(cityname);
 var sex_text = sex ? '男':'女';
 $('#secret_othersex_text').html(sex_text+'<span class="caret"></span>');

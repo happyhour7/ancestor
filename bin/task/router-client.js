@@ -620,7 +620,6 @@ router.post('/secret/orderdealsave', function(req, res) {
     render.res=res;
     render.req=req;
     render.view='order';
-    console.log(req.body);
     if(currentSession==null)
     {
         render.view="index";
