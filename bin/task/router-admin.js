@@ -251,24 +251,37 @@ router.post('/admin/addAdvUser',function(req, res){
     result.push(req.body.userid);
     result.push(req.body.username);
     result.push(req.body.password);
-    result.push(req.body.location.join(","));
+
+    var loca = req.body.location,
+        locations = '',
+        advLoca = req.body.location;
+    if(loca instanceof Array){
+        locations = loca.join(",");
+    }else if(typeof loca == 'string'){
+        locations = loca;
+        advLoca = [loca];
+    }else{
+        locations = '';
+    }
+    result.push(locations);
     DB.execute(sql,result);
 
     // 插入选择的广告
     var params = [];
     var advSql = 'insert into advs(owner, location) values';
-    var locations = req.body.location;
-    for(var l in locations){
-        if(l == locations.length - 1){
-            advSql += '(?,?)';
-        }else{
-            advSql += '(?,?), ';
+    if(advLoca){ 
+        for(var l in advLoca){
+            if(l == advLoca.length - 1){
+                advSql += '(?,?)';
+            }else{
+                advSql += '(?,?), ';
+            }
+            params.push(req.body.username)
+            params.push(advLoca[l]);
         }
-        params.push(req.body.username)
-        params.push(locations[l]);
+
+        DB.execute(advSql, params);
     }
-    console.log(advSql, params);
-    DB.execute(advSql, params);
 
     res.json({status:"success"});
 });
@@ -276,12 +289,44 @@ router.post('/admin/addAdvUser',function(req, res){
 router.post('/admin/updateAdvUser',function(req, res){
 	var password=req.body.password||"";
 	var sql="";
+
+    var loca = req.body.location,
+        locations = '',
+        advLoca = req.body.location;
+    if(loca instanceof Array){
+        locations = loca.join(",");
+    }else if(typeof loca == 'string'){
+        locations = loca;
+        advLoca = [loca];
+    }else{
+        locations = '';
+    }
+
+    // 更新选择的广告
+    DB.update('delete from advs where owner="'+req.body.username+'"',function(){
+        var params = [];
+        var advSql = 'insert into advs(owner, location) values';
+        if(advLoca){ 
+            for(var l in advLoca){
+                if(l == advLoca.length - 1){
+                    advSql += '(?,?)';
+                }else{
+                    advSql += '(?,?), ';
+                }
+                params.push(req.body.username)
+                params.push(advLoca[l]);
+            }
+
+            DB.execute(advSql, params);
+        }
+    });
+
 	if(password!="")
 	{
-		sql="update advuser set username='"+req.body.username+"',password='"+password+"',location='"+req.body.location.join(",")+"' where userid='"+req.body.userid+"'";
+		sql="update advuser set username='"+req.body.username+"',password='"+password+"',location='"+locations+"' where userid='"+req.body.userid+"'";
 	}
 	else{
-		sql="update advuser set username='"+req.body.username+"',location='"+req.body.location.join(",")+"' where userid='"+req.body.userid+"'";
+		sql="update advuser set username='"+req.body.username+"',location='"+locations+"' where userid='"+req.body.userid+"'";
 	}
     
     DB.update(sql,function(){

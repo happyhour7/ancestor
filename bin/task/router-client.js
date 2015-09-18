@@ -290,6 +290,7 @@ function firstAdvLogic(data){
             if(err)
                 next(err);
 
+            tmp['score'] = 0;
             if(results[0]){
                 tmp['score'] = results[0];
             }
@@ -326,34 +327,6 @@ function firstAdvLogic(data){
 
         return _tmpData;
     });
-    /*for(var i=0;i<data.length;i++)
-    {
-        var tmp=data[i];
-        try{
-            tmp.score=global.cache["adv"][render.res.cookie["username"]][tmp.location];
-        	tmp.userscore=global.cache["adv"][render.res.cookie["username"]][tmp.location];
-        }catch(e){}
-        if(tmp.location=="firstpage-top"){
-            _tmpData["firstpageTop"]=tmp;
-        }
-        if(tmp.location=="firstpage-left-top"){
-
-            _tmpData["firstpageLeftTop"]=tmp;
-        }
-        if(tmp.location=="firstpage-left-mid"){
-            _tmpData["firstpageLeftMid"]=tmp;
-        }
-        if(tmp.location=="firstpage-left-bottom"){
-            _tmpData["firstpageLeftBottom"]=tmp;
-        }
-        if(tmp.location=="innerpage-left-top"){
-            _tmpData["innerpageLeftTop"]=tmp;
-        }
-        if(tmp.location=="innerpage-left-bottom"){
-            _tmpData["innerpageLeftBottom"]=tmp;
-        }
-    }*/
-    return _tmpData;
 }
 function bindData(keyname,logic){
     var data=logic(this);
