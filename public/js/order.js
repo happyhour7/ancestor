@@ -97,6 +97,52 @@ var dataDIc={
         sirenmimi:{
             benren:"本人",
             children:['经验','教训','技能','经历','其他']
+        },
+        shangjiamimi:{
+            canguan:{
+                text:"餐馆",
+                children:['材料','卫生','其他']
+            },
+            jiudian:{
+                text:"酒店",
+                children:['卫生','特殊服务','其他']
+            },
+            kafeiguan:{
+                text:"咖啡馆",
+                children:['真假','其他']
+            },
+            jiuzhuang:{
+                text:"酒庄",
+                children:['真假','其他']
+            },
+            shangchao:{
+                text:"商超",
+                children:['真假','其他']
+            },
+            jiayouzhan:{
+                text:"加油站",
+                children:['质数量','价格','其他']
+            },
+            qixiuchang:{
+                text:"汽修厂",
+                children:['诚信','技术','速度','价格','其他']
+            },
+            yiyuan:{
+                text:"医院",
+                children:['医术','医德','护士','价格','卫生','其他']
+            },
+            gongsi:{
+                text:"公司",
+                children:['骗子公司','黑中介','活少钱多','老板变态','其他']
+            },
+            shangpu:{
+                text:"商铺",
+                children:['真假','其他']
+            },
+            qita:{
+                text:"其他",
+                children:['真假','其他']
+            }
         }
     }
 }
@@ -158,7 +204,7 @@ $(".select-pindao-subitem").click(function(){
     else if(text=="TA的秘密")
     {
         html='<li class="dropdown">'+
-            '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 私人秘密<span class="caret"></span></a>'+
+            '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
             "<li><a class='select-item' data-src='tatype' target='sirenmimi'>私人秘密</a></li>"+
             "<li><a class='select-item' data-src='tatype' target='shangjiamimi'>商家秘密</a></li>"+
@@ -166,42 +212,19 @@ $(".select-pindao-subitem").click(function(){
         subtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1" id="ta_subtype_ul">'+
-                '<li><a class="select-subitem" href="#">亲人</a></li>'+
-                '<li><a class="select-subitem" href="#">爱人</a></li>'+
-                '<li><a class="select-subitem" href="#">同学</a></li>'+
-                '<li><a class="select-subitem" href="#">老师</a></li>'+
-                '<li><a class="select-subitem" href="#">学生</a></li>'+
-                '<li><a class="select-subitem" href="#">上司</a></li>'+
-                '<li><a class="select-subitem" href="#">下属</a></li>'+
-                '<li><a class="select-subitem" href="#">同事</a></li>'+
-                '<li><a class="select-subitem" href="#">客户</a></li>'+
-                '<li><a class="select-subitem" href="#">邻居</a></li>'+
-                '<li><a class="select-subitem" href="#">朋友</a></li>'+
-                '<li><a class="select-subitem" href="#">名人</a></li>'+
-                '<li><a class="select-subitem" href="#">司机</a></li>'+
-                '<li><a class="select-subitem" href="#">服务商</a></li>'+
-                '<li><a class="select-subitem" href="#">其他</a></li>'+
             '</ul></li>';
         grandsubtype_html = '<li class="dropdown">'+
                 '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择孙类型<span class="caret"></span></a>'+
                 '<ul class="dropdown-menu" aria-labelledby="drop1">'+
-                    '<li><a href="#">忠贞</a></li>'+
-                    '<li><a href="#">品德</a></li>'+
-                    '<li><a href="#">怪癖</a></li>'+
-                    '<li><a href="#">能力</a></li>'+
-                    '<li><a href="#">身体</a></li>'+
-                    '<li><a href="#">婚姻</a></li>'+
-                    '<li><a href="#">隐私</a></li>'+
-                    '<li><a href="#">其他</a></li>'+
                 '</ul></li>';
     }
     else if(text=="出售秘密")
     {
         html='<li class="dropdown">'+
-            '<a id="secrettype_one" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">私人秘密<span class="caret"></span></a>'+
+            '<a id="secrettype_one" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
-                '<li><a class="select-item" data-src="selltype" id="sell-secret-bus-personal-ul">商家秘密</a></li>'+
-                '<li><a class="select-item" data-src="selltype" id="sell-secret-personal-personal-ul">私人秘密</a></li>'+
+                '<li><a class="select-item" data-src="selltype" target="sirenmimi">私人秘密</a></li>'+
+                '<li><a class="select-item" data-src="selltype" target="shangjiamimi">商家秘密</a></li>'+
             '</ul></li>';
         subtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
@@ -211,11 +234,6 @@ $(".select-pindao-subitem").click(function(){
         grandsubtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择孙类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
-                '<li><a class="select-subitem" name="secretGrandSubType">经验</a></li>'+
-                '<li><a class="select-subitem" name="secretGrandSubType">教训</a></li>'+
-                '<li><a class="select-subitem" name="secretGrandSubType">技能</a></li>'+
-                '<li><a class="select-subitem" name="secretGrandSubType">经历</a></li>'+
-                '<li><a class="select-subitem" name="secretGrandSubType">其他</a></li>'+
             '</ul></li>';
     }
     else if(text=="悬赏秘密")
@@ -223,27 +241,12 @@ $(".select-pindao-subitem").click(function(){
         html='<li class="dropdown">'+
             '<a id="secrettype_one" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">私人秘密<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
-                '<li><a data-src="selltype" id="offser-secret-personal-bus-li">商家秘密</a></li>'+
-                '<li><a data-src="selltype" id="offser-secret-personal-personal-li">私人秘密</a></li>'+
+                '<li><a data-src="selltype" target="sirenmimi">私人秘密</a></li>'+
+                '<li><a data-src="selltype" target="shangjiamimi">商家秘密</a></li>'+
             '</ul></li>';
         subtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
-                '<li><a class="select-subitem" name="secretSubType">亲人</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">爱人</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">同学</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">老师</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">学生</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">上司</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">下属</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">同事</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">客户</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">邻居</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">朋友</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">名人</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">司机</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">服务商</a></li>'+
-                '<li><a class="select-subitem" name="secretSubType">其他</a></li>'+
             '</ul></li>';
         grandsubtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择孙类型<span class="caret"></span></a>'+
@@ -273,7 +276,7 @@ function eventBind(){
 
     // 类型到子类型联动效果
     $(".select-item").on("click",function(){
-        var html="";
+        var html='<li><a class="select-subitem" data-type="" data-src="">选择子类型</a></li>';
         var i;
 
         $("#secretType_hidden").val($(this).text());
@@ -309,10 +312,17 @@ function eventBind(){
 
     // 子类型到孙类型联动效果
     $(".select-subitem").on("click",function(){
-        var html="";
-        var i;
 
-        $('#secretSubType_hidden').val($(this).text());
+        if($(this).text() == '选择子类型'){
+            $('#subtype_ul>li>a').html("选择子类型<span class='caret'></span>");
+            $('#secretSubType_hidden').val('');
+            return;
+        }else{
+            $('#secretSubType_hidden').val($(this).text());
+        }
+
+        var html='<li><a class="select-grandsubitem" name="secretGrandSubType">选择孙类型</a></li>';
+        var i;
 
         $(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
 
@@ -340,7 +350,13 @@ function eventBind(){
 
     // 孙类型选择事件
     $(".select-grandsubitem").on("click",function(){
-        $('#secretGrandSubType_hidden').val($(this).text());
+        if($(this).text() == '选择孙类型'){
+            $('#grandsubtype_ul>li>a').html("选择孙类型<span class='caret'></span>");
+            $('#secretGrandSubType_hidden').val('');
+            return;
+        }else{
+            $('#secretGrandSubType_hidden').val($(this).text());
+        }
 
         $(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
     });
@@ -354,7 +370,7 @@ $('.select-subitem-other').on('click', function(){
     if(name === 'secretSex'){
         value = $(this).attr('data-val');
     }
-    $("#"+name+"_hidden").val(value);
+    $("#"+name+"_hidden").val(value != '选择年龄'?value:'');
 
     $(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
 });

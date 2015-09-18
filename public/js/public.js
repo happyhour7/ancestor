@@ -442,8 +442,9 @@ var page={
 			var that=this;
 			var choosenScore=$(this).find("option:selected").text();
 			var location=$(this).parent().prev().prev().val();
+			var advId = $(this).attr('data');
 			$.ajax({
-				url:"/adv/setScore?userid="+$("#hasLogin_hidden").attr("username")+"&score="+choosenScore+"&location="+location,
+				url:"/adv/setScore?advId="+advId+"&userid="+$("#hasLogin_hidden").attr("username")+"&score="+choosenScore+"&location="+location,
 				async:false,
 				cache:false,
 				success:function(){

@@ -267,23 +267,31 @@ router.get('/adv/sendComment',function(req,res){
 
 
 router.get('/adv/setScore',function(req,res){
+    var advId = req.query.advId;
 	var userid=req.query.userid;
 	var score=req.query.score;
 	var location=req.query.location;
-	if(!global.cache["adv"])
-	{
-		global.cache["adv"]={};
-	}
-	if(!global.cache["adv"][userid])
-	{
-		global.cache["adv"][userid]={};
-	}
-	global.cache["adv"][userid][location]=score;
-	res.json({status:"success"});
+    DB.update('delete from advscore where username="'+userid+'" and advId='+advId+' and location="'+location+'"',function(){
+        var sql="insert into advscore set username=?,advId=?,score=?,location=?";
+        var results=[userid];
+        results.push(advId);
+        results.push(score);
+        results.push(location);
+        DB.execute(sql,results);
+        if(!global.cache["adv"])
+        {
+            global.cache["adv"]={};
+        }
+        if(!global.cache["adv"][userid])
+        {
+            global.cache["adv"][userid]={};
+        }
+        global.cache["adv"][userid][location]=score;
+
+        res.json({status:"success"});
+    });
 	
 })
-
-
 
 
 

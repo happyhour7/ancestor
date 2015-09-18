@@ -1,3 +1,4 @@
+var async = require('async');
 var express = require('express');
 var DB=require("../db/connect");
 var session = require('express-session');
@@ -252,7 +253,80 @@ function systemNoticeLogic(data){
     return _tmpData;
 }
 function firstAdvLogic(data){
-    for(var i=0;i<data.length;i++)
+    async.each(data, function(tmp, next){
+        try{
+            // tmp.score=global.cache["adv"][render.res.cookie["username"]][tmp.location];
+            tmp.userscore=global.cache["adv"][render.res.cookie["username"]][tmp.location];
+        }catch(e){}
+
+        async.parallel([
+            function(callback){
+                DB.exec('select sum(score) as score from advscore where advId=?', [tmp.Id], function(err, result){
+                    if(err){
+                        callback(err);
+                    }else{
+                        callback(null, result[0]['score']);
+                    }
+                });
+                return;
+
+                callback(null);
+            },
+            function(callback){
+                if(!tmp.userscore && currentSession){
+                    DB.exec('select score as userscore from advscore where advId=? and username=?', [tmp.Id, currentSession.username], function(err, result){
+                        if(err){
+                            callback(err);
+                        }else{
+                            callback(null, result.length > 0 ? result[0]['userscore']:undefined);
+                        }
+                    });
+                    return;
+                }
+
+                callback(null);
+            }
+        ], function(err, results){
+            if(err)
+                next(err);
+
+            if(results[0]){
+                tmp['score'] = results[0];
+            }
+            if(results[1]){
+                tmp['userscore'] = results[1];
+            }
+
+            if(tmp.location=="firstpage-top"){
+                _tmpData["firstpageTop"]=tmp;
+            }
+            if(tmp.location=="firstpage-left-top"){
+
+                _tmpData["firstpageLeftTop"]=tmp;
+            }
+            if(tmp.location=="firstpage-left-mid"){
+                _tmpData["firstpageLeftMid"]=tmp;
+            }
+            if(tmp.location=="firstpage-left-bottom"){
+                _tmpData["firstpageLeftBottom"]=tmp;
+            }
+            if(tmp.location=="innerpage-left-top"){
+                _tmpData["innerpageLeftTop"]=tmp;
+            }
+            if(tmp.location=="innerpage-left-bottom"){
+                _tmpData["innerpageLeftBottom"]=tmp;
+            }
+
+            next(null);
+
+        });
+    }, function(err){
+        if(err)
+            throw err;
+
+        return _tmpData;
+    });
+    /*for(var i=0;i<data.length;i++)
     {
         var tmp=data[i];
         try{
@@ -278,7 +352,7 @@ function firstAdvLogic(data){
         if(tmp.location=="innerpage-left-bottom"){
             _tmpData["innerpageLeftBottom"]=tmp;
         }
-    }
+    }*/
     return _tmpData;
 }
 function bindData(keyname,logic){
