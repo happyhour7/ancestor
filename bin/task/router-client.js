@@ -253,6 +253,7 @@ function systemNoticeLogic(data){
     return _tmpData;
 }
 function firstAdvLogic(data){
+    
     async.each(data, function(tmp, next){
         try{
             // tmp.score=global.cache["adv"][render.res.cookie["username"]][tmp.location];
@@ -268,9 +269,6 @@ function firstAdvLogic(data){
                         callback(null, result[0]['score']);
                     }
                 });
-                return;
-
-                callback(null);
             },
             function(callback){
                 if(!tmp.userscore && currentSession){
@@ -398,17 +396,22 @@ router.get('/secret/longstore',function(req,res){
         });
     }});
 
-    getHostSecret();
-    if(currentSession)
-    {
-        getMyFriends();
-    }
-getSurvey();
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
+        
+    }});
+
+    getHostSecret();
+    if(currentSession)
+    {
+        getMyFriends();
+    }
+    getSurvey();
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
         //currentQueue.end();
@@ -470,6 +473,10 @@ router.get('/secret/mine', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
+        
+    }});
     getHostSecret();
     if(currentSession)
     {
@@ -513,6 +520,10 @@ router.get('/secret/write', function(req, res) {
 
     currentQueue.push({exec:function(data){
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
     getHostSecret();
@@ -596,12 +607,6 @@ router.get('/secret/order', function(req, res) {
         });
     }});
 
-    currentQueue.push({exec:function(data){
-        _tmpData = data[0];
-        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
-        
-    }});
-
     // 添加个人信用评分
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
@@ -631,6 +636,16 @@ router.get('/secret/order', function(req, res) {
 
             return _tmpData;
         });
+    }});
+
+    currentQueue.push({exec:function(data){
+        _tmpData = data[0];
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
+        
     }});
     
     currentQueue.push({exec:function(data){
@@ -785,6 +800,10 @@ router.get('/secret/ta', function(req, res) {
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
+        
+    }});
     
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
@@ -861,6 +880,10 @@ router.get('/secret/sell', function(req, res) {
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
     getHostSecret();
@@ -947,6 +970,10 @@ router.get('/secret/offer', function(req, res) {
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -1414,6 +1441,10 @@ router.get('/secret/floater', function(req, res) {
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
+        
+    }});
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='system'",bindData,systemNoticeLogic,'secretDatas');
         
     }});
     getHostSecret();
