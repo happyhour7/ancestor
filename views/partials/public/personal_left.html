@@ -3,11 +3,16 @@
     <div id="preview_fake">
     	<img src="/avatar/{{userPhoto}}" style="max-width:100%;min-height:243px;" id="preview"/>
     </div>
-    
-    <input id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this)" />	 
+    <div class="row">
+        <div class="col-md-7">
+            <input style="width:93%" id="fulAvatar" name="fulAvatar" type="file" class="form-control" onchange="onUploadImgChange(this)" />
+        </div>
+        <div class="col-md-5">
+            <button id="btnSub_upload" class="btn btn-primary" type="submit">上 传</button>
+        </div>
+    </div>
     <br/> 
 </form>
-<button id="btnSub_upload" class="btn btn-lg btn-primary" style="width:100%;" type="submit">上 传</button>
 <iframe id="uploadImage_iframe" name="uploadImage" style="display:none;"></iframe>
 <img id="preview_size_fake" />
 <span id="swh"></span>
