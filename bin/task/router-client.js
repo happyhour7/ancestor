@@ -531,7 +531,6 @@ router.get('/secret/write', function(req, res) {
     currentQueue=new Queue("sendSecret");
 
     currentQueue.push({exec:function(data){
-        _tmpData=data[0];
         var uname = 'admin';
         if(currentSession)
             uname = currentSession.username;
