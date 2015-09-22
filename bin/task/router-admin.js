@@ -131,7 +131,7 @@ router.get('/admin/adminUserManagerDel',function(req,res){
 router.get('/admin/delUsers',function(req,res){
     var userid=req.query.userid;
     DB.update("delete from users where Id="+userid,function(){
-        res.redirect("/admin/userManager");
+        res.json({status: true});
     });
 });
 router.get('/admin/getRegistryUser',function(req, res){

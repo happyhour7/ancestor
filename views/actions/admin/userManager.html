@@ -456,16 +456,20 @@ $.ajax({
           window.location="/admin/adminUserManagerMod?userid="+username;
         });
         $(".btn-advuser-del").click(function(){
-          var username=$(this).parent().attr("data");
-          alert(username);
-          $.ajax({
-            url:"/admin/adminUserManagerDel?username="+username,
-            async:false,
-            cache:false,
-            success:function(data){
-              location.reload();
+            if(confirm('确定删除？')) {
+                var userid=$(this).parent().attr("data");
+                $.ajax({
+                  url:"/admin/delUsers?userid="+userid,
+                  async:false,
+                  cache:false,
+                  success:function(data){
+                    console.log(data);
+                    if(data.status){
+                        location.reload();
+                    }
+                  }
+                });
             }
-          });
         });
     }
 });

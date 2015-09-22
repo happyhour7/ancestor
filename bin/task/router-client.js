@@ -604,8 +604,6 @@ router.get('/secret/order', function(req, res) {
 
             if(secretDatas.length >0){
                 for (var i = 0; i < secretDatas.length; i++) {
-                    secretDatas[i]["secretTitle"]="我的定制";
-                    secretDatas[i]["secretMainType"]="定制";
                     if(currentSession)
                     {
                         if(secretDatas[i].owner==currentSession.username)

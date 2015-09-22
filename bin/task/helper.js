@@ -44,26 +44,43 @@ hbs.registerHelper('secretSex', function(sexId) {
   }
     return "男";
 });
-hbs.registerHelper('otherSecretSex', function(sexId) {
-  if(sexId)
+
+hbs.registerHelper('secretCity', function(type, city) {
+  if(city)
   {
-    if((sexId+'')=='0')
+    if(type == 'TA的秘密')
     {
-        return "<span class='items address'>对方性别：女</span>";
-    }else if((sexId+'')=='1')
+        return '<span class="items address">对方城市：'+city+'</span>';
+    }else
     {
-      return "<span class='items address'>对方性别：男</span>";
+      return '<span class="items address">城市：'+city+'</span>';
     }
   }
     return "";
 });
+hbs.registerHelper('otherSecretSex', function(type, sexId) {
+  var message = '性别';
+  if(type == 'TA的秘密') {
+    message = '对方性别';
+  }
+  if((sexId+'')=='0')
+  {
+      return "<span class='items address'>"+message+"：女</span>";
+  }else if((sexId+'')=='1')
+  {
+    return "<span class='items address'>"+message+"：男</span>";
+  }
+    return "";
+});
 
-hbs.registerHelper('otherSecretAge', function(age) {
+hbs.registerHelper('otherSecretAge', function(type, age) {
   if(age)
   {
-    if(age!=''&&age!='undefined')
+    if(type == 'TA的秘密')
     {
         return "<span class='items address'>对方年龄："+age+"</span>";
+    }else{
+      return "<span class='items address'>年龄："+age+"</span>";
     }
   }
     return "";
@@ -76,7 +93,7 @@ hbs.registerHelper('otherSecretName', function(username) {
   {
     if(username!=''&&username!='undefined')
     {
-        return "<span class='items address'>对方姓名："+username.substr(0,username.length/2)+"*"+"</span>";
+        return "<span class='items address'>对方姓名："+username+"</span>";
     }
   }
     return "";
