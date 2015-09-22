@@ -772,7 +772,15 @@ $("#post-button").click(function(){
 		alert("请选择赞成或不赞成");
 		return false;
 	}
-	if($("input[name='answer']:checked").val())
+
+	console.log($('#choosetype').val());
+	$.post('/survey/post', {
+		choosetype: $('#choosetype').val(),
+		answer: 1
+	}, function(result) {
+		alert(result.error);
+	});
+	/*if($("input[name='answer']:checked").val())
 	{
 		$("#survey-submit").trigger("click");
 		alert("回答成功！");
@@ -783,5 +791,6 @@ $("#post-button").click(function(){
 		return false;
 	}
 
+*/
 });
 

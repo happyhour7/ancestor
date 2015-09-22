@@ -2181,8 +2181,16 @@ router.post('/survey/post',function(req,res){
     var results=[username];
     results.push(parseInt(choose));
     results.push("haha");
-    DB.execute(sql,results);
-    res.json({status:"error"});
-    
+    DB.exec(sql, results, function(err, result) {
+        if(err)
+            console.log(err);
+
+        var status = {error: "提交成功"};
+        if(!result.insertId){
+            status = {error:"提交失败"};
+        }
+
+        res.json(status);
+    });
 });
 module.exports = router;
