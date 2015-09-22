@@ -588,7 +588,7 @@ function buildChatWin(title,target){
 		height:350,
 		position:"fixed",
 		bottom:5,
-		right:5,
+		right:150,
 		"z-index":0,
 		background:"#fff",
 		border:"1px solid #000"
@@ -663,8 +663,7 @@ function sendMsg(data){
 	if(text!="")
 	{
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+
-			"<span style='display:block;width:100%;height:10px;'></span>");
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text);
 		$.post('/chat/save',{from:username,to:data.target,msg:text,time:time},function(){
 
 		});
