@@ -101,7 +101,6 @@ function advuserLogic(data){
     
     //console.log(result);
     result["username"]=render.res.cookie["username"];
-    console.log(result);
     return result;
 }
 function loginLogic(data){
@@ -136,12 +135,34 @@ router.get('/adv/surveyManager',function(req, res){
 router.get('/adv/index', function(req, res) {
     render.res=res;
     render.req=req;
+    if(render.res.cookie["location"] == undefined) {
+        res.redirect('/adv/login');
+        return;
+    }
+
     render.view='index';
 
     currentQueue=new Queue("index");
 
     currentQueue.push({exec:function(data){
-        DB.query("select * from advs where owner='"+res.cookie["username"]+"'",bindData,advuserLogic,'secretDatas');
+        DB.exec("select location from advuser where username=?", [res.cookie["username"]], function(err, result) {
+            if(err)
+                throw err;
+
+            var where = '';
+            if(result.length > 0) {
+                var location = result[0]['location'];
+                var locs = location.split(',');
+                for (var i = 0; i < locs.length; i++) {
+                    locs[i] = '"'+ locs[i] + '"';
+                }
+
+                where += ' where location in ('+locs.join(',')+')';
+            }
+
+            DB.query("select * from advs"+where,bindData,advuserLogic,'secretDatas');
+        })
+        
     }});
 
     currentQueue.push({exec:function(data){
@@ -163,25 +184,33 @@ router.post('/adv/addAdvUser',function(req, res){
     result.push(req.body.username);
     result.push(req.body.password);
     result.push(req.body.location.join(","));
-    console.log(req.body.location.join(","));
     DB.execute(sql,result);
     res.json({status:"success"});
 });
 
 
 router.post('/adv/save',function(req,res){
-    var imgPath=res.cookie["advImage"];
     var href=req.body.href;
     var location=req.body.location;
-    var results=[res.cookie["username"]];
-        results.push(location);
-        results.push(imgPath);
-        results.push(href);
-        console.dir(results);
-    DB.update("delete from advs where owner='"+res.cookie["username"]+"' and location='"+location+"'",function(){
-        DB.execute("insert into advs set owner=?,location=?,images=?,href=?",results);
+    var imgPath=res.cookie["advImage"];
+
+    DB.exec("select * from advs where owner=? and location=?", [res.cookie["username"], location], function(err, result) {
+        if(err)
+            throw err;
+        if(imgPath === undefined) {
+            imgPath = result[0].images;
+        }
+
+        var results=[res.cookie["username"]];
+            results.push(location);
+            results.push(imgPath);
+            results.push(href);
+
+        DB.update("delete from advs where owner='"+res.cookie["username"]+"' and location='"+location+"'",function(){
+            DB.execute("insert into advs set owner=?,location=?,images=?,href=?",results);
+        });
+        res.redirect('/adv/index');
     });
-    res.redirect('/adv/index');
 });
 
 router.post('/adv/saveImage',function(req, res){
@@ -261,7 +290,6 @@ router.get('/adv/sendComment',function(req,res){
 		global.cache[location]=result;
 		
 	}
-	console.log(global.cache);
 	res.json({status:"success"});
 });
 

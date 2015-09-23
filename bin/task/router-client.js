@@ -102,10 +102,7 @@ router.get('/', function(req, res) {
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -228,10 +225,7 @@ router.get('/search',function(req,res){
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -404,10 +398,7 @@ router.get('/secret/longstore',function(req,res){
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -479,10 +470,7 @@ router.get('/secret/mine', function(req, res) {
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -531,10 +519,7 @@ router.get('/secret/write', function(req, res) {
     currentQueue=new Queue("sendSecret");
 
     currentQueue.push({exec:function(data){
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -655,10 +640,7 @@ router.get('/secret/order', function(req, res) {
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -815,10 +797,7 @@ router.get('/secret/ta', function(req, res) {
     getSurvey();
 	currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -900,10 +879,7 @@ router.get('/secret/sell', function(req, res) {
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -993,10 +969,7 @@ router.get('/secret/offer', function(req, res) {
     getSurvey();
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){
@@ -1496,10 +1469,7 @@ router.get('/secret/floater', function(req, res) {
     }});
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var uname = 'admin';
-        if(currentSession)
-            uname = currentSession.username;
-        DB.query("select * from advs where owner = '"+uname+"'",bindData,firstAdvLogic,'secretDatas');
+        DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
         
     }});
     currentQueue.push({exec:function(data){

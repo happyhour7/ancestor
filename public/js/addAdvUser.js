@@ -55,12 +55,7 @@ $(".advuser-add-btn").click(function(){
 
 $("#advUser_add_post_button").click(function(){
     $("#advUser_add_submit_button").trigger("click");
-    $("#userid").val("");
-    $("#username").val("");
-    $("#password").val("");
-    $("#passwords").val("");
-    $("input[name='location']").removeAttr("checked");
-    window.location="/admin/advUserManager";
+    setTimeout(function(){window.location = '/admin/advUserManager';}, 500);
 });
 
 

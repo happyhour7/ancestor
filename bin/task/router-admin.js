@@ -196,11 +196,11 @@ router.get('/admin/advUserManagerAdd',function(req, res){
 router.get('/admin/advUserManagerMod',function(req, res){
 	render.res=res;
 	render.req=req;
-	var userid=req.query.userid;
+	var username=req.query.userid;
 	render.view="advUserManagerMod"
 	currentQueue=new Queue("index");
     currentQueue.push({exec:function(){
-        DB.query("select * from advuser where userid='"+userid+"'",bindData,advUserManagerModLogic,'secretDatas');
+        DB.query("select * from advuser where username='"+username+"'",bindData,advUserManagerModLogic,'secretDatas');
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
@@ -264,9 +264,19 @@ router.post('/admin/addAdvUser',function(req, res){
         locations = '';
     }
     result.push(locations);
-    DB.execute(sql,result);
+    DB.exec(sql, result, function(err, result) {
+        if(err)
+            throw err;
+        console.log(result);
 
-    // 插入选择的广告
+        if(result.insertId > 0) {
+            res.redirect('/admin/advUserManager');
+        } else {
+            res.redirect('/admin/advUserManagerAdd');
+        }
+    })
+
+    /*// 插入选择的广告
     var params = [];
     var advSql = 'insert into advs(owner, location) values';
     if(advLoca){ 
@@ -281,9 +291,8 @@ router.post('/admin/addAdvUser',function(req, res){
         }
 
         DB.execute(advSql, params);
-    }
+    }*/
 
-    res.json({status:"success"});
 });
 
 router.post('/admin/updateAdvUser',function(req, res){
@@ -302,7 +311,7 @@ router.post('/admin/updateAdvUser',function(req, res){
         locations = '';
     }
 
-    // 更新选择的广告
+    /*// 更新选择的广告
     DB.update('delete from advs where owner="'+req.body.username+'"',function(){
         var params = [];
         var advSql = 'insert into advs(owner, location) values';
@@ -319,7 +328,7 @@ router.post('/admin/updateAdvUser',function(req, res){
 
             DB.execute(advSql, params);
         }
-    });
+    });*/
 
 	if(password!="")
 	{
@@ -330,7 +339,7 @@ router.post('/admin/updateAdvUser',function(req, res){
 	}
     
     DB.update(sql,function(){
-    	res.json({status:"success"});
+    	res.redirect('/admin/advUserManager');
     });
     
 });
