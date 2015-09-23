@@ -54,6 +54,16 @@ function getLongStorySQL(){
         return longStoreSQL;
     }
 }
+
+// 获取当前登陆用的好友姓名组成的数据
+function geFriends(data) {
+    for(var i=0;i<data.length;i++)
+    {
+        data[i] = '"' + data[i] + '"';
+    }
+
+    return data.join(',');
+}
 /*返回给客户端的数据*/
 var returnData={};
 var currentQueue=null;
@@ -64,9 +74,25 @@ router.get('/', function(req, res) {
     render.req=req;
     render.view="index";
     currentQueue=new Queue("index");
-    currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
-    }});
+    // 获取登陆用户的朋友
+    if(currentSession) {
+        currentQueue.push({exec: function() {
+            DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
+        }});
+
+        currentQueue.push({exec:function(data){
+            var haoyou = data[0];
+            var sql = '';
+            if(haoyou){
+                sql = "or (files.owner in ("+haoyou+") and secretLimit=3) ";
+            }
+            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' " + sql),bindData,indexLogic,'secretDatas');
+        }});
+    }else {
+        currentQueue.push({exec:function(){
+            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
+        }});
+    }
 
     // 添加个人信用评分
     currentQueue.push({exec:function(data){
@@ -433,9 +459,25 @@ router.get('/secret/mine', function(req, res) {
     render.req=req;
     render.view="index";
     currentQueue=new Queue("mine");
-    currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType='WO的秘密' "),bindData,woLogic,'secretDatas');
-    }});
+    // 获取登陆用户的朋友
+    if(currentSession) {
+        currentQueue.push({exec: function() {
+            DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
+        }});
+
+        currentQueue.push({exec:function(data){
+            var haoyou = data[0];
+            var sql = '';
+            if(haoyou){
+                sql = "or (files.owner in ("+haoyou+") and secretLimit=3) ";
+            }
+            DB.query(getHomeSQL(" and secretMainType='WO的秘密' " + sql),bindData,woLogic,'secretDatas');
+        }});
+    }else {
+        currentQueue.push({exec:function(){
+            DB.query(getHomeSQL(" and secretMainType='WO的秘密' "),bindData,woLogic,'secretDatas');
+        }});
+    }
 
     // 添加个人信用评分
     currentQueue.push({exec:function(data){
@@ -510,7 +552,7 @@ function woLogic(data){
 }
 
 
-//我的秘密
+//发布秘密
 router.get('/secret/write', function(req, res) {
 
     render.res=res;
@@ -753,10 +795,25 @@ router.get('/secret/ta', function(req, res) {
     
     currentQueue=new Queue("index");
 
-    currentQueue.push({exec:function(){
+    // 获取登陆用户的朋友
+    if(currentSession) {
+        currentQueue.push({exec: function() {
+            DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
+        }});
 
-        DB.query(getHomeSQL(" and secretMainType='TA的秘密' "),bindData,taLogic,'secretDatas');
-    }});
+        currentQueue.push({exec:function(data){
+            var haoyou = data[0];
+            var sql = '';
+            if(haoyou){
+                sql = "or (files.owner in ("+haoyou+") and secretLimit=3) ";
+            }
+            DB.query(getHomeSQL(" and secretMainType='TA的秘密' " + sql),bindData,taLogic,'secretDatas');
+        }});
+    }else {
+        currentQueue.push({exec:function(){
+            DB.query(getHomeSQL(" and secretMainType='TA的秘密' "),bindData,taLogic,'secretDatas');
+        }});
+    }
 
     // 添加个人信用评分
     currentQueue.push({exec:function(data){

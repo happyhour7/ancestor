@@ -84,6 +84,9 @@ var page={
 		});
 		$(".secret-limit-choose").on('click',function(){
 			var text=$(this).text();
+
+			$(this).parent().parent().prev().html($(this).text()+"<span class='caret'></span>");
+
 			if(text=="公开"){
 				$("#secretLimit_hidden").val("1");
 			}
@@ -254,6 +257,7 @@ var page={
 
         	if(page.validate()!==false)
         	{
+        		console.log($('#secretLimit_hidden').val());
         		$("#secretMainType_hidden").val($("#current_choosen_type").text());
         		$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
 	            $("#secretType_hidden").val($("#secrettype_one").text());
@@ -439,7 +443,7 @@ var dataDIc={
 	type:{
 		woai:['亲情','爱情','友情','师生情','暗恋','同性','其他'],
 		wohen:['亲人','爱人','老师','同学','上司','同事','亲戚','邻居','其他'],
-		woxiang:['恋爱','破处','做爱','骂人','大人','犯罪','结婚','离婚','自杀','出轨','其他'],
+		woxiang:['恋爱','破处','做爱','骂人','打人','犯罪','结婚','离婚','自杀','出轨','其他'],
 		wozuoguo:['欺骗','造谣','背叛','犯罪','堕胎','卖身','小三','偷窃','恶作剧','性骚扰','其他'],
 		woxihuanzuo:['做饭','做爱','暧昧','吃货','419','偷窃','恶作剧','性骚扰','其他'],
 		wozuijin:['开心','苦恼','怀疑','失落','抑郁','兴奋','无聊','出差','其他'],
