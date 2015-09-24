@@ -207,6 +207,14 @@ var page={
 
 
         $("#sell_secret_post_button").on('click',function(){
+        	// 悬赏秘密标价
+        	var secretPrice = $('input[name="secretPrice"]').val();
+        	console.log(secretPrice);
+        	if(secretPrice == '' || secretPrice <0 || secretPrice > 100000){
+        		alert('标价必须在0~100000');
+        		return false;
+        	}
+        	
         	$("#secretMainType_hidden").val($("#current_choosen_type").text());
 
         	$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
@@ -229,6 +237,14 @@ var page={
 
 
         $("#offer_secret_post_button").on('click',function(){
+        	// 悬赏秘密标价
+        	var secretPrice = $('input[name="secretPrice"]').val();
+        	console.log(secretPrice);
+        	if(secretPrice == '' || secretPrice <0 || secretPrice > 100000){
+        		alert('标价必须在0~100000');
+        		return false;
+        	}
+
         	$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
         	$("#secretMainType_hidden").val($("#current_choosen_type").text());
             $("#secretType_hidden").val($("#secrettype_one").text());
@@ -239,7 +255,7 @@ var page={
 
         	// 悬赏秘密标价
         	var secretPrice = $('input[name="secretPrice"]').val();
-        	console.log(secretPrice);return;
+        	console.log(secretPrice);
         	if(secretPrice == '' || secretPrice <0 || secretPrice > 100000){
         		alert('标价必须在0~100000');
         		return false;
