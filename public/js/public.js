@@ -691,6 +691,11 @@ function sendMsg(data){
 }
 if($(".friend-area")[0]!=null)
 {
+	// 禁用ajax的缓存
+	$.ajaxSetup ({
+	    // Disable caching of AJAX responses */
+	    cache: false
+	});
 	window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
