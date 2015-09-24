@@ -376,14 +376,38 @@ function indexLogic(data){
                     data[i]["mine"]=true;
                 }
                 // 判断是否为秘密发布者的好友
-                if(data[i].owner==currentSession.username ||(data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
                     data[i]["ishaoyou"] = true;
+                }
+
+                // 回复可见秘密处理
+                if(data[i].secretLimit == 2) {
+                    currentQueue.push({exec: function() {
+                        DB.query("select replayer from replay where fileid="+data[i].id,
+                            function(fields,logic){
+                                var data=logic(this);
+
+                                var replayers = [];
+                                for (var r = 0; r < data.length; r++) {
+                                    replayers.push(data[r].replayer);
+                                }
+                                if(replayers.in_array(currentSession.username)) {
+                                    data[i]["hasReply"] = true;
+                                }
+                                
+                            },
+                            function(data){
+                                return data;
+                            });
+                    }});
                 }
             }
 
             // 好友可见秘密处理
             if(data[i].secretLimit != 3) {
                 data[i]["ishaoyou"] = true;
+            }else if(data[i].secretLimit != 2) {
+                data[i]["hasReply"] = true;
             }
 
         }
