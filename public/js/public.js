@@ -578,10 +578,18 @@ $(".friend-ul").find("li").dblclick(function(){
 	var username=$(this).attr("username");
 	buildChatWin("与"+username+"聊天中",username);
 });
-var currentSystemUsername=$("#registry-area").text().split("[")[0];
-function buildChatWin(title,target){
-	if($(".target-text-area")[0]!=null)
+var currentSystemUsername=$.trim($("#registry-area").text().split("[")[0]);
+function buildChatWin(title,target, message){
+	if($(".target-text-area")[0]!=null) {
+		if(message) {
+			var textarea=$(".target-text-area");
+			var currentValue=textarea.html();
+			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+			textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+		}
 		return;
+	}
+
 	var win=$("<div/>").css({
 		width:400,
 		height:350,
@@ -651,7 +659,16 @@ function buildChatWin(title,target){
 			sendMsg({text:text,target:target,from:currentSystemUsername});
 			$(this).val("");
 		}
-	})
+	});
+
+	// 添加消息
+	if(message) {
+		var textarea=$(".target-text-area");
+		var currentValue=textarea.html();
+		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+		
+	}
 }
 
 function sendMsg(data){
@@ -663,7 +680,7 @@ function sendMsg(data){
 	{
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
 		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text);
-		$.post('/chat/save',{from:username,to:data.target,msg:text,time:time},function(){
+		$.post('/chat/save',{from:$.trim(username),to:data.target,msg:text,time:time},function(){
 
 		});
 	}
@@ -675,11 +692,12 @@ if($(".friend-area")[0]!=null)
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
 			success:function(data){
+				console.log(data);
 				if(data.length>0)
 				{
 					for(var i=0;i<data.length;i++)
 					{
-						buildChatWin("与"+data[i].from+"聊天中",data[i].from);
+						buildChatWin("与"+data[i].from+"聊天中",data[i].from, data[i].msg);
 						//sendMsg({text:data[i].msg,target:data[i].from,from:data[i].from});
 					}
 				}

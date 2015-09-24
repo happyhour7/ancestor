@@ -2218,6 +2218,7 @@ router.post('/chat/save',function(req,res){
     var to=req.body.to;
     var text=req.body.msg;
     var time=req.body.time;
+    console.log(req.body);
 
     if(!global.cache["chat"])
     {
@@ -2238,6 +2239,7 @@ router.get('/chat/getMine',function(req,res){
         return ;
     }
     var to=currentSession.username;
+    console.log(to);
 
     if(!global.cache["chat"])
     {
@@ -2247,6 +2249,7 @@ router.get('/chat/getMine',function(req,res){
     {
         global.cache["chat"][to]=[];
     }
+    console.log(global.cache["chat"]);
     var resutls=[];
 
     for(var i=0;i<global.cache["chat"][to].length;i++)
