@@ -52,7 +52,7 @@ function getHomeSQL(){
 
 
 function getLongStorySQL(){
-	 if(currentSession && currentSession.username){
+	if(currentSession && currentSession.username){
         return loginLongStoreSQL.replace("<username>",currentSession.username)
             .replace("<username>",currentSession.username)
             .replace("<username>",currentSession.username);
@@ -122,7 +122,7 @@ router.get('/', function(req, res) {
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
-                };
+                }
             }
 
             return _tmpData;

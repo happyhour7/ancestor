@@ -7,7 +7,7 @@ hbs.registerHelper('dealUsername', function(text) {
         text=text.substring(0,Math.floor(text.length/2))+"*";
     }
     
-    return text
+    return text;
 });
 hbs.registerHelper('myscore', function(currentScore,choosenScore) {
   if(choosenScore)
@@ -58,7 +58,11 @@ hbs.registerHelper('secretCity', function(type, city) {
   }
     return "";
 });
-hbs.registerHelper('otherSecretSex', function(type, sexId) {
+hbs.registerHelper('otherSecretSex', function(type, subtype, sexId) {
+  if((type == '出售秘密') || (type == '悬赏秘密' && subtype.indexOf('商家秘密') != -1)) {
+      return "";
+  }
+  
   var message = '性别';
   if(type == 'TA的秘密') {
     message = '对方性别';
@@ -70,7 +74,6 @@ hbs.registerHelper('otherSecretSex', function(type, sexId) {
   {
     return "<span class='items address'>"+message+"：男</span>";
   }
-    return "";
 });
 
 hbs.registerHelper('otherSecretAge', function(type, age) {
