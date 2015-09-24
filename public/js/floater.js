@@ -1,11 +1,10 @@
 var floaterPage={
     floaterValidate: function(){// 扔漂流瓶验证
 
-        var cityname=$("#secret_city_text").val();
+        /*var cityname=$("#secret_city_text").val();
         var otherage=$('#secret_otherage_text').text();
         var othersex=$('#othersex_hidden').val();
         var keyword=$('#secretKeyWord_text').val();
-        var content=$('#secrect-content').val();
         
 
         if($.trim(cityname)=="")
@@ -24,6 +23,13 @@ var floaterPage={
         if($.trim(keyword)=="")
         {
             alert("请输入标签");
+            return false;
+        }*/
+
+        var content=$('#secrect-content').val();
+        if($.trim(content)=="")
+        {
+            alert("请输入内容");
             return false;
         }
 
@@ -82,7 +88,6 @@ var floaterPage={
 
         // 获取漂流瓶的回复
         $(".floater-comment-button").on("click",function(){
-            console.log($(this).attr('data'));
             var parents=$("#secret-body-container-"+$(this).attr("data"));
             if(parents.find(".comment-title-bar")[0]!=null)
             {

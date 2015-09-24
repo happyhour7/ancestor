@@ -24,11 +24,15 @@ var longStoreSQL=sqlCode.longStoreSQL;
 var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
 var hotSecretSQL=sqlCode.hotSecretSQL;
 
-
-
+// 注册in_array 方法
+Array.prototype.S=String.fromCharCode(2);
+Array.prototype.in_array=function(e){
+      var r=new RegExp(this.S+e+this.S);
+      return (r.test(this.S+this.join(this.S)+this.S));
+};
 
 function getHomeSQL(){
-    var otherWhere=arguments[0]||"";
+    /*var otherWhere=arguments[0]||"";
     if(currentSession){
         return loginHomeSQL.replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
@@ -40,7 +44,10 @@ function getHomeSQL(){
     else{
         var tmp=homeSQL.replace("<where>",otherWhere);
         return tmp;
-    }
+    }*/
+    var otherWhere=arguments[0]||"";
+
+    return homeSQL.replace("<where>",otherWhere);
 }
 
 
@@ -57,12 +64,13 @@ function getLongStorySQL(){
 
 // 获取当前登陆用的好友姓名组成的数据
 function geFriends(data) {
+    var result = [];
     for(var i=0;i<data.length;i++)
     {
-        data[i] = '"' + data[i] + '"';
+        result.push(data[i]["username"]);
     }
 
-    return data.join(',');
+    return result;
 }
 /*返回给客户端的数据*/
 var returnData={};
@@ -81,12 +89,9 @@ router.get('/', function(req, res) {
         }});
 
         currentQueue.push({exec:function(data){
-            var haoyou = data[0];
-            var sql = '';
-            if(haoyou){
-                sql = "or (files.owner in ("+haoyou+") and secretLimit=3) ";
-            }
-            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' " + sql),bindData,indexLogic,'secretDatas');
+            _tmpData = data[0];
+            console.log(getHomeSQL(" and secretMainType<>'漂流瓶' "));
+            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
         }});
     }else {
         currentQueue.push({exec:function(){
@@ -363,12 +368,22 @@ function indexLogic(data){
     {
         for(var i=0;i<data.length;i++)
         {
+            console.log(data[i].secretLimit);
             if(currentSession)
             {
                 if(data[i].owner==currentSession.username)
                 {
                     data[i]["mine"]=true;
                 }
+                // 判断是否为秘密发布者的好友
+                if(data[i].owner==currentSession.username ||(data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                    data[i]["ishaoyou"] = true;
+                }
+            }
+
+            // 好友可见秘密处理
+            if(data[i].secretLimit != 3) {
+                data[i]["ishaoyou"] = true;
             }
 
         }
@@ -465,12 +480,8 @@ router.get('/secret/mine', function(req, res) {
         }});
 
         currentQueue.push({exec:function(data){
-            var haoyou = data[0];
-            var sql = '';
-            if(haoyou){
-                sql = "or (files.owner in ("+haoyou+") and secretLimit=3) ";
-            }
-            DB.query(getHomeSQL(" and secretMainType='WO的秘密' " + sql),bindData,woLogic,'secretDatas');
+            _tmpData = data[0];
+            DB.query(getHomeSQL(" and secretMainType='WO的秘密' "),bindData,woLogic,'secretDatas');
         }});
     }else {
         currentQueue.push({exec:function(){
@@ -532,22 +543,32 @@ router.get('/secret/mine', function(req, res) {
 });
 function woLogic(data){
     var result={};
-        if(data.length>0)
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
         {
-            for(var i=0;i<data.length;i++)
+            if(currentSession)
             {
-                if(currentSession)
+                if(data[i].owner==currentSession.username)
                 {
-                    if(data[i].owner==currentSession.username)
-                    {
-                        data[i]["mine"]=true;
-                    }
+                    data[i]["mine"]=true;
+                }
+
+                // 判断是否为秘密发布者的好友
+                if(data[i].owner==currentSession.username ||(data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                    data[i]["ishaoyou"] = true;
                 }
             }
+
+            // 好友可见秘密处理
+            if(data[i].secretLimit != 3) {
+                data[i]["ishaoyou"] = true;
+            }
         }
-       result['wo_choosen']=true;
-       result['secretDatas']=data;
-       return result; 
+    }
+   result['wo_choosen']=true;
+   result['secretDatas']=data;
+   return result; 
 }
 
 
@@ -801,12 +822,8 @@ router.get('/secret/ta', function(req, res) {
         }});
 
         currentQueue.push({exec:function(data){
-            var haoyou = data[0];
-            var sql = '';
-            if(haoyou){
-                sql = "or (files.owner in ("+haoyou+") and secretLimit=3) ";
-            }
-            DB.query(getHomeSQL(" and secretMainType='TA的秘密' " + sql),bindData,taLogic,'secretDatas');
+            _tmpData = data[0];
+            DB.query(getHomeSQL(" and secretMainType='TA的秘密' "),bindData,taLogic,'secretDatas');
         }});
     }else {
         currentQueue.push({exec:function(){
@@ -873,22 +890,31 @@ router.get('/secret/ta', function(req, res) {
 
 function taLogic(data){
     var result={};
-        if(data.length>0)
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
         {
-            for(var i=0;i<data.length;i++)
+            if(currentSession)
             {
-                if(currentSession)
+                if(data[i].owner==currentSession.username)
                 {
-                    if(data[i].owner==currentSession.username)
-                    {
-                        data[i]["mine"]=true;
-                    }
+                    data[i]["mine"]=true;
+                }
+                // 判断是否为秘密发布者的好友
+                if(data[i].owner==currentSession.username ||(data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                    data[i]["ishaoyou"] = true;
                 }
             }
+
+            // 好友可见秘密处理
+            if(data[i].secretLimit != 3) {
+                data[i]["ishaoyou"] = true;
+            }
         }
-       result['ta_choosen']=true;
-       result['secretDatas']=data;
-       return result; 
+    }
+   result['ta_choosen']=true;
+   result['secretDatas']=data;
+   return result; 
 }
 
 
@@ -1707,6 +1733,7 @@ router.post('/secret/saveFloater',function(req, res){
     if(currentSession!==null)
     {
         datas.push(currentSession.username);
+        console.log(datas);
     
     
         ////console.log(datas);

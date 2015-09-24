@@ -15,12 +15,7 @@
 					<span class="items photo">
 						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" style="width:50px;height:50px;"/>
 					</span>
-					\{{^ mine}}
-						<span class="items name">\{{#dealUsername ../owner}}\{{/dealUsername}}</span>
-					\{{/mine}}
-					\{{# mine}}
-						<span class="items name">\{{../owner}}</span>
-					\{{/mine}}
+						<span class="items name">\{{owner}}</span>
 					<span class="items address">\{{secretCity}}</span>
 					<span class="items sex">\{{sex}}</span>
 					<span class="items age">\{{age}}</span>

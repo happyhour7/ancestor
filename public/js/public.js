@@ -185,8 +185,8 @@ var page={
 			$(this).height(90);
 			$(this).parent().parent().height(100);
 		}).blur(function(){
-			$(this).height(25);
-			$(this).parent().parent().height(25);
+			$(this).height(18);
+			$(this).parent().parent().height(30);
 		});
 		
 		$("#login-login-button").click(function(){
