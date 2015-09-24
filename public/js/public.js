@@ -464,7 +464,6 @@ var page={
 				success:function(data){
 					var source=$("#secretComment-temple").html();
 					var template=Handlebars.compile(source);
-					console.dir(data);
 					var html=template(data);
 					parents.append(html);
 					$(".comment-title-bar").unbind().click(function(){
@@ -692,7 +691,6 @@ if($(".friend-area")[0]!=null)
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
 			success:function(data){
-				console.log(data);
 				if(data.length>0)
 				{
 					for(var i=0;i<data.length;i++)
@@ -789,7 +787,6 @@ $("#post-button").click(function(){
 		return false;
 	}
 
-	console.log($('#choosetype').val());
 	$.post('/survey/post', {
 		choosetype: $('#choosetype').val(),
 		answer: 1

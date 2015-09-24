@@ -32,8 +32,8 @@ Array.prototype.in_array=function(e){
 };
 
 function getHomeSQL(){
-    /*var otherWhere=arguments[0]||"";
-    if(currentSession){
+    var otherWhere=arguments[0]||"";
+    if(currentSession && currentSession.username){
         return loginHomeSQL.replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
@@ -44,15 +44,15 @@ function getHomeSQL(){
     else{
         var tmp=homeSQL.replace("<where>",otherWhere);
         return tmp;
-    }*/
-    var otherWhere=arguments[0]||"";
+    }
+    /*var otherWhere=arguments[0]||"";
 
-    return homeSQL.replace("<where>",otherWhere);
+    return homeSQL.replace("<where>",otherWhere);*/
 }
 
 
 function getLongStorySQL(){
-	 if(currentSession){
+	 if(currentSession && currentSession.username){
         return loginLongStoreSQL.replace("<username>",currentSession.username)
             .replace("<username>",currentSession.username)
             .replace("<username>",currentSession.username);
@@ -78,19 +78,19 @@ var currentQueue=null;
 var _tmpData={};
 /* GET home page. */
 router.get('/', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="index";
     currentQueue=new Queue("index");
     // 获取登陆用户的朋友
-    if(currentSession) {
+    if(currentSession && currentSession.username) {
         currentQueue.push({exec: function() {
             DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
         }});
 
         currentQueue.push({exec:function(data){
             _tmpData = data[0];
-            console.log(getHomeSQL(" and secretMainType<>'漂流瓶' "));
             DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
         }});
     }else {
@@ -140,7 +140,7 @@ router.get('/', function(req, res) {
         
     }});
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -222,6 +222,7 @@ function hotSecretLogic(data){
     return _tmpData;
 }
 router.get('/search',function(req,res){
+    currentSession = req.session;
     var keyword=req.query.keyword;
     var type=req.query.type||"";
         render.res=res;
@@ -263,7 +264,7 @@ router.get('/search',function(req,res){
         
     }});
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -368,8 +369,7 @@ function indexLogic(data){
     {
         for(var i=0;i<data.length;i++)
         {
-            console.log(data[i].secretLimit);
-            if(currentSession)
+            if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
                 {
@@ -395,6 +395,7 @@ function indexLogic(data){
 
 
 router.get('/secret/longstore',function(req,res){
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="index";
@@ -447,7 +448,7 @@ router.get('/secret/longstore',function(req,res){
     }});
 
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -469,12 +470,13 @@ function longsStoryLogic(data){
 
 //我的秘密
 router.get('/secret/mine', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="index";
     currentQueue=new Queue("mine");
     // 获取登陆用户的朋友
-    if(currentSession) {
+    if(currentSession && currentSession.username) {
         currentQueue.push({exec: function() {
             DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
         }});
@@ -530,7 +532,7 @@ router.get('/secret/mine', function(req, res) {
         
     }});
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -547,7 +549,7 @@ function woLogic(data){
     {
         for(var i=0;i<data.length;i++)
         {
-            if(currentSession)
+            if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
                 {
@@ -574,7 +576,7 @@ function woLogic(data){
 
 //发布秘密
 router.get('/secret/write', function(req, res) {
-
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="sendSecret";
@@ -589,7 +591,7 @@ router.get('/secret/write', function(req, res) {
         
     }});
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -606,6 +608,7 @@ router.get('/secret/write', function(req, res) {
 
 //我的定制
 router.get('/secret/order', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view='order';
@@ -652,7 +655,7 @@ router.get('/secret/order', function(req, res) {
 
             if(secretDatas.length >0){
                 for (var i = 0; i < secretDatas.length; i++) {
-                    if(currentSession)
+                    if(currentSession && currentSession.username)
                     {
                         if(secretDatas[i].owner==currentSession.username)
                         {
@@ -741,6 +744,7 @@ function orderInitLogin (data) {
 
 //保存定制
 router.post('/secret/orderdealsave', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view='order';
@@ -777,6 +781,7 @@ router.post('/secret/orderdealsave', function(req, res) {
 
 // 删除定制
 router.get('/secret/orderdealdel', function(req, res) {
+    currentSession = req.session;
     var id=req.query.id;
     if(!isNaN(id))
     {
@@ -794,6 +799,7 @@ router.get('/secret/orderdealdel', function(req, res) {
 
 
 router.post('/secret/replaysave',function(req,res){
+    currentSession = req.session;
     render.req=req;
     render.res=res;
     var sql="insert into replay set replayer=?,content=?,fileid=?,replayTime=?";
@@ -808,6 +814,7 @@ router.post('/secret/replaysave',function(req,res){
 
 //他的秘密
 router.get('/secret/ta', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="index";
@@ -816,7 +823,7 @@ router.get('/secret/ta', function(req, res) {
     currentQueue=new Queue("index");
 
     // 获取登陆用户的朋友
-    if(currentSession) {
+    if(currentSession && currentSession.username) {
         currentQueue.push({exec: function() {
             DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
         }});
@@ -863,7 +870,7 @@ router.get('/secret/ta', function(req, res) {
     }});
 
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -894,7 +901,7 @@ function taLogic(data){
     {
         for(var i=0;i<data.length;i++)
         {
-            if(currentSession)
+            if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
                 {
@@ -920,6 +927,7 @@ function taLogic(data){
 
 //出售秘密
 router.get('/secret/sell', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="index";
@@ -969,7 +977,7 @@ router.get('/secret/sell', function(req, res) {
         
     }});
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -988,7 +996,7 @@ function sellLogic(data){
         {
             for(var i=0;i<data.length;i++)
             {
-                if(currentSession)
+                if(currentSession && currentSession.username)
                 {
                     if(data[i].owner==currentSession.username)
                     {
@@ -1004,6 +1012,7 @@ function sellLogic(data){
 }
 //秘密悬赏
 router.get('/secret/offer', function(req, res) {
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     render.view="index";
@@ -1044,7 +1053,7 @@ router.get('/secret/offer', function(req, res) {
     }});
 
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -1073,7 +1082,7 @@ function offerLogic(data){
     {
         for(var i=0;i<data.length;i++)
         {
-            if(currentSession)
+            if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
                 {
@@ -1088,6 +1097,7 @@ function offerLogic(data){
    return result; 
 }
 router.get('/secret/del',function(req,res){
+    currentSession = req.session;
     var id=req.query.id;
     //console.log(id);
     if(!isNaN(id))
@@ -1107,6 +1117,7 @@ router.get('/secret/del',function(req,res){
 
 
 router.post('/secret/saveSecret',function(req, res){
+    currentSession = req.session;
     var datas=[];
     var splitString="";
     render.res=res;
@@ -1179,6 +1190,7 @@ function gotoHome(){
 
 
 router.get('/secret/permsg-score',function(req,res){
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     
@@ -1224,6 +1236,7 @@ function personalScoreLogic(data){
 }
 
 router.get('/secret/permsg-friend',function(req,res){
+    currentSession = req.session;
     render.res=res;
     render.req=req;
 
@@ -1255,10 +1268,11 @@ function getnewMsg(){
 
 // 删除好友
 router.get('/friend/del',function(req,res){
+    currentSession = req.session;
     var username=req.query.username;
     console.log(username, currentSession.username);
     //console.log(id);
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         DB.update("delete from friends where friendname='"+currentSession.username+"' and username='"+username+"'",function(){
             DB.update("delete from friends where username='"+currentSession.username+"' and friendname='"+username+"'", function() {
@@ -1276,6 +1290,7 @@ router.get('/friend/del',function(req,res){
 });
 
 router.get('/secret/getMyFriends',function(req,res){
+    currentSession = req.session;
     render.req=req;
     render.res=res;
     if(currentSession&&currentSession.username)
@@ -1353,6 +1368,7 @@ function personalFriendLogic(data){
 
 // 个人中心中的我的秘密
 router.get('/secret/permsg-mysecret',function(req,res){
+    currentSession = req.session;
     render.res=res;
     render.req=req;
 
@@ -1434,6 +1450,7 @@ function getMySecrets(data){
 
 
 router.get('/secret/getMineSecret',function(){
+    currentSession = req.session;
     if(currentSession&&currentSession.username)
     {
         currentQueue=new Queue("");
@@ -1467,6 +1484,7 @@ function personalSecretLogic(data){
 }
 
 router.get('/secret/permsg-msg',function(req,res){
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     
@@ -1513,6 +1531,7 @@ function personalMsgLogic(data){
 
 
 router.post('/secret/uploadImage',function(req, res){
+    currentSession = req.session;
     var form = new formidable.IncomingForm(); //创建上传表单
     form.encoding = "utf-8"; //设置编辑
     form.uploadDir = "public/avatar/"; //设置上传目录
@@ -1564,6 +1583,8 @@ router.post('/secret/uploadImage',function(req, res){
 
 //我的漂流瓶
 router.get('/secret/floater', function(req, res) {
+    currentSession = req.session;
+    console.log(currentSession);
     render.res=res;
     render.req=req;
     render.view="sendFloater";
@@ -1581,7 +1602,7 @@ router.get('/secret/floater', function(req, res) {
         
     }});
     getHostSecret();
-    if(currentSession)
+    if(currentSession && currentSession.username)
     {
         getMyFriends();
     }
@@ -1596,6 +1617,7 @@ router.get('/secret/floater', function(req, res) {
 
 //获取漂流瓶的回复
 router.get('/secret/floaterComments', function(req, res) {
+    currentSession = req.session;
     var id=req.query.id;
 
     DB.query(
@@ -1620,6 +1642,7 @@ router.get('/secret/floaterComments', function(req, res) {
 
 // 捞捞看
 router.get('/secret/floater/try', function(req, res) {
+    currentSession = req.session;
     currentQueue=new Queue("floater_try");
     // 捞捞看
     currentQueue.push({exec:function(data){
@@ -1636,7 +1659,7 @@ router.get('/secret/floater/try', function(req, res) {
 
 function floaterGetSQLQuery () {
     var otherWhere=arguments[0]||"";
-    if(currentSession){
+    if(currentSession && currentSession.username){
         return floaterGetSQL.replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
@@ -1658,7 +1681,7 @@ function getFloatersLogic(data){
         {
             data[i]["secretTitle"]="漂流瓶";
             data[i]["secretMainType"]="漂流瓶";
-            if(currentSession)
+            if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
                 {
@@ -1681,7 +1704,7 @@ function floaterInitLogic(data){
         {
             data[i]["secretTitle"]="漂流瓶";
             data[i]["secretMainType"]="漂流瓶";
-            if(currentSession)
+            if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
                 {
@@ -1698,6 +1721,7 @@ function floaterInitLogic(data){
 
 // 回复漂流瓶
 router.post('/secret/floater/reply', function(req, res) {
+    currentSession = req.session;
     var sql="insert into replay set ?";
     var result={
         replayer: currentSession.username,
@@ -1721,6 +1745,7 @@ router.post('/secret/floater/reply', function(req, res) {
 
 // 扔漂流瓶
 router.post('/secret/saveFloater',function(req, res){
+    currentSession = req.session;
     var datas=[];
     var splitString="";
     render.res=res;
@@ -1779,6 +1804,7 @@ router.post('/secret/saveFloater',function(req, res){
 
 // 删除漂流瓶
 router.get('/secret/floaterdel', function(req, res) {
+    currentSession = req.session;
     var id=req.query.id;
     if(!isNaN(id))
     {
@@ -1821,6 +1847,7 @@ router.post("/client/login",function(req,res){
 
 
 router.get('/secret/permsg',function(req,res){
+    currentSession = req.session;
     render.res=res;
     render.req=req;
     
@@ -1852,6 +1879,7 @@ router.get('/secret/permsg',function(req,res){
 });
 
 router.post('/secret/personalUpdate',function(req,res){
+    currentSession = req.session;
     var _pwd=req.body.password||"";
     var insertPassword="";
     if(_pwd!=="")
@@ -1886,6 +1914,7 @@ router.post('/secret/personalUpdate',function(req,res){
     res.json({title:"更新成功！"});
 });
 router.get('/secret/getAllComments',function(req,res){
+    currentSession = req.session;
     var id=req.query.id;
 
     DB.query("select * from replay where fileid="+id,
@@ -1906,6 +1935,7 @@ router.get('/secret/getAllComments',function(req,res){
         });
 });
 router.get('/secret/setScore',function(req,res){
+    currentSession = req.session;
     var id=req.query.id;
     var score=req.query.score;
     DB.update('delete from score where username="'+currentSession.username+'" and fileid='+id,function(){
@@ -1976,6 +2006,7 @@ function loginLogic(data){
 }
 
 router.get('/secret/func',function(req,res){
+    currentSession = req.session;
     var type=req.query.type;
     var deal=req.query.deal;
     var id=req.query.fileid;
@@ -2008,37 +2039,37 @@ router.get('/login2', function(req, res) {
 function render(fields,logic){
     var result;
     currentQueue=new Queue("");
-        if(logic)
+    if(logic)
+    {
+        result=logic(this);
+    }
+    else
+    {
+        result=this;
+    }
+    
+    var hasLogin=false;
+    hasLogin=getUserLoginStatues(render.req.session);
+    result["hasLogin"]=hasLogin;
+    result["userid"]=render.res.cookie["username"];
+    if(result!==false)
+    {
+        if(currentSession && currentSession.username)
         {
-            result=logic(this);
+            currentQueue.push({exec:function(){
+                DB.query("select * from systemmsg where username='"+currentSession.username+"' and isReaded='未读消息'",bindData,newMsgLogic,'secretDatas');
+            }}); 
         }
-        else
+    }
+    currentQueue.push({exec:function(data){
+        if(data)
         {
-            result=this;
+            result["hasNew"]=data[0];
         }
-        
-        var hasLogin=false;
-        hasLogin=getUserLoginStatues(render.req.session);
-        result["hasLogin"]=hasLogin;
-        result["userid"]=render.res.cookie["username"];
-        if(result!==false)
-        {
-            if(currentSession)
-            {
-                currentQueue.push({exec:function(){
-                    DB.query("select * from systemmsg where username='"+currentSession.username+"' and isReaded='未读消息'",bindData,newMsgLogic,'secretDatas');
-                }}); 
-            }
-        }
-        currentQueue.push({exec:function(data){
-            if(data)
-            {
-                result["hasNew"]=data[0];
-            }
-            render.res.render(viewPath+render.view, result);
-            currentQueue.end();
-        }});
-        currentQueue.start();
+        render.res.render(viewPath+render.view, result);
+        currentQueue.end();
+    }});
+    currentQueue.start();
 }
 
 function newMsgLogic(data){
@@ -2050,9 +2081,9 @@ function newMsgLogic(data){
 }
 
 function getUserLoginStatues(session){
-	if(currentSession&&currentSession.username)
+	if(session&&session.username)
 	{
-		return currentSession.username;
+		return session.username;
 	}
 	return false;
 }
@@ -2073,6 +2104,7 @@ function clone(obj){
 } 
 
 router.get('/search/user',function(req,res){
+    currentSession = req.session;
     var where =req.query.where;
     currentQueue=new Queue("haha");
     currentQueue.push({exec:function(){
@@ -2110,6 +2142,7 @@ function getMyFriendAndMoshengren(data){
     return _tmpData;
 }
 router.post('/friend/addmsg',function(req,res){
+    currentSession = req.session;
     var msg=req.body.msg;
     var friendname=req.body.frendname;
     var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
@@ -2124,6 +2157,7 @@ router.post('/friend/addmsg',function(req,res){
 });
 
 router.get('/personal/getSystemMsg',function(req,res){
+    currentSession = req.session;
     render.req=req;
     render.res=res;
     currentQueue=new Queue("haha");
@@ -2138,6 +2172,7 @@ router.get('/personal/getSystemMsg',function(req,res){
     currentQueue.start();
 });
 router.get('/personal/getSystemMsg',function(req,res){
+    currentSession = req.session;
     render.req=req;
     render.res=res;
     currentQueue=new Queue("haha");
@@ -2157,6 +2192,7 @@ function getSytemMsgLogic(data){
 }
 
 router.get('/friend/addAgree',function(req,res){
+    currentSession = req.session;
     var come=req.query.come;
     var id=req.query.id;
     DB.update("delete from systemmsg where id="+id,function(){});
@@ -2183,6 +2219,7 @@ router.get('/friend/addAgree',function(req,res){
     res.json({status:"success"});
 });
 router.get('/friend/addDisagree',function(req,res){
+    currentSession = req.session;
     var come=req.query.come;
     var id=req.query.id;
     DB.update("delete from systemmsg where id="+id,function(){});
@@ -2209,16 +2246,17 @@ router.get('/friend/addDisagree',function(req,res){
 });
 
 router.get('/systemmsg/del',function(req,res){
+    currentSession = req.session;
     var id=req.query.id;
     DB.update('delete from systemmsg where id='+id,function(){});
     res.json({status:"success"});
 });
 router.post('/chat/save',function(req,res){
-    var from=currentSession.username;
+    currentSession = req.session;
+    var from=req.body.from;
     var to=req.body.to;
     var text=req.body.msg;
     var time=req.body.time;
-    console.log(req.body);
 
     if(!global.cache["chat"])
     {
@@ -2233,13 +2271,13 @@ router.post('/chat/save',function(req,res){
 });
 
 router.get('/chat/getMine',function(req,res){
+    currentSession = req.session;
     if(currentSession==null)
     {
         res.json({status:"error"});
         return ;
     }
-    var to=currentSession.username;
-    console.log(to);
+    var to=req.query.to;
 
     if(!global.cache["chat"])
     {
@@ -2249,7 +2287,6 @@ router.get('/chat/getMine',function(req,res){
     {
         global.cache["chat"][to]=[];
     }
-    console.log(global.cache["chat"]);
     var resutls=[];
 
     for(var i=0;i<global.cache["chat"][to].length;i++)
@@ -2266,11 +2303,18 @@ router.get('/chat/getMine',function(req,res){
 router.get('/logout',function(req,res){
     currentSession=null;
     res.cookie["username"]=null;
-    res.redirect("/");
+    req.session.destroy(function(err) {
+        if(err) {
+            console.log(err);
+        }
+
+        res.redirect("/");
+    });
 });
 
 
 router.post('/survey/post',function(req,res){
+    currentSession = req.session;
     var type=req.body.choosetype;
     var choose=req.body.answer;
     var username=currentSession.username;
