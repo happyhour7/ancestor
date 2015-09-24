@@ -17,7 +17,7 @@
     <span class="button-area">
         <a class="btn btn-primary" href="">查看秘密</a>
         \{{# isFriend}}
-         <a class="btn btn-warning" href="">查看好友</a>
+         <a class="btn btn-warning delete-friend-btn" data="\{{username}}" href="javascript:void(0);">删除好友</a>
         \{{/isFriend}}
         \{{^ isFriend}}
          <a class="btn btn-danger add_friend_button" data="\{{username}}">加为好友</a>

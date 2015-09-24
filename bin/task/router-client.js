@@ -1253,6 +1253,28 @@ function getnewMsg(){
 
 }
 
+// 删除好友
+router.get('/friend/del',function(req,res){
+    var username=req.query.username;
+    console.log(username, currentSession.username);
+    //console.log(id);
+    if(currentSession)
+    {
+        DB.update("delete from friends where friendname='"+currentSession.username+"' and username='"+username+"'",function(){
+            DB.update("delete from friends where username='"+currentSession.username+"' and friendname='"+username+"'", function() {
+                res.json({status:"success"});
+            })
+
+        });
+
+    }
+    else
+    {
+        res.json({status:"error"});
+    }
+    
+});
+
 router.get('/secret/getMyFriends',function(req,res){
     render.req=req;
     render.res=res;
