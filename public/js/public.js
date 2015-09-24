@@ -517,14 +517,19 @@ $(".secret-comments-replay-button").click(function(){
 	}	
 	var text=$(this).prev().find(".secrect-comment-area").val();
 	var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
-	$(this).prev().find(".replayTime").val(currentTime);
-	replaySuccess();
-	if($.trim(text)!=="")
-	{
-		$(this).prev().find(".secret-comments-replay-submit-button").trigger("click");
-	}
-	
 
+	if($.trim(text)!=="") {
+		$.post('/secret/replaysave', {
+			content: text,
+			filedid: $(this).prev().find('input[name="filedid"]').val(),
+			replayTime: currentTime,
+		}, function(resp) {
+			if(resp.status) {
+				replaySuccess();
+				location.href = '/';
+			}
+		});
+	}
 });
 
 $(window).scroll(function(){

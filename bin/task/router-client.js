@@ -38,7 +38,6 @@ function getHomeSQL(){
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
-                    .replace("<username>",currentSession.username)
                     .replace("<where>",otherWhere);
     }
     else{
@@ -64,14 +63,27 @@ function getLongStorySQL(){
 
 // 获取当前登陆用的好友姓名组成的数据
 function geFriends(data) {
-    var result = [];
+    var result = {};
+    var haoyous = [];
     for(var i=0;i<data.length;i++)
     {
-        result.push(data[i]["username"]);
+        haoyous.push(data[i]["username"]);
     }
 
+    result['haoyous'] = haoyous;
     return result;
 }
+// 获取当前登录用户的评论
+function getComments (data) {
+    var replayers = [];
+    for (var i = 0; i < data.length; i++) {
+        replayers.push(data[i].fileid);
+    }
+
+    _tmpData['replayers'] = replayers;
+    return _tmpData;
+}
+
 /*返回给客户端的数据*/
 var returnData={};
 var currentQueue=null;
@@ -83,10 +95,17 @@ router.get('/', function(req, res) {
     render.req=req;
     render.view="index";
     currentQueue=new Queue("index");
-    // 获取登陆用户的朋友
+    
     if(currentSession && currentSession.username) {
+        // 获取登陆用户的朋友
         currentQueue.push({exec: function() {
             DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
+        }});
+
+        // 获取登录用户的评论
+        currentQueue.push({exec: function(data) {
+            _tmpData = data[0];
+            DB.query("select fileid from replay where replayer='"+currentSession.username+"'",bindData,getComments,'secretDatas');
         }});
 
         currentQueue.push({exec:function(data){
@@ -376,30 +395,14 @@ function indexLogic(data){
                     data[i]["mine"]=true;
                 }
                 // 判断是否为秘密发布者的好友
-                if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData['haoyous'].in_array(data[i].owner))) {
                     data[i]["ishaoyou"] = true;
+                    data[i]["hasReply"] = true;
                 }
 
                 // 回复可见秘密处理
-                if(data[i].secretLimit == 2) {
-                    currentQueue.push({exec: function() {
-                        DB.query("select replayer from replay where fileid="+data[i].id,
-                            function(fields,logic){
-                                var data=logic(this);
-
-                                var replayers = [];
-                                for (var r = 0; r < data.length; r++) {
-                                    replayers.push(data[r].replayer);
-                                }
-                                if(replayers.in_array(currentSession.username)) {
-                                    data[i]["hasReply"] = true;
-                                }
-                                
-                            },
-                            function(data){
-                                return data;
-                            });
-                    }});
+                if(data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id)) {
+                    data[i]["hasReply"] = true;
                 }
             }
 
@@ -412,9 +415,9 @@ function indexLogic(data){
 
         }
     }
-   result['newest_choosen']=true;
-   result['secretDatas']=data;
-   return result; 
+    result['newest_choosen']=true;
+    result['secretDatas']=data;
+    return result;
 }
 
 
@@ -499,10 +502,17 @@ router.get('/secret/mine', function(req, res) {
     render.req=req;
     render.view="index";
     currentQueue=new Queue("mine");
-    // 获取登陆用户的朋友
+    
     if(currentSession && currentSession.username) {
+        // 获取登陆用户的朋友
         currentQueue.push({exec: function() {
             DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
+        }});
+
+        // 获取登录用户的评论
+        currentQueue.push({exec: function(data) {
+            _tmpData = data[0];
+            DB.query("select fileid from replay where replayer='"+currentSession.username+"'",bindData,getComments,'secretDatas');
         }});
 
         currentQueue.push({exec:function(data){
@@ -581,14 +591,22 @@ function woLogic(data){
                 }
 
                 // 判断是否为秘密发布者的好友
-                if(data[i].owner==currentSession.username ||(data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData['haoyous'].in_array(data[i].owner))) {
                     data[i]["ishaoyou"] = true;
+                    data[i]["hasReply"] = true;
+                }
+
+                // 回复可见秘密处理
+                if(data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id)) {
+                    data[i]["hasReply"] = true;
                 }
             }
 
             // 好友可见秘密处理
             if(data[i].secretLimit != 3) {
                 data[i]["ishaoyou"] = true;
+            }else if(data[i].secretLimit != 2) {
+                data[i]["hasReply"] = true;
             }
         }
     }
@@ -832,8 +850,14 @@ router.post('/secret/replaysave',function(req,res){
     result.push(req.body.content);
     result.push(parseInt(req.body.filedid));
     result.push(req.body.replayTime)
-    DB.execute(sql,result);
-    DB.query(getHomeSQL(),render,indexLogic);
+    DB.exec(sql,result, function(err, dat) {
+        if(err) {
+            console.log(err);
+        }
+
+        res.json({status: true});
+    });
+    // DB.query(getHomeSQL(),render,indexLogic);
 });
 
 //他的秘密
@@ -845,11 +869,17 @@ router.get('/secret/ta', function(req, res) {
     currentQueue=null;
     
     currentQueue=new Queue("index");
-
-    // 获取登陆用户的朋友
+    
     if(currentSession && currentSession.username) {
+        // 获取登陆用户的朋友
         currentQueue.push({exec: function() {
             DB.query("select DISTINCT u.username from users u right join friends on friends.friendname=u.username where friends.username='"+currentSession.username+"'",bindData,geFriends,'secretDatas');
+        }});
+
+        // 获取登录用户的评论
+        currentQueue.push({exec: function(data) {
+            _tmpData = data[0];
+            DB.query("select fileid from replay where replayer='"+currentSession.username+"'",bindData,getComments,'secretDatas');
         }});
 
         currentQueue.push({exec:function(data){
@@ -932,14 +962,22 @@ function taLogic(data){
                     data[i]["mine"]=true;
                 }
                 // 判断是否为秘密发布者的好友
-                if(data[i].owner==currentSession.username ||(data[i].secretLimit == 3 && _tmpData.in_array(data[i].owner))) {
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData['haoyous'].in_array(data[i].owner))) {
                     data[i]["ishaoyou"] = true;
+                    data[i]["hasReply"] = true;
+                }
+
+                // 回复可见秘密处理
+                if(data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id)) {
+                    data[i]["hasReply"] = true;
                 }
             }
 
             // 好友可见秘密处理
             if(data[i].secretLimit != 3) {
                 data[i]["ishaoyou"] = true;
+            }else if(data[i].secretLimit != 2) {
+                data[i]["hasReply"] = true;
             }
         }
     }
@@ -1294,7 +1332,6 @@ function getnewMsg(){
 router.get('/friend/del',function(req,res){
     currentSession = req.session;
     var username=req.query.username;
-    console.log(username, currentSession.username);
     //console.log(id);
     if(currentSession && currentSession.username)
     {
@@ -1608,7 +1645,6 @@ router.post('/secret/uploadImage',function(req, res){
 //我的漂流瓶
 router.get('/secret/floater', function(req, res) {
     currentSession = req.session;
-    console.log(currentSession);
     render.res=res;
     render.req=req;
     render.view="sendFloater";
@@ -1804,7 +1840,6 @@ router.post('/secret/saveFloater',function(req, res){
     if(currentSession!==null)
     {
         datas.push(currentSession.username);
-        console.log(datas);
     
     
         ////console.log(datas);

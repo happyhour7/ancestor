@@ -41,8 +41,7 @@ module.exports.loginHomeSQL=
     "left join replay on files.id=replay.fileid   "+
     "left join score on files.id=score.fileid and score.username='<username>' "+
     "left join agvscore as agv on files.id=agv.fileid "+
-    "where ((secretLimit<3 or files.owner='<username>') or  "+
-    "(secretLimit=3 and files.owner in(select friendname from friends where username='<username>'))) "+
+    "where (secretLimit<4 or files.owner='<username>') "+
     "and islongstory<>2  "+
     " <where> "+
     "group by files.id order by files.filetype, files.createTime  desc";
