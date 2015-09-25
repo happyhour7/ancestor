@@ -161,12 +161,17 @@ $('input[name="secretSubType"]').val(current_subtype!='选择子类型'?current_
 $("#grandsubtype_ul>li>a").html(current_grandsubtype+'<span class="caret"></span>');
 $('input[name="secretGrandSubType"]').val(current_grandsubtype!='选择孙类型'?current_grandsubtype:'');
 $('input[name="secretCity"]').val(cityname);
-var sex_text = sex ? '男':'女';
+var sex_text = '选择年龄';
+if(sex == 1) {
+    sex_text = '男';
+}else if(sex == 2) {
+    sex_text = '女';
+}
 $('#secret_othersex_text').html(sex_text+'<span class="caret"></span>');
 $('input[name="secretSex"]').val(sex);
 
 $('#secret_otherage_text').html(age+'<span class="caret"></span>');
-$('input[name="secretAge"]').val(age);
+$('input[name="secretAge"]').val(age!='选择年龄'?age:'');
 
 $('#grandsubtype_label').hide();
 eventBind();

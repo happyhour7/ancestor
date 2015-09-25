@@ -158,3 +158,32 @@ hbs.registerHelper("otherSecretBuildName",function(address1,address2){
     return "<span class='items address'>地址："+address1+address2+"</span>"
   }
 });
+
+hbs.registerHelper("secretHopeShow",function(type, hope){
+  if(type.indexOf('WO的秘密') != -1 && hope != '') {
+    return '<span class="items name">期望：'+hope+'</span>';
+  }
+
+  return '';
+});
+
+hbs.registerHelper("userPhotoShow",function(photo){
+  return photo ? '/avatar/'+photo : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC';
+});
+
+hbs.registerHelper("floaterSex",function(sexId){
+
+  if(sexId == 2)
+  {
+    return "女";
+  }
+  return "男";
+});
+
+hbs.registerHelper("targetShow",function(sex, age, keyword){
+
+  if(sex || age || keyword) {
+    return '<span class="items">目标人：</span>';
+  }
+  return '';
+});

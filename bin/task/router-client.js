@@ -680,7 +680,7 @@ router.get('/secret/order', function(req, res) {
                 where += ' and secretCity="'+order['cityname']+'"';
             }
             if(order['sex']){
-                where += ' and othersex='+order['sex'];
+                where += ' and othersex='+(order['sex']==2?0:order['sex']);
             }
             if(order['age']){
                 where += ' and otherage="'+order['age']+'"';

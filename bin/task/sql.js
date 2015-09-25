@@ -1,10 +1,11 @@
 module.exports.homeSQL=
-    "select count(replay.replayId) as commNum,files.*,count(isgood.good) as goodNum,count(isgood.bad) as badNum "+
+    "select count(replay.replayId) as commNum,files.*,users.sex as authorSex, users.cityname as authorCity,users.userPhoto as authorPhoto,count(isgood.good) as goodNum,count(isgood.bad) as badNum "+
     ",agv.avgScore as avgscore "+
     "from files "+
     "left join isgood on files.id=isgood.fileid  "+
     "left join replay on files.id=replay.fileid  "+
     "left join agvscore as agv on files.id=agv.fileid "+
+    "left join users on users.username=files.owner "+
     "where islongstory<>2 "+
     " <where> "+
     " group by files.id order by files.filetype, files.createTime desc";

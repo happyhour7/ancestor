@@ -433,7 +433,7 @@ var page={
 		}
 		if($.trim(keyword)=="")
 		{
-			alert("请输入关键字");
+			alert("请输入关键词");
 			return false;
 		}
 		if(date&&date.indexOf("-")<0||date.length==0)
