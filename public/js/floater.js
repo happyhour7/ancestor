@@ -185,6 +185,10 @@ var floaterPage={
                 $("#secretMainType_hidden").val('漂流瓶');
                 $("#secretDate_hidden").val((new Date()).format('yyyy-MM-dd'));
                 $("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
+                if($('#otherage_hidden').val() == '选择年龄') {
+                    $('#otherage_hidden').val('');
+                }
+                
                 $("#floater_form").submit();
             }
         });

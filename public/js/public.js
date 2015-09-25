@@ -589,7 +589,7 @@ function buildChatWin(title,target, message){
 			var textarea=$(".target-text-area");
 			var currentValue=textarea.html();
 			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-			textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
 		}
 		return;
 	}
