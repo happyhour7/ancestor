@@ -46,20 +46,15 @@ hbs.registerHelper('secretSex', function(sexId) {
 });
 
 hbs.registerHelper('secretCity', function(type, city) {
-  if(city)
+  if(city && type == 'TA的秘密')
   {
-    if(type == 'TA的秘密')
-    {
-        return '<span class="items address">对方城市：'+city+'</span>';
-    }else
-    {
-      return '<span class="items address">城市：'+city+'</span>';
-    }
+    return '<span class="items address">对方城市：'+city+'</span>';
   }
-    return "";
+  
+  return "";
 });
 hbs.registerHelper('otherSecretSex', function(type, subtype, sexId) {
-  if((type == '出售秘密') || (type == '悬赏秘密' && subtype.indexOf('商家秘密') != -1)) {
+  if((type == 'WO的秘密') || (type == '出售秘密') || (type == '悬赏秘密' && subtype.indexOf('商家秘密') != -1)) {
       return "";
   }
   
