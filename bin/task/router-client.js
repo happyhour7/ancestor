@@ -2318,15 +2318,37 @@ router.post('/chat/save',function(req,res){
     var text=req.body.msg;
     var time=req.body.time;
 
-    if(!global.cache["chat"])
-    {
-        global.cache["chat"]={};
+    try {
+        to = JSON.parse(to);
+    }catch(e) {
+        console.log(e);
     }
-    if(!global.cache["chat"][to])
-    {
-        global.cache["chat"][to]=[];
+
+    if(to instanceof Array) { // 群聊的情况
+        if(!global.cache["chat"])
+        {
+            global.cache["chat"]={};
+        }
+        for (var i = 0; i < to.length; i++) {
+            if(!global.cache["chat"][to[i]])
+            {
+                global.cache["chat"][to[i]]=[];
+            }
+            global.cache["chat"][to[i]].push({from:from,to:to[i],msg:text,time:time,hasSend:false});
+        }
+        
+    }else {
+        if(!global.cache["chat"])
+        {
+            global.cache["chat"]={};
+        }
+        if(!global.cache["chat"][to])
+        {
+            global.cache["chat"][to]=[];
+        }
+        global.cache["chat"][to].push({from:from,to:to,msg:text,time:time,hasSend:false});
     }
-    global.cache["chat"][to].push({from:from,to:to,msg:text,time:time,hasSend:false});
+
     res.json({statu:"success"});
 });
 
@@ -2359,6 +2381,47 @@ router.get('/chat/getMine',function(req,res){
     }
     res.json(resutls);
 });
+
+// 获取群聊
+router.get('/chatGroup/get', function(req, res) {
+    currentSession = req.session;
+    if(!currentSession.username) {
+        res.json({status: false});
+        return;
+    }
+
+    DB.exec("select members from chatgroups where owner=?", [currentSession.username],function(err, result){
+        if(err) {
+            console.log(err);
+        }else {
+            res.json({status: true, data: result});
+        }
+    });
+});
+
+// 保存群聊
+router.post('/chatGroup/save',function(req,res){
+    currentSession = req.session;
+    if(!currentSession.username) {
+        res.json({data: false});
+        return;
+    }
+
+    if(!req.body) {
+        res.json({status: false});
+    } else {
+        DB.update("delete from chatgroups where owner='"+currentSession.username+"'",function(){
+            DB.exec("insert into chatgroups set ?", req.body, function(err, result) {
+                if(err){
+                    console.log(err);
+                }else {
+                    res.json({status:true});
+                }
+            });
+        });
+    }
+});
+
 
 router.get('/logout',function(req,res){
     currentSession=null;

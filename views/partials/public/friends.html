@@ -12,12 +12,16 @@
 				
 				<ul class="friend-ul">
 					{{# friends}}
-					<li  username="{{username}}">
+					<li username="{{username}}">
 						<span class="photo">
 							<img src="/avatar/{{userPhoto}}"/>
 						</span>
-						<span class="user-msg username">{{username}}</span>
-						<span class="user-msg usermark">{{mark}}</span>
+						<span style="float:left;width:85px;overflow:hidden;">
+							<span class="user-msg username">{{username}}</span>
+							<span class="user-msg usermark">{{mark}}</span>
+						</span>
+
+						<button class="btn btn-sm btn-primary pull-right chatgroup-add-btn">开始群聊</button>
 					</li>
 					{{/ friends}}
 				</ul>

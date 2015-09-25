@@ -684,7 +684,7 @@ function sendMsg(data){
 	{
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
 		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text);
-		$.post('/chat/save',{from:$.trim(username),to:data.target,msg:text,time:time},function(){
+		$.post('/chat/save',{from:$.trim(username),to:JSON.stringify(data.target),msg:text,time:time},function(){
 
 		});
 	}
@@ -816,3 +816,141 @@ $("#post-button").click(function(){
 
 */
 });
+
+
+// 群聊有关事件
+$('.chatgroup-add-btn').click(function(e) {
+	if ( e && e.stopPropagation ) {
+		e.stopPropagation();
+	}else {
+		window.event.cancelBubble = true;
+	}
+
+	var username = $(this).parent().attr('username');
+	$.get('/chatGroup/get', function(result) {
+		if(result.status) {
+
+			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+			var members = '';
+
+			if(result.data.length > 0) {
+				members = result.data[0]['members'];
+				if($.inArray(username, members.split(',')) === -1) {
+					members = (members == '' ? username : (members +','+username));
+				}
+			} else {
+				members += username;
+			}
+
+			var title = '与'+members+'群聊中';
+
+			// 保存选择的群聊
+			$.post('/chatGroup/save', {
+				name: title,
+				members: members,
+				owner: currentSystemUsername,
+				createTime: time
+			}, function(data) {
+				if(data.status) {
+					buildChatWin(title, members.split(','));
+				} else {
+					alert('创建群聊失败，请重试');
+				}
+			});
+		}
+	});
+
+});
+
+// 群聊窗口
+function buildChatGroupWin(title,target, message){
+	if($(".target-text-area")[0]!=null) {
+		if(message) {
+			var textarea=$(".target-text-area");
+			var currentValue=textarea.html();
+			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
+		}
+		return;
+	}
+
+	var win=$("<div/>").css({
+		width:400,
+		height:350,
+		position:"fixed",
+		bottom:5,
+		right:150,
+		"z-index":0,
+		background:"#fff",
+		border:"1px solid #000"
+	}).appendTo("body");
+	var title=$("<span/>").css({
+		height:"50px",
+		"line-height":"50px",
+		"text-align":"left",
+		"font-size":20,
+		"padding-left":9,
+		display:"block"
+	}).html(title).appendTo(win);
+
+
+	var closeButton=$("<span/>").css({
+		width:30,
+		height:30,
+		"background-position":"-110px -211px",
+		position:"absolute",
+		right:8,
+		top:11,
+		cursor:"pointer",
+	}).attr("class","system-icons").click(function(){
+		$(this).parent().remove();
+	}).appendTo(win);
+	var textarea=$("<div/>").css({
+		width:380,
+		height:250,
+		border:"1px solid #ccc",
+		color:"#000",
+		margin: "5px 0 0 9px",
+		overflow:"auto"
+	}).attr("readonly","").attr("class","target-text-area").appendTo(win);
+
+	var input =$("<input/>").css({width:300,height:30,border:"1px solid #ccc",
+			"line-height":"30px",
+			"margin-left":9
+	}).bind({
+		keypress:function(event){
+			if(event.keycode==13)
+			{
+				$(this).next().trigger("click");
+			}
+		}
+	}).appendTo(win);
+
+	var button=$("<button/>").attr("class","btn btn-primary")
+	.css({
+		"margin-left":5,
+		width:74
+	}).text("发送").unbind().click(function(){
+		var text=$(this).prev().val();
+		sendMsg({text:text,target:target,from:currentSystemUsername});
+		$(this).prev().val("");
+	}).appendTo(win);
+
+	// 回车发送
+	$(button).prev().keypress(function(e){
+		if(e.which == 13){
+			var text=$(this).val();
+			sendMsg({text:text,target:target,from:currentSystemUsername});
+			$(this).val("");
+		}
+	});
+
+	// 添加消息
+	if(message) {
+		var textarea=$(".target-text-area");
+		var currentValue=textarea.html();
+		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+		
+	}
+}
