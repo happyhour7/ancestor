@@ -1602,9 +1602,10 @@ router.post('/secret/uploadImage',function(req, res){
     form.parse(req, function(err, fields, files) {
 
         if (err) {
-          res.locals.error = err;
-          res.render(viewPath+'personal', { title: TITLE });
-          return; 
+            console.log(err);
+            res.locals.error = err;
+            res.render(viewPath+'personal', { title: '图片上传错误' });
+            return; 
         } 
        
         var extName = ''; //后缀名
@@ -1625,7 +1626,7 @@ router.post('/secret/uploadImage',function(req, res){
 
         if(extName.length == 0){
               res.locals.error = "只支持png和jpg格式图片";
-              res.render(viewPath+'personal', { title: TITLE });
+              res.render(viewPath+'personal', { title: '图片上传错误' });
               return; 
         }
 
@@ -1637,7 +1638,7 @@ router.post('/secret/uploadImage',function(req, res){
     });
     
     res.locals.success = '上传成功';
-    res.json({title:'上传成功！' }); 
+    res.redirect('/secret/permsg');
 });
 
 
@@ -1917,7 +1918,7 @@ router.get('/secret/permsg',function(req,res){
         currentQueue=new Queue("asdf");
         _tmpData={};
         currentQueue.push({exec:function(data){
-            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){_tmpData=data[0];return data[0];},'secretDatas');
+            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){console.log(data); _tmpData=data[0];return data[0];},'secretDatas');
         }});
         getHostSecret();
         getMyFriends();
