@@ -2393,6 +2393,7 @@ router.get('/chatGroup/get', function(req, res) {
     DB.exec("select members from chatgroups where owner=?", [currentSession.username],function(err, result){
         if(err) {
             console.log(err);
+            res.json({status: false});
         }else {
             res.json({status: true, data: result});
         }
