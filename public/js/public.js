@@ -584,6 +584,11 @@ $(".friend-ul").find("li").dblclick(function(){
 });
 var currentSystemUsername=$.trim($("#registry-area").text().split("[")[0]);
 function buildChatWin(title,target, message){
+	// 如果存在群聊的窗口就先移除
+	if($(".chatgroup-area").length > 0) {
+		$($(".chatgroup-area").parent().remove());
+	}
+
 	if($(".target-text-area")[0]!=null) {
 		if(message) {
 			var textarea=$(".target-text-area");
@@ -677,13 +682,22 @@ function buildChatWin(title,target, message){
 
 function sendMsg(data){
 	var text=data.text;
-	var textarea=$(".target-text-area");
-	var currentValue=textarea.html();
+	var textarea=$(".target-text-area"),
+		chatgrouparea = $(".chatgroup-area");
+	var currentValue=textarea.html(),
+		currentchatValue = chatgrouparea.html();
 	var username=$("#registry-area").text().split("[")[0];
 	if(text!="")
 	{
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text);
+		if(textarea.length > 0) { // 个人聊天
+			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentValue);
+		}
+		
+		if(chatgrouparea.length > 0) { // 群组聊天
+			chatgrouparea.html("<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentchatValue);
+		}
+		
 		$.post('/chat/save',{from:$.trim(username),to:JSON.stringify(data.target),msg:text,time:time},function(){
 
 		});
@@ -705,8 +719,12 @@ if($(".friend-area")[0]!=null)
 				{
 					for(var i=0;i<data.length;i++)
 					{
-						buildChatWin("与"+data[i].from+"聊天中",data[i].from, data[i].msg);
-						//sendMsg({text:data[i].msg,target:data[i].from,from:data[i].from});
+						if(data[i].type === 'chatgroup') {
+							buildChatGroupWin("与"+data[i].to.join(',')+"群聊中", data[i].to, data[i].from, false, data[i].msg);
+						}else if(data[i].type === 'person') {
+							buildChatWin("与"+data[i].from+"聊天中",data[i].from, data[i].msg);
+						}
+						
 					}
 				}
 			}
@@ -852,7 +870,7 @@ $('.chatgroup-add-btn').click(function(e) {
 				createTime: time
 			}, function(data) {
 				if(data.status) {
-					buildChatWin(title, members.split(','));
+					buildChatGroupWin(title, members.split(','), currentSystemUsername, true);
 				} else {
 					alert('创建群聊失败，请重试');
 				}
@@ -863,13 +881,38 @@ $('.chatgroup-add-btn').click(function(e) {
 });
 
 // 群聊窗口
-function buildChatGroupWin(title,target, message){
-	if($(".target-text-area")[0]!=null) {
+function buildChatGroupWin(title,target, from, isowner, message){
+	// 如果存在好友聊天的窗口就先移除
+	if($(".target-text-area").length > 0) {
+		$($(".target-text-area").parent().remove());
+	}
+
+	if($(".chatgroup-area")[0]!=null) {
+		// 更新标题
+		$('.chatgroup-title').text(title);
+
+		// 更新成员列表
+		var newlis = '';
+		for (var u = 0; u < target.length; u++) {
+			newlis += '<li class="list-group-item">'+target[u];
+			if(isowner) {
+				newlis += '<button type="button" data-members="'+target.join(',')+
+				   '" data-user="'+target[u]+
+				   '" class="btn btn-xs pull-right chatgroup-member-del">'+
+				   '<span aria-hidden="true">&times;</span></button>';
+			}
+			newlis += '</li>';
+				   
+		}
+		$('.member-list').html(newlis);
+		memeberDel();
+
 		if(message) {
-			var textarea=$(".target-text-area");
+
+			var textarea=$(".chatgroup-area");
 			var currentValue=textarea.html();
 			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
+			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+from+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
 		}
 		return;
 	}
@@ -891,7 +934,7 @@ function buildChatGroupWin(title,target, message){
 		"font-size":20,
 		"padding-left":9,
 		display:"block"
-	}).html(title).appendTo(win);
+	}).html(title).attr('class', 'chatgroup-title').appendTo(win);
 
 
 	var closeButton=$("<span/>").css({
@@ -906,13 +949,62 @@ function buildChatGroupWin(title,target, message){
 		$(this).parent().remove();
 	}).appendTo(win);
 	var textarea=$("<div/>").css({
-		width:380,
+		width:250,
 		height:250,
 		border:"1px solid #ccc",
 		color:"#000",
 		margin: "5px 0 0 9px",
 		overflow:"auto"
-	}).attr("readonly","").attr("class","target-text-area").appendTo(win);
+	}).attr("readonly","").attr("class","chatgroup-area pull-left").appendTo(win);
+
+	var lis = '';
+	for (var u = 0; u < target.length; u++) {
+		lis += '<li class="list-group-item">'+target[u];
+		if(isowner) {
+			lis += '<button type="button" data-members="'+target.join(',')+
+			   '" data-user="'+target[u]+
+			   '" class="btn btn-xs pull-right chatgroup-member-del">'+
+			   '<span aria-hidden="true">&times;</span></button>';
+		}
+		lis += '</li>';
+	}
+	var ul = $("<ul/>").css({
+		width: 130,
+		height: 250,
+		color: "#000",
+		margin: "5px 0",
+		overflow: "auto"
+	}).html(lis).attr("class","member-list list-group pull-right").appendTo(win);
+
+	// 群聊用户删除事件
+	function memeberDel () {
+		$('.chatgroup-member-del').click(function() {
+			var $this = $(this);
+			var memebers = $this.attr('data-members');
+			var currentuser = $this.attr('data-user');
+			$.post('/chatGroup/memeberdel', {
+				originalMembers: memebers,
+				currentuser: currentuser
+			}, function(data) {
+				if(data.status) {
+					if(!data.target) { // 群聊成员为空时
+						alert('成员为空，请重新创建群聊');
+						$('.member-list').parent().remove();
+						return;
+					}
+
+					$this.parent().slideUp('normal', function(){$(this).remove();});
+					// 更新标题
+					$('.chatgroup-title').text(data.title);
+					// 更新成员列表的data-members属性
+					$('.member-list button').attr('data-members', data.target);
+				}else {
+					console.log('删除群组成员失败');
+				}
+			});
+		});
+	}
+	memeberDel();
 
 	var input =$("<input/>").css({width:300,height:30,border:"1px solid #ccc",
 			"line-height":"30px",
@@ -947,10 +1039,10 @@ function buildChatGroupWin(title,target, message){
 
 	// 添加消息
 	if(message) {
-		var textarea=$(".target-text-area");
+		var textarea=$(".chatgroup-area");
 		var currentValue=textarea.html();
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+from+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
 		
 	}
 }

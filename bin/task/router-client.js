@@ -31,6 +31,29 @@ Array.prototype.in_array=function(e){
       return (r.test(this.S+this.join(this.S)+this.S));
 };
 
+// 扩展Date的format方法
+Date.prototype.format = function(format){ 
+    var o = { 
+        "M+" : this.getMonth()+1, //month 
+        "d+" : this.getDate(), //day 
+        "h+" : this.getHours(), //hour 
+        "m+" : this.getMinutes(), //minute 
+        "s+" : this.getSeconds(), //second 
+        "q+" : Math.floor((this.getMonth()+3)/3), //quarter 
+        "S" : this.getMilliseconds() //millisecond 
+    } 
+
+    if(/(y+)/.test(format)) { 
+        format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    } 
+    for(var k in o) { 
+        if(new RegExp("("+ k +")").test(format)) { 
+            format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
+        } 
+    } 
+    return format;
+};
+
 function getHomeSQL(){
     var otherWhere=arguments[0]||"";
     if(currentSession && currentSession.username){
@@ -2334,7 +2357,11 @@ router.post('/chat/save',function(req,res){
             {
                 global.cache["chat"][to[i]]=[];
             }
-            global.cache["chat"][to[i]].push({from:from,to:to[i],msg:text,time:time,hasSend:false});
+            // 构建群组数据接收人
+            var toArr = to.slice(0);
+            toArr.splice(toArr.indexOf(to[i]), 1);
+            toArr.push(from);
+            global.cache["chat"][to[i]].push({from:from,to:toArr,msg:text,time:time,hasSend:false, type: "chatgroup"});
         }
         
     }else {
@@ -2346,7 +2373,7 @@ router.post('/chat/save',function(req,res){
         {
             global.cache["chat"][to]=[];
         }
-        global.cache["chat"][to].push({from:from,to:to,msg:text,time:time,hasSend:false});
+        global.cache["chat"][to].push({from:from,to:to,msg:text,time:time,hasSend:false, type: "person"});
     }
 
     res.json({statu:"success"});
@@ -2404,7 +2431,7 @@ router.get('/chatGroup/get', function(req, res) {
 router.post('/chatGroup/save',function(req,res){
     currentSession = req.session;
     if(!currentSession.username) {
-        res.json({data: false});
+        res.json({status: false});
         return;
     }
 
@@ -2417,6 +2444,44 @@ router.post('/chatGroup/save',function(req,res){
                     console.log(err);
                 }else {
                     res.json({status:true});
+                }
+            });
+        });
+    }
+});
+
+// 删除群聊成员
+router.post('/chatGroup/memeberdel',function(req,res){
+    currentSession = req.session;
+    if(!currentSession.username) {
+        res.json({status: false});
+        return;
+    }
+
+    if(!req.body) {
+        res.json({status: false});
+    }else {
+        DB.update("delete from chatgroups where owner='"+currentSession.username+"'",function(){
+            var originalMembers = req.body.originalMembers;
+            var currentuser = req.body.currentuser;
+
+            var memberArr = originalMembers.split(',');
+            memberArr.splice(memberArr.indexOf(currentuser), 1);
+            // 利用正则表达式去除两头的逗号
+            var members = memberArr.join(',');
+            var title = '与'+members+'群聊中';
+
+            var params = {
+                name: title,
+                members: members,
+                owner: currentSession.username,
+                createTime: (new Date()).format("yyyy-MM-dd hh:mm:ss")
+            };
+            DB.exec("insert into chatgroups set ?", params, function(err, result) {
+                if(err){
+                    console.log(err);
+                }else {
+                    res.json({status:true, title: title, target: members});
                 }
             });
         });
