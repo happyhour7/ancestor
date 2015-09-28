@@ -322,6 +322,9 @@ router.get('/search',function(req,res){
 
 function systemNoticeLogic(data){
     var notice=data[0];
+    if(_tmpData === undefined) {
+        _tmpData = {};
+    }
     _tmpData["systemNotice"]=notice.notice;
     return _tmpData;
 }
