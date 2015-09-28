@@ -605,7 +605,7 @@ function buildChatWin(title,target, message){
 	}
 
 	var win=$("<div/>").css({
-		width:400,
+		width:478,
 		height:350,
 		position:"fixed",
 		bottom:5,
@@ -636,7 +636,7 @@ function buildChatWin(title,target, message){
 		$(this).parent().remove();
 	}).appendTo(win);
 	var textarea=$("<div/>").css({
-		width:380,
+		width:458,
 		height:250,
 		border:"1px solid #ccc",
 		color:"#000",
@@ -664,6 +664,15 @@ function buildChatWin(title,target, message){
 		var text=$(this).prev().val();
 		sendMsg({text:text,target:target,from:currentSystemUsername});
 		$(this).prev().val("");
+	}).appendTo(win);
+
+	// 清除聊天记录按钮
+	var button=$("<button/>").attr("class","btn btn-primary")
+	.css({
+		"margin-left":5,
+		width:74
+	}).text("清除").unbind().click(function(){
+		$('.target-text-area').empty();
 	}).appendTo(win);
 
 	// 回车发送
@@ -923,7 +932,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 	}
 
 	var win=$("<div/>").css({
-		width:600,
+		width:665,
 		height:350,
 		position:"fixed",
 		bottom:5,
@@ -954,7 +963,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		$(this).parent().remove();
 	}).appendTo(win);
 	var textarea=$("<div/>").css({
-		width:400,
+		width:460,
 		height:250,
 		border:"1px solid #ccc",
 		color:"#000",
@@ -1031,6 +1040,15 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		var text=$(this).prev().val();
 		sendMsg({text:text,target:target,from:currentSystemUsername});
 		$(this).prev().val("");
+	}).appendTo(win);
+
+	// 清除聊天记录按钮
+	var button=$("<button/>").attr("class","btn btn-primary")
+	.css({
+		"margin-left":5,
+		width:74
+	}).text("清除").unbind().click(function(){
+		$('.chatgroup-area').empty();
 	}).appendTo(win);
 
 	// 回车发送
