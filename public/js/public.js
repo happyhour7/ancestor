@@ -918,7 +918,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 	}
 
 	var win=$("<div/>").css({
-		width:400,
+		width:600,
 		height:350,
 		position:"fixed",
 		bottom:5,
@@ -949,7 +949,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		$(this).parent().remove();
 	}).appendTo(win);
 	var textarea=$("<div/>").css({
-		width:250,
+		width:400,
 		height:250,
 		border:"1px solid #ccc",
 		color:"#000",
@@ -969,7 +969,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		lis += '</li>';
 	}
 	var ul = $("<ul/>").css({
-		width: 130,
+		width: 188,
 		height: 250,
 		color: "#000",
 		margin: "5px 0",
