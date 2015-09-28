@@ -184,7 +184,7 @@ hbs.registerHelper("targetShow",function(sex, age, keyword){
 });
 
 hbs.registerHelper("maintypeColor",function(type){
-  var color = 'yellow';
+  var color = 'purple';
   if(type == 'WO的秘密') {
     color = 'red';
   }else if(type == 'TA的秘密') {

@@ -1679,7 +1679,7 @@ router.get('/secret/floater', function(req, res) {
     render.view="sendFloater";
     currentQueue=new Queue("floater");
     currentQueue.push({exec:function(){
-        DB.query(floaterGetSQLQuery(" and files.owner='<username>' "),bindData,floaterInitLogic,'secretDatas');
+        DB.query(floaterGetSQLQuery(" and files.owner='<username>' ").replace(' limit 1', ''),bindData,floaterInitLogic,'secretDatas');
     }});
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
@@ -1735,7 +1735,7 @@ router.get('/secret/floater/try', function(req, res) {
     currentQueue=new Queue("floater_try");
     // 捞捞看
     currentQueue.push({exec:function(data){
-        DB.query(floaterGetSQLQuery(" and secretCity = '<cityname>' and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
+        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '') and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
 
     }});  
     currentQueue.push({exec:function(data){
@@ -1776,6 +1776,8 @@ function getFloatersLogic(data){
                 {
                     data[i]["mine"]=true;
                 }
+
+                DB.update("update files set owner='"+currentSession.username+"' where id="+data[i].Id,function(){});
             }
         }
 

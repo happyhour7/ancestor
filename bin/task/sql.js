@@ -61,7 +61,7 @@ module.exports.floaterGetSQL=
     "left join agvscore as agv on files.id=agv.fileid "+
     "where (secretMainType='漂流瓶')"+
     " <where> "+
-    "group by files.id order by files.filetype, files.createTime  desc";
+    "group by files.id order by files.filetype, files.createTime  desc limit 1";
 
 module.exports.personalAvgGetSQL = "select username, round(avg(agv.avgScore),1) as average from users "+
 "left join files on files.owner=username "+
