@@ -338,7 +338,7 @@ function firstAdvLogic(data){
 
         async.parallel([
             function(callback){
-                DB.exec('select sum(score) as score from advscore where advId=?', [tmp.Id], function(err, result){
+                DB.exec('select avg(score) as score from advscore where advId=?', [tmp.Id], function(err, result){
                     if(err){
                         callback(err);
                     }else{
@@ -1579,6 +1579,8 @@ router.get('/secret/permsg-msg',function(req,res){
     {
         var user=currentSession.user;
         currentQueue=new Queue("msg");
+        DB.update("update systemmsg set isReaded='已读' where username='"+currentSession.username+"'",function(){});
+
         currentQueue.push({exec:function(data){
             DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){_tmpData=data[0];return data[0];},'secretDatas');
         }});

@@ -163,7 +163,7 @@ hbs.registerHelper("secretHopeShow",function(type, hope){
 });
 
 hbs.registerHelper("userPhotoShow",function(photo){
-  return photo ? '/avatar/'+photo : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC';
+  return photo ? '/avatar/'+photo : '/avatar/logo.jpg';
 });
 
 hbs.registerHelper("floaterSex",function(sexId){
