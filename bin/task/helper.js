@@ -182,3 +182,16 @@ hbs.registerHelper("targetShow",function(sex, age, keyword){
   }
   return '';
 });
+
+hbs.registerHelper("maintypeColor",function(type){
+  var color = 'yellow';
+  if(type == 'WO的秘密') {
+    color = 'red';
+  }else if(type == 'TA的秘密') {
+    color = 'green';
+  }else if(type == '出售秘密') {
+    color = 'blue';
+  }
+
+  return color;
+});

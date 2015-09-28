@@ -100,7 +100,6 @@ var floaterPage={
                 success:function(data){
                     var source=$("#secretComment-temple").html();
                     var template=Handlebars.compile(source);
-                    console.dir(data);
                     var html=template(data);
                     parents.append(html);
                     $(".comment-title-bar").unbind().click(function(){
@@ -109,6 +108,9 @@ var floaterPage={
                 }
             });
         });
+
+        // 默认打开评论
+        $('.floater-comment-button').trigger('click');
 
         // 捞捞看
         $('#profile .salvage-button').click(function() {
