@@ -535,15 +535,20 @@ $(".secret-comments-replay-button").click(function(){
 $(window).scroll(function(){
 		if($(this).scrollTop()>100)
 		{
-			$("<div/>").css({
+			var toTop = $("<div/>").css({
 				width:70,
 				height:70,
 				position:"fixed",
 				bottom:100,
-				right:50,
+				right:20,
 				background:"url(../../images/icons.png)  -14px -165px #333",
 				cursor:"pointer"
-			}).attr("class","scrollToTop").appendTo("body").click(function(){
+			}).attr("class","scrollToTop");
+			if($('.scrollToTop').length > 0) {
+				return;
+			}
+
+			toTop.appendTo("body").click(function(){
 				$(window).scrollTop(0);
 			});
 		}
@@ -604,7 +609,7 @@ function buildChatWin(title,target, message){
 		height:350,
 		position:"fixed",
 		bottom:5,
-		right:150,
+		right:110,
 		"z-index":0,
 		background:"#fff",
 		border:"1px solid #000"
@@ -922,7 +927,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		height:350,
 		position:"fixed",
 		bottom:5,
-		right:150,
+		right:110,
 		"z-index":0,
 		background:"#fff",
 		border:"1px solid #000"

@@ -770,7 +770,10 @@ router.get('/secret/order', function(req, res) {
     }});
 
     getHostSecret();
-
+    if(currentSession && currentSession.username)
+    {
+        getMyFriends();
+    }
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
