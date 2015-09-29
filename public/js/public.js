@@ -701,9 +701,9 @@ function sendMsg(data){
 	var currentValue=textarea.html(),
 		currentchatValue = chatgrouparea.html();
 	var username=$("#registry-area").text().split("[")[0];
+	var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
 	if(text!="")
 	{
-		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
 		if(textarea.length > 0) { // 个人聊天
 			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentValue);
 		}
@@ -711,11 +711,11 @@ function sendMsg(data){
 		if(chatgrouparea.length > 0) { // 群组聊天
 			chatgrouparea.html("<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentchatValue);
 		}
-		
-		$.post('/chat/save',{from:$.trim(username),to:JSON.stringify(data.target),msg:text,time:time},function(){
-
-		});
 	}
+	console.log(data);
+	$.post('/chat/save',{from:$.trim(username),to:JSON.stringify(data.target),msg:text,time:time},function(){
+
+	});
 }
 if($(".friend-area.hasLogin")[0]!=null)
 {
@@ -734,7 +734,13 @@ if($(".friend-area.hasLogin")[0]!=null)
 					for(var i=0;i<data.length;i++)
 					{
 						if(data[i].type === 'chatgroup') {
-							buildChatGroupWin("与"+data[i].to.join(',')+"群聊中", data[i].to, data[i].from, false, data[i].msg);
+							if(data[i].action === 'delete') {
+								alert('您已被移除群聊');
+								$('.chatgroup-area').parent().remove();
+							}else {
+								buildChatGroupWin("与"+data[i].to.join(',')+"群聊中", data[i].to, data[i].from, false, data[i].msg);
+							}
+							
 						}else if(data[i].type === 'person') {
 							buildChatWin("与"+data[i].from+"聊天中",data[i].from, data[i].msg);
 						}
@@ -1013,7 +1019,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 					// 更新成员列表的data-members属性
 					$('.member-list button').attr('data-members', data.target);
 					// 更新按钮发送的群组成员
-					target = data.target;
+					sendMsg({text:'',target:data.target.split(','),from:currentSystemUsername});
 				}else {
 					console.log('删除群组成员失败');
 				}
@@ -1025,7 +1031,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 	var input =$("<input/>").css({width:300,height:30,border:"1px solid #ccc",
 			"line-height":"30px",
 			"margin-left":9
-	}).bind({
+	}).attr('class', 'msg-input').bind({
 		keypress:function(event){
 			if(event.keycode==13)
 			{
@@ -1045,7 +1051,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 	}).appendTo(win);
 
 	// 清除聊天记录按钮
-	var button=$("<button/>").attr("class","btn btn-primary")
+	var button=$("<button/>").attr("class","btn btn-primary send-btn")
 	.css({
 		"margin-left":5,
 		width:74
@@ -1054,7 +1060,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 	}).appendTo(win);
 
 	// 回车发送
-	$(button).prev().keypress(function(e){
+	$('.send-btn').prev().keypress(function(e){
 		if(e.which == 13){
 			var text=$(this).val();
 			sendMsg({text:text,target:target,from:currentSystemUsername});

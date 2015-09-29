@@ -2372,6 +2372,7 @@ router.post('/chat/save',function(req,res){
             var toArr = to.slice(0);
             toArr.splice(toArr.indexOf(to[i]), 1);
             toArr.push(from);
+            write('myjson.txt', toArr);
             global.cache["chat"][to[i]].push({from:from,to:toArr,msg:text,time:time,hasSend:false, type: "chatgroup"});
         }
         
@@ -2492,6 +2493,11 @@ router.post('/chatGroup/memeberdel',function(req,res){
                 if(err){
                     console.log(err);
                 }else {
+                    // 删除聊天窗口或者成员为空时的操作
+                    if((global.cache["chat"][currentuser] && (global.cache["chat"][currentuser] instanceof Array)) || !members) {
+                        global.cache["chat"][currentuser].push({action: 'delete',hasSend:false, type: "chatgroup"});
+                    }
+                    
                     res.json({status:true, title: title, target: members});
                 }
             });
