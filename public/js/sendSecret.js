@@ -436,6 +436,11 @@ var page={
 			alert("请输入关键词");
 			return false;
 		}
+		if(keyword.length > 4)
+		{
+			alert("关键词的长度不能超过4");
+			return false;
+		}
 		if(date&&date.indexOf("-")<0||date.length==0)
 		{
 			alert("请选择日期");

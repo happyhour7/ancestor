@@ -14,7 +14,7 @@
 					{{# friends}}
 					<li username="{{username}}">
 						<span class="photo">
-							<img src="/avatar/{{userPhoto}}"/>
+							<img src="{{#userPhotoShow authorPhoto}}{{/userPhotoShow}}" style="width:25px;height:35px;" />
 						</span>
 						<span style="float:left;width:80px;overflow:hidden;">
 							<span class="user-msg username">{{username}}</span>

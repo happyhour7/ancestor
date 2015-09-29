@@ -695,7 +695,7 @@ router.get('/secret/order', function(req, res) {
         var sql = '';
 
         if(JSON.stringify(order) != "{}"){
-            var where = 'owner="'+order['owner']+'" and secretMainType="'+order['maintype']+'"';
+            var where = 'secretMainType="'+order['maintype']+'"';
 
             if(order['type']){
                 where += ' and secretType="'+order['type']+'"';
