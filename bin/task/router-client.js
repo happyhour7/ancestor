@@ -435,7 +435,8 @@ function indexLogic(data){
             // 好友可见秘密处理
             if(data[i].secretLimit != 3) {
                 data[i]["ishaoyou"] = true;
-            }else if(data[i].secretLimit != 2) {
+            }
+            if(data[i].secretLimit != 2) {
                 data[i]["hasReply"] = true;
             }
 

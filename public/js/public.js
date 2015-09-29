@@ -717,7 +717,7 @@ function sendMsg(data){
 		});
 	}
 }
-if($(".friend-area")[0]!=null)
+if($(".friend-area.hasLogin")[0]!=null)
 {
 	// 禁用ajax的缓存
 	$.ajaxSetup ({
@@ -1012,6 +1012,8 @@ function buildChatGroupWin(title,target, from, isowner, message){
 					$('.chatgroup-title').text(data.title);
 					// 更新成员列表的data-members属性
 					$('.member-list button').attr('data-members', data.target);
+					// 更新按钮发送的群组成员
+					target = data.target;
 				}else {
 					console.log('删除群组成员失败');
 				}
