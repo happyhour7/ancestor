@@ -2372,7 +2372,7 @@ router.post('/chat/save',function(req,res){
             var toArr = to.slice(0);
             toArr.splice(toArr.indexOf(to[i]), 1);
             toArr.push(from);
-            write('myjson.txt', toArr);
+            
             global.cache["chat"][to[i]].push({from:from,to:toArr,msg:text,time:time,hasSend:false, type: "chatgroup"});
         }
         
