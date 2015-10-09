@@ -293,7 +293,7 @@ var page={
         	var backgroundLength=$("#secrect-background").val().length;
         	var contentLength=$("#secrect-content").val().length;
         	var knownLength=$("#secrect-known").val().length;
-        	if(backgroundLength+contentLength+knownLength>=140)
+        	if(backgroundLength+contentLength+knownLength>=78)
         	{
         		tmpBackground=$("#secrect-background").val();
         		tmpContent=$("#secrect-content").val();
@@ -314,7 +314,7 @@ var page={
         	
         });
 		$("#secrect-longstory").on("keyup",function(){
-			if($("#secrect-longstory").val().length<140&&(tmpBackground!=""||tmpContent!=""||tempKnow!="")) {
+			if($("#secrect-longstory").val().length<78&&(tmpBackground!=""||tmpContent!=""||tempKnow!="")) {
 				$("#secret_background_tr").show();
 	    		$("#secret_content_tr").show();
 	    		$("#secret_known_tr").show();

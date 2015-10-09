@@ -54,7 +54,7 @@ hbs.registerHelper('secretCity', function(type, city) {
   return "";
 });
 hbs.registerHelper('otherSecretSex', function(type, subtype, sexId) {
-  if((type == 'WO的秘密') || (type == '出售秘密') || (type == '悬赏秘密' && subtype.indexOf('商家秘密') != -1)) {
+  if((type == 'WO的秘密') || (type == '出售秘密') || (type == '悬赏秘密' && subtype.indexOf('商家秘密') != -1) || (type == 'TA的秘密' && subtype.indexOf('商家秘密') != -1)) {
       return "";
   }
   

@@ -101,7 +101,7 @@ var floaterPage={
                     var source=$("#secretComment-temple").html();
                     var template=Handlebars.compile(source);
                     var html=template(data);
-                    parents.append(html);
+                    parents.append(html.replace(/评论/g, '回应'));
                     $(".comment-title-bar").unbind().click(function(){
                         $(this).parent().remove();
                     });
@@ -199,7 +199,7 @@ var floaterPage={
         $(".floater-del-button").click(function(){
             var id=$(this).attr("data");
             var _that=this;
-            if(confirm("确认删除该秘密吗？"))
+            if(confirm("确认删除该漂流瓶吗？"))
             {
                 $.ajax({
                     url:"/secret/floaterdel?id="+id,
