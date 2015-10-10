@@ -694,7 +694,7 @@ router.get('/secret/order', function(req, res) {
         var order = _tmpData['order_info'];
         var sql = '';
 
-        if(JSON.stringify(order) != "{}"){
+        if(order && JSON.stringify(order) != "{}"){
             var where = 'secretMainType="'+order['maintype']+'"';
 
             if(order['type']){
