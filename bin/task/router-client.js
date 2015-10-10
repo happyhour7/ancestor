@@ -1531,6 +1531,8 @@ function getMySecrets(data){
             if(data[i].owner==currentSession.username)
             {
                 data[i]["mine"]=true;
+                data[i]["ishaoyou"] = true;
+                data[i]["hasReply"] = true;
             }
         }
     }
