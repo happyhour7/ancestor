@@ -150,7 +150,7 @@ hbs.registerHelper("otherSecretBuildName",function(address1,address2){
   }
   else
   {
-    return "<span class='items address'>地址："+address1+address2+"</span>"
+    return "<span class='items address'>城市："+address1+"</span><span class='items address'>地址："+address2+"</span>"
   }
 });
 
