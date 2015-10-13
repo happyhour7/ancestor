@@ -248,7 +248,7 @@ router.post('/adv/saveImage',function(req, res){
 
         if(extName.length == 0){
               res.locals.error = "只支持png和jpg格式图片";
-              res.json({title:'只支持png和jpg格式图片'});
+              // res.json({title:'只支持png和jpg格式图片'});
               return; 
         }
         
