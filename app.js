@@ -31,6 +31,8 @@ app.use((function(){
 	}
 })());
 
+// 支付宝有关服务
+require('./alipay_config').alipay.route(app);
 
 app.use(session({
   resave:false,

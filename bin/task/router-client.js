@@ -24,6 +24,9 @@ var longStoreSQL=sqlCode.longStoreSQL;
 var loginLongStoreSQL=sqlCode.loginLongStoreSQL;
 var hotSecretSQL=sqlCode.hotSecretSQL;
 
+// 支付宝有关
+var alipay = require('../../alipay_config').alipay;
+
 // 注册in_array 方法
 Array.prototype.S=String.fromCharCode(2);
 Array.prototype.in_array=function(e){
@@ -1278,7 +1281,25 @@ function gotoHome(){
     DB.query(getHomeSQL(),render,indexLogic);
 }
 
+// 订单号生成
+function dingdanhao() {
+    $date = new Date();
 
+    return ($date.getFullYear().toString()+($date.getMonth()+1).toString()+$date.getDate().toString())+$date.getTime().toString().substr(-5)+$date.getMilliseconds().toString().substr(2,5);
+}
+
+// 人品支付宝充值
+router.post('/secret/alipay',function(req,res){
+    var data = {
+        out_trade_no:dingdanhao(),
+        subject:'人品充值',
+        total_fee:req.body.WIDtotal_fee,
+        body: '人品充值',
+        show_url:'/secret/permsg-score'
+     };
+    
+    alipay.create_direct_pay_by_user(data, res);
+});
 
 
 router.get('/secret/permsg-score',function(req,res){
