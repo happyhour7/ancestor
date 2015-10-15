@@ -148,9 +148,10 @@ router.get('/', function(req, res) {
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         var sql = '';
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -468,9 +469,9 @@ router.get('/secret/longstore',function(req,res){
         _tmpData=data[0];
         var sql = '';
 
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -560,9 +561,9 @@ router.get('/secret/mine', function(req, res) {
         _tmpData=data[0];
         var sql = '';
 
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -747,9 +748,9 @@ router.get('/secret/order', function(req, res) {
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
         var sql = '';
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -930,9 +931,9 @@ router.get('/secret/ta', function(req, res) {
         _tmpData=data[0];
         var sql = '';
 
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -1036,9 +1037,9 @@ router.get('/secret/sell', function(req, res) {
         _tmpData=data[0];
         var sql = '';
 
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -1121,9 +1122,9 @@ router.get('/secret/offer', function(req, res) {
         _tmpData=data[0];
         var sql = '';
 
-        if(_tmpData['secretDatas'].length > 0){
+        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
             var owners = [];
-            for(var o in _tmpData['secretDatas']){
+            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
                 owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
             }
 
@@ -1499,7 +1500,7 @@ router.get('/secret/permsg-mysecret',function(req,res){
             _tmpData=data[0];
             var sql = '';
 
-            if(_tmpData['secretDatas'].length > 0){
+            if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
                 var owners = [];
                 for(var o in _tmpData['secretDatas']){
                     owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
