@@ -2088,6 +2088,13 @@ function personalLogic(data){
         {
             console.log("性别："+data[0].sex);
         }
+
+        // 设置默认个性签名
+        if(data[0].mark == null)
+        {
+            result['mark'] = '我是一个小蟋蟀';
+        }
+
         result["personal_msg"]=true;
         result["hostSecret"] = data[1]["hostSecret"];
         result["friends"] = data[1]["friends"];
