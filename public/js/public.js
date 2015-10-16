@@ -119,6 +119,12 @@ var page={
 					buildValidateNum();
 				});
 
+				// 关闭注册框按钮
+				$('#closeBtn').unbind().click(function(){
+					$('#registry-dialog').hide();
+					$(".system-background").remove();
+				});
+
 			}
 			
 		});
