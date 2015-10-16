@@ -542,12 +542,12 @@ $(window).scroll(function(){
 		if($(this).scrollTop()>100)
 		{
 			var toTop = $("<div/>").css({
-				width:70,
-				height:70,
+				width:60,
+				height:60,
 				position:"fixed",
 				bottom:100,
 				right:20,
-				background:"url(../../images/icons.png)  -14px -165px #333",
+				background:"url(../../images/icons.png)  -20px -165px #333",
 				cursor:"pointer"
 			}).attr("class","scrollToTop");
 			if($('.scrollToTop').length > 0) {
