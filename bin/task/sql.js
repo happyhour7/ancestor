@@ -32,14 +32,12 @@ module.exports.hotSecretSQL="select count(replay.replayId) as commNum,files.*,co
 
 
 module.exports.loginHomeSQL=
-    "select count(replay.replayId) as commNum,files.*,users.sex as authorSex, users.cityname as authorCity,users.userPhoto as authorPhoto,count(isgood.good) as goodNum1,count(isbad.bad) as badNum1 , "+
+    "select count(replay.replayId) as commNum,files.*,users.sex as authorSex, users.cityname as authorCity,users.userPhoto as authorPhoto,count(m.good) as goodNum1,count(n.bad) as badNum1 , "+
     " m.good as choosenGood,n.bad as choosenBad ,score.score as userscore , agv.avgScore as avgscore "+
     "from files  "+
-    "left join isgood on files.id=isgood.fileid  "+
-    "left join isgood as m on files.id=isgood.fileid  and isgood.username='<username>'  "+
-    "left join isbad on files.id=isbad.fileid  "+
-    "left join isbad as n on files.id=isbad.fileid  and isbad.username='<username>' "+
-    "left join replay on files.id=replay.fileid   "+
+    "left join isgood as m on files.id=m.fileid "+
+    "left join isbad as n on files.id=n.fileid "+
+    "left join replay on files.id=replay.fileid "+
     "left join score on files.id=score.fileid and score.username='<username>' "+
     "left join agvscore as agv on files.id=agv.fileid "+
     "left join users on users.username=files.owner "+
