@@ -178,7 +178,7 @@ CREATE TABLE `config` (
   `notice` varchar(5000) DEFAULT NULL,
   `system` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (14,'<font color=\"#000000\" face=\"微软雅黑\" size=\"3\">做个孤独的蟋蟀，唱着自己的歌；或许有人欣赏，或许有人嘲讽，心有阳光，再黑暗的角落，也干净敞亮。</font>','system');
+INSERT INTO `config` VALUES (19,'<font size=\"4\">前100名注册用户送人品1000分，相当于<font color=\"#ff0000\">100</font>元！<img src=\"http://www.wangeditor.com/expressions/28.gif\"></font><br>','system');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +241,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (10,'我恨','爱人','',2,'WO的秘密','求祝福','南京','2015-08-04','这是第一个秘密哦','这是第一个秘密哦','这是第一个秘密哦','这是第一个秘密哦','这是第一个秘密哦','',0,'','','',0,'william wang',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),(110,'','','',1,'漂流瓶','','','2015-09-25','','','','的','','',0,'','','',0,'娃哈哈','','',2,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-25 10:35:51'),(111,'','','',1,'漂流瓶','','','2015-09-25','','','','的','','',0,'','','',0,'娃哈哈','','',2,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-25 10:37:04'),(113,'','','',1,'漂流瓶','','这里','2015-09-28','秘密','','','欲望太强','','',2,'21~25','','',0,'没有人','','',2,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-28 21:22:19'),(118,'我做过','其他','',1,'WO的秘密','求安慰','镇江','1990-07','童年','小时候杀死了很多小田鸡','夏天的时候稻田里很多小田鸡','那时候拿了手工做的小竹弓箭，到处射杀小田鸡','现在想起来感觉很不好','',0,'','','',0,'大树','','',0,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-29 10:27:07'),(122,'我做过','其他','',1,'WO的秘密','求赞','新兴','2015-09','放生','今天买了一只狗','今天同事告诉我她们打算把养的狗卖给狗贩','有些不忍心，这个狗小的时候我就和它玩过，现在大了看到我还认识我，我喜欢它刚毅的眼神和健壮的','放生的感觉很不错。','',0,'','','',0,'江边野火','','',0,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-29 23:37:57'),(128,'','','',1,'漂流瓶','','','2015-10-12','','','','有没有人','','',0,'','','',0,'江边野火','','',2,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-10-12 16:42:00');
+INSERT INTO `files` VALUES (10,'我恨','爱人','',2,'WO的秘密','求祝福','南京','2015-08-04','这是第一个秘密哦','这是第一个秘密哦','这是第一个秘密哦','这是第一个秘密哦','这是第一个秘密哦','',0,'','','',0,'william wang',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),(111,'','','',1,'漂流瓶','','','2015-09-25','','','','的','','',0,'','','',0,'江边野火','','',2,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-25 10:37:04'),(113,'','','',1,'漂流瓶','','这里','2015-09-28','秘密','','','欲望太强','','',2,'21~25','','',0,'没有人','','',2,NULL,NULL,NULL,NULL,NULL,NULL,1,'2015-09-28 21:22:19');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,7 +426,7 @@ CREATE TABLE `survey` (
   `answer5` varchar(255) DEFAULT NULL,
   `answer6` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +435,7 @@ CREATE TABLE `survey` (
 
 LOCK TABLES `survey` WRITE;
 /*!40000 ALTER TABLE `survey` DISABLE KEYS */;
-INSERT INTO `survey` VALUES (8,'你觉得赚钱多是成功的唯一标志吗？',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `survey` VALUES (10,'今天开心吗？',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `survey` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -566,7 +566,7 @@ CREATE TABLE `users` (
   `address` varchar(200) DEFAULT NULL,
   `mark` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -575,7 +575,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (85,'大树','1234',1,1,60,'undefined','广州','undefined','undefined','0.38356967456638813.jpg',NULL,'当当当'),(87,'娟娟细流','1234',0,1,10,NULL,'临沂',NULL,NULL,'demo_logo.png',NULL,NULL),(89,'没有人','740860638hcm210',0,1,15,'undefined','','undefined','undefined','0.8318439889699221.jpg',NULL,'没有人问有没有人？'),(90,'娃哈哈','1234',1,1,10,NULL,'广州',NULL,NULL,'demo_logo.png',NULL,NULL),(91,'蟋蟀','xishuai',1,1,10,NULL,'广州',NULL,NULL,'demo_logo.png',NULL,NULL),(92,'江边野火','knowledge',1,1,45,NULL,'广州',NULL,NULL,'demo_logo.png',NULL,NULL),(93,'偷偷的','knowledge',1,1,10,NULL,'北京',NULL,NULL,'demo_logo.png',NULL,NULL),(94,'爱死寂寞人','knowledge',0,1,20,'undefined','深圳','undefined','undefined','demo_logo.png',NULL,'想约就约');
+INSERT INTO `users` VALUES (95,'蟋蟀','knowledge',1,1,10,NULL,'广州',NULL,NULL,'demo_logo.png',NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -607,4 +607,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-15 16:19:52
+-- Dump completed on 2015-10-17 12:23:52
