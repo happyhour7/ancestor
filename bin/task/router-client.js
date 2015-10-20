@@ -1289,18 +1289,77 @@ function dingdanhao() {
     return ($date.getFullYear().toString()+($date.getMonth()+1).toString()+$date.getDate().toString())+$date.getTime().toString().substr(-5)+$date.getMilliseconds().toString().substr(2,5);
 }
 
-// 人品支付宝充值
+// 蟋蟀腿支付宝充值
 router.post('/secret/alipay',function(req,res){
     var data = {
         out_trade_no:dingdanhao(),
-        subject:'人品充值',
+        subject:'蟋蟀腿充值',
         total_fee:req.body.WIDtotal_fee,
-        body: '人品充值',
+        body: '蟋蟀腿充值',
         show_url:'/secret/permsg-score'
      };
-    
-    alipay.create_direct_pay_by_user(data, res);
+    var url = alipay.buildDirectPayURL(data);
+
+    res.redirect(url);
 });
+
+// 支付宝回调逻辑
+router.get('/alipay/return', function(req, res) {
+    currentSession = req.session;
+
+    /* params为：
+    { body: '蟋蟀腿充值',                                                                              
+      buyer_email: '*****'.com',                                                           
+      buyer_id: '208890240506',                                                               
+      exterface: 'create_direct_pay_by_user',                                                     
+      is_success: 'T',                                                                            
+      notify_id: 'RqPnCoPT3K9%2Fvwbh3InVa4X9%2FFz2xarzgLeWw%2Bv966VT%2FrFopbnSN3lIAgulyk%2BNGdI3',
+      notify_time: '2015-10-20 21:04:27',                                                         
+      notify_type: 'trade_status_sync',                                                           
+      out_trade_no: '20151020313100',                                                             
+      payment_type: '1',                                                                          
+      seller_email: '13926167658@139.com',                                                        
+      seller_id: '2088021457068229',                                                              
+      subject: '蟋蟀腿充值',                                                                           
+      total_fee: '0.01',                                                                          
+      trade_no: '2015102021001004060082841718',                                                   
+      trade_status: 'TRADE_SUCCESS',                                                              
+      sign: '4d67b1130f403715e47315ec4743758f',                                                   
+      sign_type: 'MD5' }                                                                          
+     */
+    var params = req.query;
+    alipay.verity(params, function (err, result) {
+        if (err) {
+            console.error(err);
+            res.end('');
+        } else {
+            if (result === true) {
+                //该通知是来自支付宝的合法通知
+                //
+                //
+                //保存充值记录
+                var submits=[currentSession.username, params.trade_no, params.out_trade_no, params.total_fee];
+                submits.push(username);
+                DB.exec("insert into pays set username=?,trade_no=?,out_trade_no=?,total_fee=?",submits, function(err, result) {
+                    if(err)
+                        console.log(err);
+
+                });
+
+                //保存蟋蟀腿数据
+                DB.exec("select money from users where username=?", [currentSession.username], function(error, res) {
+                    if(error)
+                        console.log(error);
+
+                    var new_toal = result[0]['money'] + params.total_fee;
+                    DB.update("update users set money="+new_total+" where username='"+currentSession.username+"'",function(){});
+                });
+                
+                res.redirect("/secret/permsg-score");
+            }
+        }
+    });
+})
 
 
 router.get('/secret/permsg-score',function(req,res){
