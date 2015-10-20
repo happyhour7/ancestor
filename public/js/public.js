@@ -453,14 +453,18 @@ var page={
 			var choosenScore=$(this).find("option:selected").text();
 			var location=$(this).parent().prev().prev().val();
 			var advId = $(this).attr('data');
-			$.ajax({
-				url:"/adv/setScore?advId="+advId+"&userid="+$("#hasLogin_hidden").attr("username")+"&score="+choosenScore+"&location="+location,
-				async:false,
-				cache:false,
-				success:function(){
-					$(that).attr("disabled","disabled");
-				}
-			});
+			if(choosenScore != '')
+			{
+				$.ajax({
+					url:"/adv/setScore?advId="+advId+"&userid="+$("#hasLogin_hidden").attr("username")+"&score="+choosenScore+"&location="+location,
+					async:false,
+					cache:false,
+					success:function(){
+						$(that).attr("disabled","disabled");
+					}
+				});
+			}
+			
 		});
 		$(".secret-comment-button").on("click",function(){
 			var parents=$("#secret-body-container-"+$(this).attr("data"));

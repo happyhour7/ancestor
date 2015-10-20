@@ -20,6 +20,7 @@
 			<span class="get-score">得分：<span style="color:#ff5a00">{{score}}</span></span>
 			<span class="score">评分：
 				<select class="adv-score-select" data="{{Id}}" {{#isScoreDisabled userscore}}{{/isScoreDisabled}}>
+					<option value=''>分数</option>
 					<option {{#myscore 10 userscore }}{{/myscore}}>10</option>
 					<option {{#myscore 9 userscore }}{{/myscore}}>9</option>
 					<option {{#myscore 8 userscore }}{{/myscore}}>8</option>
@@ -61,6 +62,7 @@
 			<span class="get-score">得分：<span style="color:#ff5a00">{{score}}</span></span>
 			<span class="score">评分：
 				<select class="adv-score-select" data="{{Id}}" {{#isScoreDisabled userscore}}{{/isScoreDisabled}}>
+					<option value=''>分数</option>
 					<option {{#myscore 10 userscore }}{{/myscore}}>10</option>
 					<option {{#myscore 9 userscore }}{{/myscore}}>9</option>
 					<option {{#myscore 8 userscore }}{{/myscore}}>8</option>

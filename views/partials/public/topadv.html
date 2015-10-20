@@ -21,6 +21,7 @@
 					<span class="score-area" style="width:100px;">
 						<span class="score-text">评分：</span>
 						<select class="adv-score-select" data="{{Id}}" {{#isScoreDisabled userscore}}{{/isScoreDisabled}}>
+							<option value=''>分数</option>
 							<option {{#myscore 10 userscore }}{{/myscore}}>10</option>
 							<option {{#myscore 9 userscore }}{{/myscore}}>9</option>
 							<option {{#myscore 8 userscore }}{{/myscore}}>8</option>
