@@ -1339,7 +1339,6 @@ router.get('/alipay/return', function(req, res) {
                 //
                 //保存充值记录
                 var submits=[currentSession.username, params.trade_no, params.out_trade_no, params.total_fee];
-                submits.push(username);
                 DB.exec("insert into pays set username=?,trade_no=?,out_trade_no=?,total_fee=?",submits, function(err, result) {
                     if(err)
                         console.log(err);
@@ -1347,11 +1346,11 @@ router.get('/alipay/return', function(req, res) {
                 });
 
                 //保存蟋蟀腿数据
-                DB.exec("select money from users where username=?", [currentSession.username], function(error, res) {
+                DB.exec("select money from users where username=?", [currentSession.username], function(error, resu) {
                     if(error)
                         console.log(error);
 
-                    var new_toal = result[0]['money'] + params.total_fee;
+                    var new_total = parseFloat(resu[0]['money']) + parseFloat(params.total_fee);
                     DB.update("update users set money="+new_total+" where username='"+currentSession.username+"'",function(){});
                 });
                 
@@ -1359,7 +1358,7 @@ router.get('/alipay/return', function(req, res) {
             }
         }
     });
-})
+});
 
 
 router.get('/secret/permsg-score',function(req,res){
@@ -1374,7 +1373,7 @@ router.get('/secret/permsg-score',function(req,res){
 
         currentQueue=new Queue("permsg-score");
         currentQueue.push({exec:function(data){
-            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){_tmpData=data[0];return data[0];},'secretDatas');
+            DB.query("select * from users where username='"+currentSession.username+"'",bindData,function(data){user=data[0];return data[0];},'secretDatas');
         }});
         _tmpData={};
         getHostSecret();
