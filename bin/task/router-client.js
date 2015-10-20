@@ -2579,4 +2579,10 @@ router.post('/survey/post',function(req,res){
         res.json(status);
     });
 });
+
+// 用户协议
+router.get('/contract', function(req, res) {
+    res.render('contract', { title: '用户协议' });
+});
+
 module.exports = router;

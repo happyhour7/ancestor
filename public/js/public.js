@@ -244,6 +244,11 @@ var page={
 				alert("请输入正确的验证码"+$("#registry-valinum-content").attr("data"));
 				return false;
 			}
+			if(!$('#agreeContract:checked').length)
+			{
+				alert('请同意用户协议');
+				return false;
+			}
 			var isOk=true;
 			$.ajax({
 				type:"get",
