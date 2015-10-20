@@ -178,7 +178,7 @@ CREATE TABLE `config` (
   `notice` varchar(5000) DEFAULT NULL,
   `system` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (19,'<font size=\"4\">前100名注册用户送人品1000分，相当于<font color=\"#ff0000\">100</font>元！<img src=\"http://www.wangeditor.com/expressions/28.gif\"></font><br>','system');
+INSERT INTO `config` VALUES (21,'<font size=\"4\">欢迎光临本网站！您可以在本网站发布秘密、出售秘密、悬赏秘密，也可以认识其他朋友，和他们在线聊天、群聊，一周内积分增长值最大的前5名用户可以获得本网站广告分成。</font>','system');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +312,7 @@ CREATE TABLE `isgood` (
   `bad` int(11) DEFAULT NULL,
   `fileid` int(11) DEFAULT NULL,
   PRIMARY KEY (`isgoodId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +321,7 @@ CREATE TABLE `isgood` (
 
 LOCK TABLES `isgood` WRITE;
 /*!40000 ALTER TABLE `isgood` DISABLE KEYS */;
-INSERT INTO `isgood` VALUES (3,'test',1,NULL,9),(4,'没有人',1,NULL,109),(7,'test',1,NULL,108),(8,'江边野火',1,NULL,149);
+INSERT INTO `isgood` VALUES (3,'test',1,NULL,9),(4,'没有人',1,NULL,109),(7,'test',1,NULL,108),(8,'江边野火',1,NULL,149),(9,'蟋蟀',1,NULL,10);
 /*!40000 ALTER TABLE `isgood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -607,4 +607,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-17 12:23:52
+-- Dump completed on 2015-10-20 20:35:32
