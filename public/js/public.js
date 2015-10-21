@@ -432,15 +432,19 @@ var page={
 			var choosenScore=$(this).find("option:selected").text();
 			var id=$(this).attr("data");
 			var that=this;
-			$.ajax({
-				url:"/secret/setScore?id="+id+"&score="+choosenScore,
-				async:false,
-				cache:false,
-				success:function(){
-					console.log("执行成功！");
-					$(that).attr("disabled","disabled");
-				}
-			});
+			if(choosenScore != '')
+			{
+				$.ajax({
+					url:"/secret/setScore?id="+id+"&score="+choosenScore,
+					async:false,
+					cache:false,
+					success:function(){
+						console.log("执行成功！");
+						$(that).attr("disabled","disabled");
+					}
+				});
+			}
+			
 		});
 		
 		$(".adv-score-select").change(function(){
