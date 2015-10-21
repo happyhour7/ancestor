@@ -889,6 +889,7 @@ router.post('/secret/replaysave',function(req,res){
             console.log(err);
         }
 
+        AddXishuaitui(1);
         res.json({status: true});
     });
     // DB.query(getHomeSQL(),render,indexLogic);
@@ -1259,6 +1260,7 @@ router.post('/secret/saveSecret',function(req, res){
             if(err)
                 throw err;
 
+            AddXishuaitui(10);
             AddScore(5);
             res.redirect("/");
         });
@@ -1269,6 +1271,13 @@ router.post('/secret/saveSecret',function(req, res){
         res.redirect("/");
     }
 });
+
+// 增加蟋蟀腿
+function AddXishuaitui(num) {
+    DB.update("update users set xishuaitui="+parseInt(num)+" where username='"+currentSession.username+"'",function(){});
+}
+
+
 
 function AddScore(num){
     //console.log("update users set score="+(parseInt(currentSession.user.score)+num)+" where username='"+currentSession.username+"'");
@@ -1351,7 +1360,8 @@ router.get('/alipay/return', function(req, res) {
                         console.log(error);
 
                     var new_total = parseFloat(resu[0]['money']) + parseFloat(params.total_fee);
-                    DB.update("update users set money="+new_total+" where username='"+currentSession.username+"'",function(){});
+                    var xishuaitui = Math.round(new_total*10);
+                    DB.update("update users set money="+new_total+",xishuaitui="+xishuaitui+" where username='"+currentSession.username+"'",function(){});
                 });
                 
                 res.redirect("/secret/permsg-score");
