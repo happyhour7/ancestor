@@ -213,8 +213,8 @@ $(".select-pindao-subitem").click(function(){
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
                 '<li><a class="select-item" target="" data-src="">选择类型</a></li>'+
-                "<li><a class='select-item' data-src='tatype' target='sirenmimi'>私人秘密</a></li>"+
-                "<li><a class='select-item' data-src='tatype' target='shangjiamimi'>商家秘密</a></li>"+
+                "<li><a class='select-item' data-src='tatype' target='sirenmimi'>私人的</a></li>"+
+                "<li><a class='select-item' data-src='tatype' target='shangjiamimi'>组织的</a></li>"+
             '</ul></li>';
         subtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
@@ -231,8 +231,8 @@ $(".select-pindao-subitem").click(function(){
             '<a id="secrettype_one" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
                 '<li><a class="select-item" target="" data-src="">选择类型</a></li>'+
-                '<li><a class="select-item" data-src="selltype" target="sirenmimi">私人秘密</a></li>'+
-                '<li><a class="select-item" data-src="selltype" target="shangjiamimi">商家秘密</a></li>'+
+                '<li><a class="select-item" data-src="selltype" target="sirenmimi">私人的</a></li>'+
+                '<li><a class="select-item" data-src="selltype" target="shangjiamimi">组织的</a></li>'+
             '</ul></li>';
         subtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
@@ -249,8 +249,8 @@ $(".select-pindao-subitem").click(function(){
             '<a id="secrettype_one" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择类型<span class="caret"></span></a>'+
             '<ul class="dropdown-menu" aria-labelledby="drop1">'+
                 '<li><a class="select-item" target="" data-src="">选择类型</a></li>'+
-                '<li><a class="select-item" data-src="selltype" target="sirenmimi">私人秘密</a></li>'+
-                '<li><a class="select-item" data-src="selltype" target="shangjiamimi">商家秘密</a></li>'+
+                '<li><a class="select-item" data-src="selltype" target="sirenmimi">私人的</a></li>'+
+                '<li><a class="select-item" data-src="selltype" target="shangjiamimi">组织的</a></li>'+
             '</ul></li>';
         subtype_html = '<li class="dropdown">'+
             '<a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择子类型<span class="caret"></span></a>'+
