@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{> admin/header}}
+</head>
+
+<body>
+
+
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+<section>
+
+  <div class="leftpanel">
+
+    <div class="logopanel">
+        {{> admin/left}}
+    </div><!-- logopanel -->
+
+    <div class="leftpanelinner">
+
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">
+
+        </div>
+
+      <h5 class="sidebartitle">导航菜单</h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <!--<li><a href="/admin/index"><i class="fa fa-home"></i> <span>管理主页</span></a></li>-->
+        <li><a href="/admin/adminUserManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>管理员管理</span></a></li>
+        <li class="active"><!-- class="nav-parent"-->
+        <a href="/admin/advUserManager">
+        <i class="fa fa-laptop"></i>
+         <span>广告用户管理</span></a>
+        </li>
+        <li><a href="/admin/userManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>普通用户管理</span></a></li>
+
+
+        <li><a href="/admin/surveyManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>调查管理</span></a></li>
+
+        <li><a href="/admin/systemNotice">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>网站公告</span></a></li>
+
+        <li><a href="/admin/secretManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>秘密管理</span></a></li>
+
+        <li><a href="/admin/replyManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>评论管理</span></a></li>
+      </ul>
+
+
+
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+
+  <div class="mainpanel">
+
+    <div class="headerbar">
+
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+      <!--<form class="searchform" action="index.html" method="post">
+        <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+      </form>-->
+
+      <div class="header-right">
+      </div><!-- header-right -->
+
+    </div><!-- headerbar -->
+
+    <div class="pageheader">
+      <h2><i class="fa fa-laptop"></i> 评论管理 </h2>
+    </div>
+
+    <div class="contentpanel">
+
+      <div class="row">
+
+      <div class="mb20">
+        <!-- Nav tabs -->
+        <!-- Tab panes -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="panel-btns">
+              <a href="" class="panel-close">×</a>
+              <a href="" class="minimize">−</a>
+            </div>
+            <h4 class="panel-title">评论管理</h4>
+          </div>
+        <div class="tab-content mb30">
+          <div class="tab-pane active" id="home2">
+            <div class="table-responsive">
+              <table class="table table-success table-hover mb30" id="advuser-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>秘密ID</th>
+                    <th>评论内容</th>
+                    <th>评论作者</th>
+                    <th>管理</th>
+                  </tr>
+                </thead>
+                <tbody id="advuser-table-tbody">
+                  <tr>
+                  </tr>
+                </tbody>
+              </table>
+          
+          </div>
+          </div>
+        </div>
+        </div>
+  
+        
+        </div>
+      </div><!-- row -->
+
+
+    </div><!-- contentpanel -->
+
+  </div><!-- mainpanel -->
+
+
+</section>
+
+
+{{> admin/foot}}
+<script src="../../../../js/replyManager.js"></script>
+</body>
+</html>

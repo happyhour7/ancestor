@@ -411,6 +411,84 @@ function bindData(keyname,logic){
     }
 }
 
+/* 秘密管理开始 */
+router.get('/admin/secretManager',function(req, res){
+    res.render(viewPath+"secretManager",{});
+});
+
+router.get('/admin/getSecrets',function(req, res){
+    ajaxRender.res=res;
+    currentQueue=new Queue("getSecrets");
+    currentQueue.push({exec:function(){
+        DB.query("select * from files",bindData,getSecretsLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        ajaxRender.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+    }});
+    currentQueue.start();
+});
+function getSecretsLogic(data){
+    var result=[];
+    if(data.length>0)
+    {
+        result=data;
+    }
+    return result;
+}
+
+router.post('/admin/setNoReply',function(req, res){
+    var id=req.body.id,
+        noReply = req.body.noReply == 0 ? 1 : 0;
+    DB.update("update files set noReply = "+noReply+ " where Id='"+id+"'",function(){
+        res.json({status:"success"});
+    });
+});
+
+router.get('/admin/delSecret',function(req, res){
+    var id=req.query.id;
+    DB.update("delete from files where Id='"+id+"'",function(){
+        res.json({status:"success"});
+    });
+});
+/* 秘密管理结束 */
+
+
+/* 回复管理开始 */
+router.get('/admin/replyManager',function(req, res){
+    res.render(viewPath+"replyManager",{});
+});
+
+router.get('/admin/getReplies',function(req, res){
+    ajaxRender.res=res;
+    currentQueue=new Queue("getReplies");
+    currentQueue.push({exec:function(){
+        DB.query("select * from replay",bindData,getRepliesLogic,'secretDatas');
+    }});
+
+    currentQueue.push({exec:function(data){
+        ajaxRender.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+    }});
+    currentQueue.start();
+});
+function getRepliesLogic(data){
+    var result=[];
+    if(data.length>0)
+    {
+        result=data;
+    }
+    return result;
+}
+
+router.get('/admin/delReply',function(req, res){
+    var id=req.query.id;
+    DB.update("delete from replay where replayId='"+id+"'",function(){
+        res.json({status:"success"});
+    });
+});
+/* 回复管理结束 */
 
 
 function ajaxRender(keyname,logic){
