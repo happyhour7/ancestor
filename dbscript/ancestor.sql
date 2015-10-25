@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-10-26 00:28:27
+-- Generation Time: 2015-10-26 02:22:39
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -339,7 +339,7 @@ CREATE TABLE IF NOT EXISTS `isgood` (
   `bad` int(11) DEFAULT NULL,
   `fileid` int(11) DEFAULT NULL,
   PRIMARY KEY (`isgoodId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- 转存表中的数据 `isgood`
@@ -350,9 +350,9 @@ INSERT INTO `isgood` (`isgoodId`, `username`, `good`, `bad`, `fileid`) VALUES
 (4, '没有人', 1, NULL, 109),
 (7, 'test', 1, NULL, 108),
 (8, '江边野火', 1, NULL, 149),
-(18, '蟋蟀', 1, NULL, 161),
 (19, '杜雷寺', 1, NULL, 161),
-(20, '小月月', 1, NULL, 161);
+(20, '小月月', 1, NULL, 161),
+(21, '蟋蟀', 1, NULL, 161);
 
 -- --------------------------------------------------------
 
@@ -652,6 +652,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `sex` int(11) DEFAULT '0',
+  `age` int(11) NOT NULL DEFAULT '0',
   `usertype` int(11) DEFAULT '0' COMMENT '0:普通用户；1：广告主；2：咨询师',
   `score` int(11) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
@@ -664,29 +665,30 @@ CREATE TABLE IF NOT EXISTS `users` (
   `money` float NOT NULL DEFAULT '0',
   `xishuaitui` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=112 ;
 
 --
 -- 转存表中的数据 `users`
 --
 
-INSERT INTO `users` (`Id`, `username`, `password`, `sex`, `usertype`, `score`, `email`, `cityname`, `qq`, `phone`, `userPhoto`, `address`, `mark`, `money`, `xishuaitui`) VALUES
-(95, '蟋蟀', 'knowledge', 1, 1, 25, NULL, '广州', NULL, NULL, 'demo_logo.png', NULL, NULL, 1.01, 10),
-(96, '不是事儿', 'knowledge', 1, 1, 10, NULL, '天津', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(97, '小小美', 'knowledge', 0, 1, 10, NULL, '南京', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(98, '小白痴', 'knowledge', 0, 1, 10, NULL, '深圳', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(99, '笨蛋里挑骨头', 'knowledge', 0, 1, 10, NULL, '北京', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(100, '小蚊子', 'knowledge', 0, 1, 10, NULL, '广州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(101, '美丽人生', 'knowledge', 0, 1, 10, NULL, '杭州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(102, '小月月', 'knowledge', 0, 1, 10, NULL, '上海', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(103, '爱死寂寞人', 'knowledge', 1, 1, 10, NULL, '上海', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(104, '有缘千里', 'knowledge', 0, 1, 10, NULL, '青岛', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(105, '随缘', 'knowledge', 1, 1, 10, NULL, '西安', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(106, '沉小鱼', 'knowledge', 0, 1, 10, NULL, '苏州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(107, '叶子', 'knowledge', 0, 1, 10, NULL, '柳州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(108, '我要减肥', 'knowledge', 0, 1, 10, NULL, '广州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(109, '蕾丝边', 'knowledge', 0, 1, 10, NULL, '佛山', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
-(110, '杜雷寺', 'knowledge', 1, 1, 10, NULL, '南昌', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 1);
+INSERT INTO `users` (`Id`, `username`, `password`, `sex`, `age`, `usertype`, `score`, `email`, `cityname`, `qq`, `phone`, `userPhoto`, `address`, `mark`, `money`, `xishuaitui`) VALUES
+(95, '蟋蟀', 'knowledge', 1, 0, 1, 25, NULL, '广州', NULL, NULL, 'demo_logo.png', NULL, NULL, 1.01, 10),
+(96, '不是事儿', 'knowledge', 1, 0, 1, 10, NULL, '天津', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(97, '小小美', 'knowledge', 0, 0, 1, 10, NULL, '南京', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(98, '小白痴', 'knowledge', 0, 0, 1, 10, NULL, '深圳', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(99, '笨蛋里挑骨头', 'knowledge', 0, 0, 1, 10, NULL, '北京', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(100, '小蚊子', 'knowledge', 0, 0, 1, 10, NULL, '广州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(101, '美丽人生', 'knowledge', 0, 0, 1, 10, NULL, '杭州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(102, '小月月', 'knowledge', 0, 0, 1, 10, NULL, '上海', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(103, '爱死寂寞人', 'knowledge', 1, 0, 1, 10, NULL, '上海', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(104, '有缘千里', 'knowledge', 0, 0, 1, 10, NULL, '青岛', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(105, '随缘', 'knowledge', 1, 0, 1, 10, NULL, '西安', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(106, '沉小鱼', 'knowledge', 0, 0, 1, 10, NULL, '苏州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(107, '叶子', 'knowledge', 0, 0, 1, 10, NULL, '柳州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(108, '我要减肥', 'knowledge', 0, 0, 1, 10, NULL, '广州', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(109, '蕾丝边', 'knowledge', 0, 0, 1, 10, NULL, '佛山', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0),
+(110, '杜雷寺', 'knowledge', 1, 0, 1, 10, NULL, '南昌', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 1),
+(111, 'jkjk', '63', 1, 3, 1, 10, NULL, 'ad', NULL, NULL, 'demo_logo.png', NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
