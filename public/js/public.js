@@ -229,12 +229,17 @@ var page={
 				alert("请输入登陆账号");
 				return false;
 			}
-			if($("#registry-password")=="")
+			if($("#registry-password").val()=="")
 			{
 				alert("请输入登陆密码");
 				return false;
 			}
-			if($("#registry-city")=="")
+			if($("#registry-age").val()=="" || isNaN($("#registry-age").val()))
+			{
+				alert("您的年龄输入有误");
+				return false;
+			}
+			if($("#registry-city").val()=="")
 			{
 				alert("请输入所在城市");
 				return false;

@@ -14,6 +14,10 @@
 			<input type="radio" value="1" name="sex" id="registry-man" style="margin-left:50px;" checked="" /> 男
 			<input type="radio" value="0" name="sex" id="registry-woman" /> 女
 		</span>
+		<span class="lable">年龄：</span>
+		<span class="control">
+			<input type="text" name="age" id="registry-age" class="input" placeholder="您的年龄">
+		</span>
 		<span class="lable">城市：</span>
 		<input type="text" class="input" id="registry-city" name="cityname" placeholder="您所在城市"/>
 
@@ -24,7 +28,7 @@
 		<span style="display:block;margin-top:10px;width:130px;float:left;height:30px;" id="registry-valinum-content"></span>
 		<a id="refresh-valinum-button" style="display:block;float:left;border:0;margin-top:10px;width:50px;height:30px;line-height:30px;background:#e0e0e0;color:#000;text-align:center;cursor:pointer;">刷新</a>
 		</span>
-    	<input type="checkbox" id="agreeContract" style="margin-left:58px;float:left;">&nbsp;同意用户协议
+    	<input type="checkbox" id="agreeContract" style="margin-left:58px;float:left;">&nbsp;同意<a href="/contract" target="_blank">用户协议</a>
 		<input type="submit" id="registry-registry-submit-button" style="display:none;"/>
 	</form>
 	<input class="button" type="button" id="registry-registry-button" onsubmit="return registrySubmit();"  value="注册"/>

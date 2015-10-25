@@ -46,6 +46,14 @@
         <li><a href="/admin/systemNotice">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>网站公告</span></a></li>
+
+        <li><a href="/admin/secretManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>秘密管理</span></a></li>
+
+        <li><a href="/admin/replyManager">
+        <!--<span class="pull-right badge badge-success">2</span>-->
+        <i class="fa fa-laptop"></i> <span>评论管理</span></a></li>
       </ul>
 
 
@@ -86,7 +94,7 @@
               <a href="" class="panel-close">×</a>
               <a href="" class="minimize">−</a>
             </div>
-            <h4 class="panel-title">管理员管理</h4>
+            <h4 class="panel-title">普通用户管理</h4>
           </div>
         <div class="tab-content mb30">
           <div class="tab-pane active" id="home2">
@@ -99,6 +107,7 @@
                 <th>用户ID</th>
                 <th>用户姓名</th>
                 <th>性别</th>
+                <th>年龄</th>
                 <th>所属城市</th>
                 <th>信用分值</th>
                 <th>签名</th>
@@ -430,6 +439,7 @@ $.ajax({
                 "<td><<userid>></td>"+
                 "<td><<username>></td>"+
                 "<td><<sex>></td>"+
+                "<td><<age>></td>"+
                 "<td><<city>></td>"+
                 "<td><<score>></td>"+
                 "<td><<mark>></td>"+
@@ -445,6 +455,7 @@ $.ajax({
                             .replace("<<userid>>",tmp.Id)
                             .replace("<<username>>",tmp.username)
                             .replace("<<sex>>",tmp.sex=="1"?"男":"女")
+                            .replace("<<age>>",tmp.age)
                             .replace("<<city>>",tmp.cityname)
                             .replace("<<score>>",tmp.personal_score||0)
                             .replace("<<mark>>",tmp.mark)

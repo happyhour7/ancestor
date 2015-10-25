@@ -76,10 +76,11 @@ function bindData(keyname,logic){
 
 router.post('/user/registry', function(req, res) {
     var datas=[];
-    var sql="insert into users set username=?,password=?,sex=?,usertype=?,score=?,email=?,cityname=?,qq=?,phone=?";
+    var sql="insert into users set username=?,password=?,sex=?,age=?,usertype=?,score=?,email=?,cityname=?,qq=?,phone=?";
     datas.push(req.body.username);
     datas.push(req.body.password);
     datas.push(parseInt(req.body.sex));
+    datas.push(parseInt(req.body.age));
     datas.push(1);
     datas.push(10);
     datas.push(req.body.email);
