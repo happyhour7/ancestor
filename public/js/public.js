@@ -623,7 +623,7 @@ function buildChatWin(title,target, message){
 			var textarea=$(".target-text-area");
 			var currentValue=textarea.html();
 			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
+			textarea.html("<span style='display:block;width:100%;height:5px;color:purple;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
 		}
 		return;
 	}
@@ -713,7 +713,7 @@ function buildChatWin(title,target, message){
 		var textarea=$(".target-text-area");
 		var currentValue=textarea.html();
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;color:purple;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
 		
 	}
 }
@@ -729,7 +729,7 @@ function sendMsg(data){
 	if(text!="")
 	{
 		if(textarea.length > 0) { // 个人聊天
-			textarea.html("<span style='display:block;width:100%;height:5px;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentValue);
+			textarea.html("<span style='display:block;width:100%;height:5px;color:blue;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentValue);
 		}
 		
 		if(chatgrouparea.length > 0) { // 群组聊天
