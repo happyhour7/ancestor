@@ -195,3 +195,11 @@ hbs.registerHelper("maintypeColor",function(type){
 
   return color;
 });
+
+hbs.registerHelper("secretLimitTimeShow",function(time){
+  var t = new Date(time);
+  if(time)
+    return '<span class="items">有效期：'+t.getFullYear()+'-'+t.getMonth()+'</span>';
+
+  return '';
+});

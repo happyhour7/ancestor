@@ -31,6 +31,8 @@
 				</div>
 			</div>
 			<div class="comment-area">
+				{{#if noReply}}
+				{{else}}
 				<div class='top'>
 					<form action="/secret/floater/reply" method="post" target="secret-replay-iframe-{{Id}}" style="width:100%;">
 						<textarea type="text" class="input  secrect-comment-area" style="background:none;" maxlength="140"></textarea>
@@ -39,6 +41,7 @@
 					<button class="button floater-replay-button"  data="{{Id}}">发送</button>
 					<!--<span class="score">评分：{{score}}</span>-->
 				</div>
+				{{/if }}
 				<div class="bottom">
 					<span class="left-text">漂流瓶发出时间：</span>
 					<span class="left-text">{{secretDate}}</span>
