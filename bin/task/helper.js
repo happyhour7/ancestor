@@ -199,7 +199,7 @@ hbs.registerHelper("maintypeColor",function(type){
 hbs.registerHelper("secretLimitTimeShow",function(time){
   var t = new Date(time);
   if(time)
-    return '<span class="items">有效期：'+t.getFullYear()+'-'+t.getMonth()+'</span>';
+    return '<span class="items">有效期：'+t.getFullYear()+'-'+(t.getMonth()+1)+'</span>';
 
   return '';
 });
