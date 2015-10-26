@@ -154,7 +154,7 @@ h4, .h4 {
    -moz-transition: all 0.2s ease-out 0s;
    -webkit-transition: all 0.2s ease-out 0s;
    transition: all 0.2s ease-out 0s;
-   padding: 9px 15px;
+   /*padding: 9px 15px;*/
 }
 
 .btn:focus {
@@ -1278,7 +1278,7 @@ small.media-desc {
 .table tbody > tr > td,
 .table tfoot > tr > td {
    border-color: #eee;
-   padding: 10px;
+   padding: 5px;
 }
 
 .table-striped > tbody > tr:nth-child(2n+1) > td,
