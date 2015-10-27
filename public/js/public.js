@@ -623,7 +623,7 @@ function buildChatWin(title,target, message){
 			var textarea=$(".target-text-area");
 			var currentValue=textarea.html();
 			var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-			textarea.html("<span style='display:block;width:100%;height:5px;color:purple;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
+			textarea.html("<span style='display:block;width:100%;height:5px;'></span><span style='color:purple;'>"+target+"</span><span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message+currentValue);
 		}
 		return;
 	}
@@ -673,8 +673,9 @@ function buildChatWin(title,target, message){
 			"margin-left":9
 	}).bind({
 		keypress:function(event){
-			if(event.keycode==13)
+			if(event.keyCode==13)
 			{
+				console.log('obj');
 				$(this).next().trigger("click");
 			}
 		}
@@ -700,20 +701,20 @@ function buildChatWin(title,target, message){
 	}).appendTo(win);
 
 	// 回车发送
-	$(button).prev().keypress(function(e){
+	/*$(button).prev().keypress(function(e){
 		if(e.which == 13){
 			var text=$(this).val();
 			sendMsg({text:text,target:target,from:currentSystemUsername});
 			$(this).val("");
 		}
-	});
+	});*/
 
 	// 添加消息
 	if(message) {
 		var textarea=$(".target-text-area");
 		var currentValue=textarea.html();
 		var time=(new Date()).format("yyyy-MM-dd hh:mm:ss");
-		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;color:purple;'></span>"+target+"<span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
+		textarea.html(currentValue+"<span style='display:block;width:100%;height:5px;'></span><span style='color:purple;'"+target+"</span><span style='color:#ccc;'>"+time+"</span>："+"<br/>"+message);
 		
 	}
 }
@@ -729,7 +730,7 @@ function sendMsg(data){
 	if(text!="")
 	{
 		if(textarea.length > 0) { // 个人聊天
-			textarea.html("<span style='display:block;width:100%;height:5px;color:blue;'></span>"+username+"<span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentValue);
+			textarea.html("<span style='display:block;width:100%;height:5px;'></span><span style='color:blue;'>"+username+"</span><span style='color:#ccc;'>"+(new Date()).format("yyyy-MM-dd hh:mm:ss")+"</span>："+"<br/>"+text+currentValue);
 		}
 		
 		if(chatgrouparea.length > 0) { // 群组聊天
@@ -1057,7 +1058,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 			"margin-left":9
 	}).attr('class', 'msg-input').bind({
 		keypress:function(event){
-			if(event.keycode==13)
+			if(event.keyCode==13)
 			{
 				$(this).next().trigger("click");
 			}
@@ -1084,13 +1085,13 @@ function buildChatGroupWin(title,target, from, isowner, message){
 	}).appendTo(win);
 
 	// 回车发送
-	$('.send-btn').prev().keypress(function(e){
+	/*$('.send-btn').prev().keypress(function(e){
 		if(e.which == 13){
 			var text=$(this).val();
 			sendMsg({text:text,target:target,from:currentSystemUsername});
 			$(this).val("");
 		}
-	});
+	});*/
 
 	// 添加消息
 	if(message) {
