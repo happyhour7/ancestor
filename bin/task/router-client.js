@@ -1244,7 +1244,7 @@ router.post('/secret/saveSecret',function(req, res){
                 (req.body.createTime||"");
     datas=splitString.split(',');
     datas[4]=getInt(datas[4]);
-    datas[14]=getInt(datas[14]);
+    datas[14]=datas[14] == '男' ? 1 : 0;
     datas[18]=getInt(datas[18]);
     datas[19]=datas[19] ? new Date(datas[19]+'-30') : '';
     if(currentSession!==null)
