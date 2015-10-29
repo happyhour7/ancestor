@@ -64,6 +64,7 @@ function getHomeSQL(){
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username)
                     .replace("<where>",otherWhere);
     }
     else{
@@ -1847,12 +1848,7 @@ function floaterGetSQLQuery () {
     var otherWhere=arguments[0]||"";
     if(currentSession && currentSession.username){
         return floaterGetSQL.replace("<username>",currentSession.username)
-                    .replace("<username>",currentSession.username)
-                    .replace("<username>",currentSession.username)
-                    .replace("<username>",currentSession.username)
-                    .replace("<where>",otherWhere)
-                    .replace("<username>",currentSession.username)
-                    .replace("<cityname>",currentSession.user.cityname);
+                    .replace("<where>",otherWhere);
     }
     else{
         var tmp=homeSQL.replace("<where>",otherWhere);

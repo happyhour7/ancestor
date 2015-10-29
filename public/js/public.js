@@ -330,7 +330,7 @@ var page={
 			}
 			else if(good.attr("class").indexOf("good-icon-choosen")>=0)
 			{
-				hasClick[bad.attr("name")]=good.attr("id");
+				hasClick[good.attr("name")]=good.attr("id");
 			}
 		});
 		$(".secret-good-area,.secret-bad-area").on("click",function(){
@@ -749,7 +749,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 	    // Disable caching of AJAX responses */
 	    cache: false
 	});
-	window.setInterval(function(){
+	/*window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
@@ -774,7 +774,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 				}
 			}
 		});
-	},1000);
+	},1000);*/
 }
 var isChooseSurvey=false;
 $(".survey-container").find(".good").click(function(){
