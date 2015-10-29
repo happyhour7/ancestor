@@ -279,7 +279,7 @@ var page={
 				url:"/user/registry",
 				data:$("#registry-form").serialize(),
 				success:function(data){
-					alert("注册成功：\r\n登录账号："+$("#registry-username").val()+"\r\n登录密码："+$("#registry-password").val());
+					alert("注册成功：\r\n登录账号："+$("#registry-username").val()+"\r\n登录密码："+$("#registry-password").val()+'\r\n亲爱的用户，欢迎您注册蟋蟀网！\r\n在这里，您可以说出憋在心里的任何秘密（如果涉及他人隐私，请不要说出他的姓名，以免给别人的生活带来麻烦），也可以悬赏了解别人的秘密（需要支付蟋蟀腿——本网站积分的名称），还可以出售有价值的秘密。\r\n在这里，您不仅可以给秘密打分来评价它的真实性，还可以给广告打分来评价它的吸引力——您的评分决定了一个广告能否被投放在本网站、以什么样的价格投放在本网站。\r\n在这里，您可以认识有类似秘密的其他用户，可以加他们为好友或黑名单、和好友在线聊天、群聊，还可以偷好友的蟋蟀腿。如果您有足够的蟋蟀腿，您还可以打赏您欣赏的用户。\r\n一周内发帖、回复获得蟋蟀腿最多的前五名用户将均分本网站广告收入的20％的分成（前提是得有商家在本网站做广告哦）。\r\n如果需要充值，请您记住1元＝10蟋蟀腿。\r\n请您记住，发1个贴将获得10个蟋蟀腿，回复一个贴将获得1个蟋蟀腿，但是，如果您为了获得蟋蟀腿灌水回复，本站将可能查封您的账号，为了您本人，也为了大家，请您不要回复无意义的内容。\r\n最后，祝您在本网站的体验能给您带来愉悦的感受！如果您愿意，请向您的朋友推荐本网站，我们将感激不尽！有任何疑问、意见和建议，欢迎您给站长信箱写信，我们将尽量尽快给您回复！');
 					$("#registry-gotologin-button").trigger("click");
 				}
 			});
@@ -560,12 +560,12 @@ $(window).scroll(function(){
 		if($(this).scrollTop()>100)
 		{
 			var toTop = $("<div/>").css({
-				width:60,
-				height:60,
+				width:50,
+				height:50,
 				position:"fixed",
 				bottom:100,
-				right:20,
-				background:"url(../../images/icons.png)  -20px -165px #333",
+				right:15,
+				background:"url(../../images/icons.png)  -24px -174px #333",
 				cursor:"pointer"
 			}).attr("class","scrollToTop");
 			if($('.scrollToTop').length > 0) {
@@ -633,7 +633,7 @@ function buildChatWin(title,target, message){
 		height:350,
 		position:"fixed",
 		bottom:5,
-		right:110,
+		right:80,
 		"z-index":0,
 		background:"#fff",
 		border:"1px solid #000"
@@ -749,7 +749,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 	    // Disable caching of AJAX responses */
 	    cache: false
 	});
-	/*window.setInterval(function(){
+	window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
@@ -774,7 +774,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 				}
 			}
 		});
-	},1000);*/
+	},1000);
 }
 var isChooseSurvey=false;
 $(".survey-container").find(".good").click(function(){
@@ -967,7 +967,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		height:350,
 		position:"fixed",
 		bottom:5,
-		right:110,
+		right:80,
 		"z-index":0,
 		background:"#fff",
 		border:"1px solid #000"
