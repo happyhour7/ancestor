@@ -7,7 +7,7 @@ module.exports.homeSQL=
     "left join (select fileid,count(replay.replayId) as commNum from replay group by fileid) rp on files.id=rp.fileid "+
     "left join agvscore as agv on files.id=agv.fileid "+
     "left join users on users.username=files.owner "+
-    "where islongstory<>2 and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0)) "+
+    "where islongstory<>2 "+
     " <where> "+
     " order by files.filetype, files.createTime desc";
 module.exports.orderSQL=
@@ -45,7 +45,7 @@ module.exports.loginHomeSQL=
     "left join agvscore as agv on files.id=agv.fileid "+
     "left join users on users.username=files.owner "+
     "where (secretLimit<4 or files.owner='<username>') "+
-    "and islongstory<>2 and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0))  "+
+    "and islongstory<>2 "+
     " <where> "+
     "order by files.filetype, files.createTime  desc";
 

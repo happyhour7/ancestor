@@ -137,11 +137,11 @@ router.get('/', function(req, res) {
 
         currentQueue.push({exec:function(data){
             _tmpData = data[0];
-            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
+            DB.query(getHomeSQL(" and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0)) and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
         }});
     }else {
         currentQueue.push({exec:function(){
-            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
+            DB.query(getHomeSQL(" and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0)) and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
         }});
     }
 
@@ -1116,7 +1116,7 @@ router.get('/secret/offer', function(req, res) {
     render.view="index";
     currentQueue=new Queue("offer");
     currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType='悬赏秘密' "),bindData,offerLogic,'secretDatas');
+        DB.query(getHomeSQL(" and secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0) "),bindData,offerLogic,'secretDatas');
     }});
 
     // 添加个人信用评分
@@ -1847,8 +1847,11 @@ router.get('/secret/floater/try', function(req, res) {
 function floaterGetSQLQuery () {
     var otherWhere=arguments[0]||"";
     if(currentSession && currentSession.username){
+        console.log(floaterGetSQL);
         return floaterGetSQL.replace("<username>",currentSession.username)
-                    .replace("<where>",otherWhere);
+                    .replace("<where>",otherWhere)
+                    .replace("<username>",currentSession.username)
+                    .replace("<username>",currentSession.username);
     }
     else{
         var tmp=homeSQL.replace("<where>",otherWhere);
