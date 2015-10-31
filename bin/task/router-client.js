@@ -2250,7 +2250,7 @@ function render(fields,logic){
         if(currentSession && currentSession.username)
         {
             currentQueue.push({exec:function(){
-                DB.query("select * from systemmsg where username='"+currentSession.username+"' and isReaded='未读消息'",bindData,newMsgLogic,'secretDatas');
+                DB.query("select * from systemmsg where username='"+currentSession.username+"' and isReaded='未读'",bindData,newMsgLogic,'secretDatas');
             }}); 
         }
     }
@@ -2398,14 +2398,14 @@ router.get('/friend/addAgree',function(req,res){
     var successResultUser=[currentSession.username];
     successResultUser.push("好友验证通过");
     successResultUser.push("验证通过");
-    successResultUser.push("未读消息");
+    successResultUser.push("未读");
     successResultUser.push("您通过了来自"+come+"的好友申请");
     successResultUser.push("系统消息");
     DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultUser);
     var successResultCome=[come];
     successResultCome.push("好友验证通过");
     successResultCome.push("验证通过");
-    successResultCome.push("未读消息");
+    successResultCome.push("未读");
     successResultCome.push(currentSession.username+"通过了您的好友申请");
     successResultCome.push("系统消息");
     DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultCome);
@@ -2421,7 +2421,7 @@ router.get('/friend/addDisagree',function(req,res){
     var successResultUser=[currentSession.username];
     successResultUser.push("好友验证未通过");
     successResultUser.push("验证通过");
-    successResultUser.push("未读消息");
+    successResultUser.push("未读");
     successResultUser.push("您拒绝了来自"+come+"的好友申请");
     successResultUser.push("系统消息");
     DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultUser);
@@ -2431,7 +2431,7 @@ router.get('/friend/addDisagree',function(req,res){
     var successResultCome=[come];
     successResultCome.push("好友验证未通过");
     successResultCome.push("验证通过");
-    successResultCome.push("未读消息");
+    successResultCome.push("未读");
     successResultCome.push(currentSession.username+"拒绝了您的好友申请");
     successResultCome.push("系统消息");
     DB.execute("insert into systemmsg set username=?,msgtype=?,isOk=?,isReaded=?,msg=?,comefrom=?",successResultCome);

@@ -107,10 +107,13 @@
                 <th>用户ID</th>
                 <th>用户姓名</th>
                 <th>性别</th>
-                <th>年龄</th>
                 <th>所属城市</th>
+                <th>年龄</th>
                 <th>信用分值</th>
                 <th>签名</th>
+                <th>发帖数</th>
+                <th>好友数</th>
+                <th>蟋蟀腿</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -439,14 +442,16 @@ $.ajax({
                 "<td><<userid>></td>"+
                 "<td><<username>></td>"+
                 "<td><<sex>></td>"+
-                "<td><<age>></td>"+
                 "<td><<city>></td>"+
+                "<td><<age>></td>"+
                 "<td><<score>></td>"+
                 "<td><<mark>></td>"+
+                "<td><<secretNum>></td>"+
+                "<td><<friendNum>></td>"+
+                "<td><<xishuaitui>></td>"+
                 "<td data='<<userid>>'><a class='btn-advuser-del' style='width:80px;margin:10px;'>删除</a></td>"+
                 "</tr>";
         var result="";
-        console.log(data);
 
         for(var i=0;i<data.length;i++)
         {
@@ -455,10 +460,13 @@ $.ajax({
                             .replace("<<userid>>",tmp.Id)
                             .replace("<<username>>",tmp.username)
                             .replace("<<sex>>",tmp.sex=="1"?"男":"女")
-                            .replace("<<age>>",tmp.age)
                             .replace("<<city>>",tmp.cityname)
+                            .replace("<<age>>",tmp.age)
                             .replace("<<score>>",tmp.personal_score||0)
-                            .replace("<<mark>>",tmp.mark)
+                            .replace("<<mark>>",tmp.mark || '无')
+                            .replace("<<secretNum>>",tmp.secretNum || '无')
+                            .replace("<<friendNum>>",tmp.friendNum || '无')
+                            .replace("<<xishuaitui>>",tmp.xishuaitui || '无')
                             .replace("<<userid>>",tmp.Id);
         }
         $("#advuser-table-tbody").html(result);
