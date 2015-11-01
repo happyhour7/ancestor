@@ -2350,6 +2350,22 @@ router.post('/friend/addmsg',function(req,res){
     res.json({status:"success"});
 });
 
+// 加入黑名单
+router.post('/user/addHeimingdan',function(req,res){
+    currentSession = req.session;
+    var msg=req.body.msg;
+    var friendname=req.body.frendname;
+    var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+    var result=[friendname];
+    result.push(msg);
+    result.push("未读");
+    result.push("等待审核");
+    result.push("好友申请验证");
+    result.push(currentSession.username);
+    DB.execute(sql,result);
+    res.json({status:"success"});
+});
+
 router.get('/personal/getSystemMsg',function(req,res){
     currentSession = req.session;
     render.req=req;
