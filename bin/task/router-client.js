@@ -2257,6 +2257,7 @@ function render(fields,logic){
     currentQueue.push({exec:function(data){
         if(data)
         {
+            console.log(data[0]);
             result["hasNew"]=data[0];
         }
         render.res.render(viewPath+render.view, result);
@@ -2268,7 +2269,7 @@ function render(fields,logic){
 function newMsgLogic(data){
     if(data.length>0)
     {
-        return true;
+        return data.length;
     }
     return null;
 }

@@ -23,8 +23,9 @@
     <a href="/secret/permsg-score" class="{{# personal_score}}personal-item-choosen{{/ personal_score}}{{^ personal_score}}personal-item{{/ personal_score}}">蟋蟀腿充值</a>
     <a href="/secret/permsg-friend" class="{{# personal_friend}}personal-item-choosen{{/ personal_friend}}{{^ personal_friend}}personal-item{{/ personal_friend}}">我的好友</a>
     <a href="/secret/permsg-msg" class="{{# personal_msg_msg}}personal-item-choosen{{/ personal_msg_msg}}{{^ personal_msg_msg}}personal-item{{/ personal_msg_msg}}">我的消息
-    {{# hasNew}}
-        <span style='color:#f00;'>[新消息]</span>
-    {{/ hasNew}}
+    {{#if hasNew}}
+        <!-- <span style='color:#f00;'>[新消息]</span> -->
+        <span class="badge" style="background-color: red;">{{hasNew}}</span>
+    {{/if}}
     </a>
 </span>
