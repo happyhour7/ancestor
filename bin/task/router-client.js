@@ -2257,6 +2257,7 @@ function render(fields,logic){
     currentQueue.push({exec:function(data){
         if(data)
         {
+            console.log(data[0]);
             result["hasNew"]=data[0];
         }
         render.res.render(viewPath+render.view, result);
@@ -2268,7 +2269,7 @@ function render(fields,logic){
 function newMsgLogic(data){
     if(data.length>0)
     {
-        return true;
+        return data.length;
     }
     return null;
 }
@@ -2335,6 +2336,22 @@ function getMyFriendAndMoshengren(data){
     return _tmpData;
 }
 router.post('/friend/addmsg',function(req,res){
+    currentSession = req.session;
+    var msg=req.body.msg;
+    var friendname=req.body.frendname;
+    var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+    var result=[friendname];
+    result.push(msg);
+    result.push("未读");
+    result.push("等待审核");
+    result.push("好友申请验证");
+    result.push(currentSession.username);
+    DB.execute(sql,result);
+    res.json({status:"success"});
+});
+
+// 加入黑名单
+router.post('/user/addHeimingdan',function(req,res){
     currentSession = req.session;
     var msg=req.body.msg;
     var friendname=req.body.frendname;
