@@ -1,6 +1,7 @@
 var async = require('async');
 var express = require('express');
 var DB=require("../db/connect");
+var _ = require('lodash');
 var session = require('express-session');
 var router = express.Router();
 var fake_datas=require('./fake-data');
@@ -88,7 +89,7 @@ function getLongStorySQL(){
     }
 }
 
-// 获取当前登陆用的好友姓名组成的数据
+// 获取当前登陆用户的好友姓名组成的数据
 function geFriends(data) {
     var result = {};
     var haoyous = [];
@@ -108,6 +109,13 @@ function getComments (data) {
     }
 
     _tmpData['replayers'] = replayers;
+    return _tmpData;
+}
+
+// 获取当前登陆用户的蟋蟀腿交易记录，返回的是交易者姓名组成的数据
+function getXishuaituiDeals (data) {
+    _tmpData['xishuaituiDeals'] = data;
+
     return _tmpData;
 }
 
@@ -133,6 +141,12 @@ router.get('/', function(req, res) {
         currentQueue.push({exec: function(data) {
             _tmpData = data[0];
             DB.query("select fileid from replay where replayer='"+currentSession.username+"'",bindData,getComments,'secretDatas');
+        }});
+
+        // 获取登录用户的蟋蟀腿交易记录
+        currentQueue.push({exec: function(data) {
+            _tmpData = data[0];
+            DB.query("select fieldid,receiver from xishuaituideal where sender='"+currentSession.username+"'",bindData,getXishuaituiDeals,'secretDatas');
         }});
 
         currentQueue.push({exec:function(data){
@@ -435,6 +449,11 @@ function indexLogic(data){
                 if(data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id)) {
                     data[i]["hasReply"] = true;
                 }
+
+                // 悬赏秘密
+                if((data[i].secretMainType === '悬赏秘密' || data[i].secretMainType === '出售秘密') && _.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined) {
+                    data[i]["hasPay"] = true;
+                }
             }
 
             // 好友可见秘密处理
@@ -443,6 +462,11 @@ function indexLogic(data){
             }
             if(data[i].secretLimit != 2) {
                 data[i]["hasReply"] = true;
+            }
+
+            // 不是悬赏秘密或者出售秘密的
+            if(data[i].secretMainType !== '悬赏秘密' && data[i].secretMainType !== '出售秘密') {
+                data[i]["hasPay"] = true;
             }
 
         }
