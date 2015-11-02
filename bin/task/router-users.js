@@ -80,16 +80,14 @@ router.post('/user/registry', function(req, res) {
     datas.push(req.body.username);
     datas.push(req.body.password);
     datas.push(parseInt(req.body.sex));
-    datas.push(parseInt(req.body.age));
+    datas.push(req.body.age);
     datas.push(1);
     datas.push(10);
     datas.push(req.body.email);
     datas.push(req.body.cityname);
     datas.push(req.body.qq);
     datas.push(req.body.phone);
-    console.log(datas);
     DB.execute(sql,datas);
-    console.log(viewPath+"index");
     res.json({status:"success"});
     //res.render(viewPath+"index",{newest_choosen:true});
 });

@@ -234,9 +234,9 @@ var page={
 				alert("请输入登陆密码");
 				return false;
 			}
-			if($("#registry-age").val()=="" || isNaN($("#registry-age").val()))
+			if($("#registry-age").val()=="")
 			{
-				alert("您的年龄输入有误");
+				alert("请选择您的年龄");
 				return false;
 			}
 			if($("#registry-city").val()=="")
