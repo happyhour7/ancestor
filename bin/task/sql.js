@@ -11,14 +11,16 @@ module.exports.homeSQL=
     " <where> "+
     " order by files.filetype, files.createTime desc";
 module.exports.orderSQL=
-    "select count(replay.replayId) as commNum,files.*,count(isgood.good) as goodNum,count(isgood.bad) as badNum "+
+    " select rp.commNum as commNum,files.*,users.sex as authorSex, users.age as authorAge, users.cityname as authorCity,users.userPhoto as authorPhoto,ig.goodNum as goodNum,ib.badNum as badNum "+
     ",agv.avgScore as avgscore "+
     "from files "+
-    "left join isgood on files.id=isgood.fileid  "+
-    "left join replay on files.id=replay.fileid  "+
+    "left join (select fileid,count(isgood.good) as goodNum from isgood group by fileid) ig on files.id=ig.fileid "+
+    "left join (select fileid,count(isbad.bad) as badNum from isbad group by fileid) ib on files.id=ib.fileid "+
+    "left join (select fileid,count(replay.replayId) as commNum from replay group by fileid) rp on files.id=rp.fileid "+
     "left join agvscore as agv on files.id=agv.fileid "+
+    "left join users on users.username=files.owner "+
     "where <where> "+
-    " group by files.id order by files.filetype, files.createTime desc";
+    " order by files.filetype, files.createTime desc";
 
 
 module.exports.hotSecretSQL="select count(replay.replayId) as commNum,files.*,count(isgood.good) as goodNum,count(isgood.bad) as badNum "+
