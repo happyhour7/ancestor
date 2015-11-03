@@ -1056,9 +1056,22 @@ router.get('/secret/sell', function(req, res) {
     render.req=req;
     render.view="index";
     currentQueue=new Queue("sell");
-    currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,sellLogic,'secretDatas');
-    }});
+
+    if(currentSession && currentSession.username) {
+
+        // 获取登录用户的蟋蟀腿交易记录
+        currentQueue.push({exec: function(data) {
+            DB.query("select fieldid,receiver from xishuaituideal where sender='"+currentSession.username+"'",bindData,getXishuaituiDeals,'secretDatas');
+        }});
+        currentQueue.push({exec:function(){
+            _tmpData = data[0];
+            DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,sellLogic,'secretDatas');
+        }});
+    } else {
+        currentQueue.push({exec:function(){
+            DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,sellLogic,'secretDatas');
+        }});
+    }
 
     // 添加个人信用评分
     currentQueue.push({exec:function(data){
@@ -1116,23 +1129,30 @@ router.get('/secret/sell', function(req, res) {
 
 function sellLogic(data){
     var result={};
-        if(data.length>0)
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
         {
-            for(var i=0;i<data.length;i++)
+            if(currentSession && currentSession.username)
             {
-                if(currentSession && currentSession.username)
+                if(data[i].owner==currentSession.username)
                 {
-                    if(data[i].owner==currentSession.username)
-                    {
-                        data[i]["mine"]=true;
-                    }
+                    data[i]["mine"]=true;
+                    data[i]["hasPay"] = true;
+                }
+
+                // 出售秘密
+                if(_.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined) {
+                    data[i]["hasPay"] = true;
                 }
             }
         }
-       result['sell_choosen']=true;
-       result['secretDatas']=data;
-       write("myjson.txt",result);
-       return result; 
+    }
+
+    result['sell_choosen']=true;
+    result['secretDatas']=data;
+    write("myjson.txt",result);
+    return result; 
 }
 //秘密悬赏
 router.get('/secret/offer', function(req, res) {
