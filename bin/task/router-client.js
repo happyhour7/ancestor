@@ -457,10 +457,6 @@ function indexLogic(data){
                     data[i]["hasPay"] = true;
                 }
             }
-            else
-            {
-                data[i]["noLogin"] = true;
-            }
 
             // 好友可见秘密处理
             if(data[i].secretLimit != 3) {
