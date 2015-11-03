@@ -391,24 +391,27 @@ function firstAdvLogic(data){
                 tmp['userscore'] = results[1];
             }
 
-            if(tmp.location=="firstpage-top"){
-                _tmpData["firstpageTop"]=tmp;
-            }
-            if(tmp.location=="firstpage-left-top"){
+            if(_tmpData !== undefined)
+            {
+                if(tmp.location=="firstpage-top"){
+                    _tmpData["firstpageTop"]=tmp;
+                }
+                if(tmp.location=="firstpage-left-top"){
 
-                _tmpData["firstpageLeftTop"]=tmp;
-            }
-            if(tmp.location=="firstpage-left-mid"){
-                _tmpData["firstpageLeftMid"]=tmp;
-            }
-            if(tmp.location=="firstpage-left-bottom"){
-                _tmpData["firstpageLeftBottom"]=tmp;
-            }
-            if(tmp.location=="innerpage-left-top"){
-                _tmpData["innerpageLeftTop"]=tmp;
-            }
-            if(tmp.location=="innerpage-left-bottom"){
-                _tmpData["innerpageLeftBottom"]=tmp;
+                    _tmpData["firstpageLeftTop"]=tmp;
+                }
+                if(tmp.location=="firstpage-left-mid"){
+                    _tmpData["firstpageLeftMid"]=tmp;
+                }
+                if(tmp.location=="firstpage-left-bottom"){
+                    _tmpData["firstpageLeftBottom"]=tmp;
+                }
+                if(tmp.location=="innerpage-left-top"){
+                    _tmpData["innerpageLeftTop"]=tmp;
+                }
+                if(tmp.location=="innerpage-left-bottom"){
+                    _tmpData["innerpageLeftBottom"]=tmp;
+                }
             }
 
             next(null);
@@ -2696,5 +2699,51 @@ router.post('/survey/post',function(req,res){
 router.get('/contract', function(req, res) {
     res.render('contract', { title: '用户协议' });
 });
+
+// 支付蟋蟀腿
+router.post('/xishuaitui/pay',function(req,res){
+    currentSession = req.session;
+
+    var sql="insert into xishuaituideal set ?";
+    var params = req.body;
+    params['sender'] = currentSession.username;
+    console.log(params);
+
+    var status = {error: "支付失败"};
+    DB.exec('select xishuaitui from users where username=?', params['sender'], function(error, res) {
+        if(error)
+            console.log(error+'支付蟋蟀腿错误');
+
+        if(res && res[0]['xishuaitui'] < params['xishuaitui']) {
+            status['error'] = '蟋蟀腿不足，请及时充值';
+            res.json(status);return;
+        }
+    });
+
+    DB.exec(sql, params, function(err, result) {
+        if(err)
+            console.log(err+'支付蟋蟀腿错误');
+
+        if(result.insertId){
+            status['error'] = "支付成功";
+        }
+
+        res.json(status);
+    });
+});
+
+// 支付蟋蟀腿时对两方蟋蟀腿数据的处理
+function procXishuaitui(sender, receiver, num) {
+    DB.exec('select xishuaitui from users where username=?', sender, function(error, res) {
+        if(error)
+            console.log(error+'支付蟋蟀腿时对两方蟋蟀腿数据的处理错误');
+
+        if(res && res[0]['xishuaitui'] < params['xishuaitui']) {
+            status['error'] = '蟋蟀腿不足，请及时充值';
+            res.json(status);return;
+        }
+    });
+    DB.update("update users set xishuaitui='"+currentSession.username+"' where id="+data[i].Id,function(){});
+}
 
 module.exports = router;
