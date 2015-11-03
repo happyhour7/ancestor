@@ -2710,40 +2710,34 @@ router.post('/xishuaitui/pay',function(req,res){
     console.log(params);
 
     var status = {error: "支付失败"};
-    DB.exec('select xishuaitui from users where username=?', params['sender'], function(error, res) {
+    DB.exec('select xishuaitui from users where username=?', params['sender'], function(error, rest) {
         if(error)
             console.log(error+'支付蟋蟀腿错误');
 
-        if(res && res[0]['xishuaitui'] < params['xishuaitui']) {
+        if(rest && rest[0]['xishuaitui'] < params['xishuaitui']) {
             status['error'] = '蟋蟀腿不足，请及时充值';
-            res.json(status);return;
+            res.json(status);
+        } else {
+            DB.exec(sql, params, function(err, result) {
+                if(err)
+                    console.log(err+'支付蟋蟀腿错误');
+
+                if(result.insertId){
+                    procXishuaitui(params['sender'], params['receiver'], params['xishuaitui']);
+                    status['error'] = "支付成功";
+                    status['flag'] = true;
+                }
+
+                res.json(status);
+            });
         }
-    });
-
-    DB.exec(sql, params, function(err, result) {
-        if(err)
-            console.log(err+'支付蟋蟀腿错误');
-
-        if(result.insertId){
-            status['error'] = "支付成功";
-        }
-
-        res.json(status);
     });
 });
 
 // 支付蟋蟀腿时对两方蟋蟀腿数据的处理
 function procXishuaitui(sender, receiver, num) {
-    DB.exec('select xishuaitui from users where username=?', sender, function(error, res) {
-        if(error)
-            console.log(error+'支付蟋蟀腿时对两方蟋蟀腿数据的处理错误');
-
-        if(res && res[0]['xishuaitui'] < params['xishuaitui']) {
-            status['error'] = '蟋蟀腿不足，请及时充值';
-            res.json(status);return;
-        }
-    });
-    DB.update("update users set xishuaitui='"+currentSession.username+"' where id="+data[i].Id,function(){});
+    DB.update("update users set xishuaitui=xishuaitui-"+num+ " where username='"+sender+"'",function(){});
+    DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+receiver+"'",function(){});
 }
 
 module.exports = router;

@@ -1102,3 +1102,33 @@ function buildChatGroupWin(title,target, from, isowner, message){
 		
 	}
 }
+
+
+// 支付蟋蟀腿按钮事件
+$('.btn-pay').click(function() {
+	$this = $(this);
+	var $btn = $this.button('loading');
+
+	if($("#hasLogin_hidden").val()=="no")
+	{
+		$("#login-area").trigger("click");
+		return false;
+	}
+
+	// 支付动作
+	var fieldid = $this.attr('data-fieldid');
+	var receiver = $this.attr('data-receiver');
+	var xishuaitui = $this.attr('data-xishuaitui');
+
+	$.post('/xishuaitui/pay', {
+		fieldid: fieldid,
+		receiver: receiver,
+		xishuaitui: xishuaitui
+	}, function(data) {
+		alert(data.error);
+		if(data.flag) {
+			location.reload();
+		}
+		$btn.button('reset');
+	});
+});
