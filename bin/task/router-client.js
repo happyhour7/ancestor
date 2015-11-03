@@ -442,18 +442,21 @@ function indexLogic(data){
                 // 判断是否为秘密发布者的好友
                 if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData['haoyous'].in_array(data[i].owner))) {
                     data[i]["ishaoyou"] = true;
-                    data[i]["hasReply"] = true;
                 }
 
                 // 回复可见秘密处理
-                if(data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id)) {
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id))) {
                     data[i]["hasReply"] = true;
                 }
 
-                // 悬赏秘密
-                if((data[i].secretMainType === '悬赏秘密' || data[i].secretMainType === '出售秘密') && _.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined) {
+                // 悬赏秘密，出售秘密
+                if(data[i].owner==currentSession.username || ((data[i].secretMainType === '悬赏秘密' || data[i].secretMainType === '出售秘密') && _.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined)) {
                     data[i]["hasPay"] = true;
                 }
+            }
+            else
+            {
+                data[i]["noLogin"] = true;
             }
 
             // 好友可见秘密处理
