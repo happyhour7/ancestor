@@ -452,8 +452,8 @@ function indexLogic(data){
                     data[i]["hasReply"] = true;
                 }
 
-                // 悬赏秘密，出售秘密
-                if(data[i].owner==currentSession.username || ((data[i].secretMainType === '悬赏秘密' || data[i].secretMainType === '出售秘密') && _.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined)) {
+                // 出售秘密
+                if(data[i].owner==currentSession.username || (data[i].secretMainType === '出售秘密' && _.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined)) {
                     data[i]["hasPay"] = true;
                 }
             }
@@ -467,7 +467,7 @@ function indexLogic(data){
             }
 
             // 不是悬赏秘密或者出售秘密的
-            if(data[i].secretMainType !== '悬赏秘密' && data[i].secretMainType !== '出售秘密') {
+            if(data[i].secretMainType !== '出售秘密') {
                 data[i]["hasPay"] = true;
             }
 
@@ -2723,12 +2723,9 @@ router.post('/xishuaitui/pay',function(req,res){
     var sql="insert into xishuaituideal set ?";
     var params = req.body;
     params['sender'] = currentSession.username;
-    console.log(params);
 
-    var status = {error: "支付失败"};
-    DB.exec('select xishuaitui from users where username=?', params['sender'], function(error, rest) {
-        if(error)
-            console.log(error+'支付蟋蟀腿错误');
+    getUserXishuaitui(params['sender'], function(rest) {
+        var status = {error: "支付失败"};
 
         if(rest && rest[0]['xishuaitui'] < params['xishuaitui']) {
             status['error'] = '蟋蟀腿不足，请及时充值';
@@ -2750,10 +2747,36 @@ router.post('/xishuaitui/pay',function(req,res){
     });
 });
 
+// 判断用户蟋蟀腿是否充足
+router.post('/xishuaitui/check',function(req,res){
+    currentSession = req.session;
+    var secretPrice=req.body.secretPrice;
+    var username=currentSession.username;
+    getUserXishuaitui(username, function(rest) {
+        var status = {error: "蟋蟀腿不足，请及时充值"};
+
+        if(rest && rest[0]['xishuaitui'] >= secretPrice) {
+            status['flag'] = true;
+        }
+        res.json(status);
+    });
+});
+
 // 支付蟋蟀腿时对两方蟋蟀腿数据的处理
 function procXishuaitui(sender, receiver, num) {
     DB.update("update users set xishuaitui=xishuaitui-"+num+ " where username='"+sender+"'",function(){});
     DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+receiver+"'",function(){});
+}
+
+// 获取用户蟋蟀腿数据
+function getUserXishuaitui(user, callback) {
+        // 获取用户蟋蟀腿数目
+        DB.exec('select xishuaitui from users where username=?', user, function(error, rest) {
+            if(error)
+                console.log(error+'获取用户蟋蟀腿数据错误');
+
+            callback(rest);
+        });
 }
 
 module.exports = router;
