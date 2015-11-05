@@ -1608,7 +1608,7 @@ router.get('/secret/permsg-mysecret',function(req,res){
 
         currentQueue=new Queue("permsg-mysecret");
         currentQueue.push({exec:function(){
-            DB.query("select * from files where owner='"+currentSession.username+"'",bindData,getMySecrets,'secretDatas');
+            DB.query(getHomeSQL(" and owner='"+currentSession.username+"' "),bindData,getMySecrets,'secretDatas');
         }});
 
         // 添加个人信用评分
@@ -1645,6 +1645,7 @@ router.get('/secret/permsg-mysecret',function(req,res){
         getHostSecret();
         getMyFriends();
         currentQueue.push({exec:function(data){
+            console.log(user);
             _tmpData = data[0];
             render.view="personal_mysecret";
             /*DB.query("select * from advs",bindData,firstAdvLogic,'secretDatas');
