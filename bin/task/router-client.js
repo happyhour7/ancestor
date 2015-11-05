@@ -1060,10 +1060,10 @@ router.get('/secret/sell', function(req, res) {
     if(currentSession && currentSession.username) {
 
         // 获取登录用户的蟋蟀腿交易记录
-        currentQueue.push({exec: function(data) {
+        currentQueue.push({exec: function() {
             DB.query("select fieldid,receiver from xishuaituideal where sender='"+currentSession.username+"'",bindData,getXishuaituiDeals,'secretDatas');
         }});
-        currentQueue.push({exec:function(){
+        currentQueue.push({exec:function(data){
             _tmpData = data[0];
             DB.query(getHomeSQL(" and secretMainType='出售秘密' "),bindData,sellLogic,'secretDatas');
         }});
