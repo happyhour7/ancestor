@@ -2151,7 +2151,7 @@ router.get('/secret/getAllComments',function(req,res){
     currentSession = req.session;
     var id=req.query.id;
 
-    DB.query("select * from replay where fileid="+id,
+    DB.query("select files.secretMainType, files.secretPrice, files.owner, replay.* from replay left join files on replay.fileid=files.Id where fileid="+id,
         function(fields,logic){
             var data=logic(this);
             if(data.length==0)
@@ -2160,6 +2160,16 @@ router.get('/secret/getAllComments',function(req,res){
             }
             else
             {
+                for(var i=0;i<data.length;i++)
+                {
+                    if(currentSession && currentSession.username)
+                    {
+                        if(data[i].owner==currentSession.username)
+                        {
+                            data[i]["mine"]=true;
+                        }
+                    }
+                }
                 res.json({replays:data});
             }
             
@@ -2762,6 +2772,23 @@ router.post('/xishuaitui/check',function(req,res){
         }
         res.json(status);
     });
+});
+
+// 悬赏秘密采纳并支付蟋蟀腿
+router.post('/xishuaitui/caina',function(req,res){
+    currentSession = req.session;
+    var fileid=req.body.fileid;
+    var receiver=req.body.receiver;
+    var price=req.body.price;
+    var sender=currentSession.username;
+
+    // 不需要判断蟋蟀腿是否充足，因为既然能发帖肯定有足够的的蟋蟀腿
+    var status = {flag: true, error: "操作成功"};
+    procXishuaitui(sender, receiver, price);
+
+    // 关闭该悬赏秘密（通过设置有效期来实现）
+    DB.update("update files set secretLimitTime=CURDATE() where Id="+fileid,function(){});
+    res.json(status);
 });
 
 // 支付蟋蟀腿时对两方蟋蟀腿数据的处理

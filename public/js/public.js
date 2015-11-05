@@ -486,12 +486,47 @@ var page={
 				async:false,
 				cache:false,
 				success:function(data){
+					Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+					  if(v1 == v2) {
+					    return options.fn(this);
+					  }
+					  return options.inverse(this);
+					});
 					var source=$("#secretComment-temple").html();
 					var template=Handlebars.compile(source);
 					var html=template(data);
 					parents.append(html);
 					$(".comment-title-bar").unbind().click(function(){
 						$(this).parent().remove();
+					});
+
+					// 悬赏秘密采纳并支付蟋蟀腿按钮事件
+					$('.btn-xuanshang-caina').unbind().click(function() {
+						$this = $(this);
+						var $btn = $this.button('loading');
+
+						if($("#hasLogin_hidden").val()=="no")
+						{
+							$("#login-area").trigger("click");
+							return false;
+						}
+
+						// 支付动作
+						var fileid = $this.attr('data-fileid');
+						var receiver = $this.attr('data-receiver');
+						var price = $this.attr('data-price');
+
+						$.post('/xishuaitui/caina', {
+							fileid: fileid,
+							receiver: receiver,
+							price: price
+						}, function(data) {
+							if(data.flag) {
+								alert(data.error);
+								location.reload();
+							}
+							$btn.button('reset');
+						});
 					});
 				}
 			});
