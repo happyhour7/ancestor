@@ -1880,7 +1880,7 @@ router.get('/secret/floater/try', function(req, res) {
     currentQueue=new Queue("floater_try");
     // 捞捞看
     currentQueue.push({exec:function(data){
-        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '') and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
+        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '') and othersex = <usersex> and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
 
     }});  
     currentQueue.push({exec:function(data){
@@ -1894,10 +1894,11 @@ router.get('/secret/floater/try', function(req, res) {
 function floaterGetSQLQuery () {
     var otherWhere=arguments[0]||"";
     if(currentSession && currentSession.username){
-        console.log(floaterGetSQL);
         return floaterGetSQL.replace("<username>",currentSession.username)
                     .replace("<where>",otherWhere)
                     .replace("<username>",currentSession.username)
+                    .replace("<cityname>",currentSession.user.cityname)
+                    .replace("<usersex>",currentSession.user.sex)
                     .replace("<username>",currentSession.username);
     }
     else{
@@ -1920,7 +1921,8 @@ function getFloatersLogic(data){
                     data[i]["mine"]=true;
                 }
 
-                DB.update("update files set owner='"+currentSession.username+"' where id="+data[i].Id,function(){});
+                // 将捞到的瓶子赋予给登录用户
+                // DB.update("update files set owner='"+currentSession.username+"' where id="+data[i].Id,function(){});
             }
         }
 
@@ -2016,7 +2018,6 @@ router.post('/secret/saveFloater',function(req, res){
         datas.push(currentSession.username);
     
     
-        ////console.log(datas);
         var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
                 "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
                 "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
