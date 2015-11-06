@@ -2123,6 +2123,7 @@ router.post('/secret/personalUpdate',function(req,res){
     var sql="update users set "
                 +insertPassword
                 +" sex="+req.body.sex+","
+                +" age='"+req.body.age+"',"
                 +" email='"+req.body.email+"',"
                 +" qq='"+req.body.qq+"',"
                 +" phone='"+req.body.phone+"',"

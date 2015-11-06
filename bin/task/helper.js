@@ -48,6 +48,10 @@ hbs.registerHelper('secretCity', function(type, city) {
   {
     return '<span class="items address">对方城市：'+city+'</span>';
   }
+  else if(city && type == 'WO的秘密')
+  {
+    return '<span class="items address">城市：'+city+'</span>';
+  }
   
   return "";
 });
