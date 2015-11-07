@@ -452,6 +452,11 @@ var page={
 			alert("请输入标题");
 			return false;
 		}
+		if(title.length > 18)
+		{
+			alert("标题的长度不能超过18");
+			return false;
+		}
 		if($.trim(keyword)=="")
 		{
 			alert("请输入关键词");
