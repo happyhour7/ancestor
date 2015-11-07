@@ -314,7 +314,7 @@ var page={
         	var backgroundLength=$("#secrect-background").val().length;
         	var contentLength=$("#secrect-content").val().length;
         	var knownLength=$("#secrect-known").val().length;
-        	if(backgroundLength+contentLength+knownLength>=78)
+        	if(backgroundLength+contentLength+knownLength>=156)
         	{
         		tmpBackground=$("#secrect-background").val();
         		tmpContent=$("#secrect-content").val();
@@ -331,24 +331,24 @@ var page={
         		$("#secrect-known").val("");
         		$("#is_longstory_hidden").val("1");//长文标志位
         		$("#secrect-longstory").focus();
+
+				$("#secrect-longstory").unbind().on("keyup",function(){
+					if($("#secrect-longstory").val().length<156&&(tmpBackground!=""||tmpContent!=""||tempKnow!="")) {
+						$("#secret_background_tr").show();
+			    		$("#secret_content_tr").show();
+			    		$("#secret_known_tr").show();
+			    		$("#secret_longstory_tr").hide();
+
+
+			    		$("#secrect-background").val(tmpBackground);
+			    		$("#secrect-content").val(tmpContent);
+			    		$("#secrect-known").val(tempKnow);
+			    		$("#secrect-known").focus();
+		    		}
+				});
         	}
         	
         });
-		$("#secrect-longstory").on("keyup",function(){
-			if($("#secrect-longstory").val().length<78&&(tmpBackground!=""||tmpContent!=""||tempKnow!="")) {
-				$("#secret_background_tr").show();
-	    		$("#secret_content_tr").show();
-	    		$("#secret_known_tr").show();
-	    		$("#secret_longstory_tr").hide();
-
-
-	    		$("#secrect-background").val(tmpBackground);
-	    		$("#secrect-content").val(tmpContent);
-	    		$("#secrect-known").val(tempKnow);
-	    		$("#secrect-known").focus();
-    		}
-		});
-
 
 
         $('[data-toggle="tooltip"]').tooltip();
