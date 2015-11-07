@@ -343,6 +343,8 @@ var page={
 			    		$("#secrect-background").val(tmpBackground);
 			    		$("#secrect-content").val(tmpContent);
 			    		$("#secrect-known").val(tempKnow);
+        				$("#is_longstory_hidden").val('');//长文标志位
+        				$("#secrect-longstory").val('');
 			    		$("#secrect-known").focus();
 		    		}
 				});
