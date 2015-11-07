@@ -441,6 +441,12 @@ $.ajax({
                 "<td><<username>></td>"+
                 "<td data='<<userid>>'><button class='btn btn-warning btn-advuser-mod' style='width:80px;margin:10px;'>修改</button><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:10px;'>删除</button></td>"+
                 "</tr>";
+        var htmlSpec="<tr>"+
+                "<td><<index>></td>"+
+                "<td><<userid>></td>"+
+                "<td><<username>></td>"+
+                "<td data='<<userid>>'><button class='btn btn-warning btn-advuser-mod' style='width:80px;margin:10px;'>修改</button></td>"+
+                "</tr>";
         var result="";
 
         for(var i=0;i<data.length;i++)
@@ -454,12 +460,20 @@ $.ajax({
             _location=_location.replace("firstpage-left-bottom","一级页面左侧下方广告");
             _location=_location.replace("innerpage-left-top","二级页面左侧顶部广告");
             _location=_location.replace("innerpage-left-bottom","二级页面左侧底部广告").split(",").join("</br>");*/
-
-            result+=html.replace("<<index>>",i+1)
+            if(tmp.Id === 1)
+            {
+                result+=htmlSpec.replace("<<index>>",i+1)
                             .replace("<<userid>>",tmp.userid)
                             .replace("<<username>>",tmp.username)
                             .replace("<<userid>>",tmp.userid);
-                            //.replace("<<location>>",_location);
+            }
+            else
+            {
+                result+=html.replace("<<index>>",i+1)
+                            .replace("<<userid>>",tmp.userid)
+                            .replace("<<username>>",tmp.username)
+                            .replace("<<userid>>",tmp.userid);
+            }
         }
         $("#advuser-table-tbody").html(result);
         $(".btn-advuser-mod").click(function(){

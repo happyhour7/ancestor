@@ -82,7 +82,7 @@ router.get('/admin/adminUserManagerMod',function(req,res){
     render.res=res;
     render.req=req;
     var userid=req.query.userid;
-    render.view="adminUserManagerMod"
+    render.view="adminUserManagerMod";
     currentQueue=new Queue("index");
     currentQueue.push({exec:function(){
         DB.query("select * from admin where userid='"+userid+"'",bindData,advUserManagerModLogic,'secretDatas');
@@ -100,7 +100,6 @@ router.get('/admin/adminUserManagerMod',function(req,res){
 /*删除管理员*/
 router.get('/admin/adminUserManagerDel',function(req,res){
     var username=req.query.username;
-    console.log("delete from admin where userid='"+username+"'");
     DB.update("delete from admin where userid='"+username+"'",function(){
         //res.json({status:"success"});
         res.redirect('/admin/adminUserManager');
@@ -130,8 +129,20 @@ router.get('/admin/adminUserManagerDel',function(req,res){
 
 router.get('/admin/delUsers',function(req,res){
     var userid=req.query.userid;
-    DB.update("delete from users where Id="+userid,function(){
-        res.json({status: true});
+
+    DB.exec('select username from users where Id=?', [userid], function(err, rest) {
+        if(err)
+            console.log(err);
+
+        DB.update("delete from users where Id="+userid,function(){
+            // 删除好友关系
+            DB.update("delete from friends where friendname='"+rest[0]['username']+"'",function(){
+                DB.update("delete from friends where username='"+rest[0]['username']+"'", function() {
+                    res.json({status: true});
+                });
+            });
+            
+        });
     });
 });
 router.get('/admin/getRegistryUser',function(req, res){
