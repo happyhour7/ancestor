@@ -1,3 +1,10 @@
+Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+  if(v1 == v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 var floaterPage={
     floaterValidate: function(){// 扔漂流瓶验证
 
@@ -211,6 +218,36 @@ var floaterPage={
                 });
             }
             
+        });
+
+        // 回复漂流瓶
+        // 提交漂流瓶回复
+        $(".floater-replay-button").click(function(){
+            if($("#hasLogin_hidden").val()=="no")
+            {
+                $("#login-area").trigger("click");
+                return;
+            }   
+            var text=$(this).prev().find(".secrect-comment-area").val();
+            var currentTime=(new Date()).format('yyyy-MM-dd hh:mm:ss');
+            $.ajax({
+                url: '/secret/floater/reply',
+                cache: false,
+                dataType:"json",
+                type: 'POST',
+                data: {
+                    content: text,
+                    filedid: $(this).prev().find('input[name="filedid"]').val(),
+                    replayTime: currentTime
+                },
+                success: function(data) {
+                    if(data.error) {
+                        alert(data.error);
+                        return;
+                    }
+                    replaySuccess();
+                }
+            });
         });
     }
 };

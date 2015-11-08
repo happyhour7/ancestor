@@ -1824,7 +1824,12 @@ router.get('/secret/floater', function(req, res) {
     render.view="sendFloater";
     currentQueue=new Queue("floater");
     currentQueue.push({exec:function(){
-        DB.query(floaterGetSQLQuery(" and files.owner='<username>' ").replace(' limit 1', ''),bindData,floaterInitLogic,'secretDatas');
+        var sql = 'select rp.commNum as commNum,files.* from files '+
+            'left join (select fileid,count(replay.replayId) as commNum from replay group by fileid) rp on files.id=rp.fileid '+
+            'left join floaterowner fo on fo.fileid=files.id '+
+            "where (secretMainType='漂流瓶' and files.owner = '"+currentSession.username+"') or fo.username='"+currentSession.username+"'"+
+            "order by files.filetype, files.createTime desc";
+        DB.query(sql,bindData,floaterInitLogic,'secretDatas');
     }});
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
@@ -1880,9 +1885,9 @@ router.get('/secret/floater/try', function(req, res) {
     currentQueue=new Queue("floater_try");
     // 捞捞看
     currentQueue.push({exec:function(data){
-        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '') and othersex = <usersex> and files.owner<>'<username>' "), bindData, getFloatersLogic, 'secretDatas');
+        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '') and othersex = <usersex> and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"), bindData, getFloatersLogic, 'secretDatas');
 
-    }});  
+    }});
     currentQueue.push({exec:function(data){
         res.json(data[0]);
         
@@ -1899,6 +1904,7 @@ function floaterGetSQLQuery () {
                     .replace("<username>",currentSession.username)
                     .replace("<cityname>",currentSession.user.cityname)
                     .replace("<usersex>",currentSession.user.sex)
+                    .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username);
     }
     else{
@@ -1921,8 +1927,12 @@ function getFloatersLogic(data){
                     data[i]["mine"]=true;
                 }
 
-                // 将捞到的瓶子复制一份赋予给登录用户
-                var sql="insert into files(secretMainType,secretType,secretSubType,secretGrandSubType,secretLimit,"+
+                // 将捞到的瓶子赋予给登录用户
+                DB.exec('insert into floaterowner set fileid=?,username=?', [data[i].Id, currentSession.username], function(error, result) {
+                    if(error)
+                        console.log('将捞到的瓶子赋予给登录用户错误');
+                });
+                /*var sql="insert into files(secretMainType,secretType,secretSubType,secretGrandSubType,secretLimit,"+
                         "secretHope,secretCity,secretDate,secretKeyWord,secretTitle,secretBackground,"+
                         "secretContent,secretKnown,othername,othersex,otherage,otherBuildName,otheraddress,"+
                         "secretPrice,secretLimitTime,islongstory,longstory) select "+
@@ -1934,11 +1944,10 @@ function getFloatersLogic(data){
                     if(error)
                         console.log('将捞到的瓶子复制一份赋予给登录用户错误');
 
-                    console.log(result);
-
                     if(result.insertId)
                         DB.update("update files set owner='"+currentSession.username+"', createTime='"+(new Date()).format('yyyy-MM-dd hh:mm:ss')+"' where id="+result.insertId,function(){});
-                });
+                });*/
+
             }
         }
 
@@ -2059,8 +2068,13 @@ router.get('/secret/floaterdel', function(req, res) {
     if(!isNaN(id))
     {
         DB.update("delete from files where id="+id,function(){
-            res.json({status:"success"});
+            // 从floaterowner表中删除
+            DB.update("delete from floaterowner where fileid="+id,function(){
+                res.json({status:"success"});
+            });
         });
+
+        
 
     }
     else
