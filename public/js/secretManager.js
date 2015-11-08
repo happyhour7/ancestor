@@ -11,7 +11,7 @@ $.ajax({
                 "<td><<secretGrandSubType>></td>"+
                 "<td><<secretTitle>></td>"+
                 "<td><<owner>></td>"+
-                "<td data='<<Id>>'><button class='btn btn-danger btn-secret-noReply' style='width:80px;margin:10px;' data-reply='<<noReplyStatus>>'><<noReply>>回复</button><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:10px;'>删除</button></td>"+
+                "<td data='<<Id>>'><button class='btn btn-danger btn-secret-noReply' style='width:80px;margin:10px;line-height:10px;padding:5px;' data-reply='<<noReplyStatus>>'><<noReply>>回复</button><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:10px;line-height:10px;padding:5px;'>删除</button></td>"+
                 "</tr>";
         var result="";
 
@@ -24,7 +24,7 @@ $.ajax({
                             .replace("<<secretType>>",tmp.secretType)
                             .replace("<<secretSubType>>",tmp.secretSubType)
                             .replace("<<secretGrandSubType>>",tmp.secretGrandSubType)
-                            .replace("<<secretTitle>>",tmp.secretTitle ? tmp.secretTitle.substr(0, 10) : '')
+                            .replace("<<secretTitle>>",tmp.secretTitle ? tmp.secretTitle.substr(0, 18) : '')
                             .replace("<<owner>>",tmp.owner)
                             .replace("<<noReplyStatus>>",tmp.noReply)
                             .replace("<<noReply>>",tmp.noReply ? '开启' : '关闭')

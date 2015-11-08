@@ -1,6 +1,6 @@
 module.exports.homeSQL=
     "select rp.commNum as commNum,files.*,users.sex as authorSex, users.age as authorAge, users.cityname as authorCity,users.userPhoto as authorPhoto,ig.goodNum as goodNum,ib.badNum as badNum "+
-    ",agv.avgScore as avgscore "+
+    ",round(agv.avgScore,1) as avgscore "+
     "from files "+
     "left join (select fileid,count(isgood.good) as goodNum from isgood group by fileid) ig on files.id=ig.fileid "+
     "left join (select fileid,count(isbad.bad) as badNum from isbad group by fileid) ib on files.id=ib.fileid "+
@@ -12,7 +12,7 @@ module.exports.homeSQL=
     " order by files.filetype, files.createTime desc";
 module.exports.orderSQL=
     " select rp.commNum as commNum,files.*,users.sex as authorSex, users.age as authorAge, users.cityname as authorCity,users.userPhoto as authorPhoto,ig.goodNum as goodNum,ib.badNum as badNum "+
-    ",agv.avgScore as avgscore "+
+    ",round(agv.avgScore,1) as avgscore "+
     "from files "+
     "left join (select fileid,count(isgood.good) as goodNum from isgood group by fileid) ig on files.id=ig.fileid "+
     "left join (select fileid,count(isbad.bad) as badNum from isbad group by fileid) ib on files.id=ib.fileid "+
@@ -24,7 +24,7 @@ module.exports.orderSQL=
 
 
 module.exports.hotSecretSQL="select count(replay.replayId) as commNum,files.*,count(isgood.good) as goodNum,count(isgood.bad) as badNum "+
-    ",agv.avgScore as avgscore "+
+    ",round(agv.avgScore,1) as avgscore "+
     "from files "+
     "left join isgood on files.id=isgood.fileid  "+
     "left join replay on files.id=replay.fileid  "+
@@ -36,7 +36,7 @@ module.exports.hotSecretSQL="select count(replay.replayId) as commNum,files.*,co
 
 module.exports.loginHomeSQL=
     "select rp.commNum as commNum,files.*,users.sex as authorSex, users.age as authorAge, users.cityname as authorCity,users.userPhoto as authorPhoto,ig.goodNum as goodNum,ib.badNum as badNum, "+
-    "isgood.good as choosenGood,isbad.bad as choosenBad ,score.score as userscore , agv.avgScore as avgscore "+
+    "isgood.good as choosenGood,isbad.bad as choosenBad ,score.score as userscore , round(agv.avgScore,1) as avgscore "+
     "from files  "+
     "left join (select fileid,good,count(isgood.good) as goodNum from isgood group by fileid) ig on files.id=ig.fileid "+
     "left join (select fileid,bad,count(isbad.bad) as badNum from isbad group by fileid) ib on files.id=ib.fileid "+
@@ -53,7 +53,7 @@ module.exports.loginHomeSQL=
 
 module.exports.floaterGetSQL=
     "select count(replay.replayId) as commNum,files.*, "+
-    "score.score as userscore , agv.avgScore as avgscore "+
+    "score.score as userscore , round(agv.avgScore,1) as avgscore "+
     "from files  "+
     "left join replay on files.id=replay.fileid   "+
     "left join score on files.id=score.fileid and score.username='<username>' "+
