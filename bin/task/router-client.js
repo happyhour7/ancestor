@@ -1921,8 +1921,24 @@ function getFloatersLogic(data){
                     data[i]["mine"]=true;
                 }
 
-                // 将捞到的瓶子赋予给登录用户
-                // DB.update("update files set owner='"+currentSession.username+"' where id="+data[i].Id,function(){});
+                // 将捞到的瓶子复制一份赋予给登录用户
+                var sql="insert into files(secretMainType,secretType,secretSubType,secretGrandSubType,secretLimit,"+
+                        "secretHope,secretCity,secretDate,secretKeyWord,secretTitle,secretBackground,"+
+                        "secretContent,secretKnown,othername,othersex,otherage,otherBuildName,otheraddress,"+
+                        "secretPrice,secretLimitTime,islongstory,longstory) select "+
+                        "secretMainType,secretType,secretSubType,secretGrandSubType,secretLimit,"+
+                        "secretHope,secretCity,secretDate,secretKeyWord,secretTitle,secretBackground,"+
+                        "secretContent,secretKnown,othername,othersex,otherage,otherBuildName,otheraddress,"+
+                        "secretPrice,secretLimitTime,islongstory,longstory from files where Id=?";
+                DB.exec(sql, data[i].Id, function(error, result) {
+                    if(error)
+                        console.log('将捞到的瓶子复制一份赋予给登录用户错误');
+
+                    console.log(result);
+
+                    if(result.insertId)
+                        DB.update("update files set owner='"+currentSession.username+"', createTime='"+(new Date()).format('yyyy-MM-dd hh:mm:ss')+"' where id="+result.insertId,function(){});
+                });
             }
         }
 
