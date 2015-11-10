@@ -148,6 +148,7 @@ var page={
 				success:function(data){
 					$(_that).prev().val("");
 					replaySuccess();
+					location.reload(true);
 				}
 			});
 		});
@@ -214,7 +215,7 @@ var page={
 							$(".system-background").remove();
 							$("#registry-area").attr("login","true");
 							$("#hasLogin_hidden").val("yes");
-							location.reload();
+							location.reload(true);
 						}
 						else
 						{
@@ -523,7 +524,7 @@ var page={
 						}, function(data) {
 							if(data.flag) {
 								alert(data.error);
-								location.reload();
+								location.reload(true);
 							}
 							$btn.button('reset');
 						});
@@ -1162,7 +1163,7 @@ $('.btn-pay').click(function() {
 	}, function(data) {
 		alert(data.error);
 		if(data.flag) {
-			location.reload();
+			location.reload(true);
 		}
 		$btn.button('reset');
 	});
@@ -1180,7 +1181,7 @@ $('.btn-dashang').click(function() {
 	$this = $(this);
 	var $btn = $this.button('loading');
 
-	var xishuaitui = prompt('打赏数目');
+	var xishuaitui = prompt('您将打赏作者蟋蟀腿：');
 	if(xishuaitui && parseInt(xishuaitui) == xishuaitui)
 	{
 		var fieldid = $this.attr('data-fieldid');
@@ -1193,7 +1194,7 @@ $('.btn-dashang').click(function() {
 		}, function(data) {
 			alert(data.error);
 			if(data.flag) {
-				location.reload();
+				location.reload(true);
 			}
 		});
 	}
