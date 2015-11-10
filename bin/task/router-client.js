@@ -151,11 +151,12 @@ router.get('/', function(req, res) {
 
         currentQueue.push({exec:function(data){
             _tmpData = data[0];
-            DB.query(getHomeSQL(" and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0)) and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
+            //DB.query(getHomeSQL(" and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0)) and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
+            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
         }});
     }else {
         currentQueue.push({exec:function(){
-            DB.query(getHomeSQL(" and secretMainType<>'悬赏秘密' or (secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0)) and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
+            DB.query(getHomeSQL(" and secretMainType<>'漂流瓶' "),bindData,indexLogic,'secretDatas');
         }});
     }
 
@@ -469,6 +470,12 @@ function indexLogic(data){
             // 不是悬赏秘密或者出售秘密的
             if(data[i].secretMainType !== '出售秘密') {
                 data[i]["hasPay"] = true;
+            }
+
+            // 判断悬赏秘密是否过期
+            if(data[i].secretMainType === '悬赏秘密' && data[i].secretLimitTime < new Date()) {
+                console.log(data[i].secretLimitTime, new Date());
+                data[i]["noReply"] = true;
             }
 
         }
@@ -1298,8 +1305,6 @@ router.post('/secret/saveSecret',function(req, res){
     {
         datas.push(currentSession.username);
     
-    
-        ////console.log(datas);
         var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
                 "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
                 "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
@@ -1307,6 +1312,11 @@ router.post('/secret/saveSecret',function(req, res){
         DB.exec(sql,datas, function(err, result){
             if(err)
                 throw err;
+
+            // 发布悬赏秘密时需要减少相应蟋蟀腿
+            if(datas[0].indexOf('悬赏秘密') != -1) {
+                subXishuaitui(datas[18]);
+            }
 
             AddXishuaitui(10);
             AddScore(5);
@@ -1322,7 +1332,12 @@ router.post('/secret/saveSecret',function(req, res){
 
 // 增加蟋蟀腿
 function AddXishuaitui(num) {
-    DB.update("update users set xishuaitui="+parseInt(num)+" where username='"+currentSession.username+"'",function(){});
+    DB.update("update users set xishuaitui=xishuaitui+"+parseInt(num)+" where username='"+currentSession.username+"'",function(){});
+}
+
+// 减少蟋蟀腿
+function subXishuaitui(num) {
+    DB.update("update users set xishuaitui=xishuaitui-"+parseInt(num)+" where username='"+currentSession.username+"'",function(){});
 }
 
 
