@@ -148,7 +148,7 @@ var page={
 				success:function(data){
 					$(_that).prev().val("");
 					replaySuccess();
-					location.reload(true);
+					location.reload();
 				}
 			});
 		});
@@ -215,7 +215,7 @@ var page={
 							$(".system-background").remove();
 							$("#registry-area").attr("login","true");
 							$("#hasLogin_hidden").val("yes");
-							location.reload(true);
+							location.reload();
 						}
 						else
 						{
@@ -524,7 +524,7 @@ var page={
 						}, function(data) {
 							if(data.flag) {
 								alert(data.error);
-								location.reload(true);
+								location.reload();
 							}
 							$btn.button('reset');
 						});
@@ -785,7 +785,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 	    // Disable caching of AJAX responses */
 	    cache: false
 	});
-	window.setInterval(function(){
+	/*window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
@@ -810,7 +810,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 				}
 			}
 		});
-	},1000);
+	},1000);*/
 }
 var isChooseSurvey=false;
 $(".survey-container").find(".good").click(function(){
@@ -1163,7 +1163,7 @@ $('.btn-pay').click(function() {
 	}, function(data) {
 		alert(data.error);
 		if(data.flag) {
-			location.reload(true);
+			location.reload();
 		}
 		$btn.button('reset');
 	});
@@ -1194,7 +1194,7 @@ $('.btn-dashang').click(function() {
 		}, function(data) {
 			alert(data.error);
 			if(data.flag) {
-				location.reload(true);
+				location.reload();
 			}
 		});
 	}

@@ -1610,6 +1610,34 @@ function personalFriendLogic(data){
     }
 }
 
+// 个人中心--我的黑名单
+router.get('/secret/permsg-heimingdan',function(req,res){
+    currentSession = req.session;
+    render.res=res;
+    render.req=req;
+
+    if(currentSession&&currentSession.username)
+    {
+        var user=currentSession.user;
+        currentQueue=new Queue("heimingdan");
+        currentQueue.push({exec:function(data){
+            DB.query("select * from heimingdan where username='"+currentSession.username+"'",bindData,function(data){return data;},'secretDatas');
+        }});
+        getHostSecret();
+        getMyFriends();
+
+        currentQueue.push({exec:function(data){
+            render.view="personal_heimingdan";
+            render.apply([user, data[0]],['',personalFriendLogic]);
+        }});
+        currentQueue.start();
+    }
+    else
+    {
+        res.redirect("/");
+    }
+});
+
 // 个人中心中的我的秘密
 router.get('/secret/permsg-mysecret',function(req,res){
     currentSession = req.session;
@@ -2459,7 +2487,7 @@ router.post('/user/addHeimingdan',function(req,res){
     currentSession = req.session;
     var msg=req.body.msg;
     var friendname=req.body.frendname;
-    var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+    var sql="insert into heimingdan set username=?,othername=?";
     var result=[friendname];
     result.push(msg);
     result.push("未读");
