@@ -163,32 +163,38 @@ router.get('/', function(req, res) {
     // 添加个人信用评分
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        var sql = '';
-        if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
-            var owners = [];
-            
-            for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
-                owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
-            }
-
-            sql = personalAvgGetSQL.replace('<username>',owners.join(','));
-        }
-
-        DB.query(sql, bindData, function(_data){
-            var avgDatas = {};
-            for(var a in _data){
-                avgDatas[_data[a]['username']] = _data[a]['average'];
-            }
-
-            if(JSON.stringify(avgDatas) != "{}"){
-                for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
-                    var secret = _tmpData['secretDatas'][k];
-                    secret['personal_score'] = avgDatas[secret['owner']];
+        if(_tmpData)
+        {
+            var sql = '';
+            if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
+                var owners = [];
+                
+                for (var o = 0; o < _tmpData['secretDatas'].length; o++) {
+                    owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
                 }
+
+                sql = personalAvgGetSQL.replace('<username>',owners.join(','));
             }
 
+            DB.query(sql, bindData, function(_data){
+                var avgDatas = {};
+                for(var a in _data){
+                    avgDatas[_data[a]['username']] = _data[a]['average'];
+                }
+
+                if(JSON.stringify(avgDatas) != "{}"){
+                    for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                        var secret = _tmpData['secretDatas'][k];
+                        secret['personal_score'] = avgDatas[secret['owner']];
+                    }
+                }
+
+                return _tmpData;
+            });
+        } else {
             return _tmpData;
-        });
+        }
+        
     }});
 
 
@@ -1611,7 +1617,7 @@ function personalFriendLogic(data){
 }
 
 // 个人中心--我的黑名单
-router.get('/secret/permsg-heimingdan',function(req,res){
+router.get('/secret/permsg_heimingdan',function(req,res){
     currentSession = req.session;
     render.res=res;
     render.req=req;
@@ -1621,14 +1627,17 @@ router.get('/secret/permsg-heimingdan',function(req,res){
         var user=currentSession.user;
         currentQueue=new Queue("heimingdan");
         currentQueue.push({exec:function(data){
-            DB.query("select * from heimingdan where username='"+currentSession.username+"'",bindData,function(data){return data;},'secretDatas');
+            DB.query("select * from heimingdan where username='"+currentSession.username+"'",bindData,function(data){
+                _tmpData['heimingdan'] = data;
+                return _tmpData;
+            },'secretDatas');
         }});
         getHostSecret();
         getMyFriends();
 
         currentQueue.push({exec:function(data){
             render.view="personal_heimingdan";
-            render.apply([user, data[0]],['',personalFriendLogic]);
+            render.apply([user, data[0]],['',personalHeimingdanLogic]);
         }});
         currentQueue.start();
     }
@@ -1637,6 +1646,40 @@ router.get('/secret/permsg-heimingdan',function(req,res){
         res.redirect("/");
     }
 });
+
+function personalHeimingdanLogic(data){
+    if(data.length>0)
+    {
+        var result=clone(data[0]);
+        result["permsg_heimingdan"]=true;
+        result["heimingdan"] = data[1]["heimingdan"];
+        result["hostSecret"] = data[1]["hostSecret"];
+        result["friends"] = data[1]["friends"];
+        return result;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// 移出黑名单
+router.get('/heimingdan/del',function(req,res){
+    currentSession = req.session;
+    var id=req.query.id;
+    if(currentSession && currentSession.username)
+    {
+        DB.update("delete from heimingdan where id="+id,function(){});
+        res.json({status:true});
+    }
+    else
+    {
+        res.json({status:false});
+    }
+
+});
+
+
 
 // 个人中心中的我的秘密
 router.get('/secret/permsg-mysecret',function(req,res){
@@ -2482,20 +2525,41 @@ router.post('/friend/addmsg',function(req,res){
     res.json({status:"success"});
 });
 
+// 判断用户是否在黑名单中
+router.get('/check/heimingdan',function(req,res){
+    currentSession = req.session;
+    var username = req.query.username;
+    var othername = currentSession.username;
+    var param = [username, othername];
+    DB.exec('select count(id) as count from heimingdan where username=? and othername=?', param, function(error, result) {
+        if (error) {
+            console.log(erro);
+        }
+
+        if (result && result[0]['count'] > 0) {
+            res.json({status:true});
+        } else {
+            res.json({status:false});
+        }
+    });
+});
+
 // 加入黑名单
 router.post('/user/addHeimingdan',function(req,res){
     currentSession = req.session;
-    var msg=req.body.msg;
-    var friendname=req.body.frendname;
+    var username=currentSession.username;
+    var othername=req.body.username;
     var sql="insert into heimingdan set username=?,othername=?";
-    var result=[friendname];
-    result.push(msg);
-    result.push("未读");
-    result.push("等待审核");
-    result.push("好友申请验证");
-    result.push(currentSession.username);
-    DB.execute(sql,result);
-    res.json({status:"success"});
+    var result=[username, othername];
+    DB.update("delete from heimingdan where username='"+currentSession.username+"' and othername='"+othername+"'",function(){
+        DB.exec(sql, result, function(err, result) {
+            if(err){
+                console.log(err);
+            }else {
+                res.json({status:"success"});
+            }
+        });
+    });
 });
 
 router.get('/personal/getSystemMsg',function(req,res){

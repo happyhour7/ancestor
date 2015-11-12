@@ -785,7 +785,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 	    // Disable caching of AJAX responses */
 	    cache: false
 	});
-	/*window.setInterval(function(){
+	window.setInterval(function(){
 		$.ajax({
 			url:"/chat/getMine?to="+currentSystemUsername,
 			async:false,
@@ -810,7 +810,7 @@ if($(".friend-area.hasLogin")[0]!=null)
 				}
 			}
 		});
-	},1000);*/
+	},1000);
 }
 var isChooseSurvey=false;
 $(".survey-container").find(".good").click(function(){
