@@ -475,7 +475,7 @@ router.get('/admin/getReplies',function(req, res){
     ajaxRender.res=res;
     currentQueue=new Queue("getReplies");
     currentQueue.push({exec:function(){
-        DB.query("select * from replay",bindData,getRepliesLogic,'secretDatas');
+        DB.query("select replay.*,secretTitle from replay left join files on files.Id=replay.fileid;",bindData,getRepliesLogic,'secretDatas');
     }});
 
     currentQueue.push({exec:function(data){

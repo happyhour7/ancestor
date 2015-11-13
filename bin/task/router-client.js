@@ -1323,8 +1323,11 @@ router.post('/secret/saveSecret',function(req, res){
             if(datas[0].indexOf('悬赏秘密') != -1) {
                 subXishuaitui(datas[18]);
             }
+            // 出售秘密不需要加10个蟋蟀腿
+            if(!['出售秘密', '悬赏秘密'].in_array(datas[0])) {
+                AddXishuaitui(10);
+            }
 
-            AddXishuaitui(10);
             AddScore(5);
             res.redirect("/");
         });
@@ -1970,8 +1973,8 @@ router.get('/secret/floater/try', function(req, res) {
     currentSession = req.session;
     currentQueue=new Queue("floater_try");
     // 捞捞看
-    currentQueue.push({exec:function(data){
-        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '') and othersex = <usersex> and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"), bindData, getFloatersLogic, 'secretDatas');
+    currentQueue.push({exec:function(){
+        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '' or othersex = <usersex>) and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"), bindData, getFloatersLogic, 'secretDatas');
 
     }});
     currentQueue.push({exec:function(data){
