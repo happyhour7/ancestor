@@ -1915,7 +1915,7 @@ router.get('/secret/floater', function(req, res) {
     currentQueue.push({exec:function(){
         var sql = 'select rp.commNum as commNum,files.* from files '+
             'left join (select fileid,count(replay.replayId) as commNum from replay group by fileid) rp on files.id=rp.fileid '+
-            'left join floaterowner fo on fo.fileid=files.id '+
+            'left join floaterowner fo on fo.fileid=files.id and fo.username="'+currentSession.username+'" '+
             "where (secretMainType='漂流瓶' and files.owner = '"+currentSession.username+"') or fo.username='"+currentSession.username+"'"+
             "order by files.filetype, files.createTime desc";
         DB.query(sql,bindData,floaterInitLogic,'secretDatas');
