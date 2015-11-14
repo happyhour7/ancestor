@@ -5,25 +5,31 @@ var viewPath='actions/admin/';
 var sqlCode=require("./sql");
 var personalAvgGetSQL=sqlCode.personalAvgGetSQL;
 var Queue=require("../queue");
+var filter = require('./admin-filter');
+
 /* GET home page. */
 router.post('/admin/login', function(req, res) {
-    render.res=res;
-    render.view='adminUserManager';
-    DB.query("select * from admin where userid='"+req.body.userid+"' and password='"+req.body.password+"'",render,loginLogic);
+    DB.exec('select * from admin where userid=? and password=?', [req.body.userid, req.body.password], function(error, data) {
+        if(error) {
+            console.log(error);
+        }
+
+        console.log(data);
+        if(data.length>0)
+        {
+            req.session.userid=data[0].userid;
+            req.session.user=data[0];
+            res.redirect('/admin/adminUserManager');
+        }
+        else
+        {
+            res.render(viewPath+"login",{error:"用户名或密码错误，请重新登录"});
+        }
+    });
 });
 var currentQueue=null;
-function loginLogic(data){
-    if(data.length>0)
-    {
-        return data[0];
-    }
-    else
-    {
-        render.res.render(viewPath+"login",{error:"用户名或密码错误，请重新登录"});
-    }
-}
 
-router.get('/admin/systemNotice',function(req,res){
+router.get('/admin/systemNotice', filter.authorize, function(req,res){
     render.req=req;
     render.res=res;
     render.view='systemNotice';
@@ -52,7 +58,7 @@ router.post('/admin/saveNotice',function(req,res){
 });
 
 
-router.get('/admin/delAdvUser',function(req, res){
+router.get('/admin/delAdvUser', filter.authorize,function(req, res){
 	var username=req.query.username;
 	DB.update("delete from advuser where username='"+username+"'",function(){
 		res.json({status:"success"});
@@ -73,7 +79,7 @@ router.post('/admin/addAdmin',function(req,res){
 
 
 /*增加管理员*/
-router.get('/admin/adminUserManagerAdd',function(req,res){
+router.get('/admin/adminUserManagerAdd', filter.authorize,function(req,res){
     res.render(viewPath+"adminUserManagerAdd",{});
 });
 
@@ -98,7 +104,7 @@ router.get('/admin/adminUserManagerMod',function(req,res){
 
 
 /*删除管理员*/
-router.get('/admin/adminUserManagerDel',function(req,res){
+router.get('/admin/adminUserManagerDel', filter.authorize,function(req,res){
     var username=req.query.username;
     DB.update("delete from admin where userid='"+username+"'",function(){
         //res.json({status:"success"});
@@ -127,7 +133,7 @@ router.get('/admin/adminUserManagerDel',function(req,res){
     currentQueue.start();
 });*/
 
-router.get('/admin/delUsers',function(req,res){
+router.get('/admin/delUsers', filter.authorize,function(req,res){
     var userid=req.query.userid;
 
     DB.exec('select username from users where Id=?', [userid], function(err, rest) {
@@ -145,7 +151,7 @@ router.get('/admin/delUsers',function(req,res){
         });
     });
 });
-router.get('/admin/getRegistryUser',function(req, res){
+router.get('/admin/getRegistryUser', filter.authorize,function(req, res){
     render.res=res;
     render.req=req;
     var userid=req.query.userid;
@@ -186,7 +192,6 @@ router.get('/admin/getRegistryUser',function(req, res){
     }});
 
     currentQueue.push({exec:function(data){
-        //render.apply(data[0],['',function(data){return data;}]);
         res.json(data[0]);
         currentQueue.end();
         currentQueue=null;
@@ -196,15 +201,15 @@ router.get('/admin/getRegistryUser',function(req, res){
 });
 
 
-router.get('/admin/advUserManager',function(req, res){
+router.get('/admin/advUserManager', filter.authorize,function(req, res){
     res.render(viewPath+"advUserManager",{});
 });
 
-router.get('/admin/advUserManagerAdd',function(req, res){
+router.get('/admin/advUserManagerAdd', filter.authorize,function(req, res){
     res.render(viewPath+"advUserManagerAdd",{});
 });
 
-router.get('/admin/advUserManagerMod',function(req, res){
+router.get('/admin/advUserManagerMod', filter.authorize,function(req, res){
 	render.res=res;
 	render.req=req;
 	var username=req.query.userid;
@@ -225,15 +230,15 @@ function getUserLogic(data){return data;}
 function advUserManagerModLogic(data){
 	return data[0];
 }
-router.get('/admin/adminUserManager',function(req, res){
+router.get('/admin/adminUserManager', filter.authorize,function(req, res){
     res.render(viewPath+"adminUserManager",{});
 });
 
-router.get('/admin/userManager',function(req, res){
-    res.render(viewPath+"userManager",{});
+router.get('/admin/userManager', filter.authorize,function(req, res){
+    res.render(viewPath+"userManager",{loginUser: req.session.user.Id});
 });
 
-router.get('/admin/surveyManager',function(req, res){
+router.get('/admin/surveyManager', filter.authorize,function(req, res){
     currentQueue=new Queue();
     currentQueue.push({exec:function(){
         DB.query("select * from survey",bindData,getUserLogic,'secretDatas');
@@ -248,7 +253,7 @@ router.get('/admin/surveyManager',function(req, res){
 function surveyLogic(data){
     return data;
 }
-router.get('/admin/index', function(req, res) {
+router.get('/admin/index', filter.authorize, function(req, res) {
     res.render(viewPath+"index",{});
 });
 router.get('/admin/login', function(req, res) {
@@ -379,7 +384,7 @@ router.post('/admin/postSurvey',function(req,res){
     });
 });
 
-router.get('/admin/getAdmins',function(req, res){
+router.get('/admin/getAdmins', filter.authorize,function(req, res){
     ajaxRender.res=res;
     currentQueue=new Queue("index");
     currentQueue.push({exec:function(){
@@ -393,7 +398,7 @@ router.get('/admin/getAdmins',function(req, res){
     currentQueue.start();
 });
 
-router.get('/admin/getAdvUser',function(req, res){
+router.get('/admin/getAdvUser', filter.authorize,function(req, res){
     ajaxRender.res=res;
     currentQueue=new Queue("index");
     currentQueue.push({exec:function(){
@@ -423,11 +428,11 @@ function bindData(keyname,logic){
 }
 
 /* 秘密管理开始 */
-router.get('/admin/secretManager',function(req, res){
+router.get('/admin/secretManager', filter.authorize,function(req, res){
     res.render(viewPath+"secretManager",{});
 });
 
-router.get('/admin/getSecrets',function(req, res){
+router.get('/admin/getSecrets', filter.authorize,function(req, res){
     ajaxRender.res=res;
     currentQueue=new Queue("getSecrets");
     currentQueue.push({exec:function(){
@@ -457,7 +462,7 @@ router.post('/admin/setNoReply',function(req, res){
     });
 });
 
-router.get('/admin/delSecret',function(req, res){
+router.get('/admin/delSecret', filter.authorize,function(req, res){
     var id=req.query.id;
     DB.update("delete from files where Id='"+id+"'",function(){
         res.json({status:"success"});
@@ -467,11 +472,11 @@ router.get('/admin/delSecret',function(req, res){
 
 
 /* 回复管理开始 */
-router.get('/admin/replyManager',function(req, res){
+router.get('/admin/replyManager', filter.authorize,function(req, res){
     res.render(viewPath+"replyManager",{});
 });
 
-router.get('/admin/getReplies',function(req, res){
+router.get('/admin/getReplies', filter.authorize,function(req, res){
     ajaxRender.res=res;
     currentQueue=new Queue("getReplies");
     currentQueue.push({exec:function(){
@@ -493,13 +498,36 @@ function getRepliesLogic(data){
     return result;
 }
 
-router.get('/admin/delReply',function(req, res){
+router.get('/admin/delReply', filter.authorize,function(req, res){
     var id=req.query.id;
     DB.update("delete from replay where replayId='"+id+"'",function(){
         res.json({status:"success"});
     });
 });
 /* 回复管理结束 */
+
+// 管理员给用户发送消息
+router.post('/admin/addUsermsg',function(req, res){
+    var userid=req.body.userid,
+        msg = req.body.msg;
+
+    var result=[userid];
+    result.push(msg);
+    result.push("未读");
+    result.push("等待用户阅读");
+    result.push('管理员发送消息');
+    result.push(req.session.userid);
+    DB.exec("insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?", result, function(err, data){
+        if (err) {
+            console.log('管理员给用户发送消息出错');
+        }
+        if (data.insertId) {
+            res.json({status: 'success'});
+        } else {
+            res.json({status: 'fail'});
+        }
+    });
+});
 
 
 function ajaxRender(keyname,logic){

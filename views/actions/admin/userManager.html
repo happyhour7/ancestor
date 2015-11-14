@@ -98,6 +98,7 @@
           </div>
         <div class="tab-content mb30">
           <div class="tab-pane active" id="home2">
+              <input type="hidden" value="{{loginUser}}" id="loginUser"/>
             <div class="table-responsive">
               <!--<button class="btn btn-primary advuser-add-btn" style="float:right;margin-bottom:10px;">添加用户</button>-->
           <table class="table table-success table-hover mb30" id="advuser-table">
@@ -449,13 +450,24 @@ $.ajax({
                 "<td><<secretNum>></td>"+
                 "<td><<friendNum>></td>"+
                 "<td><<xishuaitui>></td>"+
-                "<td data='<<userid>>'><a class='btn-advuser-del' style='width:80px;margin:10px;'>删除</a></td>"+
+                "<td data='<<userid>>'><a class='btn-advuser-del' style='width:80px;margin:10px;'>删除</a><<adminsend>></td>"+
                 "</tr>";
         var result="";
+
+        // 登录用户的id
+        var loginId = $('#loginUser').val();
 
         for(var i=0;i<data.length;i++)
         {
             var tmp=data[i];
+
+            // 管理员发送消息字段的处理
+            if (loginId == 1) {
+                html = html.replace("<<adminsend>>", "<a class='btn-msg-click' style='width:80px;margin:10px;'>发送消息</a>");
+            } else{
+                html = html.replace("<<adminsend>>", '');
+            }
+
             result+=html.replace("<<index>>",i+1)
                             .replace("<<userid>>",tmp.Id)
                             .replace("<<username>>",tmp.username)
@@ -469,7 +481,90 @@ $.ajax({
                             .replace("<<xishuaitui>>",tmp.xishuaitui || '无')
                             .replace("<<userid>>",tmp.Id);
         }
+
         $("#advuser-table-tbody").html(result);
+
+
+        // 管理员给用户发送消息事件
+        $('.btn-msg-click').click(function() {
+            var userid=$(this).parent().parent().children().eq(2).text();
+            var dialog=$("<div/>").css({
+                position:"absolute",
+                width:400,
+                height:180,
+                "z-index":99,
+                left:"50%",
+                top:"50%",
+                "margin-left":-200,
+                "margin-top":-100,
+                background:"#fff"
+
+            }).appendTo("body");
+
+            var background=$("<div/>").css({
+                position:"absolute",
+                width:"100%",
+                height:"100%",
+                "z-index":98,
+                left:0,
+                top:0,
+                'filter':'alpha(opacity=50)',
+                '-moz-opacity':'0.50',
+                'opacity':'0.50',
+                background:"#000"
+
+            }).appendTo("body");
+
+            $("<span/>").css({
+                display:"block",
+                "padding-left":"10px",
+                height:50,
+                "line-height":"50px",
+                "text-align":"left",
+                color:"#000",
+                "font-size":"14px"
+            }).html("请输入消息内容:").appendTo(dialog);
+            var textarea=$("<textarea/>").css({
+                display:"block",
+                width:380,
+                margin:"0 auto",
+                height:80,
+                border:"1px solid #000",
+                resize:"none"
+
+            }).appendTo(dialog);
+
+            var closeButton=$("<a/>").attr("class","btn btn-warning").css({
+                float:"right",
+                margin:"3px 10px"
+            }).html("取消").click(function(){
+                dialog.remove();
+                background.remove();
+            }).appendTo(dialog);
+
+            $("<a/>").attr("class","btn btn-primary").css({
+                float:"right",
+                margin:"5px 10px"
+            }).html("发送").click(function(){
+                if(textarea.val()=="")
+                {
+                    alert("请输入消息内容后提交！");
+                    return false;
+                }
+                $.post("/admin/addUsermsg",{
+                    msg:textarea.val(),
+                    userid:userid
+                },function(data){
+                    if(data.status=="success")
+                    {
+                        dialog.remove();
+                        background.remove();
+                        alert("消息已发送");
+                    }
+                });
+            }).appendTo(dialog);
+        });
+
         $(".btn-advuser-mod").click(function(){
           var username=$(this).parent().attr("data");
           window.location="/admin/adminUserManagerMod?userid="+username;
