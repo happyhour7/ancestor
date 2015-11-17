@@ -1320,10 +1320,10 @@ router.post('/secret/saveSecret',function(req, res){
                 throw err;
 
             // 发布悬赏秘密时需要减少相应蟋蟀腿
-            if(datas[0].indexOf('悬赏秘密') != -1) {
+            /*if(datas[0].indexOf('悬赏秘密') != -1) {
                 subXishuaitui(datas[18]);
-            }
-            // 出售秘密不需要加10个蟋蟀腿
+            }*/
+            // 悬赏秘密,出售秘密不需要加10个蟋蟀腿
             if(!['出售秘密', '悬赏秘密'].in_array(datas[0])) {
                 AddXishuaitui(10);
             }
@@ -2336,7 +2336,7 @@ router.get('/secret/getAllComments',function(req,res){
     currentSession = req.session;
     var id=req.query.id;
 
-    DB.query("select files.secretMainType, files.secretPrice, files.owner, replay.* from replay left join files on replay.fileid=files.Id where fileid="+id,
+    DB.query("select files.secretMainType, files.secretPrice, files.owner, files.secretLimitTime, replay.* from replay left join files on replay.fileid=files.Id where fileid="+id,
         function(fields,logic){
             var data=logic(this);
             if(data.length==0)
@@ -2349,7 +2349,7 @@ router.get('/secret/getAllComments',function(req,res){
                 {
                     if(currentSession && currentSession.username)
                     {
-                        if(data[i].owner==currentSession.username)
+                        if(data[i].secretMainType === '悬赏秘密' && data[i].secretLimitTime >= new Date() && data[i].owner==currentSession.username)
                         {
                             data[i]["mine"]=true;
                         }
