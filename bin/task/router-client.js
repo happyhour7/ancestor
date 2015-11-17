@@ -1768,6 +1768,70 @@ function getMySecrets(data){
     return result; 
 }
 
+// 个人中心中的查看秘密
+router.get('/secret/permsg-viewsecret',function(req,res){
+    currentSession = req.session;
+    render.res=res;
+    render.req=req;
+
+    if(currentSession&&currentSession.username)
+    {
+        var username = req.query.username;
+        var user=currentSession.user;
+
+        currentQueue=new Queue("permsg-viewsecret");
+        currentQueue.push({exec:function(){
+            DB.query(getHomeSQL(" and owner='"+username+"' "),bindData,getMySecrets,'secretDatas');
+        }});
+
+        // 添加个人信用评分
+        currentQueue.push({exec:function(data){
+            _tmpData=data[0];
+            var sql = '';
+
+            if(_tmpData['secretDatas'] && _tmpData['secretDatas'].length > 0){
+                var owners = [];
+                for(var o in _tmpData['secretDatas']){
+                    owners.push('"'+_tmpData['secretDatas'][o].owner+'"');
+                }
+
+                sql = personalAvgGetSQL.replace('<username>',owners.join(','));
+            }
+
+            DB.query(sql, bindData, function(_data){
+                var avgDatas = {};
+                for(var a in _data){
+                    avgDatas[_data[a]['username']] = _data[a]['average'];
+                }
+
+                if(JSON.stringify(avgDatas) != "{}"){
+                    for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
+                        var secret = _tmpData['secretDatas'][k];
+                        secret['personal_score'] = avgDatas[secret['owner']];
+                    };
+                }
+
+                return _tmpData;
+            });
+        }});
+
+        getHostSecret();
+        getMyFriends();
+        currentQueue.push({exec:function(data){
+            console.log(user);
+            _tmpData = data[0];
+            render.view="personal_viewsecret";
+            render.apply([user, _tmpData],['',personalSecretLogic]);
+
+        }});
+        currentQueue.start();
+    }
+    else
+    {
+        res.redirect("/");
+    }
+});
+
 
 
 router.get('/secret/getMineSecret',function(){
@@ -1974,7 +2038,7 @@ router.get('/secret/floater/try', function(req, res) {
     currentQueue=new Queue("floater_try");
     // 捞捞看
     currentQueue.push({exec:function(){
-        DB.query(floaterGetSQLQuery(" and (secretCity = '<cityname>' or secretCity = '' or othersex = <usersex>) and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"), bindData, getFloatersLogic, 'secretDatas');
+        DB.query(floaterGetSQLQuery(" and (secretCity='<cityname>' or secretCity='') and (othersex='' or othersex=<usersex>+1) and (otherage='' or otherage='<userage>') and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"), bindData, getFloatersLogic, 'secretDatas');
 
     }});
     currentQueue.push({exec:function(data){
@@ -1993,6 +2057,7 @@ function floaterGetSQLQuery () {
                     .replace("<username>",currentSession.username)
                     .replace("<cityname>",currentSession.user.cityname)
                     .replace("<usersex>",currentSession.user.sex)
+                    .replace("<userage>",currentSession.user.age)
                     .replace("<username>",currentSession.username)
                     .replace("<username>",currentSession.username);
     }
