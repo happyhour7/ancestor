@@ -1353,7 +1353,8 @@ function subXishuaitui(num) {
 
 function AddScore(num){
     //console.log("update users set score="+(parseInt(currentSession.user.score)+num)+" where username='"+currentSession.username+"'");
-    DB.update("update users set score="+(parseInt(currentSession.user.score)+num)+" where username='"+currentSession.username+"'",function(){
+    var originalNum = isNaN(parseInt(currentSession.user.score)) ? 0 : parseInt(currentSession.user.score);
+    DB.update("update users set score="+(originalNum+num)+" where username='"+currentSession.username+"'",function(){
         
     });
     
