@@ -271,11 +271,11 @@ function surveyLogic(data){
 function getMyFriends(){
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        DB.query("select DISTINCT u.* from users u right join friends on friends.friendname=u.username and friends.username='"+currentSession.username+"' order by u.Id",bindData,getMyFirendsLogic,'secretDatas');
+        DB.query("select DISTINCT u.* from friends left join users u on friends.friendname=u.username where friends.username='"+currentSession.username+"' order by u.Id",bindData,getMyFirendsLogic,'secretDatas');
     }});
 }
 function getMyFirendsLogic(data){
-    _tmpData["friends"]=data.slice(1);
+    _tmpData["friends"]=data;
     return _tmpData;
 }
 function getHostSecret(){
@@ -480,7 +480,6 @@ function indexLogic(data){
 
             // 判断悬赏秘密是否过期
             if(data[i].secretMainType === '悬赏秘密' && data[i].secretLimitTime < new Date()) {
-                console.log(data[i].secretLimitTime, new Date());
                 data[i]["noReply"] = true;
             }
 
