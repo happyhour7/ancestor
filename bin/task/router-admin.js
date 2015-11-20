@@ -158,7 +158,7 @@ router.get('/admin/getRegistryUser', filter.authorize,function(req, res){
     render.view="advUserManagerMod"
     currentQueue=new Queue("index");
     currentQueue.push({exec:function(){
-        DB.query("select users.*, f.secretNum as secretNum,fr.friendNum as friendNum from users "+"left join (select owner,count(files.Id) as secretNum from files group by owner) f on users.username=f.owner "+"left join (select username,count(friends.Id) as friendNum from friends group by username) fr on users.username=fr.username "+"group by users.username",bindData,getUserLogic,'secretDatas');
+        DB.query("select users.*, f.secretNum as secretNum,fr.friendNum as friendNum from users "+"left join (select owner,count(files.Id) as secretNum from files group by owner) f on users.username=f.owner "+"left join (select username,count(friends.Id) as friendNum from friends group by username) fr on users.username=fr.username "+"group by users.username order by Id desc",bindData,getUserLogic,'secretDatas');
     }});
 
     // 添加个人信用评分
@@ -436,7 +436,7 @@ router.get('/admin/getSecrets', filter.authorize,function(req, res){
     ajaxRender.res=res;
     currentQueue=new Queue("getSecrets");
     currentQueue.push({exec:function(){
-        DB.query("select * from files",bindData,getSecretsLogic,'secretDatas');
+        DB.query("select * from files order by createTime desc",bindData,getSecretsLogic,'secretDatas');
     }});
 
     currentQueue.push({exec:function(data){

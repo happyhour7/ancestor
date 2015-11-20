@@ -9,7 +9,7 @@ $.ajax({
                 "<td><<secretTitle>></td>"+
                 "<td><<content>></td>"+
                 "<td><<replayer>></td>"+
-                "<td data='<<replayId>>'><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:10px;'>删除</button></td>"+
+                "<td data='<<replayId>>' style='padding: 0;'><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:10px;;line-height:10px;padding:5px;'>删除</button></td>"+
                 "</tr>";
         var result="";
 

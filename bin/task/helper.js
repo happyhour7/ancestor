@@ -44,7 +44,7 @@ hbs.registerHelper('secretSex', function(sexId) {
 });
 
 hbs.registerHelper('secretCity', function(type, city) {
-  if(city && type == 'TA的秘密')
+  if(city && (type == 'TA的秘密' || type == '悬赏秘密'))
   {
     return '<span class="items address">对方城市：'+city+'</span>';
   }
