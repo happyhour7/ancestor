@@ -1174,7 +1174,7 @@ router.get('/secret/offer', function(req, res) {
     render.view="index";
     currentQueue=new Queue("offer");
     currentQueue.push({exec:function(){
-        DB.query(getHomeSQL(" and secretMainType='悬赏秘密' and (DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'),secretLimitTime)<0) "),bindData,offerLogic,'secretDatas');
+        DB.query(getHomeSQL(" and secretMainType='悬赏秘密' "),bindData,offerLogic,'secretDatas');
     }});
 
     // 添加个人信用评分
