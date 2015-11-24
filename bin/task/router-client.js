@@ -2869,18 +2869,19 @@ router.post('/chatGroup/memeberdel',function(req,res){
                 owner: currentSession.username,
                 createTime: (new Date()).format("yyyy-MM-dd hh:mm:ss")
             };
-            DB.exec("insert into chatgroups set ?", params, function(err, result) {
-                if(err){
-                    console.log(err);
-                }else {
-                    // 删除聊天窗口或者成员为空时的操作
-                    if((global.cache["chat"][currentuser] && (global.cache["chat"][currentuser] instanceof Array)) || !members) {
-                        global.cache["chat"][currentuser].push({action: 'delete',hasSend:false, type: "chatgroup"});
+
+            // 删除聊天窗口或者成员为空时的操作
+            if ((global.cache["chat"][currentuser] && (global.cache["chat"][currentuser] instanceof Array)) || !members) {
+                global.cache["chat"][currentuser].push({action: 'delete',hasSend:false, type: "chatgroup"});
+            } else {
+                DB.exec("insert into chatgroups set ?", params, function(err, result) {
+                    if(err){
+                        console.log(err);
+                    }else {
+                        res.json({status:true, title: title, target: members});
                     }
-                    
-                    res.json({status:true, title: title, target: members});
-                }
-            });
+                });
+            }
         });
     }
 });
