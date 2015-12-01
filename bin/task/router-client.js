@@ -738,8 +738,11 @@ router.get('/secret/order', function(req, res) {
         var sql = '';
 
         if(order && JSON.stringify(order) != "{}"){
-            var where = 'secretMainType="'+order['maintype']+'"';
+            var where = 'secretMainType<>"漂流瓶"';
 
+            if(order['maintype']){
+                where += ' and secretMainType="'+order['maintype']+'"';
+            }
             if(order['type']){
                 where += ' and secretType="'+order['type']+'"';
             }
@@ -747,13 +750,13 @@ router.get('/secret/order', function(req, res) {
                 where += ' and secretSubType="'+order['subtype']+'"';
             }
             if(order['cityname']){
-                where += ' and secretCity="'+order['cityname']+'"';
+                where += ' and users.cityname="'+order['cityname']+'"';
             }
             if(order['sex']){
-                where += ' and othersex='+(order['sex']==2?0:order['sex']);
+                where += ' and users.sex='+(order['sex']==2?0:order['sex']);
             }
             if(order['age']){
-                where += ' and otherage="'+order['age']+'"';
+                where += ' and users.age="'+order['age']+'"';
             }
 
             if(order['maintype'] != 'WO的秘密' && order['grandsubtype']){
