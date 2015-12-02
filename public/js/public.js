@@ -1201,3 +1201,14 @@ $('.btn-dashang').click(function() {
 	$btn.button('reset');
 	
 });
+
+// 昨日蟋蟀腿增长排行榜事件
+$.get('/xishuaitui/rank', function(data) {
+	var source=$("#secretComment-temple").html();
+	var template=Handlebars.compile(source);
+	var html=template(data);
+	parents.append(html);
+	$(".comment-title-bar").unbind().click(function(){
+		$(this).parent().remove();
+	});
+});

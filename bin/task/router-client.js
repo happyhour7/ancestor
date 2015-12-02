@@ -3018,4 +3018,16 @@ function getUserXishuaitui(user, callback) {
         });
 }
 
+// 获取前一日积分增长前20名用户
+router.get('/xishuaitui/rank',function(req,res){
+    currentSession = req.session;
+
+    DB.exec('select receiver, sum(xishuaitui) as total from xishuaituideal where date(created_at)=date_sub(curdate(),interval 1 day) group by receiver order by total desc limit 100', function(err, result) {
+        if (err)
+            console.log(err);
+
+        res.json(result);
+    });
+});
+
 module.exports = router;
