@@ -1,13 +1,18 @@
-<div class="rank-list-area">
+<script type="text/handlebars-template" id="rank-list-area">
     <div class="table">
         <div class="title-row">
-            <a class="text">昨日积分增长排行榜</a>
+            <a class="text" style="width: auto;">昨日积分增长排行榜</a>
         </div>
-        {{#ranklist}}
+        \{{#ranklist}}
         <div class="body-row">
-            <span class="title" style="width:163px;overflow: hidden;" >{{receiver}}</span>
-            <span class="num">{{sum}}蟋蟀腿</span>
+            <span class="title" style="width:163px;overflow: hidden;" >\{{receiver}}</span>
+            <span class="num">\{{total}}</span>
         </div>
-        {{/ranklist}}
+        \{{/ranklist}}
+        \{{^ ranklist}}
+        <p>暂无数据</p>
+        \{{/ ranklist}}
     </div>
-</div>
+</script>
+
+<div class="hot-secret-area rank-list-area"></div>

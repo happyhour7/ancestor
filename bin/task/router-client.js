@@ -3026,7 +3026,7 @@ router.get('/xishuaitui/rank',function(req,res){
         if (err)
             console.log(err);
 
-        res.json(result);
+        res.json({'ranklist': result});;
     });
 });
 
