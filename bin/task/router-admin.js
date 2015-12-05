@@ -35,7 +35,7 @@ router.get('/admin/systemNotice', filter.authorize, function(req,res){
     render.view='systemNotice';
     currentQueue=new Queue("systemNotice");
     currentQueue.push({exec:function(data){
-        DB.query("select * from config",bindData,systemNoticeLogic,'secretDatas');
+        DB.query("select * from config where system='rank'",bindData,systemNoticeLogic,'secretDatas');
     }});
     currentQueue.push({exec:function(data){
         render.apply(data[0],['',function(data){return data;}]);
@@ -526,6 +526,35 @@ router.post('/admin/addUsermsg',function(req, res){
         } else {
             res.json({status: 'fail'});
         }
+    });
+});
+
+// 设置昨日蟋蟀腿增长最多位数奖励的蟋蟀腿数
+router.get('/admin/rankpay', filter.authorize, function(req,res){
+    render.req=req;
+    render.res=res;
+    render.view='rankpay';
+    currentQueue=new Queue("rankpay");
+    currentQueue.push({exec:function(data){
+        DB.query("select * from config where system='rankpay'",bindData,rankpayLogic,'secretDatas');
+    }});
+    currentQueue.push({exec:function(data){
+        render.apply(data[0],['',function(data){return data;}]);
+        currentQueue.end();
+        currentQueue=null;
+    }});
+    currentQueue.start();
+});
+function rankpayLogic(data){
+    return data[0];
+}
+
+router.post('/admin/saveRankpay',function(req,res){
+    var paynum=req.body.paynum;
+    DB.update("delete from config where system='rankpay'",function(){
+        var sql="insert into config set notice=? ,system=?";
+        DB.execute(sql,[paynum,'rankpay']);
+        res.redirect('/admin/rankpay');
     });
 });
 

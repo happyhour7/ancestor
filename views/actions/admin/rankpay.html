@@ -25,10 +25,9 @@
 
         <!-- This is only visible to small devices -->
         <div class="visible-xs hidden-sm hidden-md hidden-lg">
-
         </div>
 
-      <h5 class="sidebartitle">导航菜单</h5>
+      <h5 class="sidebartitle">任务导航</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
         <!--<li><a href="/admin/index"><i class="fa fa-home"></i> <span>管理主页</span></a></li>-->
         <li><a href="/admin/adminUserManager">
@@ -52,7 +51,7 @@
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>网站公告</span></a></li>
 
-        <li class="active"><a href="/admin/secretManager">
+        <li><a href="/admin/secretManager">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>秘密管理</span></a></li>
 
@@ -60,12 +59,10 @@
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>评论管理</span></a></li>
 
-        <li><a href="/admin/rankpay">
+        <li class="active"><a href="/admin/rankpay">
         <!--<span class="pull-right badge badge-success">2</span>-->
         <i class="fa fa-laptop"></i> <span>奖赏蟋蟀腿设置</span></a></li>
       </ul>
-
-
 
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
@@ -76,21 +73,12 @@
 
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
 
-      <!--<form class="searchform" action="index.html" method="post">
-        <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
-      </form>-->
-
-      <div class="header-right">
-      </div><!-- header-right -->
-
     </div><!-- headerbar -->
 
     <div class="pageheader">
-      <h2><i class="fa fa-laptop"></i> 秘密管理 </h2>
+      <h2><i class="fa fa-home"></i> 奖赏蟋蟀腿设置 </h2>
     </div>
-
     <div class="contentpanel">
-
       <div class="row">
 
       <div class="mb20">
@@ -102,40 +90,23 @@
               <a href="" class="panel-close">×</a>
               <a href="" class="minimize">−</a>
             </div>
-            <h4 class="panel-title">秘密管理</h4>
+            <h4 class="panel-title">奖赏蟋蟀腿设置</h4>
           </div>
         <div class="tab-content mb30">
           <div class="tab-pane active" id="home2">
             <div class="table-responsive">
-              <table class="table table-success table-hover mb30" id="advuser-table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>模块</th>
-                    <th>类型</th>
-                    <th>子类型</th>
-                    <th>孙类型</th>
-                    <th>秘密标题</th>
-                    <th>作者</th>
-                    <th>管理</th>
-                  </tr>
-                </thead>
-                <tbody id="advuser-table-tbody">
-                  <tr>
-                  </tr>
-                </tbody>
-              </table>
-          
+             <form method="post" action="/admin/saveRankpay">
+               <input type="text" name="paynum" id="paynum" value={{notice}}>
+               <input type="submit" name="button" id="submit_task" style="display:none;"/>
+               
+             </form>
+             <button class="btn btn-success" id="task" style="margin:20px auto 20px;display:block;">提交</button>
           </div>
           </div>
         </div>
         </div>
-  
-        
         </div>
       </div><!-- row -->
-
-
     </div><!-- contentpanel -->
 
   </div><!-- mainpanel -->
@@ -145,6 +116,15 @@
 
 
 {{> admin/foot}}
-<script src="../../../../js/secretManager.js"></script>
+<script type="text/javascript">
+$("#task").click(function(){
+    var paynum = $('#paynum').val();
+    if (paynum == '' || isNaN(paynum)) {
+        alert('请输入一个数字');
+        return false;
+    }
+    $("#submit_task").trigger("click");
+});
+</script>
 </body>
 </html>
