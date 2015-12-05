@@ -558,6 +558,36 @@ router.post('/admin/saveRankpay',function(req,res){
     });
 });
 
+// 发送奖励
+router.post('/admin/sendrankpay',function(req,res){
+    // 奖励后台设置数量的蟋蟀腿
+    DB.exec('select receiver, sum(xishuaitui) as total from xishuaituideal where date(created_at)=date_sub(curdate(),interval 1 day) group by receiver order by total desc limit 100', function(err, result) {
+        if (err)
+            console.log(err);
+        
+        if (result.length > 0) {
+            DB.exec("select notice from config where system='rankpay'", [], function(error, resu) {
+                if (error)
+                    console.log(error);
+
+                var paynum = (resu && resu[0]['notice']) ? resu[0]['notice'] : 0;
+
+                var usernames = [];
+                for (var i = 0; i < result.length; i++) {
+                    usernames.push('"' + result[i]['receiver'] + '"');
+                }
+
+                DB.update("update users set xishuaitui=xishuaitui+"+paynum+" where username in ("+usernames.join(',')+")",function(){
+                    res.json({status: 'success'});
+                });
+            });
+        } else {
+            res.json({status: 'fail'});
+        }
+    });
+    
+});
+
 
 function ajaxRender(keyname,logic){
     var data=logic(this);

@@ -3025,7 +3025,7 @@ router.get('/xishuaitui/rank',function(req,res){
     DB.exec('select receiver, sum(xishuaitui) as total from xishuaituideal where date(created_at)=date_sub(curdate(),interval 1 day) group by receiver order by total desc limit 100', function(err, result) {
         if (err)
             console.log(err);
-
+        
         res.json({'ranklist': result});
     });
 });

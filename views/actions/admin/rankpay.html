@@ -101,6 +101,8 @@
                
              </form>
              <button class="btn btn-success" id="task" style="margin:20px auto 20px;display:block;">提交</button>
+
+             <button class="btn btn-danger" id="send-rankpay">发送奖励</button>
           </div>
           </div>
         </div>
@@ -125,6 +127,17 @@ $("#task").click(function(){
     }
     $("#submit_task").trigger("click");
 });
+
+// 发送奖励
+$('#send-rankpay').click(function() {
+  $.post('/admin/sendrankpay', function(data) {
+    if (data.status === 'success') {
+      alert('发送成功');
+    } else {
+      alert('发送失败');
+    }
+  });
+})
 </script>
 </body>
 </html>
