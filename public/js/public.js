@@ -1205,7 +1205,10 @@ $('.btn-dashang').click(function() {
 // 昨日蟋蟀腿增长排行榜事件
 $.get('/xishuaitui/rank', function(data) {
 	var source=$("#rank-list-area").html();
-	var template=Handlebars.compile(source);
-	var html=template(data);
-	$('.rank-list-area').append(html);
+	if (source) {
+		var template=Handlebars.compile(source);
+		var html=template(data);
+		$('.rank-list-area').append(html);
+	}
+
 });

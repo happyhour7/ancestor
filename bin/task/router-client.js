@@ -3026,8 +3026,37 @@ router.get('/xishuaitui/rank',function(req,res){
         if (err)
             console.log(err);
 
-        res.json({'ranklist': result});;
+        res.json({'ranklist': result});
     });
 });
+
+// 偷好友蟋蟀腿
+router.post('/xishuaitui/tou',function(req,res){
+    currentSession = req.session;
+    var sender = req.body.sender;
+    var receiver = currentSession.username;
+
+    getUserXishuaitui(sender, function(rest) {
+        var status = {error: "支付失败"};
+        var num = getRandomInt(0, 10);
+
+        if(rest && rest[0]['xishuaitui'] < num) {
+            status['error'] = '对方蟋蟀腿不足，无法偷取';
+            res.json(status);
+        } else {
+            procXishuaitui(sender, receiver, num);
+            status['flag'] = true;
+            status['error'] = "恭喜你，偷到了" + num + '个蟋蟀腿';
+            res.json(status);
+        }
+    });
+
+
+});
+
+// @return {integer} a random int between min and max
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 module.exports = router;

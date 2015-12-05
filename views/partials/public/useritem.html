@@ -18,6 +18,7 @@
         <a class="btn btn-primary" href="/secret/permsg-viewsecret?username=\{{username}}">查看秘密</a>
         \{{# isFriend}}
          <a class="btn btn-warning delete-friend-btn" data="\{{username}}" href="javascript:void(0);">删除好友</a>
+         <a class="btn btn-warning btn-tou" data-sender="\{{username}}" href="javascript:void(0);">偷蟋蟀腿</a>
         \{{/isFriend}}
         \{{^ isFriend}}
          <a class="btn btn-danger add_friend_button" data="\{{username}}">加为好友</a>
