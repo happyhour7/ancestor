@@ -3038,7 +3038,7 @@ router.post('/xishuaitui/tou',function(req,res){
 
     getUserXishuaitui(sender, function(rest) {
         var status = {error: "支付失败"};
-        var num = getRandomInt(0, 10);
+        var num = getRandomInt(0, 50);
 
         if(rest && rest[0]['xishuaitui'] < num) {
             status['error'] = '对方蟋蟀腿不足，无法偷取';
