@@ -172,9 +172,9 @@ hbs.registerHelper("floaterSex",function(sexId){
 
   if(sexId == 2)
   {
-    return "女";
+    return "男";
   }
-  return "男";
+  return "女";
 });
 
 hbs.registerHelper("targetShow",function(sex, age, keyword){

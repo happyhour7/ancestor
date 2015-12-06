@@ -2041,6 +2041,7 @@ router.get('/secret/floater/try', function(req, res) {
     currentQueue=new Queue("floater_try");
     // 捞捞看
     currentQueue.push({exec:function(){
+        console.log(floaterGetSQLQuery(" and (secretCity='<cityname>' or secretCity='') and (othersex='' or othersex=<usersex>+1) and (otherage='' or otherage='<userage>') and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"));
         DB.query(floaterGetSQLQuery(" and (secretCity='<cityname>' or secretCity='') and (othersex='' or othersex=<usersex>+1) and (otherage='' or otherage='<userage>') and files.owner<>'<username>' and files.Id not in (select fileid from floaterowner where floaterowner.username='<username>')"), bindData, getFloatersLogic, 'secretDatas');
 
     }});
