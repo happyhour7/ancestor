@@ -3037,22 +3037,41 @@ router.post('/xishuaitui/tou',function(req,res){
     var sender = req.body.sender;
     var receiver = currentSession.username;
 
-    getUserXishuaitui(sender, function(rest) {
-        var status = {error: "支付失败"};
-        var num = getRandomInt(0, 50);
+    // 判断当天是否已经偷过
+    DB.exec('select * from tourecord where sender=? and receiver=? and to_days(created_at)=to_days(now())', [sender, receiver], function(error, resul) {
+        if (error)
+            console.log(error+'判断当天是否已经偷过');
 
-        if(rest && rest[0]['xishuaitui'] < num) {
-            status['error'] = '对方蟋蟀腿不足，无法偷取';
-            res.json(status);
+        if (resul.length) {
+            res.json({'error': '今天已偷过'});
         } else {
-            procXishuaitui(sender, receiver, num);
-            status['flag'] = true;
-            status['error'] = "恭喜你，偷到了" + num + '个蟋蟀腿';
-            res.json(status);
+            getUserXishuaitui(sender, function(rest) {
+                var status = {error: "支付失败"};
+                var num = getRandomInt(0, 50);
+
+                if (rest && rest[0]['xishuaitui'] < num) {
+                    status['error'] = '对方蟋蟀腿不足，无法偷取';
+                    res.json(status);
+                } else {
+                    procXishuaitui(sender, receiver, num);
+
+                    // 插入偷取记录
+                    var params = {sender:sender, receiver: receiver, xishuaitui: num};
+                    DB.exec('insert into tourecord set ?', params, function(err, result) {
+                        if (err)
+                            console.log(err+'插入偷取记录');
+
+                        if (result.insertId) {
+                            status['flag'] = true;
+                            status['error'] = "恭喜你，偷到了" + num + '个蟋蟀腿';
+                        }
+
+                        res.json(status);
+                    });
+                }
+            });
         }
     });
-
-
 });
 
 // @return {integer} a random int between min and max
