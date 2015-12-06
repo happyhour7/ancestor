@@ -153,7 +153,7 @@ CREATE TABLE `chatgroups` (
   `owner` varchar(255) NOT NULL,
   `createTime` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +162,7 @@ CREATE TABLE `chatgroups` (
 
 LOCK TABLES `chatgroups` WRITE;
 /*!40000 ALTER TABLE `chatgroups` DISABLE KEYS */;
-INSERT INTO `chatgroups` VALUES (122,'与大树,蟋蟀群聊中','大树,蟋蟀','test','2015-09-26 19:53:37'),(140,'与蟋蟀,test,江边野火群聊中','蟋蟀,test,江边野火','大树','2015-09-28 19:17:58'),(162,'与江边野火群聊中','江边野火','没有人','2015-10-05 21:17:09'),(175,'与小蚊子群聊中','小蚊子','蟋蟀','2015-11-06 23:11:23'),(176,'与蟋蟀群聊中','蟋蟀','小蚊子','2015-11-07 09:35:43'),(188,'与江边野火群聊中','江边野火','小月月','2015-11-19 15:03:29'),(196,'与江边野火群聊中','江边野火','温柔一梦','2015-11-23 23:35:58'),(207,'与温柔一梦群聊中','温柔一梦','江边野火','2015-11-25 12:23:32');
+INSERT INTO `chatgroups` VALUES (122,'与大树,蟋蟀群聊中','大树,蟋蟀','test','2015-09-26 19:53:37'),(140,'与蟋蟀,test,江边野火群聊中','蟋蟀,test,江边野火','大树','2015-09-28 19:17:58'),(162,'与江边野火群聊中','江边野火','没有人','2015-10-05 21:17:09'),(175,'与小蚊子群聊中','小蚊子','蟋蟀','2015-11-06 23:11:23'),(176,'与蟋蟀群聊中','蟋蟀','小蚊子','2015-11-07 09:35:43'),(188,'与江边野火群聊中','江边野火','小月月','2015-11-19 15:03:29'),(210,'与江边野火群聊中','江边野火','温柔一梦','2015-11-27 22:19:22'),(213,'与温柔一梦群聊中','温柔一梦','江边野火','2015-12-02 23:16:07');
 /*!40000 ALTER TABLE `chatgroups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +178,7 @@ CREATE TABLE `config` (
   `notice` varchar(5000) DEFAULT NULL,
   `system` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (27,'<h2><font face=\"微软雅黑\" style=\"background-color: rgb(255, 255, 255);\" size=\"4\" color=\"#000000\">本站是小群体网站，请只介绍给你信任的朋友！</font></h2>','system');
+INSERT INTO `config` VALUES (27,'<h2><font face=\"微软雅黑\" style=\"background-color: rgb(255, 255, 255);\" size=\"4\" color=\"#000000\">本站是小群体网站，请只介绍给你信任的朋友！</font></h2>','system'),(28,'5','rankpay');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `files` (
   `filetype` int(11) DEFAULT '1',
   `createTime` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=307 DEFAULT CHARSET=utf8 COMMENT='帖子';
+) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8 COMMENT='帖子';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +242,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (210,'私人的\r\n                ','其他','其他',1,'TA的秘密','','美国','1995-01','一夫三妻','美三姐妹同嫁一夫','美三姐妹同嫁一夫，其中两个孪生姐妹，另外一个是她们表姐。','共生24个孩子，其乐融融！你们羡慕吗？','估计是什么教徒吧。摩门？','乔',1,'41~45','','',0,'蟋蟀','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-06 10:51:15'),(220,'我喜欢做','人','',1,'WO的秘密','求约','天津','2015-11','翘臀','喜欢女人的翘臀','很多男人喜欢女人的咪咪。','我更喜欢女人的翘臀，喜欢在女人的后面看着翘臀扭来扭去。','看到就很兴奋。','',0,'','','',0,'不是事儿','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-07 14:49:35'),(237,'我最近','人','',1,'WO的秘密','求指点','南京','2015-11','性幻想','我是女孩，有时候会性幻想，正常吗','分手有一年多了，最近经常发呆，也有做梦的，梦到和前男友，还有模糊的男人影子。看电影也会想象到。我这么年轻，这样正常吗？','有没有别人也这样的？','有没有别人也这样的？','',0,'','','',0,'小小美','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 10:15:05'),(240,'我喜欢做','物','',1,'WO的秘密','求安慰','北京','2015-11','强迫症','有点强迫症，忍不了一点点乱七八糟','有点秩序强迫症，家里有一点点乱都受不了，都要马上整理好。','男朋友经常被我碎碎嘴，为这个都拌嘴了。可是我还是忍不了，从小习惯东西放在固定的地方，应该没错吧。','又不是洁癖，有秩序不好吗？','',0,'','','',0,'笨蛋里挑骨头','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 14:29:29'),(246,'我喜欢做','事','',1,'WO的秘密','求祝福','广州','2015-11','揭痂之癖','我喜欢揭伤口的痂，喜欢撕死皮','有个成语叫嗜痂之癖，我喜欢揭痂，撕死皮，但是不吃，如果有伤口，还没好我就会揭，然后又流血，再揭。剪指甲也喜欢剪指甲旁边的那些皮。','有时候还会揭别人的，知道我这爱好的人都会留着给我揭。都觉得好有意思。','有和我一样的吗？','',0,'','','',0,'小蚊子','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 17:55:39'),(247,'我想','人','',1,'WO的秘密','求助','上海','2015-11','小姨子','老婆太强势，小姨子温柔','老婆和丈母娘一样，太强势。小姨子和岳父性格相似，比较温和温顺。','小姨子还没有男朋友，有时候忍不住意淫小姨子，经常想到她的眼神、她的身体，她应该也看到我看她的眼神不一样了，但是她没表现出什么态度。','要是被老婆知道了就是作死的节奏了，真是煎熬啊','',0,'','','',0,'爱死寂寞人','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 19:41:52'),(277,'组织的\r\n                  ','饮食','质量',1,'TA的秘密','','北京','2015-11','食品卫生','庆丰包子铺频频被曝卫生问题','庆丰包子铺前期走红。','人民网11月16日。9月15日，网友爆料在庆丰包子中吃出蟑螂。一个月后有网友称大慧寺店的醋里吃出腻虫。庆丰包子铺回应称经核实上述情况属实。11月14日，有顾客反映南瓜粥里有钢丝球的钢丝。','光环效应。','',0,'','','顺义区宏城国泰庆丰包子铺',0,'蟋蟀','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-16 22:50:04'),(286,'\r\n                  私人的\r\n                  \r\n','其他','其他',1,'悬赏秘密','','天津','1997-10','英文歌','求一首英文歌的歌名','大概1997年的时候买过一个碟，里面是MTV集锦，里面的所有歌都很好听，后来被朋友拿走了。','其中一个女歌手唱的歌，高潮部分是tonight，tonight，two become one。歌手唱的时候俯身朝前抬头，很诱惑的表情。','如果知道碟里面的其他歌曲就更赞了。','女歌手',0,'26~30','','',5,'江边野火','2015-11-19','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-18 23:52:25');
+INSERT INTO `files` VALUES (210,'私人的\r\n                ','其他','其他',1,'TA的秘密','','美国','1995-01','一夫三妻','美三姐妹同嫁一夫','美三姐妹同嫁一夫，其中两个孪生姐妹，另外一个是她们表姐。','共生24个孩子，其乐融融！你们羡慕吗？','估计是什么教徒吧。摩门？','乔',1,'41~45','','',0,'蟋蟀','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-06 10:51:15'),(220,'我喜欢做','人','',1,'WO的秘密','求约','天津','2015-11','翘臀','喜欢女人的翘臀','很多男人喜欢女人的咪咪。','我更喜欢女人的翘臀，喜欢在女人的后面看着翘臀扭来扭去。','看到就很兴奋。','',0,'','','',0,'不是事儿','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-07 14:49:35'),(237,'我最近','人','',1,'WO的秘密','求指点','南京','2015-11','性幻想','我是女孩，有时候会性幻想，正常吗','分手有一年多了，最近经常发呆，也有做梦的，梦到和前男友，还有模糊的男人影子。看电影也会想象到。我这么年轻，这样正常吗？','有没有别人也这样的？','有没有别人也这样的？','',0,'','','',0,'小小美','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 10:15:05'),(240,'我喜欢做','物','',1,'WO的秘密','求安慰','北京','2015-11','强迫症','有点强迫症，忍不了一点点乱七八糟','有点秩序强迫症，家里有一点点乱都受不了，都要马上整理好。','男朋友经常被我碎碎嘴，为这个都拌嘴了。可是我还是忍不了，从小习惯东西放在固定的地方，应该没错吧。','又不是洁癖，有秩序不好吗？','',0,'','','',0,'笨蛋里挑骨头','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 14:29:29'),(246,'我喜欢做','事','',1,'WO的秘密','求祝福','广州','2015-11','揭痂之癖','我喜欢揭伤口的痂，喜欢撕死皮','有个成语叫嗜痂之癖，我喜欢揭痂，撕死皮，但是不吃，如果有伤口，还没好我就会揭，然后又流血，再揭。剪指甲也喜欢剪指甲旁边的那些皮。','有时候还会揭别人的，知道我这爱好的人都会留着给我揭。都觉得好有意思。','有和我一样的吗？','',0,'','','',0,'小蚊子','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 17:55:39'),(247,'我想','人','',1,'WO的秘密','求助','上海','2015-11','小姨子','老婆太强势，小姨子温柔','老婆和丈母娘一样，太强势。小姨子和岳父性格相似，比较温和温顺。','小姨子还没有男朋友，有时候忍不住意淫小姨子，经常想到她的眼神、她的身体，她应该也看到我看她的眼神不一样了，但是她没表现出什么态度。','要是被老婆知道了就是作死的节奏了，真是煎熬啊','',0,'','','',0,'爱死寂寞人','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-08 19:41:52'),(277,'组织的\r\n                  ','饮食','质量',1,'TA的秘密','','北京','2015-11','食品卫生','庆丰包子铺频频被曝卫生问题','庆丰包子铺前期走红。','人民网11月16日。9月15日，网友爆料在庆丰包子中吃出蟑螂。一个月后有网友称大慧寺店的醋里吃出腻虫。庆丰包子铺回应称经核实上述情况属实。11月14日，有顾客反映南瓜粥里有钢丝球的钢丝。','光环效应。','',0,'','','顺义区宏城国泰庆丰包子铺',0,'蟋蟀','0000-00-00','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-16 22:50:04'),(286,'\r\n                  私人的\r\n                  \r\n','其他','其他',1,'悬赏秘密','','天津','1997-10','英文歌','求一首英文歌的歌名','大概1997年的时候买过一个碟，里面是MTV集锦，里面的所有歌都很好听，后来被朋友拿走了。','其中一个女歌手唱的歌，高潮部分是tonight，tonight，two become one。歌手唱的时候俯身朝前抬头，很诱惑的表情。','如果知道碟里面的其他歌曲就更赞了。','女歌手',0,'26~30','','',5,'江边野火','2015-11-19','',0,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-11-18 23:52:25'),(313,'','','',1,'漂流瓶','','','2015-12-06','','','','定向女性','','',1,'','','',0,'江边野火','0000-00-00','',2,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-12-06 20:02:18'),(314,'','','',1,'漂流瓶','','','2015-12-06','','','','定向36-40','','',0,'36~40','','',0,'不是事儿','0000-00-00','',2,NULL,0,NULL,NULL,NULL,NULL,NULL,1,'2015-12-06 20:04:55');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,7 +259,7 @@ CREATE TABLE `floaterowner` (
   `username` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +268,7 @@ CREATE TABLE `floaterowner` (
 
 LOCK TABLES `floaterowner` WRITE;
 /*!40000 ALTER TABLE `floaterowner` DISABLE KEYS */;
-INSERT INTO `floaterowner` VALUES (1,274,'不是事儿','2015-11-16 10:43:52'),(2,275,'小月月','2015-11-16 10:44:54'),(3,276,'不是事儿','2015-11-16 14:07:20'),(4,285,'小月月','2015-11-18 15:43:42'),(5,287,'不是事儿','2015-11-19 06:19:30');
+INSERT INTO `floaterowner` VALUES (1,274,'不是事儿','2015-11-16 10:43:52'),(2,275,'小月月','2015-11-16 10:44:54'),(3,276,'不是事儿','2015-11-16 14:07:20'),(4,285,'小月月','2015-11-18 15:43:42'),(5,287,'不是事儿','2015-11-19 06:19:30'),(14,313,'小小美','2015-12-06 12:05:43'),(15,314,'江边野火','2015-12-06 12:07:21');
 /*!40000 ALTER TABLE `floaterowner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,7 +286,7 @@ CREATE TABLE `friends` (
   `friendname` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +295,7 @@ CREATE TABLE `friends` (
 
 LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
-INSERT INTO `friends` VALUES (7,NULL,NULL,'江边野火','温柔一梦'),(8,NULL,NULL,'温柔一梦','江边野火');
+INSERT INTO `friends` VALUES (7,NULL,NULL,'江边野火','温柔一梦'),(8,NULL,NULL,'温柔一梦','江边野火'),(9,NULL,NULL,'江边野火','蟋蟀'),(10,NULL,NULL,'蟋蟀','江边野火');
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -396,7 +396,7 @@ CREATE TABLE `orderdeal` (
   `sex` int(11) DEFAULT NULL,
   `age` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -405,7 +405,7 @@ CREATE TABLE `orderdeal` (
 
 LOCK TABLES `orderdeal` WRITE;
 /*!40000 ALTER TABLE `orderdeal` DISABLE KEYS */;
-INSERT INTO `orderdeal` VALUES (27,'WO的秘密','我恨','','选择孙类型','test','',0,'26~30'),(38,'WO的秘密','','','','娃哈哈','',0,''),(47,'WO的秘密','','','','大树','',0,''),(48,'WO的秘密','','','','杜雷寺','',0,''),(52,'WO的秘密','','','','蟋蟀','',0,''),(53,'TA的秘密','','','','江边野火','',0,''),(54,'WO的秘密','','','','小月月','',0,'');
+INSERT INTO `orderdeal` VALUES (27,'WO的秘密','我恨','','选择孙类型','test','',0,'26~30'),(38,'WO的秘密','','','','娃哈哈','',0,''),(47,'WO的秘密','','','','大树','',0,''),(48,'WO的秘密','','','','杜雷寺','',0,''),(52,'WO的秘密','','','','蟋蟀','',0,''),(54,'WO的秘密','','','','小月月','',0,''),(59,'TA的秘密','私人的','其他','','不是事儿','',2,''),(60,'TA的秘密','私人的','其他','其他','江边野火','',0,'');
 /*!40000 ALTER TABLE `orderdeal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -561,7 +561,7 @@ CREATE TABLE `systemmsg` (
   `msg` varchar(255) DEFAULT NULL,
   `comefrom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -598,6 +598,32 @@ CREATE TABLE `talk` (
 LOCK TABLES `talk` WRITE;
 /*!40000 ALTER TABLE `talk` DISABLE KEYS */;
 /*!40000 ALTER TABLE `talk` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tourecord`
+--
+
+DROP TABLE IF EXISTS `tourecord`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tourecord` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sender` varchar(200) NOT NULL,
+  `receiver` varchar(200) NOT NULL,
+  `xishuaitui` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tourecord`
+--
+
+LOCK TABLES `tourecord` WRITE;
+/*!40000 ALTER TABLE `tourecord` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tourecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -657,7 +683,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (115,'ko','ko',1,'16',1,10,NULL,'广州',NULL,NULL,'logo.jpg',NULL,NULL,0,0),(117,'蟋蟀','knowledge',1,'36~40',1,70,'undefined','广州','undefined','undefined','0.20968210534192622.jpg',NULL,'我是一个小蟋蟀',0,16),(119,'小小美','knowledge',0,'21~25',1,25,'undefined','南京','undefined','undefined','0.639867514371872.jpg',NULL,'我是一个小蟋蟀',0,6),(120,'小白痴','knowledge',0,'16~20',1,20,'undefined','深圳','undefined','undefined','0.34694396262057126.jpg',NULL,'我是一个小蟋蟀',0,10),(121,'笨蛋里挑骨头','knowledge',0,'26~30',1,20,'undefined','北京','undefined','undefined','0.8328178711235523.jpg',NULL,'我是一个小蟋蟀',0,10),(122,'小蚊子','knowledge',0,'21~25',1,30,'undefined','广州','undefined','undefined','0.31903971498832107.jpg',NULL,'我是一个小蟋蟀',0,16),(123,'不是事儿','knowledge',1,'21~25',1,15,NULL,'天津',NULL,NULL,'0.7469870562199503.jpg',NULL,NULL,0,11),(124,'美丽人生','knowledge',0,'26~30',1,15,NULL,'杭州',NULL,NULL,'0.532550600823015.jpg',NULL,NULL,0,10),(125,'小月月','knowledge',0,'26~30',1,30,'undefined','上海','undefined','undefined','0.8088674764148891.jpg',NULL,'我是一个小蟋蟀',0,32),(127,'有缘千里','knowledge',0,'26~30',1,15,NULL,'青岛',NULL,NULL,'0.4399007686879486.jpg',NULL,NULL,0,10),(128,'随缘','knowledge',1,'36~40',1,10,NULL,'西安',NULL,NULL,'logo.jpg',NULL,NULL,0,0),(129,'叶子','knowledge',0,'21~25',1,15,NULL,'柳州',NULL,NULL,'logo.jpg',NULL,NULL,0,11),(130,'蕾丝边','knowledge',0,'21~25',1,15,NULL,'佛山',NULL,NULL,'0.1979770192410797.jpg',NULL,NULL,0,10),(131,'爱死寂寞人','knowledge',1,'31~35',1,15,NULL,'上海',NULL,NULL,'0.39070191816426814.jpg',NULL,NULL,0,10),(133,'江边野火','knowledge',1,'36~40',1,75,'undefined','广州','undefined','undefined','0.05786626157350838.jpg',NULL,'撒欢的野鸭',2,133),(134,'杜雷寺','knowledge',1,'26~30',1,10,NULL,'南昌',NULL,NULL,'logo.jpg',NULL,NULL,0,0),(135,'死胖子','knowledge',1,'31~35',1,15,NULL,'南京',NULL,NULL,'logo.jpg',NULL,NULL,0,20),(136,'温柔一梦','740860638hcm210',0,'',1,15,'undefined','在这里等你','undefined','undefined','0.07583917793817818.jpg',NULL,'我是一个小蟋蟀',0,1),(137,'虾扯蛋','knowledge',1,'31~35',1,10,NULL,'月球',NULL,NULL,'logo.jpg',NULL,NULL,0,0);
+INSERT INTO `users` VALUES (115,'ko','ko',1,'16',1,10,NULL,'广州',NULL,NULL,'logo.jpg',NULL,NULL,0,0),(117,'蟋蟀','knowledge',1,'36~40',1,70,'undefined','广州','undefined','undefined','0.20968210534192622.jpg',NULL,'我是一个小蟋蟀',0,80),(119,'小小美','knowledge',0,'21~25',1,25,'undefined','南京','undefined','undefined','0.639867514371872.jpg',NULL,'我是一个小蟋蟀',0,6),(120,'小白痴','knowledge',0,'16~20',1,20,'undefined','深圳','undefined','undefined','0.34694396262057126.jpg',NULL,'我是一个小蟋蟀',0,10),(121,'笨蛋里挑骨头','knowledge',0,'26~30',1,20,'undefined','北京','undefined','undefined','0.8328178711235523.jpg',NULL,'我是一个小蟋蟀',0,10),(122,'小蚊子','knowledge',0,'21~25',1,30,'undefined','广州','undefined','undefined','0.31903971498832107.jpg',NULL,'我是一个小蟋蟀',0,16),(123,'不是事儿','knowledge',1,'21~25',1,20,NULL,'天津',NULL,NULL,'0.7469870562199503.jpg',NULL,NULL,0,20),(124,'美丽人生','knowledge',0,'26~30',1,15,NULL,'杭州',NULL,NULL,'0.532550600823015.jpg',NULL,NULL,0,10),(125,'小月月','knowledge',0,'26~30',1,30,'undefined','上海','undefined','undefined','0.8088674764148891.jpg',NULL,'我是一个小蟋蟀',0,32),(127,'有缘千里','knowledge',0,'26~30',1,15,NULL,'青岛',NULL,NULL,'0.4399007686879486.jpg',NULL,NULL,0,10),(128,'随缘','knowledge',1,'36~40',1,10,NULL,'西安',NULL,NULL,'logo.jpg',NULL,NULL,0,0),(129,'叶子','knowledge',0,'21~25',1,15,NULL,'柳州',NULL,NULL,'logo.jpg',NULL,NULL,0,11),(130,'蕾丝边','knowledge',0,'21~25',1,15,NULL,'佛山',NULL,NULL,'0.1979770192410797.jpg',NULL,NULL,0,10),(131,'爱死寂寞人','knowledge',1,'31~35',1,15,NULL,'上海',NULL,NULL,'0.39070191816426814.jpg',NULL,NULL,0,10),(133,'江边野火','knowledge',1,'36~40',1,80,'undefined','广州','undefined','undefined','0.05786626157350838.jpg',NULL,'撒欢的野鸭',2,85),(134,'杜雷寺','knowledge',1,'26~30',1,10,NULL,'南昌',NULL,NULL,'logo.jpg',NULL,NULL,0,0),(135,'死胖子','knowledge',1,'31~35',1,15,NULL,'南京',NULL,NULL,'logo.jpg',NULL,NULL,0,20),(136,'温柔一梦','740860638hcm210',0,'',1,15,'undefined','在这里等你','undefined','undefined','0.07583917793817818.jpg',NULL,'我是一个小蟋蟀',0,1),(137,'虾扯蛋','knowledge',1,'31~35',1,10,NULL,'月球',NULL,NULL,'logo.jpg',NULL,NULL,0,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -676,7 +702,7 @@ CREATE TABLE `xishuaituideal` (
   `xishuaitui` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -685,7 +711,7 @@ CREATE TABLE `xishuaituideal` (
 
 LOCK TABLES `xishuaituideal` WRITE;
 /*!40000 ALTER TABLE `xishuaituideal` DISABLE KEYS */;
-INSERT INTO `xishuaituideal` VALUES (1,'不是事儿','蟋蟀',203,1,'2015-11-04 01:07:35'),(2,'蟋蟀','叶子',230,1,'2015-11-07 10:14:43'),(3,'小小美','江边野火',233,1,'2015-11-07 17:12:03'),(4,'江边野火','小月月',255,1,'2015-11-09 14:11:33'),(5,'不是事儿','蟋蟀',260,1,'2015-11-12 14:40:50'),(6,'温柔一梦','江边野火',280,5,'2015-11-17 16:20:28'),(7,'温柔一梦','江边野火',280,5,'2015-11-17 16:25:37'),(8,'江边野火','温柔一梦',281,1,'2015-11-18 01:30:08'),(9,'江边野火','江边野火',286,5,'2015-11-24 05:54:31');
+INSERT INTO `xishuaituideal` VALUES (1,'不是事儿','蟋蟀',203,1,'2015-11-04 01:07:35'),(2,'蟋蟀','叶子',230,1,'2015-11-07 10:14:43'),(3,'小小美','江边野火',233,1,'2015-11-07 17:12:03'),(4,'江边野火','小月月',255,1,'2015-11-09 14:11:33'),(5,'不是事儿','蟋蟀',260,1,'2015-11-12 14:40:50'),(6,'温柔一梦','江边野火',280,5,'2015-11-17 16:20:28'),(7,'温柔一梦','江边野火',280,5,'2015-11-17 16:25:37'),(8,'江边野火','温柔一梦',281,1,'2015-11-18 01:30:08'),(9,'江边野火','江边野火',286,5,'2015-12-05 05:54:31'),(10,'不是事儿','江边野火',286,1,'2015-12-04 01:36:54');
 /*!40000 ALTER TABLE `xishuaituideal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -717,4 +743,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-25 13:32:14
+-- Dump completed on 2015-12-06 23:17:20
