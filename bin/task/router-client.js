@@ -2554,7 +2554,7 @@ router.get('/search/user',function(req,res){
 
     currentQueue.push({exec:function(data){
         _tmpData=data[0];
-        DB.query("select * from friends where username = '"+currentSession.username+"'",bindData,getMyFriendAndMoshengren,'secretDatas');
+        DB.query("select friends.*,h.heimingdan from friends left join(select username, group_concat(othername) as heimingdan from heimingdan group by username) h on h.username=friends.username where friends.username = '"+currentSession.username+"'",bindData,getMyFriendAndMoshengren,'secretDatas');
     }});
     currentQueue.push({exec:function(data){
         _tmpData={results:data[0]};
@@ -2569,12 +2569,16 @@ function getMyFriendAndMoshengren(data){
     for(var i=0;i<_tmpData.length;i++)
     {
         var isFriend=false;
-        for(var j=0;j<data.length;j++)
-        {
-            if(data[j].friendname==_tmpData[i].username)
-            {
+        for(var j=0;j<data.length;j++) {
+            if (data[j].friendname == _tmpData[i].username) {
                 //isFriend=true;
-                _tmpData[i].isFriend=true;
+                _tmpData[i].isFriend = true;
+                break;
+            }
+
+            // 处理黑名单
+            else if(data[j].heimingdan.indexOf(_tmpData[i].username) !== -1){
+                _tmpData[i].isHeimingdan = true;
                 break;
             }
                 

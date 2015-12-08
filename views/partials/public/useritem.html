@@ -22,7 +22,9 @@
         \{{/isFriend}}
         \{{^ isFriend}}
          <a class="btn btn-danger add_friend_button" data="\{{username}}">加为好友</a>
+        \{{^ isHeimingdan}}
          <a class="btn btn-danger add_heimingdan_button" data="\{{username}}">加入黑名单</a>
+        \{{/isHeimingdan}}
         \{{/isFriend}}
     </span>
     
