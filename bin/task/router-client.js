@@ -82,6 +82,9 @@ function getLongStorySQL(){
 	if(currentSession && currentSession.username){
         return loginLongStoreSQL.replace("<username>",currentSession.username)
             .replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username)
+            .replace("<username>",currentSession.username)
             .replace("<username>",currentSession.username);
     }
     else{
