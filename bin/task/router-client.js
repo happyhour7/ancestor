@@ -2910,8 +2910,9 @@ router.post('/chatGroup/memeberdel',function(req,res){
             };
 
             // 删除聊天窗口或者成员为空时的操作
-            if ((global.cache["chat"][currentuser] && (global.cache["chat"][currentuser] instanceof Array)) || !members) {
+            if ((global.cache["chat"] && global.cache["chat"][currentuser] && (global.cache["chat"][currentuser] instanceof Array)) || !members) {
                 global.cache["chat"][currentuser].push({action: 'delete',hasSend:false, type: "chatgroup"});
+                res.json({status:true, title: title, target: members});
             } else {
                 DB.exec("insert into chatgroups set ?", params, function(err, result) {
                     if(err){
