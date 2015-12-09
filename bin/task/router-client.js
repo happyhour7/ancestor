@@ -1346,12 +1346,40 @@ router.post('/secret/saveSecret',function(req, res){
 
 // 增加蟋蟀腿
 function AddXishuaitui(num) {
-    DB.update("update users set xishuaitui=xishuaitui+"+parseInt(num)+" where username='"+currentSession.username+"'",function(){});
+    var num = parseInt(num);
+    DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+currentSession.username+"'",function(){
+        // 添加蟋蟀腿记录
+        var sql="insert into xishuaituideal set ?";
+        var params = {
+            'sender': 'system',
+            'receiver': currentSession.username,
+            'fieldid': 0,
+            'xishuaitui': num
+        };
+        DB.exec(sql, params, function(err, result) {
+            if(err)
+                console.log(err+'增加蟋蟀腿错误');
+        });
+    });
 }
 
 // 减少蟋蟀腿
 function subXishuaitui(num) {
-    DB.update("update users set xishuaitui=xishuaitui-"+parseInt(num)+" where username='"+currentSession.username+"'",function(){});
+    var num = parseInt(num);
+    DB.update("update users set xishuaitui=xishuaitui-"+num+" where username='"+currentSession.username+"'",function(){
+        // 添加蟋蟀腿记录
+        var sql="insert into xishuaituideal set ?";
+        var params = {
+            'sender': 'system',
+            'receiver': currentSession.username,
+            'fieldid': 0,
+            'xishuaitui': num
+        };
+        DB.exec(sql, params, function(err, result) {
+            if(err)
+                console.log(err+'增加蟋蟀腿错误');
+        });
+    });
 }
 
 
