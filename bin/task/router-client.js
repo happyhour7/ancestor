@@ -2552,7 +2552,7 @@ router.get('/search/user',function(req,res){
     var where =req.query.where;
     currentQueue=new Queue("haha");
     currentQueue.push({exec:function(){
-        DB.query("select * from users where username like '%"+where+"%' or cityname like '%"+where+"%'",bindData,searchUserLogic,'secretDatas');
+        DB.query("select * from users where (username like '%"+where+"%' or cityname like '%"+where+"%') and username not in (select othername from heimingdan where username='"+currentSession.username+"')",bindData,searchUserLogic,'secretDatas');
     }});
 
     currentQueue.push({exec:function(data){
@@ -2580,7 +2580,7 @@ function getMyFriendAndMoshengren(data){
             }
 
             // 处理黑名单
-            else if(data[j].heimingdan.indexOf(_tmpData[i].username) !== -1){
+            else if(data[j].heimingdan && data[j].heimingdan.indexOf(_tmpData[i].username) !== -1){
                 _tmpData[i].isHeimingdan = true;
                 break;
             }
