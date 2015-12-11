@@ -102,6 +102,24 @@ router.get('/admin/adminUserManagerMod',function(req,res){
     currentQueue.start();
 });
 
+router.post('/admin/adminUserManagerMod',function(req, res){
+    var password=req.body.password||"";
+    var sql="";
+
+    if(password!="")
+    {
+        sql="update admin set username='"+req.body.username+"',password='"+password+"',userid='"+req.body.userid+"' where userid='"+req.body.userid+"'";
+    }
+    else{
+        sql="update admin set username='"+req.body.username+"',userid='"+req.body.userid+"' where userid='"+req.body.userid+"'";
+    }
+
+    DB.update(sql,function(){
+        res.redirect('/admin/adminUserManager');
+    });
+
+});
+
 
 /*删除管理员*/
 router.get('/admin/adminUserManagerDel', filter.authorize,function(req,res){
