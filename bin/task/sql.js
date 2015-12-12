@@ -72,7 +72,8 @@ module.exports.longStoreSQL="select *, rp.commNum as commNum,files.*,users.sex a
     "left join (select fileid,count(replay.replayId) as commNum from replay group by fileid) rp on files.Id=rp.fileid "+
     "left join agvscore as agv on files.Id=agv.fileid "+
     "left join users on users.username=files.owner "+
-    "where secretLimit=1 and islongstory=1 order by files.Id  desc";
+    "where (secretLimit<4 or files.owner='<username>') "+
+    "and islongstory=1 order by files.Id  desc";
 module.exports.loginLongStoreSQL=
     "select *, rp.commNum as commNum,files.*,users.sex as authorSex, users.age as authorAge, users.cityname as authorCity,users.userPhoto as authorPhoto,ig.goodNum as goodNum,ib.badNum as badNum, " +
     "isgood.good as choosenGood,isbad.bad as choosenBad ,score.score as userscore , round(agv.avgScore,1) as avgscore "+
@@ -85,6 +86,5 @@ module.exports.loginLongStoreSQL=
     "left join score on files.Id=score.fileid and score.username='<username>' "+
     "left join agvscore as agv on files.Id=agv.fileid "+
     "left join users on users.username=files.owner "+
-    "where (((secretLimit<3 or owner='<username>') and secretLimit<>2) or "+
-    "(secretLimit=2 and owner in(select friendname from friends where username='<username>'))) "+
+    "where (secretLimit<4 or files.owner='<username>') "+
     "and islongstory=1  order by files.Id  desc";

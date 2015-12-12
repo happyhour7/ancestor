@@ -562,6 +562,53 @@ router.get('/secret/longstore',function(req,res){
 });
 
 function longsStoryLogic(data){
+    var result={};
+    if(data.length>0)
+    {
+        for(var i=0;i<data.length;i++)
+        {
+            if(currentSession && currentSession.username)
+            {
+                if(data[i].owner==currentSession.username)
+                {
+                    data[i]["mine"]=true;
+                }
+                // 判断是否为秘密发布者的好友
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 3 && _tmpData['haoyous'].in_array(data[i].owner))) {
+                    data[i]["ishaoyou"] = true;
+                }
+
+                // 回复可见秘密处理
+                if(data[i].owner==currentSession.username || (data[i].secretLimit == 2 && _tmpData['replayers'].in_array(data[i].Id))) {
+                    data[i]["hasReply"] = true;
+                }
+
+                // 出售秘密
+                if(data[i].owner==currentSession.username || (data[i].secretMainType === '出售秘密' && _.findWhere(_tmpData['xishuaituiDeals'], {'fieldid': data[i].Id, 'receiver': data[i].owner}) !== undefined)) {
+                    data[i]["hasPay"] = true;
+                }
+            }
+
+            // 好友可见秘密处理
+            if(data[i].secretLimit != 3) {
+                data[i]["ishaoyou"] = true;
+            }
+            if(data[i].secretLimit != 2) {
+                data[i]["hasReply"] = true;
+            }
+
+            // 不是悬赏秘密或者出售秘密的
+            if(data[i].secretMainType !== '出售秘密') {
+                data[i]["hasPay"] = true;
+            }
+
+            // 判断悬赏秘密是否过期
+            if(data[i].secretMainType === '悬赏秘密' && data[i].secretLimitTime < new Date()) {
+                data[i]["noReply"] = true;
+            }
+
+        }
+    }
     data["longstore_choosen"]=true;
     data["secretDatas"]=data;
     return data;
