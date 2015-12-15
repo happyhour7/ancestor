@@ -178,6 +178,7 @@ router.get('/', function(req, res) {
 
                 sql = personalAvgGetSQL.replace('<username>',owners.join(','));
             }
+            console.log(sql);
 
             DB.query(sql, bindData, function(_data){
                 var avgDatas = {};
@@ -567,6 +568,7 @@ function longsStoryLogic(data){
     {
         for(var i=0;i<data.length;i++)
         {
+
             if(currentSession && currentSession.username)
             {
                 if(data[i].owner==currentSession.username)
@@ -1359,6 +1361,8 @@ router.post('/secret/saveSecret',function(req, res){
     datas[14]=datas[14] == '男' ? 1 : 0;
     datas[18]=getInt(datas[18]);
     datas[19]=datas[19] ? new Date(datas[19]+'-30') : '';
+    // 将字符串中的换行字符转换为br
+    datas[21] = datas[21].replace(/\n|\r\n/g,"<br>");
     if(currentSession!==null)
     {
         datas.push(currentSession.username);
