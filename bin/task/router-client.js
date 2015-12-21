@@ -3113,6 +3113,29 @@ router.get('/xishuaitui/rank',function(req,res){
     DB.exec('select receiver, sum(xishuaitui) as total from xishuaituideal where date(created_at)=date_sub(curdate(),interval 1 day) group by receiver order by total desc limit 100', function(err, result) {
         if (err)
             console.log(err);
+
+        if (result.length > 0) {
+            DB.exec('select count(id) as count from awardrecord where date(created_at)=curdate()', [], function(e, r) {
+                if (!r || r[0].count == 0) {
+                    // 插入奖励记录
+                    DB.exec('insert into awardrecord set ?', {created_at: (new Date()).format("yyyy-MM-dd")});
+                    DB.exec("select notice from config where system='rankpay'", [], function(error, resu) {
+                        if (error)
+                            console.log(error);
+
+                        var paynum = (resu && resu[0]['notice']) ? resu[0]['notice'] : 0;
+
+                        var usernames = [];
+                        for (var i = 0; i < result.length; i++) {
+                            usernames.push('"' + result[i]['receiver'] + '"');
+                        }
+
+                        DB.update("update users set xishuaitui=xishuaitui+"+paynum+" where username in ("+usernames.join(',')+")",function(){
+                        });
+                    });
+                }
+            });
+        }
         
         res.json({'ranklist': result});
     });
