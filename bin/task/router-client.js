@@ -178,7 +178,6 @@ router.get('/', function(req, res) {
 
                 sql = personalAvgGetSQL.replace('<username>',owners.join(','));
             }
-            console.log(sql);
 
             DB.query(sql, bindData, function(_data){
                 var avgDatas = {};
@@ -368,7 +367,7 @@ function firstAdvLogic(data){
 
         async.parallel([
             function(callback){
-                DB.exec('select avg(score) as score from advscore where advId=?', [tmp.Id], function(err, result){
+                DB.exec('select round(avg(score), 2) as score from advscore where advId=?', [tmp.Id], function(err, result){
                     if(err){
                         callback(err);
                     }else{
@@ -983,7 +982,10 @@ router.post('/secret/replaysave',function(req,res){
             console.log(err);
         }
 
-        AddXishuaitui(1);
+
+        var xinyongfen = currentSession.user.xinyongfen || 1;
+        AddXishuaitui(xinyongfen);
+        AddXishuaitui(xinyongfen * 0.1);
         res.json({status: true});
     });
     // DB.query(getHomeSQL(),render,indexLogic);
@@ -1381,7 +1383,8 @@ router.post('/secret/saveSecret',function(req, res){
             }*/
             // 悬赏秘密,出售秘密不需要加10个蟋蟀腿
             if(!['出售秘密', '悬赏秘密'].in_array(datas[0])) {
-                AddXishuaitui(10);
+                var xinyongfen = currentSession.user.xinyongfen || 1;
+                AddXishuaitui(xinyongfen);
             }
 
             AddScore(5);
@@ -1397,7 +1400,7 @@ router.post('/secret/saveSecret',function(req, res){
 
 // 增加蟋蟀腿
 function AddXishuaitui(num) {
-    var num = parseInt(num);
+    var num = parseFloat(num);
     DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+currentSession.username+"'",function(){
         // 添加蟋蟀腿记录
         var sql="insert into xishuaituideal set ?";
@@ -1416,7 +1419,7 @@ function AddXishuaitui(num) {
 
 // 减少蟋蟀腿
 function subXishuaitui(num) {
-    var num = parseInt(num);
+    var num = parseFloat(num);
     DB.update("update users set xishuaitui=xishuaitui-"+num+" where username='"+currentSession.username+"'",function(){
         // 添加蟋蟀腿记录
         var sql="insert into xishuaituideal set ?";

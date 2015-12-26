@@ -6,6 +6,7 @@ var sqlCode=require("./sql");
 var personalAvgGetSQL=sqlCode.personalAvgGetSQL;
 var Queue=require("../queue");
 var filter = require('./admin-filter');
+var async = require('async');
 
 /* GET home page. */
 router.post('/admin/login', function(req, res) {
@@ -197,6 +198,16 @@ router.get('/admin/getRegistryUser', filter.authorize,function(req, res){
             for(var a in _data){
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
+
+            async.each(_data, function(tmp, next){
+
+                DB.update("update users set xinyongfen="+tmp['average']+" where username='"+tmp['username']+"'",function(){});
+
+                next(null);
+            }, function(err){
+                if(err)
+                    throw err;
+            });
 
             if(JSON.stringify(avgDatas) != "{}"){
                 for (var k = 0; k < _tmpData.length; k++) {
