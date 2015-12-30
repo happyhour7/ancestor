@@ -340,9 +340,9 @@ var page={
 			    		$("#secret_longstory_tr").hide();
 
 
-			    		$("#secrect-background").val(tmpBackground);
-			    		$("#secrect-content").val(tmpContent);
-			    		$("#secrect-known").val(tempKnow);
+			    		$("#secrect-background").val($("#secrect-longstory").val());
+			    		$("#secrect-content").val('');
+			    		$("#secrect-known").val('');
         				$("#is_longstory_hidden").val('');//长文标志位
         				$("#secrect-longstory").val('');
 			    		$("#secrect-known").focus();
@@ -483,9 +483,9 @@ var page={
 			$("#login-area").trigger("click");
 			return false;
 		}
-		// 长文字数限制在2000以内
-		if($('#secrect-longstory').val().length > 2000){
-			alert('长文字数不能超过2000');
+		// 长文字数限制在4000以内
+		if($('#secrect-longstory').val().length > 4000){
+			alert('长文字数不能超过4000');
 			return false;
 		}
 		return true;
