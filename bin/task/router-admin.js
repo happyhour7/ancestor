@@ -18,8 +18,8 @@ router.post('/admin/login', function(req, res) {
         console.log(data);
         if(data.length>0)
         {
-            req.session.userid=data[0].userid;
-            req.session.user=data[0];
+            req.session.adminuserid=data[0].userid;
+            req.session.adminuser=data[0];
             res.redirect('/admin/adminUserManager');
         }
         else
