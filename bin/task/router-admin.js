@@ -409,6 +409,8 @@ router.post('/admin/postSurvey',function(req,res){
     results.push(answer6);
     DB.update("delete from survey",function(){
         DB.execute(sql,results);
+
+        DB.update("delete from surveyanswer", function(){});
         res.redirect("/admin/surveyManager");
     });
 });
