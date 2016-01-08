@@ -264,7 +264,7 @@ router.get('/admin/adminUserManager', filter.authorize,function(req, res){
 });
 
 router.get('/admin/userManager', filter.authorize,function(req, res){
-    res.render(viewPath+"userManager",{loginUser: req.session.user.Id});
+    res.render(viewPath+"userManager",{loginUser: req.session.adminuser.Id});
 });
 
 router.get('/admin/surveyManager', filter.authorize,function(req, res){
