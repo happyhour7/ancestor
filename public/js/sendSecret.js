@@ -18,18 +18,21 @@ var page={
 		$("#ta_secret").click(function(){
 			$("#current_choosen_type").html("TA的秘密");
 			$("#secret-container").html($("#tasecretbody_per_script").html());
+			$('#secrettype_one').html('选择类型<span class="caret"></span>');
 			page.eventBind();
 		});
 
 		$("#sell_secret").click(function(){
 			$("#current_choosen_type").html("出售秘密");
 			$("#secret-container").html($("#sellsecretbody_script").html());
+            $('#secrettype_one').html('选择类型<span class="caret"></span>');
 			page.eventBind();
 		});
 
 		$("#order_secret").click(function(){
 			$("#current_choosen_type").html("悬赏秘密");
 			$("#secret-container").html($("#offersecretbody_script").html());
+            $('#secrettype_one').html('选择类型<span class="caret"></span>');
 			page.eventBind();
 		});
 
