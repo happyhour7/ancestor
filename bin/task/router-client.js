@@ -3034,7 +3034,11 @@ router.post('/xishuaitui/pay',function(req,res){
     currentSession = req.session;
 
     var sql="insert into xishuaituideal set ?";
-    var params = req.body;
+    var params = {
+        fieldid: req.body.fieldid,
+        receiver: req.body.receiver,
+        xishuaitui: req.body.xishuaitui
+    };
     params['sender'] = currentSession.username;
 
     getUserXishuaitui(params['sender'], function(rest) {
@@ -3052,6 +3056,18 @@ router.post('/xishuaitui/pay',function(req,res){
                     procXishuaitui(params['sender'], params['receiver'], params['xishuaitui']);
                     status['error'] = "支付成功";
                     status['flag'] = true;
+
+                    if (req.body.dashang) {
+                        // 添加打赏系统提醒
+                        var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+                        var result=[params['receiver']];
+                        result.push('恭喜您！您的回复已被采纳，' + params['sender'] + '打赏了您' + params['xishuaitui'] + '个蟋蟀腿');
+                        result.push("未读");
+                        result.push("等待审核");
+                        result.push("打赏通知");
+                        result.push(params['receiver']);
+                        DB.execute(sql,result);
+                    }
                 }
 
                 res.json(status);
@@ -3089,11 +3105,23 @@ router.post('/xishuaitui/caina',function(req,res){
 
     // 关闭该悬赏秘密（通过设置有效期来实现）
     DB.update("update files set secretLimitTime=CURDATE() where Id="+fileid,function(){});
+
+    // 添加系统提醒
+    var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+    var result=[receiver];
+    result.push('恭喜您！您的回复已被采纳，' + sender + '给您' + price + '个蟋蟀腿');
+    result.push("未读");
+    result.push("等待审核");
+    result.push("悬赏秘密采纳通知");
+    result.push(sender);
+    DB.execute(sql,result);
+
     res.json(status);
 });
 
 // 支付蟋蟀腿时对两方蟋蟀腿数据的处理
 function procXishuaitui(sender, receiver, num) {
+    num = parseFloat(num);
     DB.update("update users set xishuaitui=xishuaitui-"+num+ " where username='"+sender+"'",function(){});
     DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+receiver+"'",function(){});
 }

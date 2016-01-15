@@ -1190,7 +1190,8 @@ $('.btn-dashang').click(function() {
 		$.post('/xishuaitui/pay', {
 			fieldid: fieldid,
 			receiver: receiver,
-			xishuaitui: xishuaitui
+			xishuaitui: xishuaitui,
+			dashang: true
 		}, function(data) {
 			alert(data.error);
 			if(data.flag) {
