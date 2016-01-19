@@ -3028,6 +3028,10 @@ router.post('/survey/post',function(req,res){
 router.get('/contract', function(req, res) {
     res.render('contract', { title: '用户协议' });
 });
+// 关于蟋蟀
+router.get('/about', function(req, res) {
+    res.render('about', { title: '关于蟋蟀' });
+});
 
 // 支付蟋蟀腿
 router.post('/xishuaitui/pay',function(req,res){
@@ -3061,7 +3065,7 @@ router.post('/xishuaitui/pay',function(req,res){
                         // 添加打赏系统提醒
                         var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
                         var result=[params['receiver']];
-                        result.push('恭喜您！您的回复已被采纳，' + params['sender'] + '打赏了您' + params['xishuaitui'] + '个蟋蟀腿');
+                        result.push('恭喜您！' + params['sender'] + '打赏了您' + params['xishuaitui'] + '个蟋蟀腿');
                         result.push("未读");
                         result.push("等待审核");
                         result.push("打赏通知");
@@ -3109,7 +3113,7 @@ router.post('/xishuaitui/caina',function(req,res){
     // 添加系统提醒
     var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
     var result=[receiver];
-    result.push('恭喜您！您的回复已被采纳，' + sender + '给您' + price + '个蟋蟀腿');
+    result.push('您的回复已被采纳，' + sender + '给您' + price + '个蟋蟀腿');
     result.push("未读");
     result.push("等待审核");
     result.push("悬赏秘密采纳通知");
