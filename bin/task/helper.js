@@ -206,3 +206,7 @@ hbs.registerHelper("secretLimitTimeShow",function(time){
 
   return '';
 });
+
+hbs.registerHelper("titleShow",function(title){
+    return title.substring(0, 16);
+});

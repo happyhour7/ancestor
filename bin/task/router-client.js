@@ -1312,10 +1312,12 @@ function offerLogic(data){
 router.get('/secret/del',function(req,res){
     currentSession = req.session;
     var id=req.query.id;
-    //console.log(id);
     if(!isNaN(id))
     {
         DB.update("delete from files where id="+id,function(){
+
+            // 删除秘密有关的评论
+            DB.update("delete from replay where fileid='"+id+"'",function(){});
             res.json({status:"success"});
 
         });
