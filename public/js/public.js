@@ -514,11 +514,13 @@ var page={
 
 						// 支付动作
 						var fileid = $this.attr('data-fileid');
+						var title = $this.attr('data-title');
 						var receiver = $this.attr('data-receiver');
 						var price = $this.attr('data-price');
 
 						$.post('/xishuaitui/caina', {
 							fileid: fileid,
+							title: title,
 							receiver: receiver,
 							price: price
 						}, function(data) {
@@ -1153,11 +1155,13 @@ $('.btn-pay').click(function() {
 
 	// 支付动作
 	var fieldid = $this.attr('data-fieldid');
+	var title = $this.attr('data-title');
 	var receiver = $this.attr('data-receiver');
 	var xishuaitui = $this.attr('data-xishuaitui');
 
 	$.post('/xishuaitui/pay', {
 		fieldid: fieldid,
+		title: title,
 		receiver: receiver,
 		xishuaitui: xishuaitui
 	}, function(data) {

@@ -2427,7 +2427,7 @@ router.get('/secret/getAllComments',function(req,res){
     currentSession = req.session;
     var id=req.query.id;
 
-    DB.query("select files.secretMainType, files.secretPrice, files.owner, files.secretLimitTime, replay.* from replay left join files on replay.fileid=files.Id where fileid="+id,
+    DB.query("select files.secretMainType, files.secretTitle, files.secretPrice, files.owner, files.secretLimitTime, replay.* from replay left join files on replay.fileid=files.Id where fileid="+id,
         function(fields,logic){
             var data=logic(this);
             if(data.length==0)
@@ -3073,6 +3073,16 @@ router.post('/xishuaitui/pay',function(req,res){
                         result.push("打赏通知");
                         result.push(params['receiver']);
                         DB.execute(sql,result);
+                    } else if (req.body.title) {
+                        // 添加出售秘密支付时的系统提醒
+                        var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
+                        var result=[params['receiver']];
+                        result.push('恭喜您！' + params['sender'] + '支付' + params['xishuaitui'] + '个蟋蟀腿给您发布的' + req.body.title);
+                        result.push("未读");
+                        result.push("等待审核");
+                        result.push("出售秘密支付通知");
+                        result.push(params['receiver']);
+                        DB.execute(sql,result);
                     }
                 }
 
@@ -3115,7 +3125,7 @@ router.post('/xishuaitui/caina',function(req,res){
     // 添加系统提醒
     var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
     var result=[receiver];
-    result.push('您的回复已被采纳，' + sender + '给您' + price + '个蟋蟀腿');
+    result.push('您对' + req.body.title + '的回复已被采纳，' + sender + '给您' + price + '个蟋蟀腿');
     result.push("未读");
     result.push("等待审核");
     result.push("悬赏秘密采纳通知");
