@@ -3034,6 +3034,10 @@ router.get('/contract', function(req, res) {
 router.get('/about', function(req, res) {
     res.render('about', { title: '关于蟋蟀' });
 });
+// 联系我们
+router.get('/contact', function(req, res) {
+    res.render('about', { title: '联系我们', email: '3159461896@qq.com' });
+});
 
 // 支付蟋蟀腿
 router.post('/xishuaitui/pay',function(req,res){

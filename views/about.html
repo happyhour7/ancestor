@@ -2,6 +2,10 @@
 <div class="contract">
     <h2 class="text-center" style="font-size:18px;height:30px;line-height:30px;">关于蟋蟀</h2>
     <p class="text-center">广州蟋蟀网络科技有限公司是一家新成立的小公司，致力于打造一个分享秘密、结识秘友的小群体空间。</p>
+
+    {{#email}}
+    <p class="text-center">邮箱地址：{{.}}</p>
+    {{/email}}
 </div>
 
 {{> public/bottom}}
