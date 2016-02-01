@@ -185,7 +185,7 @@ router.get('/', function(req, res) {
                     avgDatas[_data[a]['username']] = _data[a]['average'];
                 }
 
-                if(JSON.stringify(avgDatas) != "{}"){
+                if(_tmpData['secretDatas'] && JSON.stringify(avgDatas) != "{}"){
                     for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                         var secret = _tmpData['secretDatas'][k];
                         secret['personal_score'] = avgDatas[secret['owner']];
