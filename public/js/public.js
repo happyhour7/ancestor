@@ -177,7 +177,7 @@ var page={
 
 		$("#login-cancle-button").click(function(){
 			$("#login-dialog").hide();
-			$(".system-background").remove();
+			$("#system-background").remove();
 		});
 		
 		$("#login-area").click(function(){

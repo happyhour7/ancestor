@@ -476,7 +476,12 @@ var page={
 			alert("请选择日期");
 			return false;
 		}
-		if(($.trim(background)==""||$.trim(content)==""||$.trim(known)=="") && $.trim(longstory)=="")
+		/*if(($.trim(background)==""||$.trim(content)==""||$.trim(known)=="") && $.trim(longstory)=="")
+		{
+			alert("请输入完整秘密内容");
+			return false;
+		}*/
+		if($.trim(content)=="")
 		{
 			alert("请输入完整秘密内容");
 			return false;
