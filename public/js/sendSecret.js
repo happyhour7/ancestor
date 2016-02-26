@@ -297,7 +297,6 @@ var page={
 
         	if(page.validate()!==false)
         	{
-        		console.log($('#secretLimit_hidden').val());
         		$("#secretMainType_hidden").val($("#current_choosen_type").text());
         		$("#createTime_hidden").val((new Date()).format('yyyy-MM-dd hh:mm:ss'));
 	            $("#secretType_hidden").val($("#secrettype_one").text());
@@ -480,10 +479,6 @@ var page={
 		if(($.trim(background)==""||$.trim(content)==""||$.trim(known)=="") && $.trim(longstory)=="")
 		{
 			alert("请输入完整秘密内容");
-			return false;
-		}
-		if($("#hasLogin_hidden").val()=="no"){
-			$("#login-area").trigger("click");
 			return false;
 		}
 		// 长文字数限制在4000以内

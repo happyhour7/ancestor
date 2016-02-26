@@ -288,14 +288,15 @@ var page={
 			
 		});
 		$(".publish-button").click(function(){
-			if($("#hasLogin_hidden").val()=="no")
+			/*if($("#hasLogin_hidden").val()=="no")
 			{
 				$("#login-area").trigger("click");
 			}
 			else
 			{
 				document.location="/secret/write";
-			}
+			}*/
+			document.location="/secret/write";
 			
 		});
 

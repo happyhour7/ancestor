@@ -279,6 +279,8 @@ function getMyFriends(){
 }
 function getMyFirendsLogic(data){
     _tmpData["friends"]=data;
+    // 添加用户是登录状态标志位
+    _tmpData['loginFlag'] = true;
     return _tmpData;
 }
 function getHostSecret(){
@@ -1367,22 +1369,25 @@ router.post('/secret/saveSecret',function(req, res){
     datas[19]=datas[19] ? new Date(datas[19]+'-30') : '';
     // 将字符串中的换行字符转换为br
     datas[21] = datas[21].replace(/\n|\r\n/g,"<br>");
-    if(currentSession!==null)
-    {
-        datas.push(currentSession.username);
-    
-        var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
-                "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
-                "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
-                "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
-        DB.exec(sql,datas, function(err, result){
-            if(err)
-                throw err;
 
-            // 发布悬赏秘密时需要减少相应蟋蟀腿
-            /*if(datas[0].indexOf('悬赏秘密') != -1) {
-                subXishuaitui(datas[18]);
-            }*/
+    var loginFlag = currentSession.username !== undefined;
+    console.log(currentSession);
+    var author = (loginFlag ? currentSession.username : '匿名用户'); // iamguestwhoareyou
+    datas.push(author);
+
+    var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
+            "secretHope=?,secretCity=?,secretDate=?,secretKeyWord=?,secretTitle=?,secretBackground=?,"+
+            "secretContent=?,secretKnown=?,othername=?,othersex=?,otherage=?,otherBuildName=?,otheraddress=?,"+
+            "secretPrice=?,secretLimitTime=?,islongstory=?,longstory=?,createTime=?,owner=?";
+    DB.exec(sql,datas, function(err, result){
+        if(err)
+            throw err;
+
+        // 发布悬赏秘密时需要减少相应蟋蟀腿
+        /*if(datas[0].indexOf('悬赏秘密') != -1) {
+            subXishuaitui(datas[18]);
+        }*/
+        if (loginFlag) {
             // 悬赏秘密,出售秘密不需要加10个蟋蟀腿
             if(!['出售秘密', '悬赏秘密'].in_array(datas[0])) {
                 var xinyongfen = currentSession.user.xinyongfen || 1;
@@ -1390,14 +1395,10 @@ router.post('/secret/saveSecret',function(req, res){
             }
 
             AddScore(5);
-            res.redirect("/");
-        });
-        
-    }
-    else
-    {
+        }
+
         res.redirect("/");
-    }
+    });
 });
 
 // 增加蟋蟀腿
