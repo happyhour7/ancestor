@@ -1517,12 +1517,13 @@ router.get('/alipay/return', function(req, res) {
                 });
 
                 //保存蟋蟀腿数据
-                DB.exec("select money from users where username=?", [currentSession.username], function(error, resu) {
+                DB.exec("select money,xishuaitui from users where username=?", [currentSession.username], function(error, resu) {
                     if(error)
                         console.log(error);
 
-                    var new_total = parseFloat(resu[0]['money']) + parseFloat(params.total_fee);
-                    var xishuaitui = Math.round(new_total*10);
+                    var charge = parseFloat(params.total_fee);
+                    var new_total = parseFloat(resu[0]['money']) + charge;
+                    var xishuaitui = Math.round(charge*10 + parseFloat(resu[0]['xishuaitui']));
                     DB.update("update users set money="+new_total+",xishuaitui="+xishuaitui+" where username='"+currentSession.username+"'",function(){});
                 });
                 
