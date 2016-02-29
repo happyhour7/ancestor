@@ -34,7 +34,11 @@ hbs.registerHelper('scorePrize', function(currentPrize) {
     return "";
 });
 
-hbs.registerHelper('secretSex', function(sexId) {
+hbs.registerHelper('secretSex', function(sexId, author) {
+  if (author === '匿名') {
+    return '';
+  }
+
   if((sexId+'')=='0')
   {
     return "女";

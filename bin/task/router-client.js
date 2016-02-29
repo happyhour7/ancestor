@@ -1372,7 +1372,7 @@ router.post('/secret/saveSecret',function(req, res){
 
     var loginFlag = currentSession.username !== undefined;
     console.log(currentSession);
-    var author = (loginFlag ? currentSession.username : '匿名用户'); // iamguestwhoareyou
+    var author = (loginFlag ? currentSession.username : '匿名'); // iamguestwhoareyou
     datas.push(author);
 
     var sql="insert into files set secretMainType=?,secretType=?,secretSubType=?,secretGrandSubType=?,secretLimit=?,"+
