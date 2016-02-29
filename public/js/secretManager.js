@@ -21,9 +21,9 @@ $.ajax({
 
             result+=html.replace("<<index>>",i+1)
                             .replace("<<secretMainType>>",tmp.secretMainType)
-                            .replace("<<secretType>>",tmp.secretType)
+                            /*.replace("<<secretType>>",tmp.secretType)
                             .replace("<<secretSubType>>",tmp.secretSubType)
-                            .replace("<<secretGrandSubType>>",tmp.secretGrandSubType)
+                            .replace("<<secretGrandSubType>>",tmp.secretGrandSubType)*/
                             .replace("<<secretTitle>>",tmp.secretTitle ? tmp.secretTitle.substr(0, 18) : '')
                             .replace("<<owner>>",tmp.owner)
                             .replace("<<noReplyStatus>>",tmp.noReply)
