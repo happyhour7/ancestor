@@ -37,9 +37,21 @@
 
                 <div class="top-header-container">
                     <div class="top-header">
-                    	{{# hasLogin}}
-                    		<span class="left-area registry-area " id="registry-area"  login="true" style="width:400px;"><span class="system-icons icon"></span>{{.}}&nbsp;&nbsp;<a href='/secret/permsg'>[个人中心]</a>&nbsp;&nbsp;&nbsp;<a href='/logout'>[退出登录]</a></span>
-                    	{{/ hasLogin}}
+                    	{{#if hasLogin}}
+                    		<span class="left-area registry-area " id="registry-area"  login="true" style="width:400px;">
+                                <span class="system-icons icon"></span>
+                                {{hasLogin}}&nbsp;&nbsp;
+                                <a href='/secret/permsg'>
+                                    [个人中心]
+                                    {{#if hasNew}}
+                                    <span class="badge" style="background-color: red;">{{hasNew}}</span>
+                                    {{/if}}
+                                </a>&nbsp;&nbsp;&nbsp;
+                                <a href='/logout'>
+                                    [退出登录]
+                                </a>
+                            </span>
+                    	{{/ if}}
                     	
                     	{{^ hasLogin}}
                             <span class="left-area registry-area " id="registry-area"  login="false"><span class="system-icons icon"></span>注册</span>

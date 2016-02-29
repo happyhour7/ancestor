@@ -177,7 +177,7 @@ var page={
 
 		$("#login-cancle-button").click(function(){
 			$("#login-dialog").hide();
-			$("#system-background").remove();
+			$(".system-background").remove();
 		});
 		
 		$("#login-area").click(function(){
@@ -550,7 +550,7 @@ var page={
 			'-khtml-opacity': '0.5',  
 			'opacity': '0.5',  
 			'z-index':18
-		}).attr("class","system-background").appendTo("body");
+		}).addClass("system-background").appendTo("body");
 	}
 };
 $(window).bind("load",page.onload);

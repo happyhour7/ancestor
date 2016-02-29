@@ -51,11 +51,11 @@ var page={
 			height:'100%',
 			background:'#000',
 			'filter':'alpha(opacity=50)',
-			'-moz-opacity':'0.5', 
-			'-khtml-opacity': '0.5',  
-			'opacity': '0.5',  
+			'-moz-opacity':'0.5',
+			'-khtml-opacity': '0.5',
+			'opacity': '0.5',
 			'z-index':18
-		}).attr("id","system-background").appendTo("body");
+		}).addClass("system-background").appendTo("body");
 	},
 	eventBind:function(){
 		$(".mine-type-choose").on("click",function(){
