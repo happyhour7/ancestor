@@ -312,7 +312,7 @@ var page={
         var tempKnow="";
 
         /*转长文确认*/
-        $("#secrect-background,#secrect-content,#secrect-known").on("keyup",function(){
+        /*$("#secrect-background,#secrect-content,#secrect-known").on("keyup",function(){
         	var backgroundLength=$("#secrect-background").val().length;
         	var contentLength=$("#secrect-content").val().length;
         	var knownLength=$("#secrect-known").val().length;
@@ -352,7 +352,7 @@ var page={
 				});
         	}
         	
-        });
+        });*/
 
 
         $('[data-toggle="tooltip"]').tooltip();
