@@ -1371,7 +1371,6 @@ router.post('/secret/saveSecret',function(req, res){
     datas[21] = datas[21].replace(/\n|\r\n/g,"<br>");
 
     var loginFlag = currentSession.username !== undefined;
-    console.log(currentSession);
     var author = (loginFlag ? currentSession.username : '匿名'); // iamguestwhoareyou
     datas.push(author);
 
