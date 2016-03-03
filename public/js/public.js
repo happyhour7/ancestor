@@ -1220,7 +1220,11 @@ $.get('/xishuaitui/rank', function(data) {
 });
 
 // 长文显示与隐藏效果
-$('.showall').click(function () {
-	$(this).prev().css('height', 'auto');
-	$(this).hide();
+$('.text-container .short').each(function() {
+    if($(this).text().length > 200) {
+        $(this).next().show().click(function () {
+            $(this).prev().css('height', 'auto');
+            $(this).hide();
+        });
+    }
 });
