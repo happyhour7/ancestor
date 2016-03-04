@@ -1226,5 +1226,7 @@ $('.text-container .short').each(function() {
             $(this).prev().css('height', 'auto');
             $(this).hide();
         });
-    }
+    } else {
+		$(this).css({'height': 'auto', 'margin-bottom': 0});
+	}
 });
