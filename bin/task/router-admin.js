@@ -560,7 +560,7 @@ router.post('/admin/addUsermsg',function(req, res){
     });
 });
 
-// 设置昨日蟋蟀腿增长最多位数奖励的蟋蟀腿数
+// 设置昨日秘币增长最多位数奖励的秘币数
 router.get('/admin/rankpay', filter.authorize, function(req,res){
     render.req=req;
     render.res=res;
@@ -591,7 +591,7 @@ router.post('/admin/saveRankpay',function(req,res){
 
 // 发送奖励
 router.post('/admin/sendrankpay',function(req,res){
-    // 奖励后台设置数量的蟋蟀腿
+    // 奖励后台设置数量的秘币
     DB.exec('select receiver, sum(xishuaitui) as total from xishuaituideal where date(created_at)=date_sub(curdate(),interval 1 day) group by receiver order by total desc limit 100', function(err, result) {
         if (err)
             console.log(err);

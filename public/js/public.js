@@ -280,7 +280,7 @@ var page={
 				url:"/user/registry",
 				data:$("#registry-form").serialize(),
 				success:function(data){
-					alert("注册成功：\r\n登录账号："+$("#registry-username").val()+"\r\n登录密码："+$("#registry-password").val()+'\r\n亲爱的用户，欢迎您注册蟋蟀网！\r\n一、怎么获取蟋蟀腿？\r\n1.发帖和回复。发1帖所得蟋蟀腿数=用户信用分值*10。\r\n2.充值购买，支付宝充值1元人民币可获取10个蟋蟀腿。\r\n3.偷好友蟋蟀腿，每个好友每天限偷1次。\r\n4.出售秘密，用户需先支付蟋蟀腿才能浏览。\r\n5.其他用户打赏。\r\n6.系统自动赠送每日蟋蟀腿增长数前若干名用户蟋蟀腿若干。\r\n二、蟋蟀腿有何用处？\r\n1.向本站兑换人民币，60个蟋蟀腿可兑换1元人民币（篡改、重复发帖等非正常所得无法兑换）。\r\n2.支付蟋蟀腿浏览“出售秘密”的贴子。\r\n3.发布“悬赏秘密”贴需有足够蟋蟀腿。\r\n4.打赏其他用户。\r\n三、信用分值是什么？\r\n1.一个用户所有帖子可信度得分的平均值是该用户的信用分值。\r\n2.一个帖子的所有用户评分的平均值是一个帖子的可信度得分。\r\n3.如用户所发贴无用户评分，则系统默认该用户信用分值为0，发帖得蟋蟀腿为1个。\r\n四、可以和其他用户在线聊天吗？\r\n1.在“个人中心——我的好友”处可搜索用户，加其为好友。\r\n2.在“好友列表”处可以和好友一对一聊天、和多个好友群聊。');
+					alert("注册成功：\r\n登录账号："+$("#registry-username").val()+"\r\n登录密码："+$("#registry-password").val()+'\r\n亲爱的用户，欢迎您注册扒秘网！\r\n一、怎么获取秘币？\r\n1.发帖和回复。发1帖所得秘币数=用户信用分值*10。\r\n2.充值购买，支付宝充值1元人民币可获取10个秘币。\r\n3.偷好友秘币，每个好友每天限偷1次。\r\n4.出售秘密，用户需先支付秘币才能浏览。\r\n5.其他用户打赏。\r\n6.系统自动赠送每日秘币增长数前若干名用户秘币若干。\r\n二、秘币有何用处？\r\n1.向本站兑换人民币，60个秘币可兑换1元人民币（篡改、重复发帖等非正常所得无法兑换）。\r\n2.支付秘币浏览“出售秘密”的贴子。\r\n3.发布“悬赏秘密”贴需有足够秘币。\r\n4.打赏其他用户。\r\n三、信用分值是什么？\r\n1.一个用户所有帖子可信度得分的平均值是该用户的信用分值。\r\n2.一个帖子的所有用户评分的平均值是一个帖子的可信度得分。\r\n3.如用户所发贴无用户评分，则系统默认该用户信用分值为0，发帖得秘币为1个。\r\n四、可以和其他用户在线聊天吗？\r\n1.在“个人中心——我的好友”处可搜索用户，加其为好友。\r\n2.在“好友列表”处可以和好友一对一聊天、和多个好友群聊。');
 					$("#registry-gotologin-button").trigger("click");
 				}
 			});
@@ -502,7 +502,7 @@ var page={
 						$(this).parent().remove();
 					});
 
-					// 悬赏秘密采纳并支付蟋蟀腿按钮事件
+					// 悬赏秘密采纳并支付秘币按钮事件
 					$('.btn-xuanshang-caina').unbind().click(function() {
 						$this = $(this);
 						var $btn = $this.button('loading');
@@ -1143,7 +1143,7 @@ function buildChatGroupWin(title,target, from, isowner, message){
 }
 
 
-// 支付蟋蟀腿按钮事件
+// 支付秘币按钮事件
 $('.btn-pay').click(function() {
 	if($("#hasLogin_hidden").val()=="no")
 	{
@@ -1175,7 +1175,7 @@ $('.btn-pay').click(function() {
 });
 
 
-// 打赏蟋蟀腿按钮事件
+// 打赏秘币按钮事件
 $('.btn-dashang').click(function() {
 	if($("#hasLogin_hidden").val()=="no")
 	{
@@ -1186,7 +1186,7 @@ $('.btn-dashang').click(function() {
 	$this = $(this);
 	var $btn = $this.button('loading');
 
-	var xishuaitui = prompt('您将打赏作者蟋蟀腿：');
+	var xishuaitui = prompt('您将打赏作者秘币：');
 	if(xishuaitui && parseInt(xishuaitui) == xishuaitui)
 	{
 		var fieldid = $this.attr('data-fieldid');
@@ -1208,7 +1208,7 @@ $('.btn-dashang').click(function() {
 	
 });
 
-// 昨日蟋蟀腿增长排行榜事件
+// 昨日秘币增长排行榜事件
 $.get('/xishuaitui/rank', function(data) {
 	var source=$("#rank-list-area").html();
 	if (source) {

@@ -115,7 +115,7 @@ function getComments (data) {
     return _tmpData;
 }
 
-// 获取当前登陆用户的蟋蟀腿交易记录，返回的是交易者姓名组成的数据
+// 获取当前登陆用户的秘币交易记录，返回的是交易者姓名组成的数据
 function getXishuaituiDeals (data) {
     _tmpData['xishuaituiDeals'] = data;
 
@@ -146,7 +146,7 @@ router.get('/', function(req, res) {
             DB.query("select fileid from replay where replayer='"+currentSession.username+"'",bindData,getComments,'secretDatas');
         }});
 
-        // 获取登录用户的蟋蟀腿交易记录
+        // 获取登录用户的秘币交易记录
         currentQueue.push({exec: function(data) {
             _tmpData = data[0];
             DB.query("select fieldid,receiver from xishuaituideal where sender='"+currentSession.username+"'",bindData,getXishuaituiDeals,'secretDatas');
@@ -1130,7 +1130,7 @@ router.get('/secret/sell', function(req, res) {
 
     if(currentSession && currentSession.username) {
 
-        // 获取登录用户的蟋蟀腿交易记录
+        // 获取登录用户的秘币交易记录
         currentQueue.push({exec: function() {
             DB.query("select fieldid,receiver from xishuaituideal where sender='"+currentSession.username+"'",bindData,getXishuaituiDeals,'secretDatas');
         }});
@@ -1382,12 +1382,12 @@ router.post('/secret/saveSecret',function(req, res){
         if(err)
             throw err;
 
-        // 发布悬赏秘密时需要减少相应蟋蟀腿
+        // 发布悬赏秘密时需要减少相应秘币
         /*if(datas[0].indexOf('悬赏秘密') != -1) {
             subXishuaitui(datas[18]);
         }*/
         if (loginFlag) {
-            // 悬赏秘密,出售秘密不需要加10个蟋蟀腿
+            // 悬赏秘密,出售秘密不需要加10个秘币
             if(!['出售秘密', '悬赏秘密'].in_array(datas[0])) {
                 var xinyongfen = currentSession.user.xinyongfen || 1;
                 AddXishuaitui(xinyongfen);
@@ -1400,11 +1400,11 @@ router.post('/secret/saveSecret',function(req, res){
     });
 });
 
-// 增加蟋蟀腿
+// 增加秘币
 function AddXishuaitui(num) {
     var num = parseFloat(num);
     DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+currentSession.username+"'",function(){
-        // 添加蟋蟀腿记录
+        // 添加秘币记录
         var sql="insert into xishuaituideal set ?";
         var params = {
             'sender': 'system',
@@ -1414,16 +1414,16 @@ function AddXishuaitui(num) {
         };
         DB.exec(sql, params, function(err, result) {
             if(err)
-                console.log(err+'增加蟋蟀腿错误');
+                console.log(err+'增加秘币错误');
         });
     });
 }
 
-// 减少蟋蟀腿
+// 减少秘币
 function subXishuaitui(num) {
     var num = parseFloat(num);
     DB.update("update users set xishuaitui=xishuaitui-"+num+" where username='"+currentSession.username+"'",function(){
-        // 添加蟋蟀腿记录
+        // 添加秘币记录
         var sql="insert into xishuaituideal set ?";
         var params = {
             'sender': 'system',
@@ -1433,7 +1433,7 @@ function subXishuaitui(num) {
         };
         DB.exec(sql, params, function(err, result) {
             if(err)
-                console.log(err+'增加蟋蟀腿错误');
+                console.log(err+'增加秘币错误');
         });
     });
 }
@@ -1460,13 +1460,13 @@ function dingdanhao() {
     return ($date.getFullYear().toString()+($date.getMonth()+1).toString()+$date.getDate().toString())+$date.getTime().toString().substr(-5)+$date.getMilliseconds().toString().substr(2,5);
 }
 
-// 蟋蟀腿支付宝充值
+// 秘币支付宝充值
 router.post('/secret/alipay',function(req,res){
     var data = {
         out_trade_no:dingdanhao(),
-        subject:'蟋蟀腿充值',
+        subject:'秘币充值',
         total_fee:req.body.WIDtotal_fee,
-        body: '蟋蟀腿充值',
+        body: '秘币充值',
         show_url:'/secret/permsg-score'
      };
     var url = alipay.buildDirectPayURL(data);
@@ -1479,7 +1479,7 @@ router.get('/alipay/return', function(req, res) {
     currentSession = req.session;
 
     /* params为：
-    { body: '蟋蟀腿充值',                                                                              
+    { body: '秘币充值',                                                                              
       buyer_email: '*****'.com',                                                           
       buyer_id: '208890240506',                                                               
       exterface: 'create_direct_pay_by_user',                                                     
@@ -1491,7 +1491,7 @@ router.get('/alipay/return', function(req, res) {
       payment_type: '1',                                                                          
       seller_email: '13926167658@139.com',                                                        
       seller_id: '2088021457068229',                                                              
-      subject: '蟋蟀腿充值',                                                                           
+      subject: '秘币充值',                                                                           
       total_fee: '0.01',                                                                          
       trade_no: '2015102021001004060082841718',                                                   
       trade_status: 'TRADE_SUCCESS',                                                              
@@ -1516,7 +1516,7 @@ router.get('/alipay/return', function(req, res) {
 
                 });
 
-                //保存蟋蟀腿数据
+                //保存秘币数据
                 DB.exec("select money,xishuaitui from users where username=?", [currentSession.username], function(error, resu) {
                     if(error)
                         console.log(error);
@@ -2495,7 +2495,7 @@ function personalLogic(data){
         // 设置默认个性签名
         if(data[0].mark == null)
         {
-            result['mark'] = '我是一个小蟋蟀';
+            result['mark'] = '我要扒秘';
         }
 
         result["personal_msg"]=true;
@@ -3040,7 +3040,7 @@ router.get('/contact', function(req, res) {
     res.render('about', { title: '联系我们', email: '3159461896@qq.com' });
 });
 
-// 支付蟋蟀腿
+// 支付秘币
 router.post('/xishuaitui/pay',function(req,res){
     currentSession = req.session;
 
@@ -3056,12 +3056,12 @@ router.post('/xishuaitui/pay',function(req,res){
         var status = {error: "支付失败"};
 
         if(rest && rest[0]['xishuaitui'] < params['xishuaitui']) {
-            status['error'] = '蟋蟀腿不足，请及时充值';
+            status['error'] = '秘币不足，请及时充值';
             res.json(status);
         } else {
             DB.exec(sql, params, function(err, result) {
                 if(err)
-                    console.log(err+'支付蟋蟀腿错误');
+                    console.log(err+'支付秘币错误');
 
                 if(result.insertId){
                     procXishuaitui(params['sender'], params['receiver'], params['xishuaitui']);
@@ -3072,7 +3072,7 @@ router.post('/xishuaitui/pay',function(req,res){
                         // 添加打赏系统提醒
                         var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
                         var result=[params['receiver']];
-                        result.push('恭喜您！' + params['sender'] + '打赏了您' + params['xishuaitui'] + '个蟋蟀腿');
+                        result.push('恭喜您！' + params['sender'] + '打赏了您' + params['xishuaitui'] + '个秘币');
                         result.push("未读");
                         result.push("等待审核");
                         result.push("打赏通知");
@@ -3082,7 +3082,7 @@ router.post('/xishuaitui/pay',function(req,res){
                         // 添加出售秘密支付时的系统提醒
                         var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
                         var result=[params['receiver']];
-                        result.push('恭喜您！' + params['sender'] + '支付' + params['xishuaitui'] + '个蟋蟀腿给您发布的' + req.body.title);
+                        result.push('恭喜您！' + params['sender'] + '支付' + params['xishuaitui'] + '个秘币给您发布的' + req.body.title);
                         result.push("未读");
                         result.push("等待审核");
                         result.push("出售秘密支付通知");
@@ -3097,13 +3097,13 @@ router.post('/xishuaitui/pay',function(req,res){
     });
 });
 
-// 判断用户蟋蟀腿是否充足
+// 判断用户秘币是否充足
 router.post('/xishuaitui/check',function(req,res){
     currentSession = req.session;
     var secretPrice=req.body.secretPrice;
     var username=currentSession.username;
     getUserXishuaitui(username, function(rest) {
-        var status = {error: "蟋蟀腿不足，请及时充值"};
+        var status = {error: "秘币不足，请及时充值"};
 
         if(rest && rest[0]['xishuaitui'] >= secretPrice) {
             status['flag'] = true;
@@ -3112,7 +3112,7 @@ router.post('/xishuaitui/check',function(req,res){
     });
 });
 
-// 悬赏秘密采纳并支付蟋蟀腿
+// 悬赏秘密采纳并支付秘币
 router.post('/xishuaitui/caina',function(req,res){
     currentSession = req.session;
     var fileid=req.body.fileid;
@@ -3120,7 +3120,7 @@ router.post('/xishuaitui/caina',function(req,res){
     var price=req.body.price;
     var sender=currentSession.username;
 
-    // 不需要判断蟋蟀腿是否充足，因为既然能发帖肯定有足够的的蟋蟀腿
+    // 不需要判断秘币是否充足，因为既然能发帖肯定有足够的的秘币
     var status = {flag: true, error: "操作成功"};
     procXishuaitui(sender, receiver, price);
 
@@ -3130,7 +3130,7 @@ router.post('/xishuaitui/caina',function(req,res){
     // 添加系统提醒
     var sql="insert into systemmsg set username=?,msg=?,isreaded=?,isOk=?,msgtype=?,comefrom=?";
     var result=[receiver];
-    result.push('您对' + req.body.title + '的回复已被采纳，' + sender + '给您' + price + '个蟋蟀腿');
+    result.push('您对' + req.body.title + '的回复已被采纳，' + sender + '给您' + price + '个秘币');
     result.push("未读");
     result.push("等待审核");
     result.push("悬赏秘密采纳通知");
@@ -3140,19 +3140,19 @@ router.post('/xishuaitui/caina',function(req,res){
     res.json(status);
 });
 
-// 支付蟋蟀腿时对两方蟋蟀腿数据的处理
+// 支付秘币时对两方秘币数据的处理
 function procXishuaitui(sender, receiver, num) {
     num = parseFloat(num);
     DB.update("update users set xishuaitui=xishuaitui-"+num+ " where username='"+sender+"'",function(){});
     DB.update("update users set xishuaitui=xishuaitui+"+num+" where username='"+receiver+"'",function(){});
 }
 
-// 获取用户蟋蟀腿数据
+// 获取用户秘币数据
 function getUserXishuaitui(user, callback) {
-        // 获取用户蟋蟀腿数目
+        // 获取用户秘币数目
         DB.exec('select xishuaitui from users where username=?', user, function(error, rest) {
             if(error)
-                console.log(error+'获取用户蟋蟀腿数据错误');
+                console.log(error+'获取用户秘币数据错误');
 
             callback(rest);
         });
@@ -3193,7 +3193,7 @@ router.get('/xishuaitui/rank',function(req,res){
     });
 });
 
-// 偷好友蟋蟀腿
+// 偷好友秘币
 router.post('/xishuaitui/tou',function(req,res){
     currentSession = req.session;
     var sender = req.body.sender;
@@ -3212,7 +3212,7 @@ router.post('/xishuaitui/tou',function(req,res){
                 var num = getRandomInt(0, 50);
 
                 if (rest && rest[0]['xishuaitui'] < num) {
-                    status['error'] = '对方蟋蟀腿不足，无法偷取';
+                    status['error'] = '对方秘币不足，无法偷取';
                     res.json(status);
                 } else {
                     procXishuaitui(sender, receiver, num);
@@ -3225,7 +3225,7 @@ router.post('/xishuaitui/tou',function(req,res){
 
                         if (result.insertId) {
                             status['flag'] = true;
-                            status['error'] = "恭喜你，偷到了" + num + '个蟋蟀腿';
+                            status['error'] = "恭喜你，偷到了" + num + '个秘币';
                         }
 
                         res.json(status);
