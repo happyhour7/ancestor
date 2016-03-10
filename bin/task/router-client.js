@@ -279,8 +279,6 @@ function getMyFriends(){
 }
 function getMyFirendsLogic(data){
     _tmpData["friends"]=data;
-    // 添加用户是登录状态标志位
-    _tmpData['loginFlag'] = true;
     return _tmpData;
 }
 function getHostSecret(){
