@@ -6,9 +6,9 @@ $.ajax({
         var html="<tr>"+
                 "<td><<index>></td>"+
                 "<td><<secretMainType>></td>"+
-                "<td><<secretType>></td>"+
+                /*"<td><<secretType>></td>"+
                 "<td><<secretSubType>></td>"+
-                "<td><<secretGrandSubType>></td>"+
+                "<td><<secretGrandSubType>></td>"+*/
                 "<td><<secretTitle>></td>"+
                 "<td><<owner>></td>"+
                 "<td data='<<Id>>'><button class='btn btn-danger btn-secret-noReply' style='width:80px;margin:0 2px ;line-height:10px;padding:5px;' data-reply='<<noReplyStatus>>'><<noReply>>回复</button><button class='btn btn-danger btn-advuser-del' style='width:80px;margin:0 2px;line-height:10px;padding:5px;'>删除</button></td>"+
