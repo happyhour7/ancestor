@@ -26,7 +26,7 @@ hbs.registerHelper('scorePrize', function(currentPrize) {
   {
     if((currentPrize+'')!='0')
     {
-        return "<span class='items system-icons money ' style='width:100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;'>"+currentPrize+"</span>";
+        return "<span class='items system-icons money ' style='width:100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;line-height: 30px;'>"+currentPrize+"</span>";
     }
   }
     
