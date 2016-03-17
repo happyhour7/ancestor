@@ -261,8 +261,6 @@ var page={
         			return false;
         		}
         	});
-
-        	
         });
 
         $("#offer_secret_buy_post_button").on('click',function(){
@@ -406,7 +404,7 @@ var page={
 			alert("请选择孙类型");
 			return false;
 		}*/
-		if(limit&&limit.indexOf("选择")>=0)
+		/*if(limit&&limit.indexOf("选择")>=0)
 		{
 			alert("请选择限制");
 			return false;
@@ -422,7 +420,7 @@ var page={
 		{
 			alert("请输入城市");
 			return false;
-		}	
+		}	*/
 
 
 		if((othername&&(othername.length==0))&&othername!="")
@@ -461,7 +459,7 @@ var page={
 			alert("标题的长度不能超过18");
 			return false;
 		}
-		if($.trim(keyword)=="")
+		/*if($.trim(keyword)=="")
 		{
 			alert("请输入关键词");
 			return false;
@@ -475,7 +473,7 @@ var page={
 		{
 			alert("请选择日期");
 			return false;
-		}
+		}*/
 		/*if(($.trim(background)==""||$.trim(content)==""||$.trim(known)=="") && $.trim(longstory)=="")
 		{
 			alert("请输入完整秘密内容");
