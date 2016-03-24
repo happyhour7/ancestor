@@ -3017,7 +3017,7 @@ router.post('/survey/post',function(req,res){
             console.log(err);
 
         var status = {error: "提交成功"};
-        if(!result.insertId){
+        if(!result){
             status = {error:"提交失败"};
         }
 
