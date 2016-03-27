@@ -196,7 +196,7 @@ hbs.registerHelper("maintypeColor",function(type){
   }else if(type == 'TA的秘密') {
     color = 'green';
   }else if(type == '出售秘密') {
-    color = 'blue';
+    color = 'yellow';
   }
 
   return color;
