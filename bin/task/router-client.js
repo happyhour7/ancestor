@@ -1381,9 +1381,9 @@ router.post('/secret/saveSecret',function(req, res){
             throw err;
 
         // 发布悬赏秘密时需要减少相应秘币
-        /*if(datas[0].indexOf('悬赏秘密') != -1) {
+        if(datas[0].indexOf('悬赏秘密') != -1) {
             subXishuaitui(datas[18]);
-        }*/
+        }
         if (loginFlag) {
             // 悬赏秘密,出售秘密不需要加10个秘币
             if(!['出售秘密', '悬赏秘密'].in_array(datas[0])) {
