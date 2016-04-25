@@ -185,7 +185,7 @@ router.get('/', function(req, res) {
                     avgDatas[_data[a]['username']] = _data[a]['average'];
                 }
 
-                if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+                if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                     for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                         var secret = _tmpData['secretDatas'][k];
                         secret['personal_score'] = avgDatas[secret['owner']];
@@ -526,7 +526,7 @@ router.get('/secret/longstore',function(req,res){
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
 
-            if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+            if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
@@ -666,7 +666,7 @@ router.get('/secret/mine', function(req, res) {
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
 
-            if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+            if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
@@ -856,7 +856,7 @@ router.get('/secret/order', function(req, res) {
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
 
-            if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+            if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
@@ -1043,7 +1043,7 @@ router.get('/secret/ta', function(req, res) {
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
 
-            if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+            if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
@@ -1162,7 +1162,7 @@ router.get('/secret/sell', function(req, res) {
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
 
-            if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+            if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
@@ -1254,7 +1254,7 @@ router.get('/secret/offer', function(req, res) {
                 avgDatas[_data[a]['username']] = _data[a]['average'];
             }
 
-            if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+            if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                 for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                     var secret = _tmpData['secretDatas'][k];
                     secret['personal_score'] = avgDatas[secret['owner']];
@@ -1661,7 +1661,7 @@ router.get('/secret/getMyFriends',function(req,res){
                         avgDatas[_data[a]['username']] = _data[a]['average'];
                     }
 
-                    if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+                    if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                         for (var k = 0; k < _tmpData.length; k++) {
                             var secret = _tmpData[k];
                             secret['personal_score'] = avgDatas[secret['username']];
@@ -1809,7 +1809,7 @@ router.get('/secret/permsg-mysecret',function(req,res){
                     avgDatas[_data[a]['username']] = _data[a]['average'];
                 }
 
-                if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+                if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                     for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                         var secret = _tmpData['secretDatas'][k];
                         secret['personal_score'] = avgDatas[secret['owner']];
@@ -1893,7 +1893,7 @@ router.get('/secret/permsg-viewsecret',function(req,res){
                     avgDatas[_data[a]['username']] = _data[a]['average'];
                 }
 
-                if(JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
+                if(_tmpData && JSON.stringify(avgDatas) != "{}" && _tmpData['secretDatas']){
                     for (var k = 0; k < _tmpData['secretDatas'].length; k++) {
                         var secret = _tmpData['secretDatas'][k];
                         secret['personal_score'] = avgDatas[secret['owner']];
