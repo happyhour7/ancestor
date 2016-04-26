@@ -983,10 +983,15 @@ router.post('/secret/replaysave',function(req,res){
         }
 
 
-        var xinyongfen = currentSession.user.xinyongfen || 1;
-        AddXishuaitui(xinyongfen);
-        AddXishuaitui(xinyongfen * 0.1);
-        res.json({status: true});
+        if (currentSession.user) {
+            var xinyongfen = currentSession.user.xinyongfen || 1;
+            AddXishuaitui(xinyongfen);
+            AddXishuaitui(xinyongfen * 0.1);
+            res.json({status: true});
+        } else {
+            res.json({status: false});
+        }
+        
     });
     // DB.query(getHomeSQL(),render,indexLogic);
 });
